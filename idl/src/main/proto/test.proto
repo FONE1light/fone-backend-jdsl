@@ -1,0 +1,23 @@
+syntax = "proto3";
+package com.fone.filmone.idl;
+
+option java_multiple_files = true;
+
+service TestService {
+  rpc TestUser (TestUserRequest) returns (TestUserResponse);
+}
+
+message TestUserRequest {
+  string login_id = 1;
+  string password = 2;
+}
+
+message TestUserResponse {
+  string login_id = 1;
+  bool enabled = 2;
+  repeated TestRoleResponse role_list = 3;
+}
+
+message TestRoleResponse {
+  string role = 1;
+}
