@@ -32,7 +32,7 @@ jobs:
           docker tag fone-backend sinkyoungdeok/fone-backend
           docker push sinkyoungdeok/fone-backend
       - name: Deploy Prod
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v0.1.4
         with:
           host: ${{ secrets.HOST_NAME }}
           username: ubuntu
