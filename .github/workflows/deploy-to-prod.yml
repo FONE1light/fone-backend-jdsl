@@ -36,7 +36,7 @@ jobs:
         with:
           host: ${{ secrets.HOST_NAME }}
           username: ubuntu
-          key: ${{ secrets.SSH_KEY }}
+          password: ${{ secrets.LIGHTSAIL_PASSWORD }}
           port : 22
           script: |
             docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
