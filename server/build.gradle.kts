@@ -1,15 +1,4 @@
-plugins {
-    id("org.springframework.boot") version "2.6.2"
-    id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    kotlin("plugin.spring") version "1.6.10"
-}
-
 dependencies {
-    // kotlin
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
-
     // lombok
     implementation("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
@@ -27,12 +16,40 @@ dependencies {
     implementation("io.github.microutils:kotlin-logging:1.12.5")
     implementation("ch.qos.logback:logback-classic:1.2.3")
 
+    // JWT 인증
+    implementation("com.auth0:java-jwt:3.19.2")
+
     implementation(project(":idl"))
+
+    // Kotlin 로깅
+    implementation("io.github.microutils:kotlin-logging:1.12.5")
+
+    // Kotlin
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.2.70")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.2.70")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
+
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 dependencyManagement {
     imports {
         mavenBom("com.linecorp.armeria:armeria-bom:0.99.9")
         mavenBom("io.netty:netty-bom:4.1.51.Final")
+    }
+}
+
+val jar by tasks.getting(Jar::class) {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    manifest {
+        attributes["Main-Class"] = "com.fone.filmone.ServerApplicationKt"
+    }
+
+    from(sourceSets.main.get().output)
+
+    configurations["compileClasspath"].forEach { file: File ->
+        from(zipTree(file.absoluteFile))
     }
 }
