@@ -1,5 +1,6 @@
-package com.fone.filmone.config
+package com.fone.filmone.common.config
 
+import com.fone.filmone.GrpcTestService
 import com.linecorp.armeria.common.grpc.GrpcSerializationFormats
 import com.linecorp.armeria.server.docs.DocService
 import com.linecorp.armeria.server.grpc.GrpcService

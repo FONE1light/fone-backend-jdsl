@@ -1,4 +1,4 @@
-package com.fone.filmone.config
+package com.fone.filmone
 
 import com.fone.filmone.idl.TestServiceGrpcKt
 import com.fone.filmone.idl.TestUserRequest

@@ -30,6 +30,10 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
+    // Swagger
+    implementation("io.springfox:springfox-boot-starter:3.0.0")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
