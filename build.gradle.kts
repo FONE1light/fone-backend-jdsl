@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
 	id("org.springframework.boot") version "2.7.0" apply false
@@ -32,6 +31,7 @@ subprojects {
 	apply(plugin = "kotlin-spring")
 	apply(plugin = "io.spring.dependency-management")
 	apply(plugin = "kotlin-kapt")
+	apply(plugin = "org.springframework.boot")
 
 	dependencies {
 		implementation("org.springframework.boot:spring-boot-starter-webflux")
@@ -53,11 +53,5 @@ subprojects {
 	tasks.withType<Test> {
 		enabled = false
 		useJUnitPlatform()
-	}
-}
-
-tasks {
-	withType<BootJar> {
-		enabled = true
 	}
 }

@@ -39,17 +39,3 @@ dependencyManagement {
         mavenBom("io.netty:netty-bom:4.1.51.Final")
     }
 }
-
-val jar by tasks.getting(Jar::class) {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-
-    manifest {
-        attributes["Main-Class"] = "com.fone.filmone.ServerApplicationKt"
-    }
-
-    from(sourceSets.main.get().output)
-
-    configurations["compileClasspath"].forEach { file: File ->
-        from(zipTree(file.absoluteFile))
-    }
-}

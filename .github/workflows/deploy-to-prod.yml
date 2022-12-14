@@ -24,7 +24,7 @@ jobs:
           echo "${{ secrets.PROPERTIES_PROD }}" > ./application-prod.yml
         shell: bash
       - name: Build with Gradle
-        run: ./gradlew build -x test
+        run: ./gradlew :server:bootJar -x test
       - name: Docker build
         run: |
           docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
