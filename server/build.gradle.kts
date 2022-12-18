@@ -18,6 +18,9 @@ dependencies {
 
     // JWT 인증
     implementation("com.auth0:java-jwt:3.19.2")
+    implementation("io.jsonwebtoken:jjwt-api:0.10.7")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.10.7")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.10.7")
 
     implementation(project(":idl"))
 
@@ -33,6 +36,9 @@ dependencies {
 
     // Swagger
     implementation("io.springfox:springfox-boot-starter:3.0.0")
+
+    // Annotation Processor
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
