@@ -9,5 +9,7 @@ CREATE TABLE users
     date        varchar(100),
     gender      varchar(100),
     profileUrl  varchar(100),
+    phoneNumber varchar(50),
+    email       varchar(20),
     primary key (id)
 );
