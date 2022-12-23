@@ -1,6 +1,6 @@
 version: "3.7"
 services:
-  cherrypick-db:
+  fone-db:
     image: mysql:8.0
     platform: linux/amd64
     ports:
@@ -15,9 +15,10 @@ services:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
       - --lower_case_table_names=1
+      - --default-authentication-plugin=mysql_native_password
     volumes:
       - ./mysql:/var/lib/mysql
-  cherrypick-redis:
+  fone-redis:
     image: redis:6.0.2
     command: redis-server /usr/local/etc/redis/redis.conf --port 6379
     ports:
