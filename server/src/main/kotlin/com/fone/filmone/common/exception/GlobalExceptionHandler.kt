@@ -15,6 +15,6 @@ class GlobalExceptionHandler {
     fun handleServerException(ex: ServerException): CommonResponse<String> {
         logger.error { ex.message }
 
-        return CommonResponse(data = ex.toString(), errorCode = ErrorCode.COMMON_SYSTEM_ERROR)
+        return CommonResponse.fail(ex.toString(), ErrorCode.COMMON_SYSTEM_ERROR.toString())
     }
 }

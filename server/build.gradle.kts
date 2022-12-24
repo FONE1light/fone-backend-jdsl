@@ -1,7 +1,7 @@
 dependencies {
     // r2dbc
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
-    implementation("com.github.jasync-sql:jasync-r2dbc-mysql:2.0.8")
+    implementation("dev.miku:r2dbc-mysql:0.8.1.RELEASE")
 
     // lombok
     implementation("org.projectlombok:lombok")
@@ -32,9 +32,8 @@ dependencies {
     implementation("io.github.microutils:kotlin-logging:1.12.5")
 
     // Kotlin
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.2.70")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.2.70")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 

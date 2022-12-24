@@ -4,16 +4,19 @@ import java.util.*
 
 class UserInfo {
 
-    class Main(
-        var loginId: String,
-        var enabled: Boolean,
+    data class Main(
+        val job: String,
+        val interests: String,
+        val nickname: String,
+        val birthday: String,
+        val gender: String,
+        val profileUrl: String,
+        val phoneNumber: String,
+        val email: String,
+        val providerType: String,
         var roles: List<RoleInfo>? = null
     ) {
-        constructor() : this(
-            "",
-            true,
-            null
-        )
+
     }
 
     class RoleInfo(

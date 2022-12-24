@@ -6,17 +6,61 @@ data class CommonResponse<T>(
     val message: String,
     val errorCode: String?,
 ) {
-    constructor(data: T, message: String) : this(Result.SUCCESS, data, message, null)
-    constructor(data: T) : this(Result.SUCCESS, data, "", null)
-    constructor(data: T, errorCode: ErrorCode) : this(
-        Result.FAIL,
-        data,
-        errorCode.errorMsg,
-        errorCode.name
-    )
+
+    companion object {
+        //status 200 + success (message가 있을 경우)
+        fun <T> success(data: T, message: String): CommonResponse<T> {
+            return CommonResponse(
+                result = Result.SUCCESS,
+                data = data,
+                message = message,
+                errorCode = null,
+            )
+        }
+
+        //status 200 + success (message가 없을 경우)
+        fun <T> success(data: T): CommonResponse<T> {
+            return CommonResponse(
+                result = Result.SUCCESS,
+                data = data,
+                message = "",
+                errorCode = null,
+            )
+        }
+
+        //status 200 + success (data가 없을 경우)
+        fun <T> success(): CommonResponse<T> {
+            return CommonResponse(
+                result = Result.SUCCESS,
+                data = null,
+                message = "",
+                errorCode = null,
+            )
+        }
+
+        //status 200 + fail
+        fun <T> fail(data: T, message: String): CommonResponse<T> {
+            return CommonResponse(
+                result = Result.FAIL,
+                data = data,
+                message = message,
+                errorCode = null,
+            )
+        }
+
+        fun <T> fail(message: String): CommonResponse<T> {
+            return CommonResponse(
+                result = Result.FAIL,
+                data = null,
+                message = message,
+                errorCode = null,
+            )
+        }
+    }
+
 
     enum class Result {
-        SUCCESS, FAIL;
+        SUCCESS, FAIL
     }
 }
 

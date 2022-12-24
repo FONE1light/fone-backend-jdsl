@@ -16,7 +16,7 @@ import java.nio.charset.StandardCharsets
 @Configuration
 @RequiredArgsConstructor
 class ArmeriaServerConfiguration(
-    val grpcTestService: GrpcTestService
+    val grpcTestService: GrpcTestService,
 ) {
 
     @Bean

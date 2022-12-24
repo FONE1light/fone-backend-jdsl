@@ -43,7 +43,7 @@ object JWTUtils {
     fun generateToken(userInfo: UserInfo.Main): UserInfo.Token {
         val claims: MutableMap<String, Any?> = HashMap()
         claims["role"] = userInfo.roles
-        return doGenerateToken(claims, userInfo.loginId)
+        return doGenerateToken(claims, userInfo.email)
     }
 
     private fun doGenerateToken(claims: Map<String, Any?>, username: String): UserInfo.Token {

@@ -1,5 +1,9 @@
 package com.fone.filmone.domain.user
 
+import com.fone.filmone.domain.user.enum.Gender
+import com.fone.filmone.domain.user.enum.Interest
+import com.fone.filmone.domain.user.enum.Job
+import com.fone.filmone.domain.user.enum.SocialLoginType
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
@@ -12,7 +16,7 @@ data class User(
     val id: Long? = null,
 
     @Column
-    val job: String,
+    val job: Job,
 
     @Column
     val interests: String,
@@ -21,10 +25,10 @@ data class User(
     val nickname: String,
 
     @Column
-    val date: String,
+    val birthday: String,
 
     @Column
-    val gender: String,
+    val gender: Gender,
 
     @Column
     val profileUrl: String,
@@ -34,5 +38,17 @@ data class User(
 
     @Column
     val email: String,
+
+    @Column
+    val socialLoginType: SocialLoginType,
+
+    @Column
+    val agreeToTermsOfServiceTermsOfUse: Boolean,
+
+    @Column
+    val agreeToPersonalInformation: Boolean,
+
+    @Column
+    val isReceiveMarketing: Boolean,
 )
 

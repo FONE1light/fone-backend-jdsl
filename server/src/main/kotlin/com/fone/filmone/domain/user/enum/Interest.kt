@@ -10,4 +10,8 @@ enum class Interest(interest: String) {
     YOUTUBE("유튜브"),
     VIRAL("홍보 / 바이럴"),
     ETC("기타");
+
+    companion object {
+        operator fun invoke(interest: String) = Interest.valueOf(interest.uppercase())
+    }
 }
