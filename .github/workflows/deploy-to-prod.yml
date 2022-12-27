@@ -41,6 +41,5 @@ jobs:
           script: |
             docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
             docker pull sinkyoungdeok/fone-backend
-            docker stop fone-backend
-            docker rm fone-backend
-            docker run -d -p 80:8080 --name fone-backend -e USE_PROFILE=prod ${{ secrets.USERNAME }}/fone-backend
+            docker-compose down 
+            docker-compose up -d
