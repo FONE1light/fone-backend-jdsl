@@ -2,8 +2,8 @@ server:
   port: 8080
 
 jwt:
-  secret: my-secret
-  access-token-validity-in-seconds: 7200
+  secret: fond-backend-secret-fond-backend-secret-fond-backend-secret
+  access-token-validity-in-seconds: 15552000 # 180일
 
 spring:
   r2dbc:

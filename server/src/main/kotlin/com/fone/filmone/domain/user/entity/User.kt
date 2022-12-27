@@ -1,4 +1,4 @@
-package com.fone.filmone.domain.user
+package com.fone.filmone.domain.user.entity
 
 import com.fone.filmone.domain.user.enum.Gender
 import com.fone.filmone.domain.user.enum.Interest

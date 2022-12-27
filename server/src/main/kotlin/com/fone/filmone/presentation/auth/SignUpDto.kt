@@ -1,6 +1,6 @@
 package com.fone.filmone.presentation.auth
 
-import com.fone.filmone.domain.user.User
+import com.fone.filmone.domain.user.entity.User
 import com.fone.filmone.domain.user.enum.Gender
 import com.fone.filmone.domain.user.enum.Interest
 import com.fone.filmone.domain.user.enum.Job

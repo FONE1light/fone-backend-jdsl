@@ -1,15 +1,17 @@
 package com.fone.filmone.common.jwt
 
-import com.fone.filmone.domain.user.UserInfo
-import io.jsonwebtoken.Claims
+import com.fone.filmone.domain.user.Token
+import com.fone.filmone.domain.user.enum.Role
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.stereotype.Component
 import java.security.Key
 import java.util.*
 import javax.annotation.PostConstruct
 
-object JWTUtils {
+@Component
+class JWTUtils {
     @Value("\${jwt.secret}")
     private lateinit var secret: String
 
@@ -23,30 +25,14 @@ object JWTUtils {
         key = Keys.hmacShaKeyFor(secret.toByteArray())
     }
 
-    fun getAllClaimsFromToken(token: String?): Claims {
-        return Jwts.parser().setSigningKey(key).parseClaimsJws(token).body
-    }
-
-    fun getUsernameFromToken(token: String?): String {
-        return getAllClaimsFromToken(token).subject
-    }
-
-    fun getExpirationDateFromToken(token: String?): Date {
-        return getAllClaimsFromToken(token).expiration
-    }
-
-    private fun isTokenExpired(token: String): Boolean {
-        val expiration = getExpirationDateFromToken(token)
-        return expiration.before(Date())
-    }
-
-    fun generateToken(userInfo: UserInfo.Main): UserInfo.Token {
+    fun generateUserToken(email: String): Token {
         val claims: MutableMap<String, Any?> = HashMap()
-        claims["role"] = userInfo.roles
-        return doGenerateToken(claims, userInfo.email)
+        claims["roles"] = mutableListOf(Role.ROLE_USER)
+
+        return doGenerateToken(claims, email)
     }
 
-    private fun doGenerateToken(claims: Map<String, Any?>, username: String): UserInfo.Token {
+    private fun doGenerateToken(claims: Map<String, Any?>, email: String): Token {
         val accessTokenExpirationTimeLong = accessTokenExpirationTime.toLong()
         val createdDate = Date()
         val accessTokenExpirationDate =
@@ -54,21 +40,18 @@ object JWTUtils {
 
         val accessToken = Jwts.builder()
             .setClaims(claims)
-            .setSubject(username)
+            .setSubject(email)
             .setIssuedAt(createdDate)
             .setExpiration(accessTokenExpirationDate)
             .signWith(key)
             .compact()
 
-        return UserInfo.Token(
+        return Token(
             accessToken,
+            "",
             "Bearer",
             accessTokenExpirationTimeLong,
             createdDate
         )
-    }
-
-    fun validateToken(token: String): Boolean {
-        return !isTokenExpired(token)
     }
 }
