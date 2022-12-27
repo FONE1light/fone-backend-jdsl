@@ -17,3 +17,14 @@ CREATE TABLE users
     is_receive_marketing                   tinyint(1),
     primary key (id)
 );
+
+CREATE TABLE questions
+(
+    id                            bigint NOT NULL AUTO_INCREMENT,
+    email                         varchar(20),
+    type                          varchar(10),
+    title                         varchar(100),
+    description                   varchar(500),
+    agree_to_personal_information tinyint(1),
+    primary key (id)
+);
