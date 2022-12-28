@@ -1,7 +1,6 @@
 package com.fone.filmone.domain.user.entity
 
 import com.fone.filmone.domain.user.enum.Gender
-import com.fone.filmone.domain.user.enum.Interest
 import com.fone.filmone.domain.user.enum.Job
 import com.fone.filmone.domain.user.enum.SocialLoginType
 import org.springframework.data.annotation.Id
