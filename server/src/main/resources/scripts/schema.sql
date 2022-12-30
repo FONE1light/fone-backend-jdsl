@@ -1,5 +1,4 @@
 DROP TABLE IF EXISTS users;
-
 CREATE TABLE users
 (
     id                                     bigint NOT NULL AUTO_INCREMENT,
@@ -18,6 +17,7 @@ CREATE TABLE users
     primary key (id)
 );
 
+DROP TABLE IF EXISTS questions;
 CREATE TABLE questions
 (
     id                            bigint NOT NULL AUTO_INCREMENT,
