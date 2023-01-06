@@ -12,3 +12,7 @@ data class UserNotFoundException(
 data class NotFoundException(
     override val message: String,
 ) : ServerException(404, message)
+
+data class InvalidTokenException(
+    override val message: String = "유효하지 않는 토큰입니다.",
+) : ServerException(401, message)

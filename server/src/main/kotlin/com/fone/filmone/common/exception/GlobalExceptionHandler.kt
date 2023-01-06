@@ -4,6 +4,7 @@ import com.fone.filmone.common.response.CommonResponse
 import com.fone.filmone.common.response.ErrorCode
 import mu.KotlinLogging
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.validation.FieldError
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
@@ -18,10 +19,10 @@ class GlobalExceptionHandler {
     private val logger = KotlinLogging.logger {}
 
     @ExceptionHandler(ServerException::class)
-    fun handleServerException(ex: ServerException): CommonResponse<String> {
-        logger.error { ex.message }
+    fun handleServerException(ex: ServerException): ResponseEntity<Any> {
 
-        return CommonResponse.fail(ex.toString(), ErrorCode.COMMON_SYSTEM_ERROR.toString())
+        val response = CommonResponse.fail(ex.message, ex.javaClass.simpleName)
+        return ResponseEntity(response,null, ex.code)
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
