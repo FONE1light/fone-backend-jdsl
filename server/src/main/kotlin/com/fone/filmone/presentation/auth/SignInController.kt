@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/user/v1/auth")
@@ -16,7 +17,7 @@ class SignInController(
 ) {
 
     @PostMapping("/sign-in")
-    suspend fun signIn(@RequestBody request: SignInRequest): CommonResponse<SignInResponse> {
+    suspend fun signIn(@Valid @RequestBody request: SignInRequest): CommonResponse<SignInResponse> {
         val response = signInFacade.signIn(request)
         return CommonResponse.success(response)
     }

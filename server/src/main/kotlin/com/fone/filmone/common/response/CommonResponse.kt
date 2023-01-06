@@ -56,6 +56,15 @@ data class CommonResponse<T>(
                 errorCode = null,
             )
         }
+
+        fun <T> fail(data: T, errorCode: ErrorCode): CommonResponse<T> {
+            return CommonResponse(
+                result = Result.FAIL,
+                data = data,
+                message = errorCode.errorMsg,
+                errorCode = errorCode.name,
+            )
+        }
     }
 
 

@@ -1,4 +1,8 @@
 dependencies {
+    // validation
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.hibernate.validator:hibernate-validator:6.1.2.Final")
+
     // r2dbc
     implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
     implementation("dev.miku:r2dbc-mysql:0.8.1.RELEASE")
