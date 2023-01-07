@@ -5,11 +5,9 @@ import com.fone.filmone.domain.user.enum.Gender
 import com.fone.filmone.domain.user.enum.Interest
 import com.fone.filmone.domain.user.enum.Job
 import com.fone.filmone.domain.user.enum.SocialLoginType
-import org.hibernate.validator.constraints.Length
-import javax.validation.constraints.AssertTrue
-import javax.validation.constraints.NotEmpty
-import javax.validation.constraints.NotNull
-import javax.validation.constraints.Size
+import org.springframework.format.annotation.DateTimeFormat
+import java.sql.Date
+import javax.validation.constraints.*
 
 class SignUpDto {
 
@@ -20,14 +18,15 @@ class SignUpDto {
         val interests: List<Interest>,
         @field:NotEmpty(message = "닉네임은 필수 값 입니다.")
         val nickname: String,
-        @field:NotEmpty(message = "생년월일은 필수 값 입니다.")
-        val birthday: String,
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
+        val birthday: Date,
         @field:NotNull(message = "성별은 필수 값 입니다.")
         val gender: Gender,
         val profileUrl: String?,
-        @field:NotEmpty(message = "휴대폰 번호는 필수 값 입니다.")
+        @field:Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}\$")
         val phoneNumber: String,
         @field:NotEmpty(message = "이메일은 필수 값 입니다.")
+        @field:Email(message = "유효하지 않는 이메일 입니다.")
         val email: String,
         @field:NotNull(message = "소셜 로그인 타입은 필수 값 입니다.")
         val socialLoginType: SocialLoginType,
@@ -46,7 +45,7 @@ class SignUpDto {
                 job = job,
                 interests = interests.joinToString(","),
                 nickname = nickname,
-                birthday = birthday,
+                birthday = birthday.toString(),
                 gender = gender,
                 profileUrl = profileUrl ?: "",
                 phoneNumber = phoneNumber,
