@@ -6,6 +6,7 @@ import com.fone.filmone.domain.user.enum.Interest
 import com.fone.filmone.domain.user.enum.Job
 import com.fone.filmone.domain.user.enum.SocialLoginType
 import org.hibernate.validator.constraints.Length
+import javax.validation.constraints.AssertTrue
 import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
@@ -30,9 +31,9 @@ class SignUpDto {
         val email: String,
         @field:NotNull(message = "소셜 로그인 타입은 필수 값 입니다.")
         val socialLoginType: SocialLoginType,
-        @field:NotNull(message = "이용약관 동의는 필수 값 입니다.")
+        @field:AssertTrue(message = "이용약관 동의 선택은 필수 값 입니다.")
         val agreeToTermsOfServiceTermsOfUse: Boolean,
-        @field:NotNull(message = "개인정보 취급방침 동의는 필수 값 입니다.")
+        @field:AssertTrue(message = "개인정보 취급방침 동의 선택은 필수 값 입니다.")
         val agreeToPersonalInformation: Boolean,
         @field:NotNull(message = "마케팅 정보수신 동의는 필수 값 입니다.")
         val isReceiveMarketing: Boolean,
