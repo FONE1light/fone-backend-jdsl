@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/user/v1/auth")
@@ -16,7 +17,7 @@ class CheckNicknameDuplicateController(
 ) {
 
     @GetMapping("/check-nickname-duplication")
-    suspend fun checkNickname(@ModelAttribute request: CheckNicknameDuplicateRequest):
+    suspend fun checkNickname(@Valid @ModelAttribute request: CheckNicknameDuplicateRequest):
             CommonResponse<CheckNicknameDuplicateResponse> {
         val response = checkNicknameDuplicateFacade.check(request)
         return CommonResponse.success(response)

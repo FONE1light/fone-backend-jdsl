@@ -1,5 +1,6 @@
 package com.fone.filmone.domain.user.service
 
+import com.fone.filmone.common.exception.DuplicateUserException
 import com.fone.filmone.infrastructure.user.UserRepository
 import com.fone.filmone.presentation.auth.SignUpDto.SignUpRequest
 import com.fone.filmone.presentation.auth.SignUpDto.SignUpResponse
@@ -12,10 +13,13 @@ class UserRegisterService(
 
     suspend fun registerUser(request: SignUpRequest): SignUpResponse {
         with(request) {
-            val user = toEntity()
-            userRepository.save(user)
+            userRepository.findByNicknameOrEmail(nickname, email)?.let {
+                throw DuplicateUserException()
+            }
 
-            return SignUpResponse(user)
+            val newUser = toEntity()
+            userRepository.save(newUser)
+            return SignUpResponse(newUser)
         }
     }
 }
