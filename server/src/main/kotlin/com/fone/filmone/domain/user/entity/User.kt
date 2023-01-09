@@ -3,6 +3,8 @@ package com.fone.filmone.domain.user.entity
 import com.fone.filmone.domain.user.enum.Gender
 import com.fone.filmone.domain.user.enum.Job
 import com.fone.filmone.domain.user.enum.SocialLoginType
+import com.fone.filmone.presentation.user.ModifyUserDto
+import com.fone.filmone.presentation.user.ModifyUserDto.*
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
@@ -15,13 +17,13 @@ data class User(
     val id: Long? = null,
 
     @Column
-    val job: Job,
+    var job: Job,
 
     @Column
-    val interests: String,
+    var interests: String,
 
     @Column
-    val nickname: String,
+    var nickname: String,
 
     @Column
     val birthday: String,
@@ -49,5 +51,11 @@ data class User(
 
     @Column
     val isReceiveMarketing: Boolean,
-)
+) {
+    fun modifyUser(request: ModifyUserRequest) {
+        this.nickname = request.nickname
+        this.job = request.job
+        this.interests = request.interests.joinToString(",")
+    }
+}
 

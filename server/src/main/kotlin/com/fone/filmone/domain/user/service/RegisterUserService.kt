@@ -7,7 +7,7 @@ import com.fone.filmone.presentation.auth.SignUpDto.SignUpResponse
 import org.springframework.stereotype.Service
 
 @Service
-class UserRegisterService(
+class RegisterUserService(
     private val userRepository: UserRepository,
 ) {
 

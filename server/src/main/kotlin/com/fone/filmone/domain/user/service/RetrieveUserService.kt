@@ -10,7 +10,7 @@ import com.fone.filmone.presentation.auth.SignInDto.SignInResponse
 import org.springframework.stereotype.Service
 
 @Service
-class UserRetrieveService(
+class RetrieveUserService(
     private val userRepository: UserRepository,
     val jwtUtils: JWTUtils,
 ) {

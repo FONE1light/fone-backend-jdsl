@@ -9,4 +9,6 @@ interface UserRepository : CoroutineCrudRepository<User, Long> {
     suspend fun findByNickname(nickname: String): User?
 
     suspend fun findByNicknameOrEmail(nickname: String, email: String): User?
+
+    suspend fun findByEmail(email: String): User?
 }
