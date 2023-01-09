@@ -19,8 +19,7 @@ class ModifyUserDto {
         val interests: List<Interest>,
         @field:NotEmpty(message = "닉네임은 필수 값 입니다.")
         val nickname: String,
-        @field:Email(message = "유효하지 않는 이메일 입니다.")
-        val email: String,
+        val profileUrl: String?,
     )
 
     data class ModifyUserResponse(

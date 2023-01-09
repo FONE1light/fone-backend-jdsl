@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.security.Principal
 import javax.validation.Valid
 
 @RestController
@@ -17,10 +18,9 @@ class ModifyUserController(
 ) {
 
     @PatchMapping
-    suspend fun modifyUser(@Valid @RequestBody request: ModifyUserRequest):
+    suspend fun modifyUser(principal: Principal, @Valid @RequestBody request: ModifyUserRequest):
             CommonResponse<ModifyUserResponse> {
-
-        val response = modifyFacade.modifyUser(request)
+        val response = modifyFacade.modifyUser(request, principal.name)
         return CommonResponse.success(response)
     }
 }

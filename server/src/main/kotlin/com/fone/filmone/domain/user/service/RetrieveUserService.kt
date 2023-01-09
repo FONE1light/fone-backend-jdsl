@@ -1,6 +1,6 @@
 package com.fone.filmone.domain.user.service
 
-import com.fone.filmone.common.exception.UserNotFoundException
+import com.fone.filmone.common.exception.NotFoundUserException
 import com.fone.filmone.common.jwt.JWTUtils
 import com.fone.filmone.infrastructure.user.UserRepository
 import com.fone.filmone.presentation.auth.CheckNicknameDuplicateDto.CheckNicknameDuplicateRequest
@@ -20,7 +20,7 @@ class RetrieveUserService(
             val user = userRepository.findByEmailAndSocialLoginType(
                 email,
                 socialLoginType.toString()
-            ) ?: throw UserNotFoundException()
+            ) ?: throw NotFoundUserException()
 
             val token = jwtUtils.generateUserToken(user.email)
 

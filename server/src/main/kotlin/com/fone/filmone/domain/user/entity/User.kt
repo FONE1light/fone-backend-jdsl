@@ -32,7 +32,7 @@ data class User(
     val gender: Gender,
 
     @Column
-    val profileUrl: String,
+    var profileUrl: String,
 
     @Column
     val phoneNumber: String,
@@ -56,6 +56,7 @@ data class User(
         this.nickname = request.nickname
         this.job = request.job
         this.interests = request.interests.joinToString(",")
+        this.profileUrl = request.profileUrl?:this.profileUrl
     }
 }
 
