@@ -1,4 +1,4 @@
-package com.fone.filmone.presentation.auth
+package com.fone.filmone.presentation.user
 
 import com.fone.filmone.domain.user.entity.User
 import com.fone.filmone.domain.user.enum.*

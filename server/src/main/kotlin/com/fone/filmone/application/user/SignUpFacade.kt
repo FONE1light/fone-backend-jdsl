@@ -1,7 +1,7 @@
-package com.fone.filmone.application.auth
+package com.fone.filmone.application.user
 
 import com.fone.filmone.domain.user.service.RegisterUserService
-import com.fone.filmone.presentation.auth.SignUpDto.SignUpRequest
+import com.fone.filmone.presentation.user.SignUpDto.SignUpRequest
 import org.springframework.stereotype.Service
 
 @Service

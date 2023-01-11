@@ -13,7 +13,7 @@ import java.security.Principal
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("/user/v1/user")
+@RequestMapping("/api/v1/user")
 class ModifyUserController(
     private val modifyFacade: ModifyUserFacade,
 ) {

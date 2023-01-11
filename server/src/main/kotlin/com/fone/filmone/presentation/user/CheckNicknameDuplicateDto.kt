@@ -1,4 +1,4 @@
-package com.fone.filmone.presentation.auth
+package com.fone.filmone.presentation.user
 
 import javax.validation.constraints.NotEmpty
 

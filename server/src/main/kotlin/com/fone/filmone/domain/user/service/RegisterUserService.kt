@@ -2,8 +2,8 @@ package com.fone.filmone.domain.user.service
 
 import com.fone.filmone.common.exception.DuplicateUserException
 import com.fone.filmone.infrastructure.user.UserRepository
-import com.fone.filmone.presentation.auth.SignUpDto.SignUpRequest
-import com.fone.filmone.presentation.auth.SignUpDto.SignUpResponse
+import com.fone.filmone.presentation.user.SignUpDto.SignUpRequest
+import com.fone.filmone.presentation.user.SignUpDto.SignUpResponse
 import org.springframework.stereotype.Service
 
 @Service
