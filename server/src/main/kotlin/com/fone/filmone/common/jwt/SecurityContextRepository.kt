@@ -28,11 +28,12 @@ class SecurityContextRepository(
             authToken = authHeader.substring(7)
         }
 
-        if (authToken != null) {
-            val auth: Authentication = UsernamePasswordAuthenticationToken(authToken, authToken)
-            val authentication = authenticationManager.authenticate(auth)
-            return authentication.map { SecurityContextImpl(it) }
+        if (authToken == null) {
+            return Mono.empty()
         }
-        return Mono.empty()
+
+        val auth: Authentication = UsernamePasswordAuthenticationToken(authToken, authToken)
+        val authentication = authenticationManager.authenticate(auth)
+        return authentication.map { SecurityContextImpl(it) }
     }
 }
