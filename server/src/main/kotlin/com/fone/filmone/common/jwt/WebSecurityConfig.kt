@@ -48,10 +48,10 @@ class WebSecurityConfig(
                 "/v2/api-docs",
                 "/webjars/**",
 
-                "/user/v1/auth/sign-in",
-                "/user/v1/auth/sign-up",
-                "/user/v1/auth/check-nickname-duplication",
-                "/user/v1/question",
+                "/api/v1/user/sign-in",
+                "/api/v1/user/sign-up",
+                "/api/v1/user/check-nickname-duplication",
+                "/api/v1/question",
             ).permitAll()
             .anyExchange().authenticated()
 
