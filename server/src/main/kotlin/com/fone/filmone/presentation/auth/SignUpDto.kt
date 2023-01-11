@@ -1,10 +1,7 @@
 package com.fone.filmone.presentation.auth
 
 import com.fone.filmone.domain.user.entity.User
-import com.fone.filmone.domain.user.enum.Gender
-import com.fone.filmone.domain.user.enum.Interest
-import com.fone.filmone.domain.user.enum.Job
-import com.fone.filmone.domain.user.enum.SocialLoginType
+import com.fone.filmone.domain.user.enum.*
 import org.springframework.format.annotation.DateTimeFormat
 import java.sql.Date
 import javax.validation.constraints.*
@@ -40,6 +37,7 @@ class SignUpDto {
         val accessToken: String,
     ) {
         fun toEntity(): User {
+            print(listOf(Role.ROLE_USER).map { it.toString() })
 
             return User(
                 job = job,
@@ -54,6 +52,8 @@ class SignUpDto {
                 agreeToTermsOfServiceTermsOfUse = agreeToTermsOfServiceTermsOfUse,
                 agreeToPersonalInformation = agreeToPersonalInformation,
                 isReceiveMarketing = isReceiveMarketing,
+                roles = listOf(Role.ROLE_USER).map { it.toString() }.joinToString(","),
+                enabled = true,
             )
         }
     }

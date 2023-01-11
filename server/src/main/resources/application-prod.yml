@@ -1,12 +1,18 @@
 server:
   port: 8080
 
-jwt:
-  secret: fond-backend-secret-fond-backend-secret-fond-backend-secret
-  access-token-validity-in-seconds: 15552000 # 180일
-
 spring:
   r2dbc:
-    url: r2dbc:pool:mysql://fone-db:3306/fone
+    url: r2dbc:pool:mysql://localhost:3306/fone
     username: root
     password: fone-flim-be
+
+security:
+  password:
+    encoder:
+      secret: mysecret
+      iteration: 33
+      keylength: 256
+  jwt:
+    secret: fond-backend-secret-fond-backend-secret-fond-backend-secret
+    access-token-validity-in-seconds: 15552000 # 180일

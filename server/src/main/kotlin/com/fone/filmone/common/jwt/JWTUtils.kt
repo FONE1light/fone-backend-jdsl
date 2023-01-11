@@ -2,6 +2,7 @@ package com.fone.filmone.common.jwt
 
 import com.fone.filmone.domain.user.Token
 import com.fone.filmone.domain.user.enum.Role
+import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
 import org.springframework.beans.factory.annotation.Value
@@ -12,10 +13,10 @@ import javax.annotation.PostConstruct
 
 @Component
 class JWTUtils {
-    @Value("\${jwt.secret}")
+    @Value("\${security.jwt.secret}")
     private lateinit var secret: String
 
-    @Value("\${jwt.access-token-validity-in-seconds}")
+    @Value("\${security.jwt.access-token-validity-in-seconds}")
     private lateinit var accessTokenExpirationTime: String
 
     private lateinit var key: Key
@@ -25,11 +26,32 @@ class JWTUtils {
         key = Keys.hmacShaKeyFor(secret.toByteArray())
     }
 
-    fun generateUserToken(email: String): Token {
+    fun generateUserToken(email: String, roles: List<Role>): Token {
         val claims: MutableMap<String, Any?> = HashMap()
-        claims["roles"] = mutableListOf(Role.ROLE_USER)
+        claims["roles"] = roles
 
         return doGenerateToken(claims, email)
+    }
+
+    fun getEmailFromToken(token: String?): String {
+        return getAllClaimsFromToken(token).subject
+    }
+
+    fun validateToken(token: String): Boolean {
+        return !isTokenExpired(token)
+    }
+
+    fun getAllClaimsFromToken(token: String?): Claims {
+        return Jwts.parser().setSigningKey(key).parseClaimsJws(token).body
+    }
+
+    private fun isTokenExpired(token: String): Boolean {
+        val expiration = getExpirationDateFromToken(token)
+        return expiration.before(Date())
+    }
+
+    private fun getExpirationDateFromToken(token: String?): Date {
+        return getAllClaimsFromToken(token).expiration
     }
 
     private fun doGenerateToken(claims: Map<String, Any?>, email: String): Token {

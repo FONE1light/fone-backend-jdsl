@@ -14,6 +14,8 @@ CREATE TABLE users
     agree_to_terms_of_service_terms_of_use tinyint(1),
     agree_to_personal_information          tinyint(1),
     is_receive_marketing                   tinyint(1),
+    roles                                  varchar(20),
+    enabled                                tinyint(1),
     primary key (id)
 );
 

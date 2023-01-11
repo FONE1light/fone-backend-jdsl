@@ -1,6 +1,5 @@
-package msa.gift.common.response
+package com.fone.filmone.common.exception
 
-import com.fone.filmone.common.exception.GlobalException
 import org.springframework.boot.web.error.ErrorAttributeOptions
 import org.springframework.boot.web.reactive.error.DefaultErrorAttributes
 import org.springframework.stereotype.Component

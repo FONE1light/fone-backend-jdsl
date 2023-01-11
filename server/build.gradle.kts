@@ -1,4 +1,7 @@
 dependencies {
+    // security
+    implementation("org.springframework.boot:spring-boot-starter-security")
+
     // validation
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.hibernate.validator:hibernate-validator:6.1.2.Final")
@@ -25,10 +28,9 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.2.3")
 
     // JWT 인증
-    implementation("com.auth0:java-jwt:3.19.2")
-    implementation("io.jsonwebtoken:jjwt-api:0.10.7")
-    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.10.7")
-    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.10.7")
+    implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
 
     implementation(project(":idl"))
 

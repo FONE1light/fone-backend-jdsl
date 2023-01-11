@@ -1,4 +1,4 @@
-package msa.gift.common.response
+package com.fone.filmone.common.exception
 
 import org.springframework.boot.autoconfigure.web.WebProperties
 import org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler
@@ -35,7 +35,7 @@ class GlobalErrorWebExceptionHandler(
 
     private fun renderErrorResponse(request: ServerRequest): Mono<ServerResponse?> {
         val errorPropertiesMap = getErrorAttributes(request, ErrorAttributeOptions.defaults())
-        return ServerResponse.status(HttpStatus.BAD_REQUEST)
+        return ServerResponse.status(HttpStatus.UNAUTHORIZED)
             .contentType(MediaType.APPLICATION_JSON)
             .body(BodyInserters.fromValue(errorPropertiesMap))
     }

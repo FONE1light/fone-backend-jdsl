@@ -4,6 +4,7 @@ import com.fone.filmone.application.user.ModifyUserFacade
 import com.fone.filmone.common.response.CommonResponse
 import com.fone.filmone.presentation.user.ModifyUserDto.ModifyUserRequest
 import com.fone.filmone.presentation.user.ModifyUserDto.ModifyUserResponse
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -18,6 +19,7 @@ class ModifyUserController(
 ) {
 
     @PatchMapping
+    @PreAuthorize("hasRole('USER')")
     suspend fun modifyUser(principal: Principal, @Valid @RequestBody request: ModifyUserRequest):
             CommonResponse<ModifyUserResponse> {
         val response = modifyFacade.modifyUser(request, principal.name)

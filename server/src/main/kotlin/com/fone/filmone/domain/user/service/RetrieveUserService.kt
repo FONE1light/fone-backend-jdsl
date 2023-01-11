@@ -2,6 +2,7 @@ package com.fone.filmone.domain.user.service
 
 import com.fone.filmone.common.exception.NotFoundUserException
 import com.fone.filmone.common.jwt.JWTUtils
+import com.fone.filmone.domain.user.enum.Role
 import com.fone.filmone.infrastructure.user.UserRepository
 import com.fone.filmone.presentation.auth.CheckNicknameDuplicateDto.CheckNicknameDuplicateRequest
 import com.fone.filmone.presentation.auth.CheckNicknameDuplicateDto.CheckNicknameDuplicateResponse
@@ -22,7 +23,9 @@ class RetrieveUserService(
                 socialLoginType.toString()
             ) ?: throw NotFoundUserException()
 
-            val token = jwtUtils.generateUserToken(user.email)
+            val token = jwtUtils.generateUserToken(
+                user.email,
+                user.roles.split(",").map { Role("ROLE_USER") })
 
             return SignInResponse(user, token)
         }
