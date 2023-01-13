@@ -7,7 +7,7 @@ CREATE TABLE users
     nickname                               varchar(100),
     birthday                               varchar(100),
     gender                                 varchar(100),
-    profile_url                            varchar(100),
+    profile_url                            varchar(300),
     phone_number                           varchar(50),
     email                                  varchar(20),
     social_login_type                      varchar(10),
