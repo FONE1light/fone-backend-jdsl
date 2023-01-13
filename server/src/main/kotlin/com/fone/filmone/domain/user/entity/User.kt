@@ -28,7 +28,7 @@ data class User(
     var nickname: String,
 
     @Column
-    val birthday: String,
+    var birthday: String,
 
     @Column
     val gender: Gender,
@@ -37,10 +37,10 @@ data class User(
     var profileUrl: String,
 
     @Column
-    val phoneNumber: String,
+    var phoneNumber: String,
 
     @Column
-    val email: String,
+    var email: String,
 
     @Column
     val socialLoginType: SocialLoginType,
@@ -55,16 +55,27 @@ data class User(
     val isReceiveMarketing: Boolean,
 
     @Column
-    val roles: String,
+    var roles: String,
 
     @Column
-    val enabled: Boolean,
+    var enabled: Boolean,
 ) : UserDetails {
     fun modifyUser(request: ModifyUserRequest) {
         this.nickname = request.nickname
         this.job = request.job
         this.interests = request.interests.joinToString(",")
         this.profileUrl = request.profileUrl ?: this.profileUrl
+    }
+
+    fun signOutUser() {
+        interests = ""
+        nickname = "탈퇴한 유저"
+        birthday = ""
+        profileUrl = ""
+        phoneNumber = ""
+        email = ""
+        roles = ""
+        enabled = false
     }
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
