@@ -2,16 +2,16 @@ package com.fone.filmone.domain.user.service
 
 import com.fone.filmone.common.exception.DuplicateUserException
 import com.fone.filmone.infrastructure.user.UserRepository
-import com.fone.filmone.presentation.user.SignUpDto.SignUpRequest
-import com.fone.filmone.presentation.user.SignUpDto.SignUpResponse
+import com.fone.filmone.presentation.user.SignUpUserDto.SignUpUserRequest
+import com.fone.filmone.presentation.user.SignUpUserDto.SignUpUserResponse
 import org.springframework.stereotype.Service
 
 @Service
-class RegisterUserService(
+class SignUpUserService(
     private val userRepository: UserRepository,
 ) {
 
-    suspend fun registerUser(request: SignUpRequest): SignUpResponse {
+    suspend fun signUpUser(request: SignUpUserRequest): SignUpUserResponse {
         with(request) {
             userRepository.findByNicknameOrEmail(nickname, email)?.let {
                 throw DuplicateUserException()
@@ -19,7 +19,7 @@ class RegisterUserService(
 
             val newUser = toEntity()
             userRepository.save(newUser)
-            return SignUpResponse(newUser)
+            return SignUpUserResponse(newUser)
         }
     }
 }

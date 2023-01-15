@@ -1,9 +1,9 @@
 package com.fone.filmone.presentation.user
 
-import com.fone.filmone.application.user.SignUpFacade
+import com.fone.filmone.application.user.SignUpUserFacade
 import com.fone.filmone.common.response.CommonResponse
-import com.fone.filmone.presentation.user.SignUpDto.SignUpRequest
-import com.fone.filmone.presentation.user.SignUpDto.SignUpResponse
+import com.fone.filmone.presentation.user.SignUpUserDto.SignUpUserRequest
+import com.fone.filmone.presentation.user.SignUpUserDto.SignUpUserResponse
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -12,13 +12,13 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping("/api/v1/user")
-class SignUpController(
-    private val signUpFacade: SignUpFacade,
+class SignUpUserController(
+    private val signUpUserFacade: SignUpUserFacade,
 ) {
 
     @PostMapping("/sign-up")
-    suspend fun signUp(@Valid @RequestBody request: SignUpRequest): CommonResponse<SignUpResponse> {
-        val response = signUpFacade.signUp(request)
+    suspend fun signUp(@Valid @RequestBody request: SignUpUserRequest): CommonResponse<SignUpUserResponse> {
+        val response = signUpUserFacade.signUp(request)
         return CommonResponse.success(response)
     }
 }

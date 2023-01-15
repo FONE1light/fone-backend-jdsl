@@ -17,7 +17,7 @@ class CheckNicknameDuplicateController(
 ) {
 
     @GetMapping("/check-nickname-duplication")
-    suspend fun checkNickname(@Valid @ModelAttribute request: CheckNicknameDuplicateRequest):
+    suspend fun checkNicknameDuplicate(@Valid @ModelAttribute request: CheckNicknameDuplicateRequest):
             CommonResponse<CheckNicknameDuplicateResponse> {
         val response = checkNicknameDuplicateFacade.check(request)
         return CommonResponse.success(response)

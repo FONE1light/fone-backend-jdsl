@@ -7,9 +7,9 @@ import javax.validation.constraints.Email
 import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
 
-class QuestionRegisterDto {
+class RegisterQuestionDto {
 
-    data class QuestionRegisterRequest(
+    data class RegisterQuestionRequest(
         @field:NotEmpty(message = "이메일은 필수 값 입니다.")
         @field:Email(message = "유효하지 않는 이메일 입니다.")
         val email: String,
@@ -35,7 +35,7 @@ class QuestionRegisterDto {
         }
     }
 
-    data class QuestionRegisterResponse(
+    data class RegisterQuestionResponse(
         val email: String,
         val type: Type,
         val title: String,

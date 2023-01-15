@@ -6,17 +6,17 @@ import com.fone.filmone.domain.user.enum.Role
 import com.fone.filmone.infrastructure.user.UserRepository
 import com.fone.filmone.presentation.user.CheckNicknameDuplicateDto.CheckNicknameDuplicateRequest
 import com.fone.filmone.presentation.user.CheckNicknameDuplicateDto.CheckNicknameDuplicateResponse
-import com.fone.filmone.presentation.user.SignInDto.SignInRequest
-import com.fone.filmone.presentation.user.SignInDto.SignInResponse
+import com.fone.filmone.presentation.user.SignInUserDto.SignInUserRequest
+import com.fone.filmone.presentation.user.SignInUserDto.SignInUserResponse
 import org.springframework.stereotype.Service
 
 @Service
-class RetrieveUserService(
+class SignInUserService(
     private val userRepository: UserRepository,
     val jwtUtils: JWTUtils,
 ) {
 
-    suspend fun retrieveUser(request: SignInRequest): SignInResponse {
+    suspend fun signInUser(request: SignInUserRequest): SignInUserResponse {
         with(request) {
             val user = userRepository.findByEmailAndSocialLoginType(
                 email,
@@ -27,18 +27,7 @@ class RetrieveUserService(
                 user.email,
                 user.roles.split(",").map { Role("ROLE_USER") })
 
-            return SignInResponse(user, token)
-        }
-    }
-
-    suspend fun checkNicknameDuplicate(request: CheckNicknameDuplicateRequest):
-            CheckNicknameDuplicateResponse {
-        with(request) {
-            userRepository.findByNickname(nickname)?.let {
-                return CheckNicknameDuplicateResponse(request.nickname, true)
-            }
-
-            return CheckNicknameDuplicateResponse(request.nickname, false)
+            return SignInUserResponse(user, token)
         }
     }
 }

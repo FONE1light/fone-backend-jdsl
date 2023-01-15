@@ -7,9 +7,9 @@ import javax.validation.constraints.Email
 import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
 
-class SignInDto {
+class SignInUserDto {
 
-    data class SignInRequest(
+    data class SignInUserRequest(
         @field:NotNull(message = "소셜로그인 타입은 필수 값 입니다.")
         val socialLoginType: SocialLoginType,
         @field:NotEmpty(message = "이메일은 필수 값 입니다.")
@@ -19,7 +19,7 @@ class SignInDto {
         val accessToken: String,
     )
 
-    data class SignInResponse(
+    data class SignInUserResponse(
         val socialLoginType: SocialLoginType,
         val email: String,
         val token: Token,

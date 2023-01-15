@@ -6,9 +6,9 @@ import org.springframework.format.annotation.DateTimeFormat
 import java.sql.Date
 import javax.validation.constraints.*
 
-class SignUpDto {
+class SignUpUserDto {
 
-    data class SignUpRequest(
+    data class SignUpUserRequest(
         @field:NotNull(message = "직업은 필수 값 입니다.")
         val job: Job,
         @field:Size(min = 1, message = "관심사는 1개 이상 선택 되어야 합니다")
@@ -58,7 +58,7 @@ class SignUpDto {
         }
     }
 
-    data class SignUpResponse(
+    data class SignUpUserResponse(
         val job: Job,
         val interests: List<Interest>,
         val nickname: String,

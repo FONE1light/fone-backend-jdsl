@@ -10,13 +10,13 @@ import java.security.Principal
 
 @RestController
 @RequestMapping("/api/v1/user")
-class SignUserOutController(
+class SignOutUserController(
     private val signOutUserFacade: SignOutUserFacade,
 ) {
 
     @PatchMapping("/sign-out")
     @PreAuthorize("hasRole('USER')")
-    suspend fun signOut(principal: Principal): CommonResponse<Nothing?> {
+    suspend fun signOutUser(principal: Principal): CommonResponse<Nothing?> {
         signOutUserFacade.signOutUser(principal.name)
         return CommonResponse.success(null, "회원탈퇴가 완료되었습니다.")
     }
