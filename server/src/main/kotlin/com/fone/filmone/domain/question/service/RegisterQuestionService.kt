@@ -6,7 +6,7 @@ import com.fone.filmone.presentation.question.RegisterQuestionDto.RegisterQuesti
 import org.springframework.stereotype.Service
 
 @Service
-class QuestionRegisterService(
+class RegisterQuestionService(
     private val questionRepository: QuestionRepository
 ) {
 

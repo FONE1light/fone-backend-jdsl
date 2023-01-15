@@ -1,13 +1,13 @@
 package com.fone.filmone.application.question
 
-import com.fone.filmone.domain.question.service.QuestionRegisterService
+import com.fone.filmone.domain.question.service.RegisterQuestionService
 import com.fone.filmone.presentation.question.RegisterQuestionDto.RegisterQuestionRequest
 import org.springframework.stereotype.Service
 
 @Service
-class QuestionRegisterFacade(
-    private val questionRegisterService: QuestionRegisterService
+class RegisterQuestionFacade(
+    private val registerQuestionService: RegisterQuestionService
 ) {
     suspend fun registerQuestion(request: RegisterQuestionRequest) =
-        questionRegisterService.registerQuestion(request)
+        registerQuestionService.registerQuestion(request)
 }
