@@ -6,7 +6,7 @@ CREATE TABLE users
     interests                              varchar(50),
     nickname                               varchar(100),
     birthday                               varchar(100),
-    gender                                 varchar(100),
+    gender                                 varchar(10),
     profile_url                            varchar(300),
     phone_number                           varchar(50),
     email                                  varchar(20),
@@ -68,3 +68,30 @@ CREATE TABLE works
     job_opening_id bigint,
     primary key (id)
 );
+
+DROP TABLE IF EXISTS profiles;
+CREATE TABLE profiles
+(
+    id              bigint NOT NULL AUTO_INCREMENT,
+    hooking_comment varchar(200),
+    birthday        varchar(100),
+    gender          varchar(10),
+    height          int(11),
+    weight          int(11),
+    email           varchar(20),
+    sns             varchar(300),
+    specialty       varchar(50),
+    details         varchar(500),
+    career          varchar(10),
+    interests       varchar(50),
+    domains         varchar(200),
+    user_id         bigint,
+    primary key (id)
+)
+
+DROP TABLE IF EXISTS profile_images;
+CREATE TABLE profile_images
+(
+    id         bigint NOT NULL AUTO_INCREMENT,
+    profile_id bigint
+)
