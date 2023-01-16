@@ -1,7 +1,7 @@
-package com.fone.filmone.domain.user.enum
+package com.fone.filmone.domain.common
 
 enum class Gender {
-    MAN, WOMAN;
+    MAN, WOMAN, IRRELEVANT;
 
     companion object {
 

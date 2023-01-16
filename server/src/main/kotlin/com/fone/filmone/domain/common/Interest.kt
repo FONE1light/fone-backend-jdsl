@@ -1,4 +1,4 @@
-package com.fone.filmone.domain.user.enum
+package com.fone.filmone.domain.common
 
 enum class Interest(interest: String) {
     FEATURE_FILM("장편영화"),

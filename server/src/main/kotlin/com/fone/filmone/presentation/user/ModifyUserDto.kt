@@ -1,18 +1,17 @@
 package com.fone.filmone.presentation.user
 
+import com.fone.filmone.domain.common.Interest
 import com.fone.filmone.domain.user.entity.User
-import com.fone.filmone.domain.user.enum.Gender
-import com.fone.filmone.domain.user.enum.Interest
+import com.fone.filmone.domain.common.Gender
 import com.fone.filmone.domain.user.enum.Job
 import com.fone.filmone.domain.user.enum.SocialLoginType
-import javax.validation.constraints.Email
 import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
 
 class ModifyUserDto {
 
-    data class ModifyUserRequest (
+    data class ModifyUserRequest(
         @field:NotNull(message = "직업은 필수 값 입니다.")
         val job: Job,
         @field:Size(min = 1, message = "관심사는 1개 이상 선택 되어야 합니다")

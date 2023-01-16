@@ -1,4 +1,7 @@
 dependencies {
+    // persistence
+    implementation("javax.persistence:javax.persistence-api")
+
     // security
     implementation("org.springframework.boot:spring-boot-starter-security")
 

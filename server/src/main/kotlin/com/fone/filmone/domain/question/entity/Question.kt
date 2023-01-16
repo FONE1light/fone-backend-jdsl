@@ -9,7 +9,7 @@ import org.springframework.data.relational.core.mapping.Table
 data class Question(
 
     @Id
-    val id: Long? = null,
+    var id: Long? = null,
 
     @Column
     val email: String,

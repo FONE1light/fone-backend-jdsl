@@ -1,7 +1,11 @@
 package com.fone.filmone.presentation.user
 
+import com.fone.filmone.domain.common.Interest
 import com.fone.filmone.domain.user.entity.User
-import com.fone.filmone.domain.user.enum.*
+import com.fone.filmone.domain.common.Gender
+import com.fone.filmone.domain.user.enum.Job
+import com.fone.filmone.domain.user.enum.Role
+import com.fone.filmone.domain.user.enum.SocialLoginType
 import org.springframework.format.annotation.DateTimeFormat
 import java.sql.Date
 import javax.validation.constraints.*
@@ -37,7 +41,6 @@ class SignUpUserDto {
         val accessToken: String,
     ) {
         fun toEntity(): User {
-            print(listOf(Role.ROLE_USER).map { it.toString() })
 
             return User(
                 job = job,

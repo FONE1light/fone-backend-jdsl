@@ -9,6 +9,7 @@ import com.fone.filmone.presentation.user.CheckNicknameDuplicateDto.CheckNicknam
 import com.fone.filmone.presentation.user.SignInUserDto.SignInUserRequest
 import com.fone.filmone.presentation.user.SignInUserDto.SignInUserResponse
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class SignInUserService(
@@ -16,6 +17,7 @@ class SignInUserService(
     val jwtUtils: JWTUtils,
 ) {
 
+    @Transactional(readOnly = true)
     suspend fun signInUser(request: SignInUserRequest): SignInUserResponse {
         with(request) {
             val user = userRepository.findByEmailAndSocialLoginType(

@@ -1,6 +1,6 @@
 package com.fone.filmone.domain.user.entity
 
-import com.fone.filmone.domain.user.enum.Gender
+import com.fone.filmone.domain.common.Gender
 import com.fone.filmone.domain.user.enum.Job
 import com.fone.filmone.domain.user.enum.SocialLoginType
 import com.fone.filmone.presentation.user.ModifyUserDto.ModifyUserRequest
@@ -16,7 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails
 data class User(
 
     @Id
-    val id: Long? = null,
+    var id: Long? = null,
 
     @Column
     var job: Job,

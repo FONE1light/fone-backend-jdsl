@@ -46,6 +46,7 @@ CREATE TABLE job_openings
     career             varchar(20),
     type               varchar(10),
     domains            varchar(200),
+    user_id            bigint,
     primary key (id)
 );
 

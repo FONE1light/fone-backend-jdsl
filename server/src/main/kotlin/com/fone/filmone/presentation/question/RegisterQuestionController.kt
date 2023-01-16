@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("/user/v1/question")
+@RequestMapping("/api/v1/question")
 class RegisterQuestionController(
     val registerQuestionFacade: RegisterQuestionFacade
 ) {
