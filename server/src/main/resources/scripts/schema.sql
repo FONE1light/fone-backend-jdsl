@@ -87,11 +87,12 @@ CREATE TABLE profiles
     domains         varchar(200),
     user_id         bigint,
     primary key (id)
-)
+);
 
 DROP TABLE IF EXISTS profile_images;
 CREATE TABLE profile_images
 (
     id         bigint NOT NULL AUTO_INCREMENT,
-    profile_id bigint
-)
+    profile_id bigint,
+    primary key (id)
+);
