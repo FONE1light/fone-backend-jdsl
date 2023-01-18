@@ -4,8 +4,8 @@ import com.fone.filmone.domain.common.Career
 import com.fone.filmone.domain.common.Gender
 import com.fone.filmone.domain.common.Interest
 import com.fone.filmone.domain.job_opening.entity.JobOpening
-import com.fone.filmone.domain.job_opening.enum.Domain
-import com.fone.filmone.domain.job_opening.enum.Type
+import com.fone.filmone.domain.common.Domain
+import com.fone.filmone.domain.common.Type
 import org.springframework.format.annotation.DateTimeFormat
 import java.sql.Date
 

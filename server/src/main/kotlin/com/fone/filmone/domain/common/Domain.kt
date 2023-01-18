@@ -1,4 +1,4 @@
-package com.fone.filmone.domain.job_opening.enum
+package com.fone.filmone.domain.common
 
 enum class Domain(name: String) {
     PLANNING("기획/제작"),
