@@ -4,6 +4,7 @@ import com.fone.filmone.application.profile.RegisterProfileFacade
 import com.fone.filmone.common.response.CommonResponse
 import com.fone.filmone.presentation.profile.RegisterProfileDto.RegisterProfileRequest
 import com.fone.filmone.presentation.profile.RegisterProfileDto.RegisterProfileResponse
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -18,6 +19,7 @@ class RegisterProfileController(
 ) {
 
     @PostMapping
+    @PreAuthorize("hasRole('USER')")
     suspend fun registerProfile(
         principal: Principal,
         @Valid @RequestBody request: RegisterProfileRequest):

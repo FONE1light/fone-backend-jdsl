@@ -1,5 +1,8 @@
 package com.fone.filmone.common.config
 
+import com.fasterxml.classmate.TypeResolver
+import io.swagger.annotations.ApiModel
+import io.swagger.annotations.ApiModelProperty
 import lombok.RequiredArgsConstructor
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -8,17 +11,22 @@ import springfox.documentation.builders.ApiInfoBuilder
 import springfox.documentation.builders.PathSelectors
 import springfox.documentation.builders.RequestHandlerSelectors
 import springfox.documentation.builders.ResponseBuilder
+import springfox.documentation.schema.AlternateTypeRule
 import springfox.documentation.service.*
 import springfox.documentation.spi.DocumentationType
 import springfox.documentation.spi.service.contexts.SecurityContext
 import springfox.documentation.spring.web.plugins.Docket
 import springfox.documentation.swagger2.annotations.EnableSwagger2
+import java.awt.print.Pageable
 import java.util.*
 
 @Configuration
 @EnableSwagger2
 @RequiredArgsConstructor
-class SwaggerConfig {
+class SwaggerConfig(
+    private val typeResolver: TypeResolver,
+) {
+
     @Bean
     fun api(): Docket? {
         val commonResponse = setCommonResponse()
@@ -27,7 +35,14 @@ class SwaggerConfig {
             .globalResponses(HttpMethod.POST, commonResponse)
             .globalResponses(HttpMethod.PUT, commonResponse)
             .globalResponses(HttpMethod.PATCH, commonResponse)
-            .globalResponses(HttpMethod.DELETE, commonResponse).consumes(getConsumeContentTypes())
+            .globalResponses(HttpMethod.DELETE, commonResponse)
+            .alternateTypeRules(
+                AlternateTypeRule(
+                    typeResolver.resolve(Pageable::class.java),
+                    typeResolver.resolve(Page::class.java)
+                )
+            )
+            .consumes(getConsumeContentTypes())
             .produces(getProduceContentTypes()).apiInfo(apiInfo()).select()
             .apis(RequestHandlerSelectors.basePackage("com.fone.filmone"))
             .paths(PathSelectors.ant("/**")).build()
@@ -80,5 +95,17 @@ class SwaggerConfig {
     private fun apiInfo(): ApiInfo? {
         return ApiInfoBuilder().title("Sig-Predict REST API Document")
             .description("work in progress").termsOfServiceUrl("localhost").version("1.0").build()
+    }
+
+    @ApiModel
+    class Page {
+        @ApiModelProperty(value = "페이지 번호(0..N)")
+        private val page: Int? = null
+
+        @ApiModelProperty(value = "페이지 크기", allowableValues = "range[0, 100]")
+        private val size: Int? = null
+
+        @ApiModelProperty(value = "정렬(사용법: 컬럼명,ASC|DESC)")
+        private val sort: List<String>? = null
     }
 }
