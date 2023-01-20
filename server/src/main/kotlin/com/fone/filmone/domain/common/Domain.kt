@@ -15,4 +15,8 @@ enum class Domain(name: String) {
     PICTURE("사진"),
     ETC("기타"),
     ;
+
+    companion object {
+        operator fun invoke(domain: String) = Domain.valueOf(domain.uppercase())
+    }
 }
