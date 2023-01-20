@@ -2,6 +2,7 @@ package com.fone.filmone.presentation.question
 
 import com.fone.filmone.domain.question.entity.Question
 import com.fone.filmone.domain.question.enum.Type
+import io.swagger.annotations.ApiModelProperty
 import javax.validation.constraints.AssertTrue
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotEmpty
@@ -12,6 +13,7 @@ class RegisterQuestionDto {
     data class RegisterQuestionRequest(
         @field:NotEmpty(message = "이메일은 필수 값 입니다.")
         @field:Email(message = "유효하지 않는 이메일 입니다.")
+        @ApiModelProperty(value = "이메일", example = "test@test.com", required = true)
         val email: String,
         @field:NotNull(message = "상담유형은 필수 값 입니다.")
         val type: Type,

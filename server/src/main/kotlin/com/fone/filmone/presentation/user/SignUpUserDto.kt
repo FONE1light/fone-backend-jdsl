@@ -6,6 +6,7 @@ import com.fone.filmone.domain.common.Gender
 import com.fone.filmone.domain.user.enum.Job
 import com.fone.filmone.domain.user.enum.Role
 import com.fone.filmone.domain.user.enum.SocialLoginType
+import io.swagger.annotations.ApiModelProperty
 import org.springframework.format.annotation.DateTimeFormat
 import java.sql.Date
 import javax.validation.constraints.*
@@ -25,9 +26,11 @@ class SignUpUserDto {
         val gender: Gender,
         val profileUrl: String?,
         @field:Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}\$")
+        @ApiModelProperty(value = "휴대폰 번호", example = "010-1234-1234", required = true)
         val phoneNumber: String,
         @field:NotEmpty(message = "이메일은 필수 값 입니다.")
         @field:Email(message = "유효하지 않는 이메일 입니다.")
+        @ApiModelProperty(value = "이메일", example = "test@test.com", required = true)
         val email: String,
         @field:NotNull(message = "소셜 로그인 타입은 필수 값 입니다.")
         val socialLoginType: SocialLoginType,
