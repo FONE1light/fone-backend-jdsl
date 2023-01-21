@@ -1,6 +1,6 @@
-package com.fone.filmone.presentation.job_opening
+package com.fone.filmone.presentation.profile
 
-import com.fone.filmone.application.job_opening.ScrapJobOpeningFacade
+import com.fone.filmone.application.profile.WantProfileFacade
 import com.fone.filmone.common.response.CommonResponse
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.PatchMapping
@@ -10,18 +10,18 @@ import org.springframework.web.bind.annotation.RestController
 import java.security.Principal
 
 @RestController
-@RequestMapping("/api/v1/job-openings")
-class ScrapJobOpeningController(
-    private val scrapJobOpeningFacade: ScrapJobOpeningFacade,
+@RequestMapping("/api/v1/profiles")
+class WantProfileController(
+    private val wantProfileFacade: WantProfileFacade,
 ) {
 
-    @PatchMapping("/{jobOpeningId}/scrap")
+    @PatchMapping("/{profileId}/want")
     @PreAuthorize("hasRole('USER')")
-    suspend fun scrapJobOpening(
+    suspend fun wantProfile(
         principal: Principal,
-        @PathVariable jobOpeningId: Long,
+        @PathVariable profileId: Long,
     ): CommonResponse<Unit> {
-        val response = scrapJobOpeningFacade.scrapJobOpening(principal.name, jobOpeningId)
+        val response = wantProfileFacade.wantProfile(principal.name, profileId)
 
         return CommonResponse.success(response)
     }

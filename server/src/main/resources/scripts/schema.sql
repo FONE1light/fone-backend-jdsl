@@ -99,6 +99,15 @@ CREATE TABLE profiles
     primary key (id)
 );
 
+DROP TABLE IF EXISTS user_profile_wants;
+CREATE TABLE user_profile_wants
+(
+    id         bigint NOT NULL AUTO_INCREMENT,
+    user_id    bigint,
+    profile_id bigint,
+    primary key (id)
+);
+
 DROP TABLE IF EXISTS profile_images;
 CREATE TABLE profile_images
 (
