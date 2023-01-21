@@ -3,6 +3,7 @@ package com.fone.filmone.domain.job_opening.entity
 import com.fone.filmone.domain.common.Career
 import com.fone.filmone.domain.common.Gender
 import com.fone.filmone.domain.common.Type
+import com.fone.filmone.presentation.job_opening.RegisterJobOpeningDto.RegisterJobOpeningRequest
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
@@ -14,45 +15,59 @@ data class JobOpening(
     var id: Long? = null,
 
     @Column
-    val title: String,
+    var title: String,
 
     @Column
-    val interests: String,
+    var interests: String,
 
     @Column
-    val deadline: String,
+    var deadline: String,
 
     @Column
-    val casting: String,
+    var casting: String,
 
     @Column
-    val numberOfRecruits: Int,
+    var numberOfRecruits: Int,
 
     @Column
-    val gender: Gender,
+    var gender: Gender,
 
     @Column
-    val ageMax: Int,
+    var ageMax: Int,
 
     @Column
-    val ageMin: Int,
+    var ageMin: Int,
 
     @Column
-    val career: Career,
+    var career: Career,
 
     @Column
-    val type: Type,
+    var type: Type,
 
     @Column
-    val domains: String,
+    var domains: String,
 
     @Column
-    val userId: Long,
+    var userId: Long,
 
     @Column
     var viewCount: Long,
 ) {
     fun view() {
         viewCount += 1
+    }
+
+    fun put(request: RegisterJobOpeningRequest) {
+        title = request.title
+        interests = request.interests.joinToString(",")
+        deadline = request.deadline.toString()
+        casting = request.casting
+        numberOfRecruits = request.numberOfRecruits
+        gender = request.gender
+        ageMax = request.ageMax
+        ageMin = request.ageMin
+        career = request.career
+        type = request.type
+        domains = request.domains.joinToString(",")
     }
 }
