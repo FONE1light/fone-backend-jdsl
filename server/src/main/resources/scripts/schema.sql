@@ -50,6 +50,15 @@ CREATE TABLE job_openings
     primary key (id)
 );
 
+DROP TABLE IF EXISTS user_job_opening_scraps;
+CREATE TABLE user_job_opening_scraps
+(
+    id             bigint NOT NULL AUTO_INCREMENT,
+    user_id        bigint,
+    job_opening_id bigint,
+    primary key (id)
+);
+
 DROP TABLE IF EXISTS works;
 CREATE TABLE works
 (
