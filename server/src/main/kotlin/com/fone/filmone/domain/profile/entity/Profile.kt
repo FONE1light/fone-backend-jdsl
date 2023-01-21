@@ -54,4 +54,12 @@ data class Profile (
 
     @Column
     val userId: Long,
-)
+
+    @Column
+    var viewCount: Long,
+) {
+
+    fun view() {
+        this.viewCount += 1
+    }
+}

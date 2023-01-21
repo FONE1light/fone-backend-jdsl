@@ -6,5 +6,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 
 interface ProfileRepository : CoroutineCrudRepository<Profile, Long> {
-    fun findBy(pageable: Pageable): Flow<Profile>
+    fun findByType(pageable: Pageable, type: String): Flow<Profile>
+
+    suspend fun findByType(type: String): Profile?
 }

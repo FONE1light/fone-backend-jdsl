@@ -97,6 +97,7 @@ CREATE TABLE profiles
     type            varchar(10),
     domains         varchar(200),
     user_id         bigint,
+    view_count      bigint,
     primary key (id)
 );
 

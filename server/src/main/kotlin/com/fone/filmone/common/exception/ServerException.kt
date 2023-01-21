@@ -21,6 +21,14 @@ data class InvalidJobOpeningUserIdException(
     override val message: String = "구인구직을 등록한 유저만 수정할 수 있습니다."
 ) : ServerException(403, message)
 
+data class NotFoundProfileException(
+    override val message: String = "존재 하지 않는 프로필 입니다."
+) : ServerException(200, message)
+
+data class InvalidProfileUserIdException(
+    override val message: String = "프로필을 등록한 유저만 수정할 수 있습니다."
+) : ServerException(403, message)
+
 data class NotFoundException(
     override val message: String,
 ) : ServerException(404, message)

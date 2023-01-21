@@ -2,6 +2,7 @@ package com.fone.filmone.presentation.profile
 
 import com.fone.filmone.domain.common.*
 import com.fone.filmone.domain.profile.entity.Profile
+import io.swagger.annotations.ApiModelProperty
 import org.springframework.format.annotation.DateTimeFormat
 import java.sql.Date
 import javax.validation.constraints.Email
@@ -16,6 +17,7 @@ class RegisterProfileDto {
         val height: Int,
         val weight: Int,
         @field:Email(message = "유효하지 않는 이메일 입니다.")
+        @ApiModelProperty(value = "이메일", example = "test@test.com", required = true)
         val email: String,
         val sns: String,
         val specialty: String,
@@ -45,6 +47,7 @@ class RegisterProfileDto {
                 type = type,
                 domains = domains.joinToString(","),
                 userId = userId,
+                viewCount = 0,
             )
         }
     }
