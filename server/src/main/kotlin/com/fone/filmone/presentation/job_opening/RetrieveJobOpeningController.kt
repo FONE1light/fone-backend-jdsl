@@ -5,12 +5,14 @@ import com.fone.filmone.common.response.CommonResponse
 import com.fone.filmone.domain.common.Type
 import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningDto.RetrieveJobOpeningResponse
 import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningDto.RetrieveJobOpeningsResponse
+import io.swagger.annotations.Api
 import org.springframework.data.domain.Pageable
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import java.security.Principal
 
 
+@Api(tags = ["03. Job Opening Info"], description = "구인구직 모집 서비스")
 @RestController
 @RequestMapping("/api/v1/job-openings")
 class RetrieveJobOpeningController(
