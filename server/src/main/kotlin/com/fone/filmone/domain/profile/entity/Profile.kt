@@ -3,6 +3,7 @@ package com.fone.filmone.domain.profile.entity
 import com.fone.filmone.domain.common.Career
 import com.fone.filmone.domain.common.Gender
 import com.fone.filmone.domain.common.Type
+import com.fone.filmone.presentation.profile.RegisterProfileDto
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
@@ -14,46 +15,46 @@ data class Profile (
     var id: Long? = null,
 
     @Column
-    val hookingComment: String,
+    var hookingComment: String,
 
     @Column
-    val birthday: String,
+    var birthday: String,
 
     @Column
-    val gender: Gender,
+    var gender: Gender,
 
     @Column
-    val height: Int,
+    var height: Int,
 
     @Column
-    val weight: Int,
+    var weight: Int,
 
     @Column
-    val email: String,
+    var email: String,
 
     @Column
-    val sns: String,
+    var sns: String,
 
     @Column
-    val specialty: String,
+    var specialty: String,
 
     @Column
-    val details: String,
+    var details: String,
 
     @Column
-    val career: Career,
+    var career: Career,
 
     @Column
-    val interests: String,
+    var interests: String,
 
     @Column
-    val type: Type,
+    var type: Type,
 
     @Column
-    val domains: String,
+    var domains: String,
 
     @Column
-    val userId: Long,
+    var userId: Long,
 
     @Column
     var viewCount: Long,
@@ -61,5 +62,21 @@ data class Profile (
 
     fun view() {
         this.viewCount += 1
+    }
+
+    fun put(request: RegisterProfileDto.RegisterProfileRequest) {
+        hookingComment = request.hookingComment
+        birthday = request.birthday.toString()
+        gender = request.gender
+        height = request.height
+        weight = request.weight
+        email = request.email
+        sns = request.sns
+        specialty = request.specialty
+        details = request.details
+        career = request.career
+        interests = request.interests.joinToString(",")
+        type = request.type
+        domains = request.domains.joinToString(",")
     }
 }
