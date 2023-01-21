@@ -48,4 +48,11 @@ data class JobOpening(
 
     @Column
     val userId: Long,
-)
+
+    @Column
+    var viewCount: Long,
+) {
+    fun view() {
+        viewCount += 1
+    }
+}

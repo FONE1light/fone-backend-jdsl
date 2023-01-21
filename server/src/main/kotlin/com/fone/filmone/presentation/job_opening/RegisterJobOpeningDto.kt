@@ -41,6 +41,7 @@ class RegisterJobOpeningDto {
                 type = type,
                 domains = domains.joinToString(","),
                 userId = userId,
+                viewCount = 0,
             )
         }
     }

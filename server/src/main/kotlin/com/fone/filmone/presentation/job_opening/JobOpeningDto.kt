@@ -15,6 +15,7 @@ data class JobOpeningDto(
     val career: Career,
     val type: Type,
     val domains: List<Domain>,
+    val viewCount: Long,
 ) {
     constructor(
         jobOpening: JobOpening,
@@ -29,6 +30,7 @@ data class JobOpeningDto(
         ageMin = jobOpening.ageMin,
         career = jobOpening.career,
         type = jobOpening.type,
-        domains = jobOpening.domains.split(",").map { Domain(it) }.toList()
+        domains = jobOpening.domains.split(",").map { Domain(it) }.toList(),
+        viewCount = jobOpening.viewCount
     )
 }

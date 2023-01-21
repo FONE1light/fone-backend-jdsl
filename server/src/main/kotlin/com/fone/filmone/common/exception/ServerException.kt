@@ -13,6 +13,10 @@ data class NotFoundUserException(
     override val message: String = "존재 하지 않는 유저 입니다."
 ) : ServerException(200, message)
 
+data class NotFoundJobOpeningException(
+    override val message: String = "존재 하지 않는 모집 입니다."
+) : ServerException(200, message)
+
 data class NotFoundException(
     override val message: String,
 ) : ServerException(404, message)

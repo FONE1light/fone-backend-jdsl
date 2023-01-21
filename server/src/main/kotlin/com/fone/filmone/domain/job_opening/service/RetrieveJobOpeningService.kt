@@ -1,7 +1,9 @@
 package com.fone.filmone.domain.job_opening.service
 
+import com.fone.filmone.common.exception.NotFoundJobOpeningException
 import com.fone.filmone.domain.common.Type
 import com.fone.filmone.infrastructure.job_opening.JobOpeningRepository
+import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningDto.RetrieveJobOpeningResponse
 import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningDto.RetrieveJobOpeningsResponse
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
@@ -27,5 +29,19 @@ class RetrieveJobOpeningService(
             .toList()
 
         return RetrieveJobOpeningsResponse(jobOpenings, pageable)
+    }
+
+    @Transactional
+    suspend fun retrieveJobOpening(
+        email: String,
+        type: Type,
+        jobOpeningId: Long,
+    ): RetrieveJobOpeningResponse {
+        val jobOpening =
+            jobOpeningRepository.findByType(type.toString()) ?: throw NotFoundJobOpeningException()
+        jobOpening.view()
+        jobOpeningRepository.save(jobOpening)
+
+        return RetrieveJobOpeningResponse(jobOpening)
     }
 }

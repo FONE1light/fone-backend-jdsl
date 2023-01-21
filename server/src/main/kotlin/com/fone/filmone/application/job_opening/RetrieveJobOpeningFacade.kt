@@ -12,4 +12,7 @@ class RetrieveJobOpeningFacade(
 
     suspend fun retrieveJobOpenings(email: String, pageable: Pageable, type: Type) =
         retrieveJobOpeningService.retrieveJobOpenings(email, pageable, type)
+
+    suspend fun retrieveJobOpening(email: String, type: Type, jobOpeningId: Long) =
+        retrieveJobOpeningService.retrieveJobOpening(email, type, jobOpeningId)
 }

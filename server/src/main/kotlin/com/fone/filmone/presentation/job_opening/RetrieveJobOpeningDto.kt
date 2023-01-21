@@ -19,4 +19,13 @@ class RetrieveJobOpeningDto {
             )
         )
     }
+
+    data class RetrieveJobOpeningResponse(
+        val jobOpening: JobOpeningDto,
+    ) {
+
+        constructor(reqJobOpening: JobOpening) : this(
+            jobOpening = JobOpeningDto(reqJobOpening)
+        )
+    }
 }
