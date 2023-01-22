@@ -58,6 +58,9 @@ data class Profile (
 
     @Column
     var viewCount: Long,
+
+    @Column
+    var isDeleted: Boolean = false,
 ) {
 
     fun view() {
@@ -78,5 +81,22 @@ data class Profile (
         interests = request.interests.joinToString(",")
         type = request.type
         domains = request.domains.joinToString(",")
+    }
+
+    fun delete() {
+        hookingComment = ""
+        birthday = ""
+        gender = Gender.IRRELEVANT
+        height = 0
+        weight = 0
+        email = ""
+        sns = ""
+        specialty = ""
+        details = ""
+        career = Career.IRRELEVANT
+        interests = ""
+        type = Type.ACTOR
+        domains = ""
+        isDeleted = true
     }
 }

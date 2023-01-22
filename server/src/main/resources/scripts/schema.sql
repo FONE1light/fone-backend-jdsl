@@ -100,6 +100,7 @@ CREATE TABLE profiles
     domains         varchar(200),
     user_id         bigint,
     view_count      bigint,
+    is_deleted     tinyint(1),
     primary key (id)
 );
 
