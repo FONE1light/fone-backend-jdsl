@@ -4,8 +4,8 @@ import com.fone.filmone.application.profile.WantProfileFacade
 import com.fone.filmone.common.response.CommonResponse
 import io.swagger.annotations.Api
 import org.springframework.security.access.prepost.PreAuthorize
-import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.security.Principal
@@ -17,7 +17,7 @@ class WantProfileController(
     private val wantProfileFacade: WantProfileFacade,
 ) {
 
-    @PatchMapping("/{profileId}/want")
+    @PostMapping("/{profileId}/want")
     @PreAuthorize("hasRole('USER')")
     suspend fun wantProfile(
         principal: Principal,
