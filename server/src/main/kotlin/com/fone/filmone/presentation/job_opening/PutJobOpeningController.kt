@@ -13,7 +13,7 @@ import javax.validation.Valid
 @Api(tags = ["03. Job Opening Info"], description = "구인구직 모집 서비스")
 @RestController
 @RequestMapping("/api/v1/job-openings")
-class PubJobOpeningController(
+class PutJobOpeningController(
     private val putJobOpeningFacade: PutJobOpeningFacade,
 ) {
 

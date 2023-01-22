@@ -16,4 +16,9 @@ data class CompetitionScrap (
 
     @Column
     var competitionId: Long,
-)
+) {
+    constructor(reqUserId: Long, reqCompetitionId: Long) : this(
+        userId = reqUserId,
+        competitionId = reqCompetitionId,
+    )
+}
