@@ -11,4 +11,6 @@ interface JobOpeningRepository : CoroutineCrudRepository<JobOpening, Long> {
     fun findByType(pageable: Pageable, type: String): Flow<JobOpening>
 
     suspend fun findByType(type: String): JobOpening?
+
+    suspend fun findByUserId(userId: Long): ArrayList<JobOpening>
 }
