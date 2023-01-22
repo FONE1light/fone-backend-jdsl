@@ -11,6 +11,7 @@ data class CompetitionDto(
     val endDate: String,
     val agency: String,
     val details: String,
+    val viewCount: Long,
     val competitionPrizes: List<CompetitionPrizeDto>,
 ) {
     constructor(competition: Competition, prizes: List<CompetitionPrize>) : this(
@@ -21,6 +22,7 @@ data class CompetitionDto(
         endDate = competition.endDate,
         agency = competition.agency,
         details = competition.details,
+        viewCount = competition.viewCount,
         competitionPrizes = prizes.map { CompetitionPrizeDto(it) }.toList(),
     )
 }

@@ -133,6 +133,7 @@ CREATE TABLE competitions
     agency     varchar(30),
     details    varchar(600),
     user_id    bigint,
+    view_count bigint,
     primary key (id)
 );
 

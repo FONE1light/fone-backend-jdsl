@@ -26,7 +26,8 @@ class RegisterCompetitionDto {
                 endDate = endDate.toString(),
                 agency = agency,
                 details = details,
-                userId = userId
+                userId = userId,
+                viewCount = 0,
             )
         }
     }

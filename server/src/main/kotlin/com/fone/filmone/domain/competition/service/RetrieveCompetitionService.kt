@@ -1,9 +1,11 @@
 package com.fone.filmone.domain.competition.service
 
+import com.fone.filmone.common.exception.NotFoundCompetitionException
 import com.fone.filmone.infrastructure.competition.CompetitionPrizeRepository
 import com.fone.filmone.infrastructure.competition.CompetitionRepository
 import com.fone.filmone.presentation.competition.CompetitionDto
 import com.fone.filmone.presentation.competition.RetrieveCompetitionDto.RetrieveCompetitionResponse
+import com.fone.filmone.presentation.competition.RetrieveCompetitionDto.RetrieveCompetitionsResponse
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.reactor.awaitSingle
@@ -19,10 +21,10 @@ class RetrieveCompetitionService(
 ) {
 
     @Transactional(readOnly = true)
-    suspend fun retrieveCompetition(
+    suspend fun retrieveCompetitions(
         email: String,
         pageable: Pageable,
-    ): RetrieveCompetitionResponse {
+    ): RetrieveCompetitionsResponse {
         val competitionsFlow = competitionRepository.findBy(pageable)
 
         val prizes = competitionsFlow
@@ -32,9 +34,23 @@ class RetrieveCompetitionService(
                 competitionPrizeRepository.findByCompetitionId(it.id!!)
             }.toList()
 
-        return RetrieveCompetitionResponse(
+        return RetrieveCompetitionsResponse(
             pageable,
             competitionsFlow.toList().zip(prizes) { c, p -> CompetitionDto(c, p) }.toList(),
         )
+    }
+
+    @Transactional
+    suspend fun retrieveCompetition(
+        email: String,
+        competitionId: Long,
+    ): RetrieveCompetitionResponse {
+        val competition = competitionRepository.findById(competitionId)
+            ?: throw NotFoundCompetitionException()
+        val prizes = competitionPrizeRepository.findByCompetitionId(competition.id!!).toList()
+
+        competition.view()
+
+        return RetrieveCompetitionResponse(competition, prizes)
     }
 }

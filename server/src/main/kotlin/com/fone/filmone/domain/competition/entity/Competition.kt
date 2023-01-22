@@ -30,4 +30,11 @@ data class Competition (
 
     @Column
     var userId: Long,
-)
+
+    @Column
+    var viewCount: Long,
+) {
+    fun view() {
+        viewCount += 1
+    }
+}

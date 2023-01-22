@@ -10,5 +10,8 @@ class RetrieveCompetitionFacade(
 ) {
 
     suspend fun retrieveCompetitions(email: String, pageable: Pageable) =
-        retrieveCompetitionService.retrieveCompetition(email, pageable)
+        retrieveCompetitionService.retrieveCompetitions(email, pageable)
+
+    suspend fun retrieveCompetition(email: String, competitionId: Long) =
+        retrieveCompetitionService.retrieveCompetition(email, competitionId)
 }
