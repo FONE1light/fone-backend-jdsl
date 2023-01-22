@@ -48,6 +48,7 @@ CREATE TABLE job_openings
     domains            varchar(200),
     user_id            bigint,
     view_count         bigint,
+    is_deleted         tinyint(1),
     primary key (id)
 );
 
@@ -76,6 +77,7 @@ CREATE TABLE works
     manager        varchar(50),
     email          varchar(20),
     job_opening_id bigint,
+    is_deleted     tinyint(1),
     primary key (id)
 );
 

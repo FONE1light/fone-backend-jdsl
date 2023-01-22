@@ -11,38 +11,56 @@ data class Work(
     var id: Long? = null,
 
     @Column
-    val produce: String,
+    var produce: String,
 
     @Column
-    val title: String,
+    var title: String,
 
     @Column
-    val director: String,
+    var director: String,
 
     @Column
-    val genre: String,
+    var genre: String,
 
     @Column
-    val logline: String,
+    var logline: String,
 
     @Column
-    val location: String,
+    var location: String,
 
     @Column
-    val period: String,
+    var period: String,
 
     @Column
-    val pay: String,
+    var pay: String,
 
     @Column
-    val details: String,
+    var details: String,
 
     @Column
-    val manager: String,
+    var manager: String,
 
     @Column
-    val email: String,
+    var email: String,
 
     @Column
-    val jobOpeningId: Long,
-)
+    var jobOpeningId: Long,
+
+    @Column
+    var isDeleted: Boolean = false
+) {
+    fun delete() {
+        produce = ""
+        title = ""
+        director =""
+        genre = ""
+        logline = ""
+        location = ""
+        period = ""
+        pay = ""
+        details = ""
+        manager = ""
+        email = ""
+        isDeleted = true
+    }
+}

@@ -52,6 +52,9 @@ data class JobOpening(
 
     @Column
     var viewCount: Long,
+
+    @Column
+    var isDeleted: Boolean = false
 ) {
     fun view() {
         viewCount += 1
@@ -69,5 +72,19 @@ data class JobOpening(
         career = request.career
         type = request.type
         domains = request.domains.joinToString(",")
+    }
+
+    fun delete() {
+        interests = ""
+        deadline = ""
+        casting = ""
+        numberOfRecruits = 0
+        gender = Gender.IRRELEVANT
+        ageMax = 0
+        ageMin = 0
+        career = Career.IRRELEVANT
+        type = Type.ACTOR
+        domains = ""
+        isDeleted = true
     }
 }
