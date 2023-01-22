@@ -4,4 +4,6 @@ import com.fone.filmone.domain.competition.entity.CompetitionPrize
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 
 interface CompetitionPrizeRepository : CoroutineCrudRepository<CompetitionPrize, Long> {
+
+    suspend fun findByCompetitionId(competitionId: Long): List<CompetitionPrize>
 }

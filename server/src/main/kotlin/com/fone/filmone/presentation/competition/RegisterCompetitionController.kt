@@ -14,7 +14,7 @@ import javax.validation.Valid
 
 @Api(tags = ["05. Competition Info"], description = "공모전 서비스")
 @RestController
-@RequestMapping("/api/v1/competition")
+@RequestMapping("/api/v1/competitions")
 class RegisterCompetitionController(
     private val registerCompetitionFacade: RegisterCompetitionFacade,
 ) {
