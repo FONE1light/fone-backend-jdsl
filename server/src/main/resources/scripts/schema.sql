@@ -100,7 +100,7 @@ CREATE TABLE profiles
     domains         varchar(200),
     user_id         bigint,
     view_count      bigint,
-    is_deleted     tinyint(1),
+    is_deleted      tinyint(1),
     primary key (id)
 );
 
@@ -119,5 +119,38 @@ CREATE TABLE profile_images
     id          bigint NOT NULL AUTO_INCREMENT,
     profile_id  bigint,
     profile_url varchar(300),
+    primary key (id)
+);
+
+DROP TABLE IF EXISTS competitions;
+CREATE TABLE competitions
+(
+    id         bigint NOT NULL AUTO_INCREMENT,
+    title      varchar(100),
+    image_url  varchar(300),
+    start_date varchar(10),
+    end_date   varchar(10),
+    agency     varchar(30),
+    details    varchar(600),
+    primary key (id)
+);
+
+DROP TABLE IF EXISTS competition_prizes;
+CREATE TABLE competition_prizes
+(
+    id             bigint NOT NULL AUTO_INCREMENT,
+    ranking        varchar(10),
+    prize_money    varchar(20),
+    agency         varchar(30),
+    competition_id bigint,
+    primary key (id)
+);
+
+DROP TABLE IF EXISTS user_competition_scraps;
+CREATE TABLE user_competition_scraps
+(
+    id             bigint NOT NULL AUTO_INCREMENT,
+    user_id        bigint,
+    competition_id bigint,
     primary key (id)
 );
