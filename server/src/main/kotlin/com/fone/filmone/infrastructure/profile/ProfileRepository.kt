@@ -9,4 +9,6 @@ interface ProfileRepository : CoroutineCrudRepository<Profile, Long> {
     fun findByType(pageable: Pageable, type: String): Flow<Profile>
 
     suspend fun findByType(type: String): Profile?
+
+    suspend fun findByUserId(userId: Long): ArrayList<Profile>
 }
