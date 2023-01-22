@@ -132,6 +132,7 @@ CREATE TABLE competitions
     end_date   varchar(10),
     agency     varchar(30),
     details    varchar(600),
+    user_id    bigint,
     primary key (id)
 );
 

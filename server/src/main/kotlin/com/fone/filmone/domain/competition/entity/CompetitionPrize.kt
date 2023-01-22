@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
 
-@Table("competition_prize")
+@Table("competition_prizes")
 data class CompetitionPrize (
 
     @Id

@@ -27,4 +27,7 @@ data class Competition (
 
     @Column
     var details: String,
+
+    @Column
+    var userId: Long,
 )
