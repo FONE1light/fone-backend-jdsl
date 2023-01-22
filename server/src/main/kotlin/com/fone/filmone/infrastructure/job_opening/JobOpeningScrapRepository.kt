@@ -6,4 +6,6 @@ import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 interface JobOpeningScrapRepository : CoroutineCrudRepository<JobOpeningScrap, Long> {
 
     suspend fun findByUserIdAndJobOpeningId(userId: Long, jobOpeningId: Long): JobOpeningScrap?
+
+    suspend fun findByUserId(userId: Long): List<JobOpeningScrap>
 }
