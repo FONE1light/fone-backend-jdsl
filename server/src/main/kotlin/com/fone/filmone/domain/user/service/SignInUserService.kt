@@ -20,7 +20,7 @@ class SignInUserService(
         with(request) {
             val user = userRepository.findByEmailAndSocialLoginType(
                 email,
-                socialLoginType.toString()
+                socialLoginType
             ) ?: throw NotFoundUserException()
 
             val token = jwtUtils.generateUserToken(
