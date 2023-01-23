@@ -1,6 +1,5 @@
 package com.fone.filmone.common.jwt
 
-import com.fone.filmone.common.exception.NotFoundUserException
 import com.fone.filmone.infrastructure.user.UserRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking

@@ -1,13 +1,14 @@
 package com.fone.filmone.domain.competition.entity
 
-import org.springframework.data.annotation.Id
-import org.springframework.data.relational.core.mapping.Column
-import org.springframework.data.relational.core.mapping.Table
+import javax.persistence.*
 
-@Table("competitions")
-data class Competition (
+@Entity
+@Table(name = "competitions")
+data class Competition(
 
     @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
 
     @Column

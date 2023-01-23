@@ -1,13 +1,14 @@
 package com.fone.filmone.domain.job_opening.entity
 
-import org.springframework.data.annotation.Id
-import org.springframework.data.relational.core.mapping.Column
-import org.springframework.data.relational.core.mapping.Table
+import javax.persistence.*
 
-@Table("user_job_opening_scraps")
+@Entity
+@Table(name = "user_job_opening_scraps")
 data class JobOpeningScrap (
 
     @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
 
     @Column

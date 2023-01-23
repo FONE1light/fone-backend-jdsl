@@ -1,10 +1,9 @@
 package com.fone.filmone.domain.report.entity
 
-import org.springframework.data.annotation.Id
-import org.springframework.data.relational.core.mapping.Column
-import org.springframework.data.relational.core.mapping.Table
+import javax.persistence.*
 
-@Table("reports")
+@Entity
+@Table(name = "reports")
 data class Report (
 
     @Id

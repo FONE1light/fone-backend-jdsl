@@ -1,13 +1,14 @@
 package com.fone.filmone.domain.job_opening.entity
 
-import org.springframework.data.annotation.Id
-import org.springframework.data.relational.core.mapping.Column
-import org.springframework.data.relational.core.mapping.Table
+import javax.persistence.*
 
-@Table("works")
+@Entity
+@Table(name = "works")
 data class Work(
 
     @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
 
     @Column
@@ -47,12 +48,12 @@ data class Work(
     var jobOpeningId: Long,
 
     @Column
-    var isDeleted: Boolean = false
+    var isDeleted: Boolean = false,
 ) {
     fun delete() {
         produce = ""
         title = ""
-        director =""
+        director = ""
         genre = ""
         logline = ""
         location = ""

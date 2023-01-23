@@ -1,11 +1,10 @@
 package com.fone.filmone.domain.question.entity
 
 import com.fone.filmone.domain.question.enum.Type
-import org.springframework.data.annotation.Id
-import org.springframework.data.relational.core.mapping.Column
-import org.springframework.data.relational.core.mapping.Table
+import javax.persistence.*
 
-@Table("questions")
+@Entity
+@Table(name = "questions")
 data class Question(
 
     @Id

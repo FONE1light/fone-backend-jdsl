@@ -4,11 +4,10 @@ import com.fone.filmone.domain.common.Career
 import com.fone.filmone.domain.common.Gender
 import com.fone.filmone.domain.common.Type
 import com.fone.filmone.presentation.profile.RegisterProfileDto
-import org.springframework.data.annotation.Id
-import org.springframework.data.relational.core.mapping.Column
-import org.springframework.data.relational.core.mapping.Table
+import javax.persistence.*
 
-@Table("profiles")
+@Entity
+@Table(name = "profiles")
 data class Profile (
 
     @Id

@@ -1,10 +1,9 @@
 package com.fone.filmone.domain.profile.entity
 
-import org.springframework.data.annotation.Id
-import org.springframework.data.relational.core.mapping.Column
-import org.springframework.data.relational.core.mapping.Table
+import javax.persistence.*
 
-@Table("profile_images")
+@Entity
+@Table(name = "profile_images")
 data class ProfileImage (
 
     @Id

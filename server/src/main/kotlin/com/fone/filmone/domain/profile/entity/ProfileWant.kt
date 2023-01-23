@@ -1,11 +1,10 @@
 package com.fone.filmone.domain.profile.entity
 
-import org.springframework.data.annotation.Id
-import org.springframework.data.relational.core.mapping.Column
-import org.springframework.data.relational.core.mapping.Table
+import javax.persistence.*
 
 
-@Table("user_profile_wants")
+@Entity
+@Table(name = "user_profile_wants")
 data class ProfileWant(
 
     @Id
