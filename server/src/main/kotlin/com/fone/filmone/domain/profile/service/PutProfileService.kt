@@ -3,9 +3,10 @@ package com.fone.filmone.domain.profile.service
 import com.fone.filmone.common.exception.InvalidProfileUserIdException
 import com.fone.filmone.common.exception.NotFoundProfileException
 import com.fone.filmone.common.exception.NotFoundUserException
-import com.fone.filmone.infrastructure.profile.ProfileRepository
-import com.fone.filmone.infrastructure.user.UserRepository
-import com.fone.filmone.presentation.profile.RegisterProfileDto.*
+import com.fone.filmone.domain.profile.repository.ProfileRepository
+import com.fone.filmone.domain.user.repository.UserRepository
+import com.fone.filmone.presentation.profile.RegisterProfileDto.RegisterProfileRequest
+import com.fone.filmone.presentation.profile.RegisterProfileDto.RegisterProfileResponse
 import org.springframework.stereotype.Service
 
 @Service

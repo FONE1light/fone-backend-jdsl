@@ -4,15 +4,17 @@ import com.fone.filmone.domain.common.Gender
 import com.fone.filmone.domain.user.enum.Job
 import com.fone.filmone.domain.user.enum.SocialLoginType
 import com.fone.filmone.presentation.user.ModifyUserDto.ModifyUserRequest
-import org.springframework.data.annotation.Id
-import org.springframework.data.relational.core.mapping.Column
-import org.springframework.data.relational.core.mapping.Table
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.Id
+import javax.persistence.Table
 
 
-@Table("users")
+@Entity
+@Table(name = "users")
 data class User(
 
     @Id

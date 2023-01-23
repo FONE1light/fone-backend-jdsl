@@ -4,14 +4,15 @@ import com.fone.filmone.domain.common.Career
 import com.fone.filmone.domain.common.Gender
 import com.fone.filmone.domain.common.Type
 import com.fone.filmone.presentation.job_opening.RegisterJobOpeningDto.RegisterJobOpeningRequest
-import org.springframework.data.annotation.Id
-import org.springframework.data.relational.core.mapping.Column
-import org.springframework.data.relational.core.mapping.Table
+import javax.persistence.*
 
-@Table("job_openings")
+@Entity
+@Table(name = "job_openings")
 data class JobOpening(
 
     @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
 
     @Column
@@ -54,7 +55,7 @@ data class JobOpening(
     var viewCount: Long,
 
     @Column
-    var isDeleted: Boolean = false
+    var isDeleted: Boolean = false,
 ) {
     fun view() {
         viewCount += 1

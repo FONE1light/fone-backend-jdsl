@@ -2,8 +2,8 @@ package com.fone.filmone.domain.competition.service
 
 import com.fone.filmone.common.exception.NotFoundUserException
 import com.fone.filmone.domain.competition.entity.CompetitionScrap
-import com.fone.filmone.infrastructure.competition.CompetitionScrapRepository
-import com.fone.filmone.infrastructure.user.UserRepository
+import com.fone.filmone.domain.competition.repository.CompetitionScrapRepository
+import com.fone.filmone.domain.user.repository.UserRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

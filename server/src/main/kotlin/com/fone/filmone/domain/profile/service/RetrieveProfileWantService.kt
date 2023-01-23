@@ -3,16 +3,12 @@ package com.fone.filmone.domain.profile.service
 import com.fone.filmone.common.exception.NotFoundUserException
 import com.fone.filmone.domain.common.Type
 import com.fone.filmone.domain.profile.entity.ProfileWant
-import com.fone.filmone.infrastructure.profile.ProfileRepository
-import com.fone.filmone.infrastructure.profile.ProfileWantRepository
-import com.fone.filmone.infrastructure.user.UserRepository
+import com.fone.filmone.domain.profile.repository.ProfileRepository
+import com.fone.filmone.domain.profile.repository.ProfileWantRepository
+import com.fone.filmone.domain.user.repository.UserRepository
 import com.fone.filmone.presentation.profile.RetrieveProfileWantDto.RetrieveProfileWantResponse
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import reactor.kotlin.core.publisher.toMono
 
 @Service
 class RetrieveProfileWantService(
@@ -34,7 +30,6 @@ class RetrieveProfileWantService(
 
         val profiles = profileRepository.findAllById(profileIds)
             .filter {
-                it.toMono().awaitSingle()
                 it.type == type
             }.toList() as ArrayList
 

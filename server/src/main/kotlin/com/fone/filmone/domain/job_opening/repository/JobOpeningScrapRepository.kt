@@ -1,11 +1,14 @@
-package com.fone.filmone.infrastructure.job_opening
+package com.fone.filmone.domain.job_opening.repository
 
 import com.fone.filmone.domain.job_opening.entity.JobOpeningScrap
-import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 
-interface JobOpeningScrapRepository : CoroutineCrudRepository<JobOpeningScrap, Long> {
+interface JobOpeningScrapRepository {
 
     suspend fun findByUserIdAndJobOpeningId(userId: Long, jobOpeningId: Long): JobOpeningScrap?
 
     suspend fun findByUserId(userId: Long): List<JobOpeningScrap>
+
+    suspend fun delete(it: JobOpeningScrap): Int
+
+    suspend fun save(jobOpeningScrap: JobOpeningScrap): JobOpeningScrap
 }

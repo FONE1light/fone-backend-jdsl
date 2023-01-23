@@ -2,7 +2,7 @@ package com.fone.filmone.domain.profile.service
 
 import com.fone.filmone.common.exception.NotFoundProfileException
 import com.fone.filmone.domain.common.Type
-import com.fone.filmone.infrastructure.profile.ProfileRepository
+import com.fone.filmone.domain.profile.repository.ProfileRepository
 import com.fone.filmone.presentation.profile.RetrieveProfilesDto.RetrieveProfileResponse
 import com.fone.filmone.presentation.profile.RetrieveProfilesDto.RetrieveProfilesResponse
 import kotlinx.coroutines.flow.map
@@ -20,9 +20,7 @@ class RetrieveProfilesService(
 
     @Transactional(readOnly = true)
     suspend fun retrieveProfiles(pageable: Pageable, type: Type): RetrieveProfilesResponse {
-        val profiles = profileRepository.findByType(pageable, type.toString())
-            .map { it.toMono().awaitSingle() }
-            .toList()
+        val profiles = profileRepository.findByType(pageable, type).toList()
 
         return RetrieveProfilesResponse(profiles, pageable)
     }
@@ -34,7 +32,7 @@ class RetrieveProfilesService(
         profileId: Long,
     ): RetrieveProfileResponse {
         val profile =
-            profileRepository.findByType(type.toString()) ?: throw NotFoundProfileException()
+            profileRepository.findByType(type) ?: throw NotFoundProfileException()
         profile.view()
         profileRepository.save(profile)
 

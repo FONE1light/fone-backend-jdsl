@@ -1,14 +1,15 @@
 package com.fone.filmone.domain.competition.entity
 
-import org.springframework.data.annotation.Id
-import org.springframework.data.relational.core.mapping.Column
-import org.springframework.data.relational.core.mapping.Table
+import javax.persistence.*
 
 
-@Table("user_competition_scraps")
+@Entity
+@Table(name = "user_competition_scraps")
 data class CompetitionScrap (
 
     @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
 
     @Column

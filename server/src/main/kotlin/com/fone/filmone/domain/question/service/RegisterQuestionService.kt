@@ -1,6 +1,6 @@
 package com.fone.filmone.domain.question.service
 
-import com.fone.filmone.infrastructure.question.QuestionRepository
+import com.fone.filmone.domain.question.repository.QuestionRepository
 import com.fone.filmone.presentation.question.RegisterQuestionDto.RegisterQuestionRequest
 import com.fone.filmone.presentation.question.RegisterQuestionDto.RegisterQuestionResponse
 import org.springframework.stereotype.Service
