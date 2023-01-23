@@ -25,6 +25,7 @@ class JobOpeningRepositoryImpl(
             select(entity(JobOpening::class))
             from(entity(JobOpening::class))
             where(col(JobOpening::type).equal(type))
+            limit(5)
         }
     }
 

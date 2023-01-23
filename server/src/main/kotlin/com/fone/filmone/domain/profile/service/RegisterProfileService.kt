@@ -7,10 +7,8 @@ import com.fone.filmone.domain.profile.repository.ProfileRepository
 import com.fone.filmone.domain.user.repository.UserRepository
 import com.fone.filmone.presentation.profile.RegisterProfileDto.RegisterProfileRequest
 import com.fone.filmone.presentation.profile.RegisterProfileDto.RegisterProfileResponse
-import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import reactor.kotlin.core.publisher.toMono
 
 @Service
 class RegisterProfileService(
@@ -37,7 +35,7 @@ class RegisterProfileService(
                 )
             }.toList()
 
-            profileImageRepository.saveAll(urls).collect{ it.toMono().awaitSingle() }
+            profileImageRepository.saveAll(urls)
 
             return RegisterProfileResponse(profile)
         }

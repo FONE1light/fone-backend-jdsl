@@ -20,9 +20,7 @@ class RetrieveProfilesService(
 
     @Transactional(readOnly = true)
     suspend fun retrieveProfiles(pageable: Pageable, type: Type): RetrieveProfilesResponse {
-        val profiles = profileRepository.findByType(pageable, type.toString())
-            .map { it.toMono().awaitSingle() }
-            .toList()
+        val profiles = profileRepository.findByType(pageable, type).toList()
 
         return RetrieveProfilesResponse(profiles, pageable)
     }
@@ -34,7 +32,7 @@ class RetrieveProfilesService(
         profileId: Long,
     ): RetrieveProfileResponse {
         val profile =
-            profileRepository.findByType(type.toString()) ?: throw NotFoundProfileException()
+            profileRepository.findByType(type) ?: throw NotFoundProfileException()
         profile.view()
         profileRepository.save(profile)
 
