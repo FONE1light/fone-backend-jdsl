@@ -1,8 +1,8 @@
 package com.fone.filmone.domain.competition.service
 
 import com.fone.filmone.common.exception.NotFoundCompetitionException
-import com.fone.filmone.infrastructure.competition.CompetitionPrizeRepository
-import com.fone.filmone.infrastructure.competition.CompetitionRepository
+import com.fone.filmone.domain.competition.repository.CompetitionPrizeRepository
+import com.fone.filmone.domain.competition.repository.CompetitionRepository
 import com.fone.filmone.presentation.competition.CompetitionDto
 import com.fone.filmone.presentation.competition.RetrieveCompetitionDto.RetrieveCompetitionResponse
 import com.fone.filmone.presentation.competition.RetrieveCompetitionDto.RetrieveCompetitionsResponse

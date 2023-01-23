@@ -1,3 +1,0 @@
-package com.fone.filmone.infrastructure.profile
-
-interface ProfileImageRepository

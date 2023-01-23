@@ -2,10 +2,10 @@ package com.fone.filmone.domain.competition.service
 
 import com.fone.filmone.common.exception.NotFoundUserException
 import com.fone.filmone.domain.competition.entity.CompetitionScrap
-import com.fone.filmone.infrastructure.competition.CompetitionPrizeRepository
-import com.fone.filmone.infrastructure.competition.CompetitionRepository
-import com.fone.filmone.infrastructure.competition.CompetitionScrapRepository
-import com.fone.filmone.infrastructure.user.UserRepository
+import com.fone.filmone.domain.competition.repository.CompetitionPrizeRepository
+import com.fone.filmone.domain.competition.repository.CompetitionRepository
+import com.fone.filmone.domain.competition.repository.CompetitionScrapRepository
+import com.fone.filmone.domain.user.repository.UserRepository
 import com.fone.filmone.presentation.competition.RetrieveCompetitionScrapDto.RetrieveCompetitionScrapResponse
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList

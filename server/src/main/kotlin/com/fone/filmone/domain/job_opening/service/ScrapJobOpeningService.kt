@@ -2,8 +2,8 @@ package com.fone.filmone.domain.job_opening.service
 
 import com.fone.filmone.common.exception.NotFoundUserException
 import com.fone.filmone.domain.job_opening.entity.JobOpeningScrap
-import com.fone.filmone.infrastructure.job_opening.JobOpeningScrapRepository
-import com.fone.filmone.infrastructure.user.UserRepository
+import com.fone.filmone.domain.job_opening.repository.JobOpeningScrapRepository
+import com.fone.filmone.domain.user.repository.UserRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

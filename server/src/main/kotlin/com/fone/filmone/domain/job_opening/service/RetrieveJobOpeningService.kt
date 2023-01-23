@@ -2,7 +2,7 @@ package com.fone.filmone.domain.job_opening.service
 
 import com.fone.filmone.common.exception.NotFoundJobOpeningException
 import com.fone.filmone.domain.common.Type
-import com.fone.filmone.infrastructure.job_opening.JobOpeningRepository
+import com.fone.filmone.domain.job_opening.repository.JobOpeningRepository
 import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningDto.RetrieveJobOpeningResponse
 import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningDto.RetrieveJobOpeningsResponse
 import kotlinx.coroutines.flow.map

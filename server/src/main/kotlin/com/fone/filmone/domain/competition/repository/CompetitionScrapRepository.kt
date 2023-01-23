@@ -1,4 +1,4 @@
-package com.fone.filmone.infrastructure.competition
+package com.fone.filmone.domain.competition.repository
 
 import com.fone.filmone.domain.competition.entity.CompetitionScrap
 

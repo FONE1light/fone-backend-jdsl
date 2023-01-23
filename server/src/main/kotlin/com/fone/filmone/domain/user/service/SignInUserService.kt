@@ -3,9 +3,7 @@ package com.fone.filmone.domain.user.service
 import com.fone.filmone.common.exception.NotFoundUserException
 import com.fone.filmone.common.jwt.JWTUtils
 import com.fone.filmone.domain.user.enum.Role
-import com.fone.filmone.infrastructure.user.UserRepository
-import com.fone.filmone.presentation.user.CheckNicknameDuplicateDto.CheckNicknameDuplicateRequest
-import com.fone.filmone.presentation.user.CheckNicknameDuplicateDto.CheckNicknameDuplicateResponse
+import com.fone.filmone.domain.user.repository.UserRepository
 import com.fone.filmone.presentation.user.SignInUserDto.SignInUserRequest
 import com.fone.filmone.presentation.user.SignInUserDto.SignInUserResponse
 import org.springframework.stereotype.Service

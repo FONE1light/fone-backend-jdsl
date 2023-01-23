@@ -1,6 +1,6 @@
 package com.fone.filmone.common.jwt
 
-import com.fone.filmone.infrastructure.user.UserRepository
+import com.fone.filmone.domain.user.repository.UserRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import org.springframework.security.authentication.ReactiveAuthenticationManager

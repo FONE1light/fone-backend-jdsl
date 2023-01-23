@@ -1,4 +1,4 @@
-package com.fone.filmone.infrastructure.profile
+package com.fone.filmone.domain.profile.repository
 
 import com.fone.filmone.domain.profile.entity.ProfileWant
 

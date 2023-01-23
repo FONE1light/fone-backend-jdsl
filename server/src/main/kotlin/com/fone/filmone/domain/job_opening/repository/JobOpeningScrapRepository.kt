@@ -1,4 +1,4 @@
-package com.fone.filmone.infrastructure.job_opening
+package com.fone.filmone.domain.job_opening.repository
 
 import com.fone.filmone.domain.job_opening.entity.JobOpeningScrap
 

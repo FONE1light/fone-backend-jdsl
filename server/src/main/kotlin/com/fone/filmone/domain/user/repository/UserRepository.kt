@@ -1,4 +1,4 @@
-package com.fone.filmone.infrastructure.user
+package com.fone.filmone.domain.user.repository
 
 import com.fone.filmone.domain.user.entity.User
 
