@@ -156,3 +156,16 @@ CREATE TABLE user_competition_scraps
     competition_id bigint,
     primary key (id)
 );
+
+DROP TABLE IF EXISTS reports;
+CREATE TABLE reports
+(
+    id             bigint NOT NULL AUTO_INCREMENT,
+    report_user_id bigint,
+    type           varchar(10),
+    type_id        bigint,
+    inconvenients  varchar(500),
+    details        varchar(500),
+    user_id        bigint,
+    primary key (id)
+)

@@ -19,7 +19,7 @@ class RetrieveCompetitionScrapController(
 
     @GetMapping("/scraps")
     @PreAuthorize("hasRole('USER')")
-    suspend fun retrieceCompetitionScraps(
+    suspend fun retrieveCompetitionScraps(
         principal: Principal,
     ): CommonResponse<RetrieveCompetitionScrapResponse> {
         val response = retrieveCompetitionScrapFacade.retrieveCompetitionScraps(principal.name)
