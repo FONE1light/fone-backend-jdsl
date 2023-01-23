@@ -9,9 +9,15 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.hibernate.validator:hibernate-validator:6.1.2.Final")
 
-    // r2dbc
-    implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
-    implementation("dev.miku:r2dbc-mysql:0.8.2.RELEASE")
+    // kotlin-jdsl
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    val jdslVersion = "2.1.0.RELEASE"
+    implementation("com.linecorp.kotlin-jdsl:spring-data-kotlin-jdsl-starter:$jdslVersion")
+
+    // h2 db reactive
+    implementation("io.agroal:agroal-pool:2.0")
+    implementation("mysql:mysql-connector-java")
+    implementation("io.vertx:vertx-jdbc-client:4.3.7")
 
     // lombok
     implementation("org.projectlombok:lombok")
