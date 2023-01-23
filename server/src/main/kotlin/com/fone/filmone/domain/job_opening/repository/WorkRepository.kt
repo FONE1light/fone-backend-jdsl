@@ -4,5 +4,6 @@ import com.fone.filmone.domain.job_opening.entity.Work
 
 interface WorkRepository {
 
-    suspend fun findByJobOpeningId(jobOpening: Long): Work?
+    suspend fun findByJobOpeningId(jobOpeningId: Long): Work?
+    suspend fun save(work: Work): Work
 }

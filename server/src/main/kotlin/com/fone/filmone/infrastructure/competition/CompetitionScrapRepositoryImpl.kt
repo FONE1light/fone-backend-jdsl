@@ -6,7 +6,7 @@ import com.linecorp.kotlinjdsl.querydsl.expression.col
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.SpringDataHibernateMutinyReactiveQueryFactory
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.deleteQuery
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.listQuery
-import com.linecorp.kotlinjdsl.spring.data.reactive.query.singleQuery
+import com.linecorp.kotlinjdsl.spring.data.reactive.query.singleQueryOrNull
 import io.smallrye.mutiny.coroutines.awaitSuspending
 import org.hibernate.reactive.mutiny.Mutiny
 import org.springframework.stereotype.Repository
@@ -21,7 +21,7 @@ class CompetitionScrapRepositoryImpl(
         userId: Long,
         competitionId: Long,
     ): CompetitionScrap? {
-        return queryFactory.singleQuery {
+        return queryFactory.singleQueryOrNull {
             select(entity(CompetitionScrap::class))
             from(entity(CompetitionScrap::class))
             where(

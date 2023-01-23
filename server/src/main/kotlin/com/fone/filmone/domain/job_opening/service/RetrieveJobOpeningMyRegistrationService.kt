@@ -19,7 +19,7 @@ class RetrieveJobOpeningMyRegistrationService(
             RetrieveJobOpeningMyRegistrationResponse {
         val user = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 
-        val jobOpenings = jobOpeningRepository.findByUserId(user.id!!)
+        val jobOpenings = jobOpeningRepository.findByUserId(user.id!!) as ArrayList
 
         return RetrieveJobOpeningMyRegistrationResponse(jobOpenings)
     }

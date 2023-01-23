@@ -7,12 +7,8 @@ import com.fone.filmone.domain.job_opening.repository.JobOpeningRepository
 import com.fone.filmone.domain.job_opening.repository.JobOpeningScrapRepository
 import com.fone.filmone.domain.user.repository.UserRepository
 import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningScrapDto.RetrieveJobOpeningScrapResponse
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import reactor.kotlin.core.publisher.toMono
 
 @Service
 class RetrieveJobOpeningScrapService(
@@ -34,7 +30,6 @@ class RetrieveJobOpeningScrapService(
 
         val jobOpenings = jobOpeningRepository.findAllById(jobOpeningIds)
             .filter {
-                it.toMono().awaitSingle()
                 it.type == type
             }.toList() as ArrayList
 
