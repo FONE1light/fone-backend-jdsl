@@ -1,7 +1,5 @@
 package com.fone.filmone.domain.report.enum
 
-import com.fone.filmone.domain.user.enum.Job
-
 enum class Type {
     JOB_OPENING,
     PROFILE,

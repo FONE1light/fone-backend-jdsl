@@ -35,7 +35,7 @@ class GlobalErrorWebExceptionHandler(
 
     private fun renderErrorResponse(request: ServerRequest): Mono<ServerResponse?> {
         val errorPropertiesMap = getErrorAttributes(request, ErrorAttributeOptions.defaults())
-        return ServerResponse.status(HttpStatus.UNAUTHORIZED)
+        return ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
             .contentType(MediaType.APPLICATION_JSON)
             .body(BodyInserters.fromValue(errorPropertiesMap))
     }

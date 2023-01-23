@@ -21,6 +21,12 @@ class GlobalErrorAttributes : DefaultErrorAttributes() {
             map["message"] = ex.reason
             map["errorCode"] = ex.status.reasonPhrase
             return map
+        } else {
+            map["result"] = "FAIL"
+            map["data"] = null
+            map["message"] = throwable.toString()
+            map["errorCode"] = null
+            return map
         }
         return map
     }
