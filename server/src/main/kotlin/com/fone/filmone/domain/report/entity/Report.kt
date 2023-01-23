@@ -1,4 +1,4 @@
-package com.fone.filmone.domain.report
+package com.fone.filmone.domain.report.entity
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
