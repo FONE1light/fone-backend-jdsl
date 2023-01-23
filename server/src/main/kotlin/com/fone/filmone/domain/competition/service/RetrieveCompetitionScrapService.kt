@@ -7,12 +7,8 @@ import com.fone.filmone.domain.competition.repository.CompetitionRepository
 import com.fone.filmone.domain.competition.repository.CompetitionScrapRepository
 import com.fone.filmone.domain.user.repository.UserRepository
 import com.fone.filmone.presentation.competition.RetrieveCompetitionScrapDto.RetrieveCompetitionScrapResponse
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import reactor.kotlin.core.publisher.toMono
 
 @Service
 class RetrieveCompetitionScrapService(
@@ -32,10 +28,7 @@ class RetrieveCompetitionScrapService(
             .map(CompetitionScrap::competitionId)
             .toList()
 
-        val competitions = competitionRepository.findAllById(competitionIds)
-            .map {
-                it.toMono().awaitSingle()
-            }.toList() as ArrayList
+        val competitions = competitionRepository.findAllById(competitionIds) as ArrayList
 
         val prizes = competitions
             .map {
