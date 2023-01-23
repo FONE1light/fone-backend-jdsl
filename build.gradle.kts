@@ -12,7 +12,7 @@ plugins {
 	id("com.google.protobuf") version "0.8.15"
 }
 
-java.sourceCompatibility = JavaVersion.VERSION_11
+java.sourceCompatibility = JavaVersion.VERSION_17
 
 allprojects {
 	group = "com.fone.filmone"
@@ -46,7 +46,7 @@ subprojects {
 	tasks.withType<KotlinCompile> {
 		kotlinOptions {
 			freeCompilerArgs = listOf("-Xjsr305=strict")
-			jvmTarget = "11"
+			jvmTarget = "17"
 		}
 	}
 
