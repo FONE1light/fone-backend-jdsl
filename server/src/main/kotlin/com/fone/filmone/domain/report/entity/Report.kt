@@ -7,6 +7,8 @@ import javax.persistence.*
 data class Report (
 
     @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
 
     @Column

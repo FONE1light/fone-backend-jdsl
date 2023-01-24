@@ -8,6 +8,8 @@ import javax.persistence.*
 data class Question(
 
     @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
 
     @Column

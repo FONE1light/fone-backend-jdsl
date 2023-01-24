@@ -11,7 +11,7 @@ dependencies {
 
     // kotlin-jdsl
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    val jdslVersion = "2.1.0.RELEASE"
+    val jdslVersion = "2.0.4.RELEASE"
     implementation("com.linecorp.kotlin-jdsl:spring-data-kotlin-jdsl-starter:$jdslVersion")
 
     // mysql db reactive
@@ -19,10 +19,16 @@ dependencies {
     implementation("mysql:mysql-connector-java")
     implementation("io.vertx:vertx-mysql-client:4.3.1")
 
+    val coroutineVersion = "1.6.3"
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:$coroutineVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactive:$coroutineVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:$coroutineVersion")
+
     // reactive
     implementation("com.linecorp.kotlin-jdsl:spring-data-kotlin-jdsl-hibernate-reactive:$jdslVersion")
     implementation("org.hibernate.reactive:hibernate-reactive-core:1.1.9.Final")
-    implementation("io.smallrye.reactive:mutiny-kotlin:2.0.0")
+    implementation("io.smallrye.reactive:mutiny-kotlin:1.6.0")
 
     // lombok
     implementation("org.projectlombok:lombok")
@@ -38,7 +44,6 @@ dependencies {
     implementation("com.linecorp.armeria:armeria-spring-boot2-webflux-starter")
 
     // log
-    implementation("io.github.microutils:kotlin-logging:1.12.5")
     implementation("ch.qos.logback:logback-classic:1.2.3")
 
     // JWT 인증
@@ -49,7 +54,7 @@ dependencies {
     implementation(project(":idl"))
 
     // Kotlin 로깅
-    implementation("io.github.microutils:kotlin-logging:1.12.5")
+    implementation("io.github.microutils:kotlin-logging:2.1.21")
 
     // Kotlin
     implementation("org.jetbrains.kotlin:kotlin-reflect")
