@@ -5,14 +5,13 @@ plugins {
 	id("io.spring.dependency-management") version "1.0.15.RELEASE"
 	kotlin("jvm") version "1.7.0"
 	kotlin("plugin.spring") version "1.7.0"
-	kotlin("plugin.jpa") version "1.7.0"
 
 	kotlin("kapt") version "1.6.21"
 
 	id("com.google.protobuf") version "0.8.15"
 }
 
-java.sourceCompatibility = JavaVersion.VERSION_11
+java.sourceCompatibility = JavaVersion.VERSION_17
 
 allprojects {
 	group = "com.fone.filmone"
@@ -46,7 +45,7 @@ subprojects {
 	tasks.withType<KotlinCompile> {
 		kotlinOptions {
 			freeCompilerArgs = listOf("-Xjsr305=strict")
-			jvmTarget = "11"
+			jvmTarget = "17"
 		}
 	}
 

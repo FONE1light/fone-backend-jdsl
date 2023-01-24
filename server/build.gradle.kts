@@ -1,3 +1,7 @@
+plugins {
+    kotlin("plugin.jpa") version "1.7.0"
+}
+
 dependencies {
     // persistence
     implementation("javax.persistence:javax.persistence-api")
@@ -17,7 +21,7 @@ dependencies {
     // mysql db reactive
     implementation("io.agroal:agroal-pool:2.0")
     implementation("mysql:mysql-connector-java")
-    implementation("io.vertx:vertx-mysql-client:4.3.1")
+    implementation("io.vertx:vertx-mysql-client:4.3.7")
 
     val coroutineVersion = "1.6.3"
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:$coroutineVersion")

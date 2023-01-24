@@ -32,7 +32,6 @@ class ReactiveQueryConfiguration {
             .apply {
                 putAll(jpaPropertyMap)
                 setProperty(Settings.SQL_CLIENT_POOL, MysqlConnectionPool::class.qualifiedName)
-//                setProperty(Settings.SQL_CLIENT_POOL_CONFIG, VertxMySqlonnectionPoolConfiguration::class.qualifiedName)
                 setProperty(
                     Settings.URL,
                     persistenceUnitInfo.nonJtaDataSource.unwrap(HikariDataSource::class.java).jdbcUrl
