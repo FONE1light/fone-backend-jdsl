@@ -7,6 +7,8 @@ import javax.persistence.*
 data class ProfileImage (
 
     @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
 
     @Column

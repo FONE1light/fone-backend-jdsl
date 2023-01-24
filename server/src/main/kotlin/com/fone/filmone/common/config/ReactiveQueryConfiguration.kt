@@ -21,17 +21,11 @@ class ReactiveQueryConfiguration {
             localSessionFactoryBean.jpaPropertyMap
         )
         return ReactivePersistenceProvider()
-            .createContainerEntityManagerFactory(
-                reactivePersistenceInfo,
-                reactivePersistenceInfo.properties
-            )
+            .createContainerEntityManagerFactory(reactivePersistenceInfo, reactivePersistenceInfo.properties)
             .unwrap(Mutiny.SessionFactory::class.java)
     }
 
-    class ReactivePersistenceInfo(
-        persistenceUnitInfo: PersistenceUnitInfo,
-        jpaPropertyMap: Map<String, Any>,
-    ) :
+    class ReactivePersistenceInfo(persistenceUnitInfo: PersistenceUnitInfo, jpaPropertyMap: Map<String, Any>) :
         PersistenceUnitInfo by persistenceUnitInfo {
 
         private val internalProps = Properties(persistenceUnitInfo.properties)
@@ -55,14 +49,13 @@ class ReactiveQueryConfiguration {
 
         override fun getProperties(): Properties = internalProps
 
-        override fun getPersistenceProviderClassName(): String =
-            ReactivePersistenceProvider::class.qualifiedName!!
+        override fun getPersistenceProviderClassName(): String = ReactivePersistenceProvider::class.qualifiedName!!
     }
 
     @Bean
     fun queryFactory(
         sessionFactory: Mutiny.SessionFactory,
-        subqueryCreator: SubqueryCreator,
+        subqueryCreator: SubqueryCreator
     ): SpringDataHibernateMutinyReactiveQueryFactory {
         return SpringDataHibernateMutinyReactiveQueryFactory(
             sessionFactory = sessionFactory,

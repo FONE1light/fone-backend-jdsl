@@ -63,9 +63,15 @@ class UserRepositoryImpl(
 
     override suspend fun save(newUser: User): User {
         return newUser.also {
-            sessionFactory.withSession { session ->
-                session.persist(it).flatMap { session.flush() }
-            }.awaitSuspending()
+            queryFactory.withFactory { session, factory ->
+                if (newUser.id == null) {
+                    session.persist(it)
+                } else {
+                    session.merge(it)
+                }
+                    .flatMap { session.flush() }
+                    .awaitSuspending()
+            }
         }
     }
 }

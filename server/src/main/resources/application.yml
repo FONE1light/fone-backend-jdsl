@@ -10,7 +10,6 @@ spring:
     hikari:
       pool-name: test_pool
   jpa:
-    database: mysql
     hibernate:
       ddl-auto: create-drop
       use-new-id-generator-mappings: true
