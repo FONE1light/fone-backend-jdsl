@@ -5,6 +5,7 @@ import com.fone.filmone.common.response.CommonResponse
 import com.fone.filmone.domain.common.Type
 import com.fone.filmone.presentation.profile.RetrieveProfileWantDto.RetrieveProfileWantResponse
 import io.swagger.annotations.Api
+import org.springframework.data.domain.Pageable
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -23,10 +24,11 @@ class RetrieveProfileWantController(
     @GetMapping("/wants")
     @PreAuthorize("hasRole('USER')")
     suspend fun retrieveProfileWant(
+        pageable: Pageable,
         principal: Principal,
         @RequestParam type: Type,
     ): CommonResponse<RetrieveProfileWantResponse> {
-        val response = retrieveProfileWantFacade.retrieveProfileWant(principal.name, type)
+        val response = retrieveProfileWantFacade.retrieveProfileWant(pageable, principal.name, type)
 
         return CommonResponse.success(response)
     }

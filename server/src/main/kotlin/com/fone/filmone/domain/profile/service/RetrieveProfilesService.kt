@@ -31,8 +31,8 @@ class RetrieveProfilesService(
         type: Type,
         profileId: Long,
     ): RetrieveProfileResponse {
-        val profile =
-            profileRepository.findByType(type) ?: throw NotFoundProfileException()
+        val profile = profileRepository.findByType(type)
+            ?: throw NotFoundProfileException()
         profile.view()
         profileRepository.save(profile)
 

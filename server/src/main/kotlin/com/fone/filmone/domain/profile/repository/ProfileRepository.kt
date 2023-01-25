@@ -10,9 +10,9 @@ interface ProfileRepository {
 
     suspend fun findByType(type: Type): Profile?
 
-    suspend fun findByUserId(userId: Long): List<Profile>
+    suspend fun findByUserId(pageable: Pageable, userId: Long): Slice<Profile>
     suspend fun findById(profileId: Long): Profile?
     suspend fun save(profile: Profile): Profile
 
-    suspend fun findAllById(profileIds: List<Long>): List<Profile>
+    suspend fun findAllById(pageable: Pageable, userId: Long, type: Type): Slice<Profile>
 }
