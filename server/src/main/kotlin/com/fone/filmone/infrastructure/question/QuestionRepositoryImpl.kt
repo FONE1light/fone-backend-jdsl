@@ -11,13 +11,19 @@ import org.springframework.stereotype.Repository
 class QuestionRepositoryImpl(
     private val sessionFactory: Mutiny.SessionFactory,
     private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
-): QuestionRepository {
+) : QuestionRepository {
 
     override suspend fun save(question: Question): Question {
         return question.also {
-            sessionFactory.withSession { session ->
-                session.persist(it).flatMap { session.flush() }
-            }.awaitSuspending()
+            queryFactory.withFactory { session, factory ->
+                if (it.id == null) {
+                    session.persist(it)
+                } else {
+                    session.merge(it)
+                }
+                    .flatMap { session.flush() }
+                    .awaitSuspending()
+            }
         }
     }
 }
