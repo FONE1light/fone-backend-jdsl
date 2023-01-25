@@ -1,15 +1,22 @@
 package com.fone.filmone.presentation.job_opening
 
 import com.fone.filmone.domain.job_opening.entity.JobOpening
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Slice
 
 class RetrieveJobOpeningScrapDto {
 
     data class RetrieveJobOpeningScrapResponse(
-        val jobOpenings: List<JobOpeningDto>,
+        val jobOpenings: Slice<JobOpeningDto>,
     ) {
 
-        constructor(jobOpeningList: ArrayList<JobOpening>) : this(
-            jobOpenings = jobOpeningList.map { JobOpeningDto(it) }.toList()
+        constructor(jobOpeningList: List<JobOpening>, pageable: Pageable) : this(
+            jobOpenings = PageImpl(
+                jobOpeningList.map { JobOpeningDto(it) }.toList(),
+                pageable,
+                jobOpeningList.size.toLong(),
+            )
         )
     }
 }

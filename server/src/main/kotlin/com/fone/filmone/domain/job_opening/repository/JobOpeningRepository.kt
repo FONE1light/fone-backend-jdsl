@@ -6,16 +6,19 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 
 interface JobOpeningRepository {
-    suspend fun findTop5ByType(type: Type): List<JobOpening>
+    suspend fun findAllTop5ByType(type: Type): List<JobOpening>
 
     suspend fun findByType(pageable: Pageable, type: Type): Slice<JobOpening>
 
-    suspend fun findByType(type: Type): JobOpening?
+    suspend fun findByTypeAndId(type: Type?, jobOpeningId: Long?): JobOpening?
 
-    suspend fun findByUserId(userId: Long): List<JobOpening>
-    suspend fun findById(jobOpeningId: Long): JobOpening?
+    suspend fun findAllByUserId(pageable: Pageable, userId: Long): Slice<JobOpening>
+
+    suspend fun findScrapAllByUserId(
+        pageable: Pageable,
+        userId: Long,
+        type: Type,
+    ): Slice<JobOpening>
 
     suspend fun save(jobOpening: JobOpening): JobOpening
-
-    suspend fun findAllById(jobOpeningIds: List<Long>): List<JobOpening>
 }

@@ -4,6 +4,7 @@ import com.fone.filmone.application.job_opening.RetrieveJobOpeningMyRegistration
 import com.fone.filmone.common.response.CommonResponse
 import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningMyRegistrationDto.RetrieveJobOpeningMyRegistrationResponse
 import io.swagger.annotations.Api
+import org.springframework.data.domain.Pageable
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -21,10 +22,11 @@ class RetrieveJobOpeningMyRegistrationController(
     @GetMapping("/my-registrations")
     @PreAuthorize("hasRole('USER')")
     suspend fun retrieveJobOpeningMyRegistrations(
+        pageable: Pageable,
         principal: Principal,
     ): CommonResponse<RetrieveJobOpeningMyRegistrationResponse> {
-        val response =
-            retrieveJobOpeningMyRegistrationFacade.retrieveJobOpeningMyRegistrations(principal.name)
+        val response = retrieveJobOpeningMyRegistrationFacade
+            .retrieveJobOpeningMyRegistrations(pageable, principal.name)
 
         return CommonResponse.success(response)
     }

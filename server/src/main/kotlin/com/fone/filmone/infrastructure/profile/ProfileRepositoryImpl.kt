@@ -23,7 +23,7 @@ class ProfileRepositoryImpl(
     private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
 ) : ProfileRepository {
 
-    override suspend fun findByType(pageable: Pageable, type: Type): Slice<Profile> {
+    override suspend fun findAllByType(pageable: Pageable, type: Type): Slice<Profile> {
         return queryFactory.pageQuery(pageable) {
             select(entity(Profile::class))
             from(entity(Profile::class))
@@ -35,19 +35,20 @@ class ProfileRepositoryImpl(
         }
     }
 
-    override suspend fun findByType(type: Type): Profile? {
+    override suspend fun findByTypeAndId(type: Type?, profileId: Long?): Profile? {
         return queryFactory.singleQueryOrNull {
             select(entity(Profile::class))
             from(entity(Profile::class))
             where(
                 and(
-                    typeEq(type)
+                    typeEq(type),
+                    idEq(profileId)
                 )
             )
         }
     }
 
-    override suspend fun findByUserId(pageable: Pageable, userId: Long): Slice<Profile> {
+    override suspend fun findAllByUserId(pageable: Pageable, userId: Long): Slice<Profile> {
         return queryFactory.pageQuery(pageable) {
             select(entity(Profile::class))
             from(entity(Profile::class))
@@ -59,19 +60,7 @@ class ProfileRepositoryImpl(
         }
     }
 
-    override suspend fun findById(profileId: Long): Profile? {
-        return queryFactory.singleQueryOrNull {
-            select(entity(Profile::class))
-            from(entity(Profile::class))
-            where(
-                and(
-                    idEq(profileId)
-                )
-            )
-        }
-    }
-
-    override suspend fun findAllById(
+    override suspend fun findWantAllByUserId(
         pageable: Pageable,
         userId: Long,
         type: Type

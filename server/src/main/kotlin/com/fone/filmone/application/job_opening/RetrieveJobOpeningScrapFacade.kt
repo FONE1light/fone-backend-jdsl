@@ -2,6 +2,7 @@ package com.fone.filmone.application.job_opening
 
 import com.fone.filmone.domain.common.Type
 import com.fone.filmone.domain.job_opening.service.RetrieveJobOpeningScrapService
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
@@ -10,6 +11,6 @@ class RetrieveJobOpeningScrapFacade(
 ) {
 
 
-    suspend fun retrieveJobOpeningScrap(email: String, type: Type) =
-        retrieveJobOpeningScrapService.retrieveJobOpeningScrap(email, type)
+    suspend fun retrieveJobOpeningScrap(pageable: Pageable, email: String, type: Type) =
+        retrieveJobOpeningScrapService.retrieveJobOpeningScrap(pageable, email, type)
 }

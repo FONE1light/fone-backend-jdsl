@@ -25,7 +25,7 @@ class RetrieveProfileWantService(
     ): RetrieveProfileWantResponse {
         val user = userRepository.findByNicknameOrEmail(null, email)
             ?: throw NotFoundUserException()
-        val profiles = profileRepository.findAllById(pageable, user.id!!, type)
+        val profiles = profileRepository.findWantAllByUserId(pageable, user.id!!, type)
 
         return RetrieveProfileWantResponse(profiles.content, pageable)
     }
