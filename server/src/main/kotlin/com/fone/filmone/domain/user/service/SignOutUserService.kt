@@ -12,7 +12,8 @@ class SignOutUserService(
 
     @Transactional
     suspend fun signOutUser(email: String) {
-        val user = userRepository.findByEmail(email) ?: throw NotFoundUserException()
+        val user = userRepository.findByNicknameOrEmail(null, email)
+            ?: throw NotFoundUserException()
 
         user.signOutUser()
 

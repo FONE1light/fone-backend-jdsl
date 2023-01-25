@@ -21,7 +21,8 @@ class RegisterCompetitionService(
         request: RegisterCompetitionRequest,
         email: String,
     ): RegisterCompetitionResponse {
-        val user = userRepository.findByEmail(email) ?: throw NotFoundUserException()
+        val user = userRepository.findByNicknameOrEmail(null, email)
+            ?: throw NotFoundUserException()
 
         with(request) {
             val competition = toEntity(user.id!!)

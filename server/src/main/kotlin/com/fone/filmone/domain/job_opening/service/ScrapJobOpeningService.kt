@@ -15,7 +15,8 @@ class ScrapJobOpeningService(
 
     @Transactional
     suspend fun scrapJobOpening(email: String, jobOpeningId: Long) {
-        val user = userRepository.findByEmail(email) ?: throw NotFoundUserException()
+        val user = userRepository.findByNicknameOrEmail(null, email)
+            ?: throw NotFoundUserException()
 
         jobOpeningScrapRepository.findByUserIdAndJobOpeningId(user.id!!, jobOpeningId)
             ?.let {

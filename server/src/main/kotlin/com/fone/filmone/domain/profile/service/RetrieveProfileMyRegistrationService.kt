@@ -16,7 +16,8 @@ class RetrieveProfileMyRegistrationService(
     @Transactional(readOnly = true)
     suspend fun retrieveProfileMyRegistration(email: String):
             RetrieveProfileMyRegistrationResponse {
-        val user = userRepository.findByEmail(email) ?: throw NotFoundUserException()
+        val user = userRepository.findByNicknameOrEmail(null, email)
+            ?: throw NotFoundUserException()
         val profiles = profileRepository.findByUserId(user.id!!) as ArrayList
 
         return RetrieveProfileMyRegistrationResponse(profiles)

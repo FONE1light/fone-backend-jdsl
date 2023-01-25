@@ -16,7 +16,8 @@ class RetrieveMySimilarJobOpeningService(
 
     @Transactional(readOnly = true)
     suspend fun retrieveMySimilarJobOpening(email: String): RetrieveMySimilarJobOpeningResponse {
-        val user = userRepository.findByEmail(email) ?: throw NotFoundUserException()
+        val user = userRepository.findByNicknameOrEmail(null, email)
+            ?: throw NotFoundUserException()
         val jobType = if (user.job.toString() == "ACTOR") "ACTOR" else "STAFF"
         val jobOpenings = jobOpeningRepository.findTop5ByType(Type(jobType)) as ArrayList
 

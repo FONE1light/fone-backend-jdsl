@@ -3,7 +3,8 @@ package com.fone.filmone.domain.report.service
 import com.fone.filmone.common.exception.NotFoundUserException
 import com.fone.filmone.domain.report.repository.ReportRepository
 import com.fone.filmone.domain.user.repository.UserRepository
-import com.fone.filmone.presentation.report.RegisterReportDto.*
+import com.fone.filmone.presentation.report.RegisterReportDto.RegisterReportRequest
+import com.fone.filmone.presentation.report.RegisterReportDto.RegisterReportResponse
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -18,7 +19,8 @@ class RegisterReportService(
         request: RegisterReportRequest,
         email: String,
     ): RegisterReportResponse {
-        val user = userRepository.findByEmail(email) ?: throw NotFoundUserException()
+        val user = userRepository.findByNicknameOrEmail(null, email)
+            ?: throw NotFoundUserException()
 
         with(request) {
             val report = toEntity(user.id!!)

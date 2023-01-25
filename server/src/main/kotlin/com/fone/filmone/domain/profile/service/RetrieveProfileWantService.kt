@@ -22,7 +22,8 @@ class RetrieveProfileWantService(
         email: String,
         type: Type,
     ): RetrieveProfileWantResponse {
-        val user = userRepository.findByEmail(email) ?: throw NotFoundUserException()
+        val user = userRepository.findByNicknameOrEmail(null, email)
+            ?: throw NotFoundUserException()
         val profileWants = profileWantRepository.findByUserId(user.id!!)
         val profileIds = profileWants
             .map(ProfileWant::profileId)

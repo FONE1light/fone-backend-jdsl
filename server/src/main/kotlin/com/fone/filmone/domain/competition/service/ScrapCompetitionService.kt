@@ -15,7 +15,8 @@ class ScrapCompetitionService(
 
     @Transactional
     suspend fun scrapCompetition(email: String, competitionId: Long) {
-        val user = userRepository.findByEmail(email) ?: throw NotFoundUserException()
+        val user = userRepository.findByNicknameOrEmail(null, email)
+            ?: throw NotFoundUserException()
 
         competitionScrapRepository.findByUserIdAndCompetitionId(user.id!!, competitionId)
             ?.let {

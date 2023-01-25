@@ -3,9 +3,11 @@ package com.fone.filmone.infrastructure.user
 import com.fone.filmone.domain.user.entity.User
 import com.fone.filmone.domain.user.enum.SocialLoginType
 import com.fone.filmone.domain.user.repository.UserRepository
+import com.linecorp.kotlinjdsl.query.spec.predicate.EqualValueSpec
 import com.linecorp.kotlinjdsl.querydsl.expression.col
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.SpringDataHibernateMutinyReactiveQueryFactory
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.singleQueryOrNull
+import com.linecorp.kotlinjdsl.spring.reactive.querydsl.SpringDataReactiveCriteriaQueryDsl
 import io.smallrye.mutiny.coroutines.awaitSuspending
 import org.hibernate.reactive.mutiny.Mutiny
 import org.springframework.stereotype.Repository
@@ -25,39 +27,23 @@ class UserRepositoryImpl(
             from(entity(User::class))
             where(
                 and(
-                    col(User::email).equal(email),
-                    col(User::socialLoginType).equal(socialLoginType),
+                    emailEq(email),
+                    socialLoginTypeEq(socialLoginType),
                 )
             )
         }
     }
 
-    override suspend fun findByNickname(nickname: String): User? {
-        return queryFactory.singleQueryOrNull {
-            select(entity(User::class))
-            from(entity(User::class))
-            where(col(User::nickname).equal(nickname))
-        }
-    }
-
-    override suspend fun findByNicknameOrEmail(nickname: String, email: String): User? {
+    override suspend fun findByNicknameOrEmail(nickname: String?, email: String?): User? {
         return queryFactory.singleQueryOrNull {
             select(entity(User::class))
             from(entity(User::class))
             where(
-                and(
-                    col(User::email).equal(email),
-                    col(User::nickname).equal(nickname),
+                or(
+                    emailEq(email),
+                    nicknameEq(nickname),
                 )
             )
-        }
-    }
-
-    override suspend fun findByEmail(email: String): User? {
-        return queryFactory.singleQueryOrNull {
-            select(entity(User::class))
-            from(entity(User::class))
-            where(col(User::email).equal(email))
         }
     }
 
@@ -73,5 +59,29 @@ class UserRepositoryImpl(
                     .awaitSuspending()
             }
         }
+    }
+
+    private fun SpringDataReactiveCriteriaQueryDsl<User?>.socialLoginTypeEq(
+        socialLoginType: SocialLoginType?,
+    ): EqualValueSpec<SocialLoginType>? {
+        socialLoginType ?: return null
+
+        return col(User::socialLoginType).equal(socialLoginType)
+    }
+
+    private fun SpringDataReactiveCriteriaQueryDsl<User?>.emailEq(
+        email: String?,
+    ): EqualValueSpec<String>? {
+        email ?: return null
+
+        return col(User::email).equal(email)
+    }
+
+    private fun SpringDataReactiveCriteriaQueryDsl<User?>.nicknameEq(
+        nickname: String?,
+    ): EqualValueSpec<String>? {
+        nickname ?: return null
+
+        return col(User::nickname).equal(nickname)
     }
 }

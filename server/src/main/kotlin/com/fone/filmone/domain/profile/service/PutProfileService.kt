@@ -20,7 +20,8 @@ class PutProfileService(
         email: String,
         profileId: Long,
     ): RegisterProfileResponse {
-        val user = userRepository.findByEmail(email) ?: throw NotFoundUserException()
+        val user = userRepository.findByNicknameOrEmail(null, email)
+            ?: throw NotFoundUserException()
         val profile = profileRepository.findById(profileId)
             ?: throw NotFoundProfileException()
         if (user.id != profile.userId) {

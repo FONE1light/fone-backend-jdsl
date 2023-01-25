@@ -22,7 +22,8 @@ class RegisterProfileService(
         request: RegisterProfileRequest,
         email: String,
     ): RegisterProfileResponse {
-        val user = userRepository.findByEmail(email) ?: throw NotFoundUserException()
+        val user = userRepository.findByNicknameOrEmail(null, email)
+            ?: throw NotFoundUserException()
 
         with(request) {
             val profile = toEntity(user.id!!)

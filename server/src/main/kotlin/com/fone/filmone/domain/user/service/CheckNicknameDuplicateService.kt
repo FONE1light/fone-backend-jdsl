@@ -15,7 +15,7 @@ class CheckNicknameDuplicateService(
     suspend fun checkNicknameDuplicate(request: CheckNicknameDuplicateRequest):
             CheckNicknameDuplicateResponse {
         with(request) {
-            userRepository.findByNickname(nickname)?.let {
+            userRepository.findByNicknameOrEmail(nickname, null)?.let {
                 return CheckNicknameDuplicateResponse(request.nickname, true)
             }
 
