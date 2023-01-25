@@ -22,7 +22,8 @@ class RetrieveCompetitionScrapService(
     suspend fun retrieveCompetitionScraps(
         email: String,
     ): RetrieveCompetitionScrapResponse {
-        val user = userRepository.findByEmail(email) ?: throw NotFoundUserException()
+        val user = userRepository.findByNicknameOrEmail(null, email)
+            ?: throw NotFoundUserException()
         val competitionScraps = competitionScrapRepository.findByUserId(user.id!!)
         val competitionIds = competitionScraps
             .map(CompetitionScrap::competitionId)

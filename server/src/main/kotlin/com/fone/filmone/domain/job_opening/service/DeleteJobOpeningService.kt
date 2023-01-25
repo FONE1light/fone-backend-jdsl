@@ -16,7 +16,8 @@ class DeleteJobOpeningService(
 ) {
 
     suspend fun deleteJobOpening(email: String, jobOpeningId: Long) {
-        val user = userRepository.findByEmail(email) ?: throw NotFoundUserException()
+        val user = userRepository.findByNicknameOrEmail(null, email)
+            ?: throw NotFoundUserException()
 
         val jobOpening = jobOpeningRepository.findById(jobOpeningId)
             ?: throw NotFoundJobOpeningException()

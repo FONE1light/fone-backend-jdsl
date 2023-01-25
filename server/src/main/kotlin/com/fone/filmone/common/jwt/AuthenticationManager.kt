@@ -27,7 +27,7 @@ class AuthenticationManager(
         }
 
         runBlocking {
-            return@runBlocking async { userRepository.findByEmail(email) }.await()
+            return@runBlocking async { userRepository.findByNicknameOrEmail(null, email) }.await()
         } ?: return Mono.empty()
 
         return Mono.just(jwtUtils.validateToken(authToken)).filter { valid -> valid }

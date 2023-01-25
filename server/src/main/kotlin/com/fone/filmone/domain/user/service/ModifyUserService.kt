@@ -15,7 +15,8 @@ class ModifyUserService(
     @Transactional
     suspend fun modifyUser(request: ModifyUserRequest, email: String): ModifyUserResponse {
         with(request) {
-            val user = userRepository.findByEmail(email) ?: throw NotFoundUserException()
+            val user = userRepository.findByNicknameOrEmail(null, email)
+                ?: throw NotFoundUserException()
 
             user.modifyUser(this)
             userRepository.save(user)

@@ -22,7 +22,8 @@ class RetrieveJobOpeningScrapService(
         email: String,
         type: Type,
     ): RetrieveJobOpeningScrapResponse {
-        val user = userRepository.findByEmail(email) ?: throw NotFoundUserException()
+        val user = userRepository.findByNicknameOrEmail(null, email)
+            ?: throw NotFoundUserException()
         val jobOpeningScraps = jobOpeningScrapRepository.findByUserId(user.id!!)
         val jobOpeningIds = jobOpeningScraps
             .map(JobOpeningScrap::jobOpeningId)

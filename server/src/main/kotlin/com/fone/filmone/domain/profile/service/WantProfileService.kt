@@ -13,7 +13,8 @@ class WantProfileService(
 ) {
 
     suspend fun wantProfile(email: String, profileId: Long) {
-        val user = userRepository.findByEmail(email) ?: throw NotFoundUserException()
+        val user = userRepository.findByNicknameOrEmail(null, email)
+            ?: throw NotFoundUserException()
 
         profileWantRepository.findByUserIdAndProfileId(user.id!!, profileId)
             ?.let {

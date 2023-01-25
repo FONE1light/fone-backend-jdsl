@@ -14,7 +14,8 @@ class DeleteProfileService(
 ) {
 
     suspend fun deleteProfile(email: String, profileId: Long) {
-        val user = userRepository.findByEmail(email) ?: throw NotFoundUserException()
+        val user = userRepository.findByNicknameOrEmail(null, email)
+            ?: throw NotFoundUserException()
 
         val profile = profileRepository.findById(profileId)
             ?: throw NotFoundProfileException()

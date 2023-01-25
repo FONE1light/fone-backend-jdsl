@@ -10,11 +10,7 @@ interface UserRepository {
         socialLoginType: SocialLoginType,
     ): User?
 
-    suspend fun findByNickname(nickname: String): User?
-
-    suspend fun findByNicknameOrEmail(nickname: String, email: String): User?
-
-    suspend fun findByEmail(email: String): User?
+    suspend fun findByNicknameOrEmail(nickname: String?, email: String?): User?
 
     suspend fun save(newUser: User): User
 }

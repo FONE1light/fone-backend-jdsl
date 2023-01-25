@@ -14,7 +14,8 @@ class RetrieveUserService(
     @Transactional(readOnly = true)
     suspend fun retrieveUser(email: String): RetrieveMyPageUserResponse {
 
-        val user = userRepository.findByEmail(email) ?: throw NotFoundUserException()
+        val user = userRepository.findByNicknameOrEmail(null, email)
+            ?: throw NotFoundUserException()
 
         return RetrieveMyPageUserResponse(user)
     }

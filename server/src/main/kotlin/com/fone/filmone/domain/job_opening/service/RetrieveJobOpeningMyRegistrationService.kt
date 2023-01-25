@@ -17,7 +17,8 @@ class RetrieveJobOpeningMyRegistrationService(
     @Transactional(readOnly = true)
     suspend fun retrieveJobOpeningMyRegistrations(email: String):
             RetrieveJobOpeningMyRegistrationResponse {
-        val user = userRepository.findByEmail(email) ?: throw NotFoundUserException()
+        val user = userRepository.findByNicknameOrEmail(null, email)
+            ?: throw NotFoundUserException()
 
         val jobOpenings = jobOpeningRepository.findByUserId(user.id!!) as ArrayList
 

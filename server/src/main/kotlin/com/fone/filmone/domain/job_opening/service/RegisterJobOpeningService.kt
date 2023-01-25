@@ -21,7 +21,8 @@ class RegisterJobOpeningService(
         request: RegisterJobOpeningRequest,
         email: String
     ): RegisterJobOpeningResponse {
-        val user = userRepository.findByEmail(email) ?: throw NotFoundUserException()
+        val user = userRepository.findByNicknameOrEmail(null, email)
+            ?: throw NotFoundUserException()
 
         with(request) {
             val jobOpening = toEntity(user.id!!)
