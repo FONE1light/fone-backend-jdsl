@@ -14,10 +14,10 @@ class ProfileImageRepositoryImpl(
 ) : ProfileImageRepository {
 
     override suspend fun saveAll(profileImages: List<ProfileImage>): List<ProfileImage> {
-        sessionFactory.withSession { session ->
-            session.persistAll(*profileImages.toTypedArray()).flatMap { session.flush() }
-        }.awaitSuspending()
-
-        return profileImages
+        return profileImages.also {
+            sessionFactory.withSession { session ->
+                session.persistAll(*it.toTypedArray()).flatMap { session.flush() }
+            }.awaitSuspending()
+        }
     }
 }

@@ -4,6 +4,7 @@ import com.fone.filmone.application.profile.RetrieveProfileMyRegistrationFacade
 import com.fone.filmone.common.response.CommonResponse
 import com.fone.filmone.presentation.profile.RetrieveProfileMyRegistrationDto.RetrieveProfileMyRegistrationResponse
 import io.swagger.annotations.Api
+import org.springframework.data.domain.Pageable
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -21,9 +22,12 @@ class RetrieveProfileMyRegistrationController(
     @PreAuthorize("hasRole('USER')")
     suspend fun retrieveProfileMyRegistration(
         principal: Principal,
+        pageable: Pageable,
     ): CommonResponse<RetrieveProfileMyRegistrationResponse> {
-        val response =
-            retrieveProfileMyRegistrationFacade.retrieveProfileMyRegistration(principal.name)
+        val response = retrieveProfileMyRegistrationFacade.retrieveProfileMyRegistration(
+            pageable,
+            principal.name
+        )
 
         return CommonResponse.success(response)
     }

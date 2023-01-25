@@ -53,13 +53,13 @@ class RegisterProfileDto {
     }
 
     data class RegisterProfileResponse(
-        val hookingComment: String,
+        val profile: ProfileDto,
     ) {
 
         constructor(
             profile: Profile
         ) : this(
-            hookingComment = profile.hookingComment
+            profile = ProfileDto(profile)
         )
     }
 }

@@ -7,6 +7,7 @@ import com.fone.filmone.domain.common.Interest
 import com.fone.filmone.domain.profile.entity.Profile
 
 data class ProfileDto(
+    val id: Long,
     val hookingComment: String,
     val birthday: String,
     val gender: Gender,
@@ -23,6 +24,7 @@ data class ProfileDto(
     val viewCount: Long,
 ) {
     constructor(profile: Profile) : this(
+        id = profile.id!!,
         hookingComment = profile.hookingComment,
         birthday = profile.birthday,
         gender = profile.gender,
