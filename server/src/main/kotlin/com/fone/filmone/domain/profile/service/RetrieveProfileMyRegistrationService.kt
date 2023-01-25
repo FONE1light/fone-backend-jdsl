@@ -19,7 +19,7 @@ class RetrieveProfileMyRegistrationService(
             RetrieveProfileMyRegistrationResponse {
         val user = userRepository.findByNicknameOrEmail(null, email)
             ?: throw NotFoundUserException()
-        val profiles = profileRepository.findByUserId(pageable, user.id!!)
+        val profiles = profileRepository.findAllByUserId(pageable, user.id!!)
 
         return RetrieveProfileMyRegistrationResponse(profiles.content, pageable)
     }

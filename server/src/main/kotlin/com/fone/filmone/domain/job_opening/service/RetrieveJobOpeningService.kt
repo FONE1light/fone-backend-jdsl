@@ -20,9 +20,9 @@ class RetrieveJobOpeningService(
         pageable: Pageable,
         type: Type,
     ): RetrieveJobOpeningsResponse {
-        val jobOpenings = jobOpeningRepository.findByType(pageable, type).toList()
+        val jobOpenings = jobOpeningRepository.findByType(pageable, type)
 
-        return RetrieveJobOpeningsResponse(jobOpenings, pageable)
+        return RetrieveJobOpeningsResponse(jobOpenings.content, pageable)
     }
 
     @Transactional
@@ -31,8 +31,8 @@ class RetrieveJobOpeningService(
         type: Type,
         jobOpeningId: Long,
     ): RetrieveJobOpeningResponse {
-        val jobOpening =
-            jobOpeningRepository.findByType(type) ?: throw NotFoundJobOpeningException()
+        val jobOpening = jobOpeningRepository.findByTypeAndId(type, jobOpeningId)
+            ?: throw NotFoundJobOpeningException()
         jobOpening.view()
         jobOpeningRepository.save(jobOpening)
 

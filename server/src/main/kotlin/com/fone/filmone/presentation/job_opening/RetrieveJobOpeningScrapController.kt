@@ -5,6 +5,7 @@ import com.fone.filmone.common.response.CommonResponse
 import com.fone.filmone.domain.common.Type
 import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningScrapDto.RetrieveJobOpeningScrapResponse
 import io.swagger.annotations.Api
+import org.springframework.data.domain.Pageable
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -23,10 +24,12 @@ class RetrieveJobOpeningScrapController(
     @GetMapping("/scraps")
     @PreAuthorize("hasRole('USER')")
     suspend fun retrieveJobOpeningScrap(
+        pageable: Pageable,
         principal: Principal,
         @RequestParam type: Type,
     ): CommonResponse<RetrieveJobOpeningScrapResponse> {
         val response = retrieveJobOpeningScrapFacade.retrieveJobOpeningScrap(
+            pageable,
             principal.name,
             type,
         )

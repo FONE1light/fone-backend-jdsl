@@ -19,7 +19,7 @@ class DeleteJobOpeningService(
         val user = userRepository.findByNicknameOrEmail(null, email)
             ?: throw NotFoundUserException()
 
-        val jobOpening = jobOpeningRepository.findById(jobOpeningId)
+        val jobOpening = jobOpeningRepository.findByTypeAndId(null, jobOpeningId)
             ?: throw NotFoundJobOpeningException()
 
         val work = workRepository.findByJobOpeningId(jobOpeningId)

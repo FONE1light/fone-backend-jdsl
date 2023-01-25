@@ -17,7 +17,7 @@ class DeleteProfileService(
         val user = userRepository.findByNicknameOrEmail(null, email)
             ?: throw NotFoundUserException()
 
-        val profile = profileRepository.findById(profileId)
+        val profile = profileRepository.findByTypeAndId(null, profileId)
             ?: throw NotFoundProfileException()
 
         if (profile.userId != user.id) {

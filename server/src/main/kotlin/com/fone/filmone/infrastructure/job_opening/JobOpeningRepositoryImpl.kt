@@ -2,12 +2,14 @@ package com.fone.filmone.infrastructure.job_opening
 
 import com.fone.filmone.domain.common.Type
 import com.fone.filmone.domain.job_opening.entity.JobOpening
+import com.fone.filmone.domain.job_opening.entity.JobOpeningScrap
 import com.fone.filmone.domain.job_opening.repository.JobOpeningRepository
+import com.linecorp.kotlinjdsl.query.spec.predicate.EqualValueSpec
 import com.linecorp.kotlinjdsl.querydsl.expression.col
-import com.linecorp.kotlinjdsl.spring.data.reactive.query.SpringDataHibernateMutinyReactiveQueryFactory
-import com.linecorp.kotlinjdsl.spring.data.reactive.query.listQuery
-import com.linecorp.kotlinjdsl.spring.data.reactive.query.pageQuery
-import com.linecorp.kotlinjdsl.spring.data.reactive.query.singleQueryOrNull
+import com.linecorp.kotlinjdsl.querydsl.expression.column
+import com.linecorp.kotlinjdsl.spring.data.reactive.query.*
+import com.linecorp.kotlinjdsl.spring.reactive.querydsl.SpringDataReactiveCriteriaQueryDsl
+import com.linecorp.kotlinjdsl.spring.reactive.querydsl.SpringDataReactivePageableQueryDsl
 import io.smallrye.mutiny.coroutines.awaitSuspending
 import org.hibernate.reactive.mutiny.Mutiny
 import org.springframework.data.domain.Pageable
@@ -20,11 +22,15 @@ class JobOpeningRepositoryImpl(
     private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
 ) : JobOpeningRepository {
 
-    override suspend fun findTop5ByType(type: Type): List<JobOpening> {
+    override suspend fun findAllTop5ByType(type: Type): List<JobOpening> {
         return queryFactory.listQuery {
             select(entity(JobOpening::class))
             from(entity(JobOpening::class))
-            where(col(JobOpening::type).equal(type))
+            where(
+                and(
+                    typeEq(type)
+                )
+            )
             limit(5)
         }
     }
@@ -33,47 +39,104 @@ class JobOpeningRepositoryImpl(
         return queryFactory.pageQuery(pageable) {
             select(entity(JobOpening::class))
             from(entity(JobOpening::class))
-            where(col(JobOpening::type).equal(type))
+            where(
+                and(
+                    typeEq(type)
+                )
+            )
         }
     }
 
-    override suspend fun findByType(type: Type): JobOpening? {
+    override suspend fun findByTypeAndId(type: Type?, jobOpeningId: Long?): JobOpening? {
         return queryFactory.singleQueryOrNull {
             select(entity(JobOpening::class))
             from(entity(JobOpening::class))
-            where(col(JobOpening::type).equal(type))
+            where(
+                and(
+                    typeEqOrNull(type),
+                    jobOpeningIdEq(jobOpeningId),
+                )
+            )
         }
     }
 
-    override suspend fun findByUserId(userId: Long): List<JobOpening> {
-        return queryFactory.listQuery {
+    override suspend fun findAllByUserId(pageable: Pageable, userId: Long): Slice<JobOpening> {
+        return queryFactory.pageQuery(pageable) {
             select(entity(JobOpening::class))
             from(entity(JobOpening::class))
-            where(col(JobOpening::userId).equal(userId))
+            where(userIdEq(userId))
         }
     }
 
-    override suspend fun findById(jobOpeningId: Long): JobOpening? {
-        return queryFactory.singleQueryOrNull {
+    override suspend fun findScrapAllByUserId(
+        pageable: Pageable,
+        userId: Long,
+        type: Type,
+    ): Slice<JobOpening> {
+        val jobOpeningIds = queryFactory.subquery {
+            select(column(JobOpeningScrap::id))
+            from(entity(JobOpeningScrap::class))
+            where(col(JobOpeningScrap::userId).equal(userId))
+        }
+
+        return queryFactory.pageQuery(pageable) {
             select(entity(JobOpening::class))
             from(entity(JobOpening::class))
-            where(col(JobOpening::id).equal(jobOpeningId))
+            where(
+                and(
+                    col(JobOpening::id).`in`(jobOpeningIds),
+                    typeEq(type),
+                )
+            )
         }
     }
 
     override suspend fun save(jobOpening: JobOpening): JobOpening {
         return jobOpening.also {
-            sessionFactory.withSession { session ->
-                session.persist(it).flatMap { session.flush() }
-            }.awaitSuspending()
+            queryFactory.withFactory { session, factory ->
+                if (it.id == null) {
+                    session.persist(it)
+                } else {
+                    session.merge(it)
+                }
+                    .flatMap { session.flush() }
+                    .awaitSuspending()
+            }
         }
     }
 
-    override suspend fun findAllById(jobOpeningIds: List<Long>): List<JobOpening> {
-        return queryFactory.listQuery {
-            select(entity(JobOpening::class))
-            from(entity(JobOpening::class))
-            where(col(JobOpening::id).`in`(jobOpeningIds))
-        }
+    private fun SpringDataReactiveCriteriaQueryDsl<JobOpening?>.jobOpeningIdEq(
+        jobOpeningId: Long?,
+    ) = col(JobOpening::id).equal(jobOpeningId)
+
+    private fun SpringDataReactivePageableQueryDsl<JobOpening>.idIn(
+        jobOpeningIds: List<Long>,
+    ) = col(JobOpening::id).`in`(jobOpeningIds)
+
+    private fun SpringDataReactivePageableQueryDsl<JobOpening>.userIdEq(
+        userId: Long,
+    ) = col(JobOpening::userId).equal(userId)
+
+    private fun SpringDataReactiveCriteriaQueryDsl<JobOpening?>.typeEqOrNull(
+        type: Type?,
+    ): EqualValueSpec<Type>? {
+        type ?: return null
+
+        return col(JobOpening::type).equal(type)
+    }
+
+    private fun SpringDataReactiveCriteriaQueryDsl<JobOpening>.typeEq(
+        type: Type?,
+    ): EqualValueSpec<Type>? {
+        type ?: return null
+
+        return col(JobOpening::type).equal(type)
+    }
+
+    private fun SpringDataReactivePageableQueryDsl<JobOpening>.typeEq(
+        type: Type?,
+    ): EqualValueSpec<Type>? {
+        type ?: return null
+        return col(JobOpening::type).equal(type)
     }
 }

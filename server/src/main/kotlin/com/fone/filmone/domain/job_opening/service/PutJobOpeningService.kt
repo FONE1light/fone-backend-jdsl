@@ -22,7 +22,7 @@ class PutJobOpeningService(
     ): RegisterJobOpeningResponse {
         val user = userRepository.findByNicknameOrEmail(null, email)
             ?: throw NotFoundUserException()
-        val jobOpening = jobOpeningRepository.findById(jobOpeningId)
+        val jobOpening = jobOpeningRepository.findByTypeAndId(null, jobOpeningId)
             ?: throw NotFoundJobOpeningException()
         if (user.id != jobOpening.userId) {
             throw InvalidJobOpeningUserIdException()

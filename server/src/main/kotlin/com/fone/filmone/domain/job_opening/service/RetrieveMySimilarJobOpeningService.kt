@@ -19,7 +19,7 @@ class RetrieveMySimilarJobOpeningService(
         val user = userRepository.findByNicknameOrEmail(null, email)
             ?: throw NotFoundUserException()
         val jobType = if (user.job.toString() == "ACTOR") "ACTOR" else "STAFF"
-        val jobOpenings = jobOpeningRepository.findTop5ByType(Type(jobType)) as ArrayList
+        val jobOpenings = jobOpeningRepository.findAllTop5ByType(Type(jobType)) as ArrayList
 
         return RetrieveMySimilarJobOpeningResponse(jobOpenings)
     }

@@ -25,9 +25,15 @@ class WorkRepositoryImpl(
 
     override suspend fun save(work: Work): Work {
         return work.also {
-            sessionFactory.withSession { session ->
-                session.persist(it).flatMap { session.flush() }
-            }.awaitSuspending()
+            queryFactory.withFactory { session, factory ->
+                if (it.id == null) {
+                    session.persist(it)
+                } else {
+                    session.merge(it)
+                }
+                    .flatMap { session.flush() }
+                    .awaitSuspending()
+            }
         }
     }
 }

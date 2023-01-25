@@ -5,13 +5,9 @@ import com.fone.filmone.domain.common.Type
 import com.fone.filmone.domain.profile.repository.ProfileRepository
 import com.fone.filmone.presentation.profile.RetrieveProfilesDto.RetrieveProfileResponse
 import com.fone.filmone.presentation.profile.RetrieveProfilesDto.RetrieveProfilesResponse
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.reactor.awaitSingle
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import reactor.kotlin.core.publisher.toMono
 
 @Service
 class RetrieveProfilesService(
@@ -20,9 +16,9 @@ class RetrieveProfilesService(
 
     @Transactional(readOnly = true)
     suspend fun retrieveProfiles(pageable: Pageable, type: Type): RetrieveProfilesResponse {
-        val profiles = profileRepository.findByType(pageable, type).toList()
+        val profiles = profileRepository.findAllByType(pageable, type)
 
-        return RetrieveProfilesResponse(profiles, pageable)
+        return RetrieveProfilesResponse(profiles.content, pageable)
     }
 
     @Transactional
@@ -31,7 +27,7 @@ class RetrieveProfilesService(
         type: Type,
         profileId: Long,
     ): RetrieveProfileResponse {
-        val profile = profileRepository.findByType(type)
+        val profile = profileRepository.findByTypeAndId(type, profileId)
             ?: throw NotFoundProfileException()
         profile.view()
         profileRepository.save(profile)

@@ -4,6 +4,7 @@ import com.fone.filmone.domain.common.*
 import com.fone.filmone.domain.job_opening.entity.JobOpening
 
 data class JobOpeningDto(
+    val id: Long,
     val title: String,
     val interests: List<Interest>,
     val deadline: String,
@@ -20,6 +21,7 @@ data class JobOpeningDto(
     constructor(
         jobOpening: JobOpening,
     ) : this(
+        id = jobOpening.id!!,
         title = jobOpening.title,
         interests = jobOpening.interests.split(",").map { Interest(it) }.toList(),
         deadline = jobOpening.deadline,
