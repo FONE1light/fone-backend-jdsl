@@ -1,7 +1,6 @@
 package com.fone.filmone.presentation.competition
 
 import com.fone.filmone.domain.competition.entity.Competition
-import com.fone.filmone.domain.competition.entity.CompetitionPrize
 
 class RetrieveCompetitionScrapDto {
 
@@ -10,10 +9,9 @@ class RetrieveCompetitionScrapDto {
     ) {
 
         constructor(
-            competitionList: List<Competition>,
-            prizes: List<List<CompetitionPrize>>,
+            competitionList: ArrayList<Competition>,
         ) : this(
-            competitions = competitionList.zip(prizes) { c, p -> CompetitionDto(c, p) }.toList()
+            competitions = competitionList.map { CompetitionDto(it) }.toList()
         )
     }
 }

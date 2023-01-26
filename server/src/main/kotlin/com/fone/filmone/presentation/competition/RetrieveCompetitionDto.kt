@@ -1,7 +1,7 @@
 package com.fone.filmone.presentation.competition
 
 import com.fone.filmone.domain.competition.entity.Competition
-import com.fone.filmone.domain.competition.entity.CompetitionPrize
+import com.fone.filmone.domain.competition.entity.Prize
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
@@ -31,9 +31,8 @@ class RetrieveCompetitionDto {
 
         constructor(
             com: Competition,
-            prizes: List<CompetitionPrize>
         ) : this(
-            competition = CompetitionDto(com, prizes)
+            competition = CompetitionDto(com)
         )
     }
 }

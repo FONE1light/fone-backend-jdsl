@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class RetrieveCompetitionService(
     private val competitionRepository: CompetitionRepository,
-    private val competitionPrizeRepository: CompetitionPrizeRepository,
 ) {
 
     @Transactional(readOnly = true)
@@ -23,14 +22,9 @@ class RetrieveCompetitionService(
     ): RetrieveCompetitionsResponse {
         val competitions = competitionRepository.findAll(pageable)
 
-        val prizes = competitions.content
-            .map {
-                competitionPrizeRepository.findByCompetitionId(it.id!!)
-            }.toList()
-
         return RetrieveCompetitionsResponse(
             pageable,
-            competitions.zip(prizes) { c, p -> CompetitionDto(c, p) }.toList(),
+            competitions.map { CompetitionDto(it) }.toList(),
         )
     }
 
@@ -41,10 +35,9 @@ class RetrieveCompetitionService(
     ): RetrieveCompetitionResponse {
         val competition = competitionRepository.findById(competitionId)
             ?: throw NotFoundCompetitionException()
-        val prizes = competitionPrizeRepository.findByCompetitionId(competition.id!!).toList()
 
         competition.view()
 
-        return RetrieveCompetitionResponse(competition, prizes)
+        return RetrieveCompetitionResponse(competition)
     }
 }

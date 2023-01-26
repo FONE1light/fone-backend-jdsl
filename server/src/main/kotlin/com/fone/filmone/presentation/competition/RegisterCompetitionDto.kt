@@ -1,7 +1,7 @@
 package com.fone.filmone.presentation.competition
 
 import com.fone.filmone.domain.competition.entity.Competition
-import com.fone.filmone.domain.competition.entity.CompetitionPrize
+import com.fone.filmone.domain.competition.entity.Prize
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDate
 
@@ -16,7 +16,7 @@ class RegisterCompetitionDto {
         val endDate: LocalDate,
         val agency: String,
         val details: String,
-        val prizes: List<CompetitionPrizeRequest>,
+        val prizes: List<PrizeRequest>,
     ) {
         fun toEntity(userId: Long): Competition {
             return Competition(
@@ -32,18 +32,17 @@ class RegisterCompetitionDto {
         }
     }
 
-    data class CompetitionPrizeRequest(
+    data class PrizeRequest(
         val ranking: String,
         val prizeMoney: String,
         val agency: String,
         val competitionId: Long,
     ) {
-        fun toEntity(competitionId: Long): CompetitionPrize {
-            return CompetitionPrize(
+        fun toEntity(): Prize {
+            return Prize(
                 ranking = ranking,
                 prizeMoney = prizeMoney,
                 agency = agency,
-                competitionId = competitionId,
             )
         }
     }
@@ -51,8 +50,8 @@ class RegisterCompetitionDto {
     data class RegisterCompetitionResponse(
         val competition: CompetitionDto,
     ) {
-        constructor(competition: Competition, prizes: List<CompetitionPrize>) : this(
-            competition = CompetitionDto(competition, prizes)
+        constructor(competition: Competition) : this(
+            competition = CompetitionDto(competition)
         )
     }
 }
