@@ -21,7 +21,7 @@ class RetrieveCompetitionService(
         email: String,
         pageable: Pageable,
     ): RetrieveCompetitionsResponse {
-        val competitions = competitionRepository.findBy(pageable)
+        val competitions = competitionRepository.findAll(pageable)
 
         val prizes = competitions.content
             .map {

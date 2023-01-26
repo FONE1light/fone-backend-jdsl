@@ -5,8 +5,12 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 
 interface CompetitionRepository {
-    suspend fun findBy(pageable: Pageable): Slice<Competition>
+    suspend fun findAll(pageable: Pageable): Slice<Competition>
     suspend fun findById(competitionId: Long): Competition?
+    suspend fun findScrapAllById(
+        pageable: Pageable,
+        userId: Long,
+    ): Slice<Competition>
+
     suspend fun save(competition: Competition): Competition
-    suspend fun findAllById(competitionIds: List<Long>): List<Competition>
 }

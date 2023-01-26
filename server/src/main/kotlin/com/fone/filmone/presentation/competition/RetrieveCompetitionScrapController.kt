@@ -4,6 +4,7 @@ import com.fone.filmone.application.competition.RetrieveCompetitionScrapFacade
 import com.fone.filmone.common.response.CommonResponse
 import com.fone.filmone.presentation.competition.RetrieveCompetitionScrapDto.RetrieveCompetitionScrapResponse
 import io.swagger.annotations.Api
+import org.springframework.data.domain.Pageable
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -20,9 +21,11 @@ class RetrieveCompetitionScrapController(
     @GetMapping("/scraps")
     @PreAuthorize("hasRole('USER')")
     suspend fun retrieveCompetitionScraps(
+        pageable: Pageable,
         principal: Principal,
     ): CommonResponse<RetrieveCompetitionScrapResponse> {
-        val response = retrieveCompetitionScrapFacade.retrieveCompetitionScraps(principal.name)
+        val response = retrieveCompetitionScrapFacade
+            .retrieveCompetitionScraps(pageable, principal.name)
         return CommonResponse.success(response)
     }
 }
