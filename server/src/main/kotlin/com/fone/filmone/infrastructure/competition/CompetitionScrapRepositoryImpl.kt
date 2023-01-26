@@ -33,14 +33,6 @@ class CompetitionScrapRepositoryImpl(
         }
     }
 
-    override suspend fun findByUserId(userId: Long): List<CompetitionScrap> {
-        return queryFactory.listQuery {
-            select(entity(CompetitionScrap::class))
-            from(entity(CompetitionScrap::class))
-            where(col(CompetitionScrap::userId).equal(userId))
-        }
-    }
-
     override suspend fun delete(competitionScrap: CompetitionScrap): Int {
         return queryFactory.deleteQuery<CompetitionScrap> {
             where(col(CompetitionScrap::id).equal(competitionScrap.id))
@@ -49,9 +41,15 @@ class CompetitionScrapRepositoryImpl(
 
     override suspend fun save(competitionScrap: CompetitionScrap): CompetitionScrap {
         return competitionScrap.also {
-            sessionFactory.withSession { session ->
-                session.persist(it).flatMap { session.flush() }
-            }.awaitSuspending()
+            queryFactory.withFactory { session, factory ->
+                if (it.id == null) {
+                    session.persist(it)
+                } else {
+                    session.merge(it)
+                }
+                    .flatMap { session.flush() }
+                    .awaitSuspending()
+            }
         }
     }
 }
