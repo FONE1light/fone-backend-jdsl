@@ -3,7 +3,7 @@ package com.fone.filmone.presentation.competition
 import com.fone.filmone.domain.competition.entity.Competition
 import com.fone.filmone.domain.competition.entity.CompetitionPrize
 import org.springframework.format.annotation.DateTimeFormat
-import java.sql.Date
+import java.time.LocalDate
 
 class RegisterCompetitionDto {
 
@@ -11,9 +11,9 @@ class RegisterCompetitionDto {
         val title: String,
         val imageUrl: String,
         @DateTimeFormat(pattern = "yyyy-MM-dd")
-        val startDate: Date,
+        val startDate: LocalDate,
         @DateTimeFormat(pattern = "yyyy-MM-dd")
-        val endDate: Date,
+        val endDate: LocalDate,
         val agency: String,
         val details: String,
         val prizes: List<CompetitionPrizeRequest>,
@@ -22,8 +22,8 @@ class RegisterCompetitionDto {
             return Competition(
                 title = title,
                 imageUrl = imageUrl,
-                startDate = startDate.toString(),
-                endDate = endDate.toString(),
+                startDate = startDate,
+                endDate = endDate,
                 agency = agency,
                 details = details,
                 userId = userId,

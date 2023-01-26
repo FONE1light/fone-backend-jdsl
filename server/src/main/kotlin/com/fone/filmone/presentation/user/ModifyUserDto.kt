@@ -5,6 +5,7 @@ import com.fone.filmone.domain.common.Interest
 import com.fone.filmone.domain.user.entity.User
 import com.fone.filmone.domain.user.enum.Job
 import com.fone.filmone.domain.user.enum.SocialLoginType
+import java.time.LocalDate
 import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
@@ -25,7 +26,7 @@ class ModifyUserDto {
         val job: Job,
         val interests: List<Interest>,
         val nickname: String,
-        val birthday: String,
+        val birthday: LocalDate?,
         val gender: Gender,
         val profileUrl: String,
         val phoneNumber: String,

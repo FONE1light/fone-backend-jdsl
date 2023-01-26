@@ -3,6 +3,7 @@ package com.fone.filmone.domain.profile.entity
 import com.fone.filmone.common.converter.SeparatorConverter
 import com.fone.filmone.domain.common.*
 import com.fone.filmone.presentation.profile.RegisterProfileDto
+import java.time.LocalDate
 import javax.persistence.*
 
 @Entity
@@ -18,7 +19,7 @@ data class Profile(
     var hookingComment: String,
 
     @Column
-    var birthday: String,
+    var birthday: LocalDate?,
 
     @Enumerated(EnumType.STRING)
     var gender: Gender,
@@ -69,7 +70,7 @@ data class Profile(
 
     fun put(request: RegisterProfileDto.RegisterProfileRequest) {
         hookingComment = request.hookingComment
-        birthday = request.birthday.toString()
+        birthday = request.birthday
         gender = request.gender
         height = request.height
         weight = request.weight
@@ -85,7 +86,7 @@ data class Profile(
 
     fun delete() {
         hookingComment = ""
-        birthday = ""
+        birthday = null
         gender = Gender.IRRELEVANT
         height = 0
         weight = 0

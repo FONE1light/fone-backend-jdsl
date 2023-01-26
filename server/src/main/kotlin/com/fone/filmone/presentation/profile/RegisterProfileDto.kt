@@ -4,7 +4,7 @@ import com.fone.filmone.domain.common.*
 import com.fone.filmone.domain.profile.entity.Profile
 import io.swagger.annotations.ApiModelProperty
 import org.springframework.format.annotation.DateTimeFormat
-import java.sql.Date
+import java.time.LocalDate
 import javax.validation.constraints.Email
 
 class RegisterProfileDto {
@@ -12,7 +12,7 @@ class RegisterProfileDto {
     data class RegisterProfileRequest(
         val hookingComment: String,
         @DateTimeFormat(pattern = "yyyy-MM-dd")
-        val birthday: Date,
+        val birthday: LocalDate,
         val gender: Gender,
         val height: Int,
         val weight: Int,
@@ -34,7 +34,7 @@ class RegisterProfileDto {
 
             return Profile(
                 hookingComment = hookingComment,
-                birthday = birthday.toString(),
+                birthday = birthday,
                 gender = gender,
                 height = height,
                 weight = weight,
@@ -57,7 +57,7 @@ class RegisterProfileDto {
     ) {
 
         constructor(
-            profile: Profile
+            profile: Profile,
         ) : this(
             profile = ProfileDto(profile)
         )

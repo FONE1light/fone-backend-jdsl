@@ -10,6 +10,7 @@ import com.fone.filmone.presentation.user.ModifyUserDto.ModifyUserRequest
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
+import java.time.LocalDate
 import javax.persistence.*
 
 
@@ -32,7 +33,7 @@ data class User(
     var nickname: String,
 
     @Column
-    var birthday: String,
+    var birthday: LocalDate?,
 
     @Enumerated(EnumType.STRING)
     val gender: Gender,
@@ -74,7 +75,7 @@ data class User(
     fun signOutUser() {
         interests = listOf()
         nickname = "탈퇴한 유저"
-        birthday = ""
+        birthday = null
         profileUrl = ""
         phoneNumber = ""
         email = ""

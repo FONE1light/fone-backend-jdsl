@@ -8,7 +8,7 @@ import com.fone.filmone.domain.user.enum.Role
 import com.fone.filmone.domain.user.enum.SocialLoginType
 import io.swagger.annotations.ApiModelProperty
 import org.springframework.format.annotation.DateTimeFormat
-import java.sql.Date
+import java.time.LocalDate
 import javax.validation.constraints.*
 
 class SignUpUserDto {
@@ -21,7 +21,7 @@ class SignUpUserDto {
         @field:NotEmpty(message = "닉네임은 필수 값 입니다.")
         val nickname: String,
         @DateTimeFormat(pattern = "yyyy-MM-dd")
-        val birthday: Date,
+        val birthday: LocalDate,
         @field:NotNull(message = "성별은 필수 값 입니다.")
         val gender: Gender,
         val profileUrl: String?,
@@ -49,7 +49,7 @@ class SignUpUserDto {
                 job = job,
                 interests = interests,
                 nickname = nickname,
-                birthday = birthday.toString(),
+                birthday = birthday,
                 gender = gender,
                 profileUrl = profileUrl ?: "",
                 phoneNumber = phoneNumber,
@@ -68,7 +68,7 @@ class SignUpUserDto {
         val job: Job,
         val interests: List<Interest>,
         val nickname: String,
-        val birthday: String,
+        val birthday: LocalDate?,
         val gender: Gender,
         val profileUrl: String,
         val phoneNumber: String,

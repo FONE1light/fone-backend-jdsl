@@ -1,5 +1,6 @@
 package com.fone.filmone.domain.competition.entity
 
+import java.time.LocalDate
 import javax.persistence.*
 
 @Entity
@@ -18,10 +19,10 @@ data class Competition(
     var imageUrl: String,
 
     @Column
-    var startDate: String,
+    var startDate: LocalDate?,
 
     @Column
-    var endDate: String,
+    var endDate: LocalDate?,
 
     @Column
     var agency: String,

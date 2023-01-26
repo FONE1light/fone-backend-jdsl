@@ -5,11 +5,12 @@ import com.fone.filmone.domain.common.Domain
 import com.fone.filmone.domain.common.Gender
 import com.fone.filmone.domain.common.Interest
 import com.fone.filmone.domain.profile.entity.Profile
+import java.time.LocalDate
 
 data class ProfileDto(
     val id: Long,
     val hookingComment: String,
-    val birthday: String,
+    val birthday: LocalDate?,
     val gender: Gender,
     val height: Int,
     val weight: Int,
