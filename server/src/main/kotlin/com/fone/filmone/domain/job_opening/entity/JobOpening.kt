@@ -56,6 +56,9 @@ data class JobOpening(
 
     @Column
     var isDeleted: Boolean = false,
+
+    @Embedded
+    var work: Work,
 ) {
     fun view() {
         viewCount += 1
@@ -76,6 +79,8 @@ data class JobOpening(
     }
 
     fun delete() {
+        work.delete()
+
         interests = ""
         deadline = ""
         casting = ""
