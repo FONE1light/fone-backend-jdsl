@@ -9,6 +9,7 @@ import com.fone.filmone.domain.user.repository.UserRepository
 import com.fone.filmone.presentation.job_opening.RegisterJobOpeningDto.RegisterJobOpeningRequest
 import com.fone.filmone.presentation.job_opening.RegisterJobOpeningDto.RegisterJobOpeningResponse
 import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.runBlocking
 import org.springframework.stereotype.Service
 
@@ -32,7 +33,7 @@ class PutJobOpeningService(
             throw InvalidJobOpeningUserIdException()
         }
 
-        return runBlocking {
+        return coroutineScope {
             val jobOpening = async {
                 jobOpening.put(request)
                 jobOpeningRepository.save(jobOpening)

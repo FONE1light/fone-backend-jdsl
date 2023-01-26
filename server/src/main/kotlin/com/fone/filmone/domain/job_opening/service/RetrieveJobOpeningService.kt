@@ -9,7 +9,7 @@ import com.fone.filmone.domain.user.repository.UserRepository
 import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningDto.RetrieveJobOpeningResponse
 import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningDto.RetrieveJobOpeningsResponse
 import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.coroutineScope
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -30,7 +30,7 @@ class RetrieveJobOpeningService(
         val user = userRepository.findByNicknameOrEmail(null, email)
             ?: throw NotFoundUserException()
 
-        return runBlocking {
+        return coroutineScope {
             val jobOpenings = async {
                 jobOpeningRepository.findByType(pageable, type).content
             }
@@ -52,7 +52,7 @@ class RetrieveJobOpeningService(
         val user = userRepository.findByNicknameOrEmail(null, email)
             ?: throw NotFoundUserException()
 
-        return runBlocking {
+        return coroutineScope {
             val jobOpening = async {
                 val jobOpening = jobOpeningRepository.findByTypeAndId(type, jobOpeningId)
                     ?: throw NotFoundJobOpeningException()
