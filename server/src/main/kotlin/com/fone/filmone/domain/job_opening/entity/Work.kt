@@ -29,7 +29,7 @@ data class Work(
     @Column
     var pay: String,
 
-    @Column
+    @Column(length = 500)
     var details: String,
 
     @Column

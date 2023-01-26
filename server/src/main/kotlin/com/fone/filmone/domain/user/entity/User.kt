@@ -38,7 +38,7 @@ data class User(
     @Enumerated(EnumType.STRING)
     val gender: Gender,
 
-    @Column
+    @Column(length = 300)
     var profileUrl: String,
 
     @Column

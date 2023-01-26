@@ -14,6 +14,6 @@ data class ProfileImage (
     @Column
     val profileId: Long,
 
-    @Column
+    @Column(length = 300)
     val profileUrl: String,
 )

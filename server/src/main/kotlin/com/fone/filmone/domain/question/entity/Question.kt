@@ -21,7 +21,7 @@ data class Question(
     @Column
     val title: String,
 
-    @Column
+    @Column(length = 500)
     val description: String,
 
     @Column
