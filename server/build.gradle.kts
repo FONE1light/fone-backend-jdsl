@@ -27,6 +27,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:$coroutineVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactive:$coroutineVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion")
+    runtimeOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:$coroutineVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:$coroutineVersion")
 
     // reactive

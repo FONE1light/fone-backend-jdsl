@@ -4,14 +4,18 @@ import com.fone.filmone.common.exception.InvalidJobOpeningUserIdException
 import com.fone.filmone.common.exception.NotFoundJobOpeningException
 import com.fone.filmone.common.exception.NotFoundUserException
 import com.fone.filmone.domain.job_opening.repository.JobOpeningRepository
+import com.fone.filmone.domain.job_opening.repository.JobOpeningScrapRepository
 import com.fone.filmone.domain.user.repository.UserRepository
 import com.fone.filmone.presentation.job_opening.RegisterJobOpeningDto.RegisterJobOpeningRequest
 import com.fone.filmone.presentation.job_opening.RegisterJobOpeningDto.RegisterJobOpeningResponse
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 import org.springframework.stereotype.Service
 
 @Service
 class PutJobOpeningService(
     private val jobOpeningRepository: JobOpeningRepository,
+    private val jobOpeningScrapRepository: JobOpeningScrapRepository,
     private val userRepository: UserRepository,
 ) {
 
@@ -28,10 +32,17 @@ class PutJobOpeningService(
             throw InvalidJobOpeningUserIdException()
         }
 
-        jobOpening.put(request)
+        return runBlocking {
+            val jobOpening = async {
+                jobOpening.put(request)
+                jobOpeningRepository.save(jobOpening)
+            }
 
-        jobOpeningRepository.save(jobOpening)
+            val userJobOpeningScraps = async {
+                jobOpeningScrapRepository.findByUserId(user.id!!)
+            }
 
-        return RegisterJobOpeningResponse(jobOpening)
+            RegisterJobOpeningResponse(jobOpening.await(), userJobOpeningScraps.await())
+        }
     }
 }

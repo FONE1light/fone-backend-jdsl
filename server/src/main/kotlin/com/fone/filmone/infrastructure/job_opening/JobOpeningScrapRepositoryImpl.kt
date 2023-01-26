@@ -35,6 +35,15 @@ class JobOpeningScrapRepositoryImpl(
         }
     }
 
+    override suspend fun findByUserId(userId: Long): Map<Long, JobOpeningScrap?> {
+
+        return queryFactory.listQuery {
+            select(entity(JobOpeningScrap::class))
+            from(entity(JobOpeningScrap::class))
+            where(col(JobOpeningScrap::userId).equal(userId))
+        }.associateBy { it!!.jobOpeningId }
+    }
+
     override suspend fun delete(jobOpeningScrap: JobOpeningScrap): Int {
         return queryFactory.deleteQuery<JobOpeningScrap> {
             where(jobOpeningScrapId(jobOpeningScrap))
