@@ -43,9 +43,9 @@ class RegisterProfileDto {
                 specialty = specialty,
                 details = details,
                 career = career,
-                interests = interests.joinToString(","),
+                interests = interests,
                 type = type,
-                domains = domains.joinToString(","),
+                domains = domains,
                 userId = userId,
                 viewCount = 0,
             )

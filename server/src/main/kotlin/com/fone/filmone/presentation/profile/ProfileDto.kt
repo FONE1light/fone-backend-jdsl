@@ -35,8 +35,8 @@ data class ProfileDto(
         specialty = profile.specialty,
         details = profile.details,
         career = profile.career,
-        interests = profile.interests.split(",").map { Interest(it) }.toList(),
-        domains = profile.domains.split(",").map { Domain(it) }.toList(),
+        interests = profile.interests,
+        domains = profile.domains,
         profileImages = listOf(),
         viewCount = profile.viewCount,
     )

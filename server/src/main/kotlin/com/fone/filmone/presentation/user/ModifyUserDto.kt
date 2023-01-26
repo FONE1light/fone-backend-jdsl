@@ -1,8 +1,8 @@
 package com.fone.filmone.presentation.user
 
+import com.fone.filmone.domain.common.Gender
 import com.fone.filmone.domain.common.Interest
 import com.fone.filmone.domain.user.entity.User
-import com.fone.filmone.domain.common.Gender
 import com.fone.filmone.domain.user.enum.Job
 import com.fone.filmone.domain.user.enum.SocialLoginType
 import javax.validation.constraints.NotEmpty
@@ -37,10 +37,10 @@ class ModifyUserDto {
     ) {
 
         constructor(
-            user: User
+            user: User,
         ) : this(
             job = user.job,
-            interests = user.interests.split(",").map { Interest(it) }.toList(),
+            interests = user.interests,
             nickname = user.nickname,
             birthday = user.birthday,
             gender = user.gender,

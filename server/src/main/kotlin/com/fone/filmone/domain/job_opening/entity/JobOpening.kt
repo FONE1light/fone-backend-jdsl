@@ -1,8 +1,7 @@
 package com.fone.filmone.domain.job_opening.entity
 
-import com.fone.filmone.domain.common.Career
-import com.fone.filmone.domain.common.Gender
-import com.fone.filmone.domain.common.Type
+import com.fone.filmone.common.converter.SeparatorConverter
+import com.fone.filmone.domain.common.*
 import com.fone.filmone.presentation.job_opening.RegisterJobOpeningDto.RegisterJobOpeningRequest
 import javax.persistence.*
 
@@ -18,8 +17,8 @@ data class JobOpening(
     @Column
     var title: String,
 
-    @Column
-    var interests: String,
+    @Convert(converter = SeparatorConverter::class)
+    var interests: List<Interest> = listOf(),
 
     @Column
     var deadline: String,
@@ -45,8 +44,8 @@ data class JobOpening(
     @Column
     var type: Type,
 
-    @Column
-    var domains: String,
+    @Convert(converter = SeparatorConverter::class)
+    var domains: List<Domain> = listOf(),
 
     @Column
     var userId: Long,
@@ -66,7 +65,7 @@ data class JobOpening(
 
     fun put(request: RegisterJobOpeningRequest) {
         title = request.title
-        interests = request.interests.joinToString(",")
+        interests = request.interests
         deadline = request.deadline.toString()
         casting = request.casting
         numberOfRecruits = request.numberOfRecruits
@@ -75,13 +74,13 @@ data class JobOpening(
         ageMin = request.ageMin
         career = request.career
         type = request.type
-        domains = request.domains.joinToString(",")
+        domains = request.domains
     }
 
     fun delete() {
         work.delete()
 
-        interests = ""
+        interests = listOf()
         deadline = ""
         casting = ""
         numberOfRecruits = 0
@@ -90,7 +89,7 @@ data class JobOpening(
         ageMin = 0
         career = Career.IRRELEVANT
         type = Type.ACTOR
-        domains = ""
+        domains = listOf()
         isDeleted = true
     }
 }

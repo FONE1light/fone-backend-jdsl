@@ -24,10 +24,10 @@ class RetrieveMyPageUserDto {
     ) {
 
         constructor(
-            user: User
+            user: User,
         ) : this(
             job = user.job,
-            interests = user.interests.split(",").map { Interest(it) }.toList(),
+            interests = user.interests,
             nickname = user.nickname,
             birthday = user.birthday,
             gender = user.gender,

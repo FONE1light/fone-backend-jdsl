@@ -8,7 +8,7 @@ data class ReportDto (
     val reportUserId: Long,
     val type: Type,
     val typeId: Long,
-    val inconvenients: String,
+    val inconvenients: List<String>,
     val details: String,
 ) {
     constructor(report: Report) : this(

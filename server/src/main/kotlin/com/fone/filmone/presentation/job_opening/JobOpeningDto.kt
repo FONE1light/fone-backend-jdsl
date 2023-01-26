@@ -24,7 +24,7 @@ data class JobOpeningDto(
     ) : this(
         id = jobOpening.id!!,
         title = jobOpening.title,
-        interests = jobOpening.interests.split(",").map { Interest(it) }.toList(),
+        interests = jobOpening.interests,
         deadline = jobOpening.deadline,
         casting = jobOpening.casting,
         numberOfRecruits = jobOpening.numberOfRecruits,
@@ -33,7 +33,7 @@ data class JobOpeningDto(
         ageMin = jobOpening.ageMin,
         career = jobOpening.career,
         type = jobOpening.type,
-        domains = jobOpening.domains.split(",").map { Domain(it) }.toList(),
+        domains = jobOpening.domains,
         viewCount = jobOpening.viewCount,
         work = WorkDto(jobOpening.work)
     )

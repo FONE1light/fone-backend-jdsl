@@ -25,7 +25,7 @@ class SignInUserService(
 
             val token = jwtUtils.generateUserToken(
                 user.email,
-                user.roles.split(",").map { Role("ROLE_USER") })
+                user.roles)
 
             return SignInUserResponse(user, token)
         }
