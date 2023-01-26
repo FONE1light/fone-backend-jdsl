@@ -2,13 +2,14 @@ package com.fone.filmone.presentation.competition
 
 import com.fone.filmone.domain.competition.entity.Competition
 import com.fone.filmone.domain.competition.entity.CompetitionPrize
+import java.time.LocalDate
 
 data class CompetitionDto(
     val id: Long,
     val title: String,
     val imageUrl: String,
-    val startDate: String,
-    val endDate: String,
+    val startDate: LocalDate?,
+    val endDate: LocalDate?,
     val agency: String,
     val details: String,
     val viewCount: Long,

@@ -5,6 +5,7 @@ import com.fone.filmone.domain.common.Interest
 import com.fone.filmone.domain.user.entity.User
 import com.fone.filmone.domain.user.enum.Job
 import com.fone.filmone.domain.user.enum.SocialLoginType
+import java.time.LocalDate
 
 class RetrieveMyPageUserDto {
 
@@ -12,7 +13,7 @@ class RetrieveMyPageUserDto {
         val job: Job,
         val interests: List<Interest>,
         val nickname: String,
-        val birthday: String,
+        val birthday: LocalDate?,
         val gender: Gender,
         val profileUrl: String,
         val phoneNumber: String,
