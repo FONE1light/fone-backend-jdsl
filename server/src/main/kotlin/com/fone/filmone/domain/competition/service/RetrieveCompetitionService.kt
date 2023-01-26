@@ -6,6 +6,8 @@ import com.fone.filmone.domain.competition.repository.CompetitionRepository
 import com.fone.filmone.presentation.competition.CompetitionDto
 import com.fone.filmone.presentation.competition.RetrieveCompetitionDto.RetrieveCompetitionResponse
 import com.fone.filmone.presentation.competition.RetrieveCompetitionDto.RetrieveCompetitionsResponse
+import org.hibernate.Hibernate
+import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -13,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class RetrieveCompetitionService(
     private val competitionRepository: CompetitionRepository,
-    private val competitionPrizeRepository: CompetitionPrizeRepository,
 ) {
 
     @Transactional(readOnly = true)
@@ -21,16 +22,14 @@ class RetrieveCompetitionService(
         email: String,
         pageable: Pageable,
     ): RetrieveCompetitionsResponse {
-        val competitions = competitionRepository.findAll(pageable)
-
-        val prizes = competitions.content
-            .map {
-                competitionPrizeRepository.findByCompetitionId(it.id!!)
-            }.toList()
+        val competitions = competitionRepository.findAll(pageable).content
 
         return RetrieveCompetitionsResponse(
-            pageable,
-            competitions.zip(prizes) { c, p -> CompetitionDto(c, p) }.toList(),
+            PageImpl(
+                competitions.map{ CompetitionDto(it) }.toList(),
+                pageable,
+                competitions.size.toLong(),
+            )
         )
     }
 
@@ -41,10 +40,9 @@ class RetrieveCompetitionService(
     ): RetrieveCompetitionResponse {
         val competition = competitionRepository.findById(competitionId)
             ?: throw NotFoundCompetitionException()
-        val prizes = competitionPrizeRepository.findByCompetitionId(competition.id!!).toList()
 
         competition.view()
 
-        return RetrieveCompetitionResponse(competition, prizes)
+        return RetrieveCompetitionResponse(CompetitionDto(competition))
     }
 }

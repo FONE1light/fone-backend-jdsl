@@ -35,8 +35,21 @@ data class Competition(
 
     @Column
     var viewCount: Long,
+
+    @OneToMany(mappedBy = "competition", cascade = [CascadeType.PERSIST])
+    val prizes: MutableList<Prize> = mutableListOf(),
 ) {
     fun view() {
         viewCount += 1
+    }
+
+    override fun toString(): String {
+        return "Competition(id=$id)"
+    }
+
+    /* 연관관계 메서드 */
+    fun addPrize(prize: Prize) {
+        this.prizes.add(prize)
+        prize.addCompetition(this)
     }
 }

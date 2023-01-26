@@ -10,7 +10,6 @@ spring:
     hikari:
       pool-name: test_pool
   jpa:
-    database: mysql
     hibernate:
       ddl-auto: create-drop
       use-new-id-generator-mappings: true
@@ -18,6 +17,7 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate:
+        default_batch_fetch_size: 1000
         check_nullability: true
         use_sql_comments: true
         format_sql: true

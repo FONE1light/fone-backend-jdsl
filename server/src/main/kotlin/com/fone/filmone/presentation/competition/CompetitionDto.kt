@@ -1,7 +1,7 @@
 package com.fone.filmone.presentation.competition
 
 import com.fone.filmone.domain.competition.entity.Competition
-import com.fone.filmone.domain.competition.entity.CompetitionPrize
+import com.fone.filmone.domain.competition.entity.Prize
 import java.time.LocalDate
 
 data class CompetitionDto(
@@ -15,7 +15,7 @@ data class CompetitionDto(
     val viewCount: Long,
     val competitionPrizes: List<CompetitionPrizeDto>,
 ) {
-    constructor(competition: Competition, prizes: List<CompetitionPrize>) : this(
+    constructor(competition: Competition ) : this(
         id = competition.id!!,
         title = competition.title,
         imageUrl = competition.imageUrl,
@@ -24,7 +24,7 @@ data class CompetitionDto(
         agency = competition.agency,
         details = competition.details,
         viewCount = competition.viewCount,
-        competitionPrizes = prizes.map { CompetitionPrizeDto(it) }.toList(),
+        competitionPrizes = competition.prizes.map { CompetitionPrizeDto(it) }.toList(),
     )
 }
 
@@ -35,11 +35,11 @@ data class CompetitionPrizeDto(
     val agency: String,
     val competitionId: Long,
 ) {
-    constructor(prize: CompetitionPrize) : this(
+    constructor(prize: Prize) : this(
         id = prize.id!!,
         ranking = prize.ranking,
         prizeMoney = prize.prizeMoney,
         agency = prize.agency,
-        competitionId = prize.competitionId,
+        competitionId = prize.competition!!.id!!,
     )
 }
