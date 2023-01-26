@@ -22,7 +22,7 @@ data class User(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
 
-    @Column
+    @Enumerated(EnumType.STRING)
     var job: Job,
 
     @Convert(converter = SeparatorConverter::class)
@@ -34,7 +34,7 @@ data class User(
     @Column
     var birthday: String,
 
-    @Column
+    @Enumerated(EnumType.STRING)
     val gender: Gender,
 
     @Column
@@ -46,7 +46,7 @@ data class User(
     @Column
     var email: String,
 
-    @Column
+    @Enumerated(EnumType.STRING)
     val socialLoginType: SocialLoginType,
 
     @Column

@@ -20,7 +20,7 @@ data class Profile(
     @Column
     var birthday: String,
 
-    @Column
+    @Enumerated(EnumType.STRING)
     var gender: Gender,
 
     @Column
@@ -41,13 +41,13 @@ data class Profile(
     @Column
     var details: String,
 
-    @Column
+    @Enumerated(EnumType.STRING)
     var career: Career,
 
     @Convert(converter = SeparatorConverter::class)
     var interests: List<Interest> = listOf(),
 
-    @Column
+    @Enumerated(EnumType.STRING)
     var type: Type,
 
     @Convert(converter = SeparatorConverter::class)
