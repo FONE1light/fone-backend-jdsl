@@ -15,7 +15,7 @@ data class Competition(
     @Column
     var title: String,
 
-    @Column
+    @Column(length = 300)
     var imageUrl: String,
 
     @Column
@@ -27,7 +27,7 @@ data class Competition(
     @Column
     var agency: String,
 
-    @Column
+    @Column(length = 500)
     var details: String,
 
     @Column

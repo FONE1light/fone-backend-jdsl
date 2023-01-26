@@ -33,13 +33,13 @@ data class Profile(
     @Column
     var email: String,
 
-    @Column
+    @Column(length = 300)
     var sns: String,
 
     @Column
     var specialty: String,
 
-    @Column
+    @Column(length = 500)
     var details: String,
 
     @Enumerated(EnumType.STRING)

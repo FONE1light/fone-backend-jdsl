@@ -22,9 +22,10 @@ data class Report (
     var typeId: Long,
 
     @Convert(converter = SeparatorConverter::class)
+    @Column(length = 500)
     var inconvenients: List<String> = listOf(),
 
-    @Column
+    @Column(length = 500)
     var details: String,
 
     @Column
