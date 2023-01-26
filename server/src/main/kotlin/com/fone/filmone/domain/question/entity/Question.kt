@@ -15,7 +15,7 @@ data class Question(
     @Column
     val email: String,
 
-    @Column
+    @Enumerated(EnumType.STRING)
     val type: Type,
 
     @Column

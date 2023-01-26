@@ -29,7 +29,7 @@ data class JobOpening(
     @Column
     var numberOfRecruits: Int,
 
-    @Column
+    @Enumerated(EnumType.STRING)
     var gender: Gender,
 
     @Column
@@ -38,10 +38,10 @@ data class JobOpening(
     @Column
     var ageMin: Int,
 
-    @Column
+    @Enumerated(EnumType.STRING)
     var career: Career,
 
-    @Column
+    @Enumerated(EnumType.STRING)
     var type: Type,
 
     @Convert(converter = SeparatorConverter::class)
