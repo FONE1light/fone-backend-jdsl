@@ -18,7 +18,7 @@ class RegisterReportDto {
                 reportUserId = reportUserId,
                 type = type.toString(),
                 typeId = typeId,
-                inconvenients = inconvenients.joinToString(","),
+                inconvenients = inconvenients,
                 details = details,
                 userId = userId,
             )

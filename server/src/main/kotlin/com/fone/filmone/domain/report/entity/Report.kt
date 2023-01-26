@@ -1,5 +1,6 @@
 package com.fone.filmone.domain.report.entity
 
+import com.fone.filmone.common.converter.SeparatorConverter
 import javax.persistence.*
 
 @Entity
@@ -20,8 +21,8 @@ data class Report (
     @Column
     var typeId: Long,
 
-    @Column
-    var inconvenients: String,
+    @Convert(converter = SeparatorConverter::class)
+    var inconvenients: List<String> = listOf(),
 
     @Column
     var details: String,

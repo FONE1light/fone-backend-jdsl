@@ -1,14 +1,13 @@
 package com.fone.filmone.domain.profile.entity
 
-import com.fone.filmone.domain.common.Career
-import com.fone.filmone.domain.common.Gender
-import com.fone.filmone.domain.common.Type
+import com.fone.filmone.common.converter.SeparatorConverter
+import com.fone.filmone.domain.common.*
 import com.fone.filmone.presentation.profile.RegisterProfileDto
 import javax.persistence.*
 
 @Entity
 @Table(name = "profiles")
-data class Profile (
+data class Profile(
 
     @Id
     @Column
@@ -45,14 +44,14 @@ data class Profile (
     @Column
     var career: Career,
 
-    @Column
-    var interests: String,
+    @Convert(converter = SeparatorConverter::class)
+    var interests: List<Interest> = listOf(),
 
     @Column
     var type: Type,
 
-    @Column
-    var domains: String,
+    @Convert(converter = SeparatorConverter::class)
+    var domains: List<Domain> = listOf(),
 
     @Column
     var userId: Long,
@@ -79,9 +78,9 @@ data class Profile (
         specialty = request.specialty
         details = request.details
         career = request.career
-        interests = request.interests.joinToString(",")
+        interests = request.interests
         type = request.type
-        domains = request.domains.joinToString(",")
+        domains = request.domains
     }
 
     fun delete() {
@@ -95,9 +94,9 @@ data class Profile (
         specialty = ""
         details = ""
         career = Career.IRRELEVANT
-        interests = ""
+        interests = listOf()
         type = Type.ACTOR
-        domains = ""
+        domains = listOf()
         isDeleted = true
     }
 }

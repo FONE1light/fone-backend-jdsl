@@ -1,8 +1,8 @@
 package com.fone.filmone.presentation.user
 
+import com.fone.filmone.domain.common.Gender
 import com.fone.filmone.domain.common.Interest
 import com.fone.filmone.domain.user.entity.User
-import com.fone.filmone.domain.common.Gender
 import com.fone.filmone.domain.user.enum.Job
 import com.fone.filmone.domain.user.enum.Role
 import com.fone.filmone.domain.user.enum.SocialLoginType
@@ -47,7 +47,7 @@ class SignUpUserDto {
 
             return User(
                 job = job,
-                interests = interests.joinToString(","),
+                interests = interests,
                 nickname = nickname,
                 birthday = birthday.toString(),
                 gender = gender,
@@ -58,7 +58,7 @@ class SignUpUserDto {
                 agreeToTermsOfServiceTermsOfUse = agreeToTermsOfServiceTermsOfUse,
                 agreeToPersonalInformation = agreeToPersonalInformation,
                 isReceiveMarketing = isReceiveMarketing,
-                roles = listOf(Role.ROLE_USER).map { it.toString() }.joinToString(","),
+                roles = listOf(Role.ROLE_USER),
                 enabled = true,
             )
         }
@@ -80,10 +80,10 @@ class SignUpUserDto {
     ) {
 
         constructor(
-            user: User
+            user: User,
         ) : this(
             job = user.job,
-            interests = user.interests.split(",").map { Interest(it) }.toList(),
+            interests = user.interests,
             nickname = user.nickname,
             birthday = user.birthday,
             gender = user.gender,
