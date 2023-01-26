@@ -6,6 +6,8 @@ import com.fone.filmone.domain.competition.repository.CompetitionRepository
 import com.fone.filmone.presentation.competition.CompetitionDto
 import com.fone.filmone.presentation.competition.RetrieveCompetitionDto.RetrieveCompetitionResponse
 import com.fone.filmone.presentation.competition.RetrieveCompetitionDto.RetrieveCompetitionsResponse
+import org.hibernate.Hibernate
+import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -20,11 +22,14 @@ class RetrieveCompetitionService(
         email: String,
         pageable: Pageable,
     ): RetrieveCompetitionsResponse {
-        val competitions = competitionRepository.findAll(pageable)
+        val competitions = competitionRepository.findAll(pageable).content
 
         return RetrieveCompetitionsResponse(
-            pageable,
-            competitions.map { CompetitionDto(it) }.toList(),
+            PageImpl(
+                competitions.map{ CompetitionDto(it) }.toList(),
+                pageable,
+                competitions.size.toLong(),
+            )
         )
     }
 
@@ -38,6 +43,6 @@ class RetrieveCompetitionService(
 
         competition.view()
 
-        return RetrieveCompetitionResponse(competition)
+        return RetrieveCompetitionResponse(CompetitionDto(competition))
     }
 }

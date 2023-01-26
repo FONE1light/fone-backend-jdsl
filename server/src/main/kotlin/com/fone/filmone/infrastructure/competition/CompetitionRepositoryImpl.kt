@@ -6,13 +6,11 @@ import com.fone.filmone.domain.competition.entity.Prize
 import com.fone.filmone.domain.competition.repository.CompetitionRepository
 import com.linecorp.kotlinjdsl.querydsl.expression.col
 import com.linecorp.kotlinjdsl.querydsl.expression.column
-import com.linecorp.kotlinjdsl.querydsl.from.join
-import com.linecorp.kotlinjdsl.spring.data.reactive.query.SpringDataHibernateMutinyReactiveQueryFactory
-import com.linecorp.kotlinjdsl.spring.data.reactive.query.pageQuery
-import com.linecorp.kotlinjdsl.spring.data.reactive.query.singleQueryOrNull
-import com.linecorp.kotlinjdsl.spring.data.reactive.query.subquery
+import com.linecorp.kotlinjdsl.querydsl.from.fetch
+import com.linecorp.kotlinjdsl.spring.data.reactive.query.*
 import io.smallrye.mutiny.coroutines.awaitSuspending
 import org.hibernate.reactive.mutiny.Mutiny
+import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 import org.springframework.stereotype.Repository
@@ -26,18 +24,30 @@ class CompetitionRepositoryImpl(
 
     @Transactional
     override suspend fun findAll(pageable: Pageable): Slice<Competition> {
-        return queryFactory.pageQuery(pageable) {
+        val ids = queryFactory.pageQuery(pageable) {
+            select(column(Competition::id))
+            from(entity(Competition::class))
+        }.content
+
+        val competitions = queryFactory.listQuery {
             select(entity(Competition::class))
             from(entity(Competition::class))
-            join(Competition::class, Prize::class, on(Competition::prizes))
+            fetch(Competition::class, Prize::class, on(Competition::prizes))
+            where(col(Competition::id).`in`(ids))
         }
+
+        return PageImpl(
+            competitions,
+            pageable,
+            competitions.size.toLong()
+        )
     }
 
     override suspend fun findById(competitionId: Long): Competition? {
         return queryFactory.singleQueryOrNull {
             select(entity(Competition::class))
             from(entity(Competition::class))
-            join(Competition::class, Prize::class, on(Competition::prizes))
+            fetch(Competition::prizes)
             where(col(Competition::id).equal(competitionId))
         }
     }
@@ -47,18 +57,24 @@ class CompetitionRepositoryImpl(
         pageable: Pageable,
         userId: Long,
     ): Slice<Competition> {
-        val competitionIds = queryFactory.subquery {
+        val ids = queryFactory.pageQuery(pageable) {
             select(column(CompetitionScrap::id))
             from(entity(CompetitionScrap::class))
             where(col(CompetitionScrap::userId).equal(userId))
-        }
+        }.content
 
-        return queryFactory.pageQuery(pageable) {
+        val competitions = queryFactory.listQuery {
             select(entity(Competition::class))
             from(entity(Competition::class))
-            join(Competition::class, Prize::class, on(Competition::prizes))
-            where(col(Competition::id).`in`(competitionIds))
+            fetch(Competition::class, Prize::class, on(Competition::prizes))
+            where(col(Competition::id).`in`(ids))
         }
+
+        return PageImpl(
+            competitions,
+            pageable,
+            competitions.size.toLong()
+        )
     }
 
     override suspend fun save(competition: Competition): Competition {

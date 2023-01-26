@@ -15,14 +15,6 @@ class CompetitionPrizeRepositoryImpl(
     private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
 ) : CompetitionPrizeRepository {
 
-    override suspend fun findByCompetitionId(competitionId: Long): List<Prize> {
-        return queryFactory.listQuery {
-            select(entity(Prize::class))
-            from(entity(Prize::class))
-            where(col(Prize::id).equal(competitionId))
-        }
-    }
-
     override suspend fun saveAll(prizes: List<Prize>): List<Prize> {
         sessionFactory.withSession { session ->
             session.persistAll(*prizes.toTypedArray()).flatMap { session.flush() }

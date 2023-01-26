@@ -1,11 +1,12 @@
 package com.fone.filmone.domain.competition.entity
 
 import javax.persistence.*
-import javax.persistence.FetchType.*
+import javax.persistence.FetchType.EAGER
+import javax.persistence.FetchType.LAZY
 
 @Entity
 @Table(name = "competition_prizes")
-data class Prize (
+data class Prize(
 
     @Id
     @Column
@@ -21,10 +22,14 @@ data class Prize (
     @Column
     var agency: String,
 
-    @ManyToOne(fetch = EAGER)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "competition_id")
     var competition: Competition? = null,
 ) {
+
+    override fun toString(): String {
+        return "Prize(id=$id)"
+    }
 
     fun addCompetition(competition: Competition) {
         this.competition = competition

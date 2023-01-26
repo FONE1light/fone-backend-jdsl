@@ -43,6 +43,9 @@ data class Competition(
         viewCount += 1
     }
 
+    override fun toString(): String {
+        return "Competition(id=$id)"
+    }
 
     /* 연관관계 메서드 */
     fun addPrize(prize: Prize) {

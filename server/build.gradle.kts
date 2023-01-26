@@ -15,7 +15,7 @@ dependencies {
 
     // kotlin-jdsl
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    val jdslVersion = "2.0.4.RELEASE"
+    val jdslVersion = "2.2.0.RELEASE"
     implementation("com.linecorp.kotlin-jdsl:spring-data-kotlin-jdsl-starter:$jdslVersion")
 
     // mysql db reactive

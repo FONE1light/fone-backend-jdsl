@@ -49,9 +49,5 @@ class RegisterCompetitionDto {
 
     data class RegisterCompetitionResponse(
         val competition: CompetitionDto,
-    ) {
-        constructor(competition: Competition) : this(
-            competition = CompetitionDto(competition)
-        )
-    }
+    )
 }
