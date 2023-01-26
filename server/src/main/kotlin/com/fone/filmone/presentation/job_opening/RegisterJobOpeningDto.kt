@@ -79,13 +79,13 @@ class RegisterJobOpeningDto {
     }
 
     data class RegisterJobOpeningResponse(
-        val title: String,
+        val jobOpening: JobOpeningDto
     ) {
 
         constructor(
             jobOpening: JobOpening
         ) : this(
-            title = jobOpening.title
+            jobOpening = JobOpeningDto(jobOpening)
         )
     }
 }
