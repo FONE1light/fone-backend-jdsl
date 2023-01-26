@@ -1,21 +1,15 @@
 package com.fone.filmone.domain.job_opening.entity
 
-import javax.persistence.*
+import javax.persistence.Column
+import javax.persistence.Embeddable
 
-@Entity
-@Table(name = "works")
+@Embeddable
 data class Work(
-
-    @Id
-    @Column
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null,
-
     @Column
     var produce: String,
 
     @Column
-    var title: String,
+    var workTitle: String,
 
     @Column
     var director: String,
@@ -43,16 +37,10 @@ data class Work(
 
     @Column
     var email: String,
-
-    @Column
-    var jobOpeningId: Long,
-
-    @Column
-    var isDeleted: Boolean = false,
 ) {
     fun delete() {
         produce = ""
-        title = ""
+        workTitle = ""
         director = ""
         genre = ""
         logline = ""
@@ -62,6 +50,5 @@ data class Work(
         details = ""
         manager = ""
         email = ""
-        isDeleted = true
     }
 }

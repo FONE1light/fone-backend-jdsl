@@ -2,7 +2,6 @@ package com.fone.filmone.domain.job_opening.service
 
 import com.fone.filmone.common.exception.NotFoundUserException
 import com.fone.filmone.domain.job_opening.repository.JobOpeningRepository
-import com.fone.filmone.domain.job_opening.repository.WorkRepository
 import com.fone.filmone.domain.user.repository.UserRepository
 import com.fone.filmone.presentation.job_opening.RegisterJobOpeningDto.RegisterJobOpeningRequest
 import com.fone.filmone.presentation.job_opening.RegisterJobOpeningDto.RegisterJobOpeningResponse
@@ -12,14 +11,13 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class RegisterJobOpeningService(
     private val jobOpeningRepository: JobOpeningRepository,
-    private val workRepository: WorkRepository,
     private val userRepository: UserRepository,
 ) {
 
     @Transactional
     suspend fun registerJobOpening(
         request: RegisterJobOpeningRequest,
-        email: String
+        email: String,
     ): RegisterJobOpeningResponse {
         val user = userRepository.findByNicknameOrEmail(null, email)
             ?: throw NotFoundUserException()
@@ -27,9 +25,6 @@ class RegisterJobOpeningService(
         with(request) {
             val jobOpening = toEntity(user.id!!)
             jobOpeningRepository.save(jobOpening)
-
-            val work = work.toEntity(jobOpening.id!!)
-            workRepository.save(work)
 
             return RegisterJobOpeningResponse(jobOpening)
         }
