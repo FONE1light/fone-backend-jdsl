@@ -1,6 +1,7 @@
 package com.fone.filmone.presentation.profile
 
 import com.fone.filmone.domain.profile.entity.Profile
+import com.fone.filmone.domain.profile.entity.ProfileWant
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
@@ -11,11 +12,15 @@ class RetrieveProfileMyRegistrationDto {
         val profiles: Slice<ProfileDto>,
     ) {
 
-        constructor(profileList: List<Profile>, pageable: Pageable) : this(
+        constructor(
+            profiles: List<Profile>,
+            userProfileWantMap: Map<Long, ProfileWant?>,
+            pageable: Pageable,
+        ) : this(
             profiles = PageImpl(
-                profileList.map { ProfileDto(it) }.toList(),
+                profiles.map { ProfileDto(it, userProfileWantMap) }.toList(),
                 pageable,
-                profileList.size.toLong()
+                profiles.size.toLong()
             )
         )
     }

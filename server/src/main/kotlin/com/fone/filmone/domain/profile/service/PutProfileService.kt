@@ -4,14 +4,18 @@ import com.fone.filmone.common.exception.InvalidProfileUserIdException
 import com.fone.filmone.common.exception.NotFoundProfileException
 import com.fone.filmone.common.exception.NotFoundUserException
 import com.fone.filmone.domain.profile.repository.ProfileRepository
+import com.fone.filmone.domain.profile.repository.ProfileWantRepository
 import com.fone.filmone.domain.user.repository.UserRepository
 import com.fone.filmone.presentation.profile.RegisterProfileDto.RegisterProfileRequest
 import com.fone.filmone.presentation.profile.RegisterProfileDto.RegisterProfileResponse
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import org.springframework.stereotype.Service
 
 @Service
 class PutProfileService(
     private val profileRepository: ProfileRepository,
+    private val profileWantRepository: ProfileWantRepository,
     private val userRepository: UserRepository,
 ) {
 
@@ -28,10 +32,17 @@ class PutProfileService(
             throw InvalidProfileUserIdException()
         }
 
-        profile.put(request)
+        return coroutineScope {
+            val profile = async {
+                profile.put(request)
+                profileRepository.save(profile)
+            }
 
-        profileRepository.save(profile)
+            val userProfileWants = async {
+                profileWantRepository.findByUserId(user.id!!)
+            }
 
-        return RegisterProfileResponse(profile)
+            RegisterProfileResponse(profile.await(), userProfileWants.await())
+        }
     }
 }

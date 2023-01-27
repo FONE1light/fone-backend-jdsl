@@ -1,4 +1,4 @@
-rootProject.name = "backend"
+rootProject.name = "fone-backend"
 
 include(":idl")
 include(":server")

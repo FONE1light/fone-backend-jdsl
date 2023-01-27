@@ -5,6 +5,7 @@ import com.fone.filmone.domain.common.Domain
 import com.fone.filmone.domain.common.Gender
 import com.fone.filmone.domain.common.Interest
 import com.fone.filmone.domain.profile.entity.Profile
+import com.fone.filmone.domain.profile.entity.ProfileWant
 import java.time.LocalDate
 
 data class ProfileDto(
@@ -23,8 +24,9 @@ data class ProfileDto(
     val domains: List<Domain>,
     val profileImages: List<String>,
     val viewCount: Long,
+    val isWant: Boolean = false,
 ) {
-    constructor(profile: Profile) : this(
+    constructor(profile: Profile, userProfileWantMap: Map<Long, ProfileWant?>) : this(
         id = profile.id!!,
         hookingComment = profile.hookingComment,
         birthday = profile.birthday,
@@ -40,5 +42,6 @@ data class ProfileDto(
         domains = profile.domains.map { Domain(it) }.toList(),
         profileImages = listOf(),
         viewCount = profile.viewCount,
+        isWant = userProfileWantMap.get(profile.id!!) != null,
     )
 }

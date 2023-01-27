@@ -2,6 +2,7 @@ package com.fone.filmone.presentation.profile
 
 import com.fone.filmone.domain.common.*
 import com.fone.filmone.domain.profile.entity.Profile
+import com.fone.filmone.domain.profile.entity.ProfileWant
 import io.swagger.annotations.ApiModelProperty
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDate
@@ -58,8 +59,9 @@ class RegisterProfileDto {
 
         constructor(
             profile: Profile,
+            userProfileWantMap: Map<Long, ProfileWant?>,
         ) : this(
-            profile = ProfileDto(profile)
+            profile = ProfileDto(profile, userProfileWantMap)
         )
     }
 }

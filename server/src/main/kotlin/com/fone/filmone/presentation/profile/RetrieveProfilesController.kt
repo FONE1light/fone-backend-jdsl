@@ -21,10 +21,11 @@ class RetrieveProfilesController(
     @GetMapping
     @PreAuthorize("hasRole('USER')")
     suspend fun retrieveProfiles(
+        principal: Principal,
         pageable: Pageable,
         @RequestParam type: Type,
     ): CommonResponse<RetrieveProfilesResponse> {
-        val response = retrieveProfilesFacade.retrieveProfiles(pageable, type)
+        val response = retrieveProfilesFacade.retrieveProfiles(pageable, principal.name, type)
 
         return CommonResponse.success(response)
     }

@@ -10,8 +10,8 @@ class RetrieveProfilesFacade(
     private val retrieveProfilesService: RetrieveProfilesService,
 ) {
 
-    suspend fun retrieveProfiles(pageable: Pageable, type: Type) =
-        retrieveProfilesService.retrieveProfiles(pageable, type)
+    suspend fun retrieveProfiles(pageable: Pageable, email: String, type: Type) =
+        retrieveProfilesService.retrieveProfiles(pageable, email, type)
 
     suspend fun retrieveProfile(email: String, type: Type, profileId: Long) =
         retrieveProfilesService.retrieveProfile(email, type, profileId)
