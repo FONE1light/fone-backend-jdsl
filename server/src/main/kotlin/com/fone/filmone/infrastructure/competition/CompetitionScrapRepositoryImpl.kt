@@ -1,8 +1,10 @@
 package com.fone.filmone.infrastructure.competition
 
+import com.fone.filmone.domain.competition.entity.Competition
 import com.fone.filmone.domain.competition.entity.CompetitionScrap
 import com.fone.filmone.domain.competition.repository.CompetitionScrapRepository
 import com.linecorp.kotlinjdsl.querydsl.expression.col
+import com.linecorp.kotlinjdsl.querydsl.from.fetch
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.SpringDataHibernateMutinyReactiveQueryFactory
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.deleteQuery
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.listQuery
@@ -24,13 +26,24 @@ class CompetitionScrapRepositoryImpl(
         return queryFactory.singleQueryOrNull {
             select(entity(CompetitionScrap::class))
             from(entity(CompetitionScrap::class))
+            fetch(CompetitionScrap::competition)
             where(
                 and(
                     col(CompetitionScrap::userId).equal(userId),
-                    col(CompetitionScrap::competitionId).equal(competitionId),
+                    col(Competition::id).equal(competitionId),
                 )
             )
         }
+    }
+
+    override suspend fun findByUserId(userId: Long): Map<Long, CompetitionScrap?> {
+
+        return queryFactory.listQuery {
+            select(entity(CompetitionScrap::class))
+            from(entity(CompetitionScrap::class))
+            fetch(CompetitionScrap::competition)
+            where(col(CompetitionScrap::userId).equal(userId))
+        }.associateBy { it!!.competition?.id!! }
     }
 
     override suspend fun delete(competitionScrap: CompetitionScrap): Int {

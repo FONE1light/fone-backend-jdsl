@@ -1,13 +1,14 @@
 package com.fone.filmone.domain.competition.service
 
 import com.fone.filmone.common.exception.NotFoundCompetitionException
-import com.fone.filmone.domain.competition.repository.CompetitionPrizeRepository
+import com.fone.filmone.common.exception.NotFoundUserException
 import com.fone.filmone.domain.competition.repository.CompetitionRepository
-import com.fone.filmone.presentation.competition.CompetitionDto
+import com.fone.filmone.domain.competition.repository.CompetitionScrapRepository
+import com.fone.filmone.domain.user.repository.UserRepository
 import com.fone.filmone.presentation.competition.RetrieveCompetitionDto.RetrieveCompetitionResponse
 import com.fone.filmone.presentation.competition.RetrieveCompetitionDto.RetrieveCompetitionsResponse
-import org.hibernate.Hibernate
-import org.springframework.data.domain.PageImpl
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -15,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class RetrieveCompetitionService(
     private val competitionRepository: CompetitionRepository,
+    private val competitionScrapRepository: CompetitionScrapRepository,
+    private val userRepository: UserRepository,
 ) {
 
     @Transactional(readOnly = true)
@@ -22,15 +25,24 @@ class RetrieveCompetitionService(
         email: String,
         pageable: Pageable,
     ): RetrieveCompetitionsResponse {
-        val competitions = competitionRepository.findAll(pageable).content
+        val user = userRepository.findByNicknameOrEmail(null, email)
+            ?: throw NotFoundUserException()
 
-        return RetrieveCompetitionsResponse(
-            PageImpl(
-                competitions.map{ CompetitionDto(it) }.toList(),
+        return coroutineScope {
+            val competitions = async {
+                competitionRepository.findAll(pageable).content
+            }
+
+            val userCompetitionScraps = async {
+                competitionScrapRepository.findByUserId(user.id!!)
+            }
+
+            RetrieveCompetitionsResponse(
+                competitions.await(),
+                userCompetitionScraps.await(),
                 pageable,
-                competitions.size.toLong(),
             )
-        )
+        }
     }
 
     @Transactional
@@ -38,11 +50,25 @@ class RetrieveCompetitionService(
         email: String,
         competitionId: Long,
     ): RetrieveCompetitionResponse {
-        val competition = competitionRepository.findById(competitionId)
-            ?: throw NotFoundCompetitionException()
+        val user = userRepository.findByNicknameOrEmail(null, email)
+            ?: throw NotFoundUserException()
 
-        competition.view()
+        return coroutineScope {
+            val competition = async {
+                val competition = competitionRepository.findById(competitionId)
+                    ?: throw NotFoundCompetitionException()
+                competition.view()
+                competition
+            }
 
-        return RetrieveCompetitionResponse(CompetitionDto(competition))
+            val userCompetitionScraps = async {
+                competitionScrapRepository.findByUserId(user.id!!)
+            }
+
+            RetrieveCompetitionResponse(
+                competition.await(),
+                userCompetitionScraps.await(),
+            )
+        }
     }
 }

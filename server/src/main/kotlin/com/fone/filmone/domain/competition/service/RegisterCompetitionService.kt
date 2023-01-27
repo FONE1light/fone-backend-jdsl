@@ -30,7 +30,7 @@ class RegisterCompetitionService(
 
             competitionRepository.save(competition)
 
-            return RegisterCompetitionResponse(CompetitionDto(competition))
+            return RegisterCompetitionResponse(competition)
         }
     }
 }

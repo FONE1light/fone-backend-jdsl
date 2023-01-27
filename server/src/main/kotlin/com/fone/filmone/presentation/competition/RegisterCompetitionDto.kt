@@ -49,5 +49,9 @@ class RegisterCompetitionDto {
 
     data class RegisterCompetitionResponse(
         val competition: CompetitionDto,
-    )
+    ) {
+        constructor(reqCompetition: Competition): this(
+            competition = CompetitionDto(reqCompetition, mapOf())
+        )
+    }
 }
