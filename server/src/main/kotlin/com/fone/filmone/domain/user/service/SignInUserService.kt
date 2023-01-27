@@ -1,6 +1,6 @@
 package com.fone.filmone.domain.user.service
 
-import com.fone.filmone.common.exception.NotFoundUserException
+import com.fone.common.exception.NotFoundUserException
 import com.fone.filmone.common.jwt.JWTUtils
 import com.fone.filmone.domain.user.enum.Role
 import com.fone.filmone.domain.user.repository.UserRepository

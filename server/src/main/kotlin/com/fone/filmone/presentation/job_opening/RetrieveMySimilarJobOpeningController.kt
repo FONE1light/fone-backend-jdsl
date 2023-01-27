@@ -1,7 +1,7 @@
 package com.fone.filmone.presentation.job_opening
 
 import com.fone.filmone.application.job_opening.RetrieveMySimilarJobOpeningFacade
-import com.fone.filmone.common.response.CommonResponse
+import com.fone.common.response.CommonResponse
 import com.fone.filmone.presentation.job_opening.RetrieveMySimilarJobOpeningDto.RetrieveMySimilarJobOpeningResponse
 import io.swagger.annotations.Api
 import org.springframework.web.bind.annotation.GetMapping

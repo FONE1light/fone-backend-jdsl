@@ -1,7 +1,7 @@
 package com.fone.filmone.presentation.job_opening
 
 import com.fone.filmone.application.job_opening.RetrieveJobOpeningScrapFacade
-import com.fone.filmone.common.response.CommonResponse
+import com.fone.common.response.CommonResponse
 import com.fone.filmone.domain.common.Type
 import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningScrapDto.RetrieveJobOpeningScrapResponse
 import io.swagger.annotations.Api

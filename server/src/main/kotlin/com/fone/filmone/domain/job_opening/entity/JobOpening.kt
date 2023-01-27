@@ -1,6 +1,6 @@
 package com.fone.filmone.domain.job_opening.entity
 
-import com.fone.filmone.common.converter.SeparatorConverter
+import com.fone.common.converter.SeparatorConverter
 import com.fone.filmone.domain.common.*
 import com.fone.filmone.presentation.job_opening.RegisterJobOpeningDto.RegisterJobOpeningRequest
 import javax.persistence.*

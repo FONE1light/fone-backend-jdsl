@@ -3,7 +3,8 @@ plugins {
 }
 
 dependencies {
-    implementation(project(path = ":home", configuration = "default"))
+    implementation(project(":common"))
+    implementation(project(":home"))
 
     // persistence
     implementation("javax.persistence:javax.persistence-api")

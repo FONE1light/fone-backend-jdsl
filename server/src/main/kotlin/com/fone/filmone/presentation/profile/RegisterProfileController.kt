@@ -1,7 +1,7 @@
 package com.fone.filmone.presentation.profile
 
 import com.fone.filmone.application.profile.RegisterProfileFacade
-import com.fone.filmone.common.response.CommonResponse
+import com.fone.common.response.CommonResponse
 import com.fone.filmone.presentation.profile.RegisterProfileDto.RegisterProfileRequest
 import com.fone.filmone.presentation.profile.RegisterProfileDto.RegisterProfileResponse
 import io.swagger.annotations.Api

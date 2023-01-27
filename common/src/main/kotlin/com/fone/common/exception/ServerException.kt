@@ -1,4 +1,4 @@
-package com.fone.filmone.common.exception
+package com.fone.common.exception
 
 sealed class ServerException(
     val code: Int,

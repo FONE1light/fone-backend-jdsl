@@ -1,7 +1,7 @@
 package com.fone.filmone.presentation.user
 
 import com.fone.filmone.application.user.SignInUserFacade
-import com.fone.filmone.common.response.CommonResponse
+import com.fone.common.response.CommonResponse
 import com.fone.filmone.presentation.user.SignInUserDto.SignInUserRequest
 import com.fone.filmone.presentation.user.SignInUserDto.SignInUserResponse
 import io.swagger.annotations.Api

@@ -1,4 +1,4 @@
-package com.fone.filmone.common.config
+package com.fone.common.config
 
 import com.fasterxml.classmate.TypeResolver
 import io.swagger.annotations.ApiModel

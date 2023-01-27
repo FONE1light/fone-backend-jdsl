@@ -1,8 +1,9 @@
-package com.fone.filmone.common.exception
+package com.fone.common.exception
 
 import org.springframework.http.HttpStatus
+import org.springframework.web.server.ResponseStatusException
 
-class UnauthorizedException : GlobalException {
+open class GlobalException : ResponseStatusException {
     constructor(status: HttpStatus) : super(status) {}
     constructor(status: HttpStatus, reason: String) : super(status, reason) {}
     constructor(status: HttpStatus, reason: String, cause: Throwable) : super(

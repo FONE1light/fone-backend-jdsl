@@ -1,6 +1,6 @@
 package com.fone.filmone.domain.profile.service
 
-import com.fone.filmone.common.exception.NotFoundUserException
+import com.fone.common.exception.NotFoundUserException
 import com.fone.filmone.domain.profile.entity.ProfileImage
 import com.fone.filmone.domain.profile.repository.ProfileImageRepository
 import com.fone.filmone.domain.profile.repository.ProfileRepository

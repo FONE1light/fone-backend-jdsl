@@ -1,6 +1,6 @@
 package com.fone.filmone.common.jwt
 
-import com.fone.filmone.common.exception.UnauthorizedException
+import com.fone.common.exception.UnauthorizedException
 import org.springframework.context.annotation.Bean
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus

@@ -1,7 +1,7 @@
 package com.fone.filmone.presentation.user
 
 import com.fone.filmone.application.user.RetrieveMyPageUserFacade
-import com.fone.filmone.common.response.CommonResponse
+import com.fone.common.response.CommonResponse
 import com.fone.filmone.presentation.user.RetrieveMyPageUserDto.RetrieveMyPageUserResponse
 import io.swagger.annotations.Api
 import org.springframework.security.access.prepost.PreAuthorize

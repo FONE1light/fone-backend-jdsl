@@ -1,6 +1,6 @@
 package com.fone.filmone.domain.report.entity
 
-import com.fone.filmone.common.converter.SeparatorConverter
+import com.fone.common.converter.SeparatorConverter
 import javax.persistence.*
 
 @Entity

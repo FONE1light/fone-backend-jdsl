@@ -1,4 +1,4 @@
-package com.fone.filmone.common.converter
+package com.fone.common.converter
 
 import javax.persistence.AttributeConverter
 import javax.persistence.Converter

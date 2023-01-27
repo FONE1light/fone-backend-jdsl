@@ -1,7 +1,8 @@
-package com.fone.filmone.common.exception
+package com.fone.common.exception
 
-import com.fone.filmone.common.response.CommonResponse
-import com.fone.filmone.common.response.ErrorCode
+import com.fone.common.response.CommonResponse
+import com.fone.common.response.Error
+import com.fone.common.response.ErrorCode
 import mu.KotlinLogging
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -40,9 +41,9 @@ class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = [WebExchangeBindException::class])
     fun methodArgumentNotValidException(e: WebExchangeBindException): Mono<CommonResponse<String>> {
-        val errors = mutableListOf<com.fone.filmone.common.response.Error>()
+        val errors = mutableListOf<Error>()
         e.allErrors.forEach {
-            val error = com.fone.filmone.common.response.Error(
+            val error = Error(
                 field = (it as FieldError).field,
                 message = it.defaultMessage,
                 value = it.rejectedValue,

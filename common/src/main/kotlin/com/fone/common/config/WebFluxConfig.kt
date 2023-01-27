@@ -1,4 +1,4 @@
-package com.fone.filmone.common.config
+package com.fone.common.config
 
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.web.ReactivePageableHandlerMethodArgumentResolver
