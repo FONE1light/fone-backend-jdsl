@@ -1,7 +1,6 @@
 package com.fone.filmone.domain.competition.entity
 
 import javax.persistence.*
-import javax.persistence.FetchType.EAGER
 import javax.persistence.FetchType.LAZY
 
 @Entity

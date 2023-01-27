@@ -1,11 +1,12 @@
 package com.fone.filmone.domain.competition.entity
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 
 @Entity
 @Table(name = "user_competition_scraps")
-data class CompetitionScrap (
+data class CompetitionScrap(
 
     @Id
     @Column
@@ -15,11 +16,12 @@ data class CompetitionScrap (
     @Column
     var userId: Long,
 
-    @Column
-    var competitionId: Long,
+    @JsonIgnore
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    var competition: Competition? = null,
 ) {
-    constructor(reqUserId: Long, reqCompetitionId: Long) : this(
+    constructor(reqUserId: Long, reqCompetition: Competition) : this(
         userId = reqUserId,
-        competitionId = reqCompetitionId,
+        competition = reqCompetition,
     )
 }
