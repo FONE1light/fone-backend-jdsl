@@ -3,6 +3,8 @@ plugins {
 }
 
 dependencies {
+    implementation(project(path = ":home", configuration = "default"))
+
     // persistence
     implementation("javax.persistence:javax.persistence-api")
 
@@ -48,9 +50,6 @@ dependencies {
     implementation("com.linecorp.armeria:armeria-grpc")
     implementation("com.linecorp.armeria:armeria-spring-boot2-webflux-starter")
 
-    // log
-    implementation("ch.qos.logback:logback-classic:1.2.3")
-
     // JWT 인증
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
@@ -64,7 +63,6 @@ dependencies {
     // Kotlin
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     // Swagger

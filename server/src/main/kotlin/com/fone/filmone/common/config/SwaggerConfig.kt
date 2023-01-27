@@ -44,7 +44,7 @@ class SwaggerConfig(
             )
             .consumes(getConsumeContentTypes())
             .produces(getProduceContentTypes()).apiInfo(apiInfo()).select()
-            .apis(RequestHandlerSelectors.basePackage("com.fone.filmone"))
+            .apis(RequestHandlerSelectors.basePackage("com.fone"))
             .paths(PathSelectors.ant("/**")).build()
             .securityContexts(Arrays.asList(securityContext()))
             .securitySchemes(Arrays.asList<SecurityScheme>(apiKey()))
