@@ -2,7 +2,6 @@ package com.fone.filmone.domain.user.entity
 
 import com.fone.filmone.common.converter.SeparatorConverter
 import com.fone.filmone.domain.common.Gender
-import com.fone.filmone.domain.common.Interest
 import com.fone.filmone.domain.user.enum.Job
 import com.fone.filmone.domain.user.enum.Role
 import com.fone.filmone.domain.user.enum.SocialLoginType
@@ -27,7 +26,7 @@ data class User(
     var job: Job,
 
     @Convert(converter = SeparatorConverter::class)
-    var interests: List<Interest> = listOf(),
+    var interests: List<String> = listOf(),
 
     @Column
     var nickname: String,
@@ -60,7 +59,7 @@ data class User(
     val isReceiveMarketing: Boolean,
 
     @Convert(converter = SeparatorConverter::class)
-    var roles: List<Role>,
+    var roles: List<String>,
 
     @Column
     var enabled: Boolean,
@@ -68,7 +67,7 @@ data class User(
     fun modifyUser(request: ModifyUserRequest) {
         this.nickname = request.nickname
         this.job = request.job
-        this.interests = request.interests
+        this.interests = request.interests.map { it.toString() }.toList()
         this.profileUrl = request.profileUrl ?: this.profileUrl
     }
 

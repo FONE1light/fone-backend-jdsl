@@ -27,7 +27,7 @@ class RegisterJobOpeningDto {
 
             return JobOpening(
                 title = title,
-                interests = interests,
+                interests = interests.map { it.toString() }.toList(),
                 deadline = deadline.toString(),
                 casting = casting,
                 numberOfRecruits = numberOfRecruits,
@@ -36,7 +36,7 @@ class RegisterJobOpeningDto {
                 ageMin = ageMin,
                 career = career,
                 type = type,
-                domains = domains,
+                domains = domains.map { it.toString() }.toList(),
                 userId = userId,
                 viewCount = 0,
                 work = work.toEntity()

@@ -43,9 +43,9 @@ class RegisterProfileDto {
                 specialty = specialty,
                 details = details,
                 career = career,
-                interests = interests,
+                interests = interests.map { it.toString() }.toList(),
                 type = type,
-                domains = domains,
+                domains = domains.map { it.toString() }.toList(),
                 userId = userId,
                 viewCount = 0,
             )
