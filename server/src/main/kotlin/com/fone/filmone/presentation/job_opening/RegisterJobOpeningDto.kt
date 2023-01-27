@@ -2,6 +2,7 @@ package com.fone.filmone.presentation.job_opening
 
 import com.fone.filmone.domain.common.*
 import com.fone.filmone.domain.job_opening.entity.JobOpening
+import com.fone.filmone.domain.job_opening.entity.JobOpeningScrap
 import org.springframework.format.annotation.DateTimeFormat
 import java.sql.Date
 
@@ -49,8 +50,9 @@ class RegisterJobOpeningDto {
 
         constructor(
             jobOpening: JobOpening,
+            userJobOpeningScrapMap: Map<Long, JobOpeningScrap?>,
         ) : this(
-            jobOpening = JobOpeningDto(jobOpening)
+            jobOpening = JobOpeningDto(jobOpening, userJobOpeningScrapMap)
         )
     }
 }

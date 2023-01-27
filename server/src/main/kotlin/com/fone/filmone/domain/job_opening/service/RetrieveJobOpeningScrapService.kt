@@ -6,6 +6,8 @@ import com.fone.filmone.domain.job_opening.repository.JobOpeningRepository
 import com.fone.filmone.domain.job_opening.repository.JobOpeningScrapRepository
 import com.fone.filmone.domain.user.repository.UserRepository
 import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningScrapDto.RetrieveJobOpeningScrapResponse
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -25,8 +27,21 @@ class RetrieveJobOpeningScrapService(
     ): RetrieveJobOpeningScrapResponse {
         val user = userRepository.findByNicknameOrEmail(null, email)
             ?: throw NotFoundUserException()
-        val jobOpenings = jobOpeningRepository.findScrapAllByUserId(pageable, user.id!!, type)
 
-        return RetrieveJobOpeningScrapResponse(jobOpenings.content, pageable)
+        return coroutineScope {
+            val jobOpenings = async {
+                jobOpeningRepository.findScrapAllByUserId(pageable, user.id!!, type).content
+            }
+
+            val userJobOpeningScraps = async {
+                jobOpeningScrapRepository.findByUserId(user.id!!)
+            }
+
+            RetrieveJobOpeningScrapResponse(
+                jobOpenings.await(),
+                userJobOpeningScraps.await(),
+                pageable
+            )
+        }
     }
 }
