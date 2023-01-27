@@ -1,7 +1,7 @@
 package com.fone.filmone.presentation.job_opening
 
 import com.fone.filmone.application.job_opening.DeleteJobOpeningFacade
-import com.fone.filmone.common.response.CommonResponse
+import com.fone.common.response.CommonResponse
 import io.swagger.annotations.Api
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.DeleteMapping

@@ -1,4 +1,4 @@
-package com.fone.filmone.common.config
+package com.fone.common.config
 
 import com.linecorp.kotlinjdsl.query.creator.SubqueryCreator
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.SpringDataHibernateMutinyReactiveQueryFactory

@@ -1,6 +1,6 @@
 package com.fone.filmone.domain.job_opening.service
 
-import com.fone.filmone.common.exception.NotFoundUserException
+import com.fone.common.exception.NotFoundUserException
 import com.fone.filmone.domain.job_opening.repository.JobOpeningRepository
 import com.fone.filmone.domain.job_opening.repository.JobOpeningScrapRepository
 import com.fone.filmone.domain.user.repository.UserRepository

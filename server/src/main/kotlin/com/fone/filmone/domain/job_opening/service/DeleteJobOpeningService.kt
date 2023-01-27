@@ -1,8 +1,8 @@
 package com.fone.filmone.domain.job_opening.service
 
-import com.fone.filmone.common.exception.InvalidJobOpeningUserIdException
-import com.fone.filmone.common.exception.NotFoundJobOpeningException
-import com.fone.filmone.common.exception.NotFoundUserException
+import com.fone.common.exception.InvalidJobOpeningUserIdException
+import com.fone.common.exception.NotFoundJobOpeningException
+import com.fone.common.exception.NotFoundUserException
 import com.fone.filmone.domain.job_opening.repository.JobOpeningRepository
 import com.fone.filmone.domain.user.repository.UserRepository
 import org.springframework.stereotype.Service

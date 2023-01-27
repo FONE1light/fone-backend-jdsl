@@ -1,7 +1,7 @@
 package com.fone.filmone.domain.competition.service
 
-import com.fone.filmone.common.exception.NotFoundCompetitionException
-import com.fone.filmone.common.exception.NotFoundUserException
+import com.fone.common.exception.NotFoundCompetitionException
+import com.fone.common.exception.NotFoundUserException
 import com.fone.filmone.domain.competition.entity.CompetitionScrap
 import com.fone.filmone.domain.competition.repository.CompetitionRepository
 import com.fone.filmone.domain.competition.repository.CompetitionScrapRepository

@@ -1,4 +1,4 @@
-package com.fone.filmone.common.exception
+package com.fone.common.exception
 
 import org.springframework.boot.web.error.ErrorAttributeOptions
 import org.springframework.boot.web.reactive.error.DefaultErrorAttributes

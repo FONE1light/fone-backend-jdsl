@@ -1,7 +1,7 @@
 package com.fone.filmone.presentation.report
 
 import com.fone.filmone.application.report.RegisterReportFacade
-import com.fone.filmone.common.response.CommonResponse
+import com.fone.common.response.CommonResponse
 import com.fone.filmone.presentation.report.RegisterReportDto.RegisterReportRequest
 import com.fone.filmone.presentation.report.RegisterReportDto.RegisterReportResponse
 import io.swagger.annotations.Api

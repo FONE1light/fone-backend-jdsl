@@ -1,7 +1,7 @@
 package com.fone.filmone.presentation.question
 
 import com.fone.filmone.application.question.RegisterQuestionFacade
-import com.fone.filmone.common.response.CommonResponse
+import com.fone.common.response.CommonResponse
 import com.fone.filmone.presentation.question.RegisterQuestionDto.RegisterQuestionRequest
 import com.fone.filmone.presentation.question.RegisterQuestionDto.RegisterQuestionResponse
 import io.swagger.annotations.Api

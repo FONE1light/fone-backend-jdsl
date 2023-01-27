@@ -1,6 +1,6 @@
 package com.fone.filmone.domain.profile.entity
 
-import com.fone.filmone.common.converter.SeparatorConverter
+import com.fone.common.converter.SeparatorConverter
 import com.fone.filmone.domain.common.*
 import com.fone.filmone.presentation.profile.RegisterProfileDto
 import java.time.LocalDate

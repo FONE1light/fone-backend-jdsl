@@ -1,4 +1,4 @@
-package com.fone.filmone.common.config
+package com.fone.common.config
 
 import io.vertx.core.Vertx
 import io.vertx.mysqlclient.MySQLConnectOptions

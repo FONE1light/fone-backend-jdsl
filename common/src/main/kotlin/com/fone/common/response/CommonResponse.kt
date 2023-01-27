@@ -1,4 +1,4 @@
-package com.fone.filmone.common.response
+package com.fone.common.response
 
 data class CommonResponse<T>(
     val result: Result,

@@ -1,6 +1,6 @@
 package com.fone.filmone.domain.user.service
 
-import com.fone.filmone.common.exception.NotFoundUserException
+import com.fone.common.exception.NotFoundUserException
 import com.fone.filmone.domain.user.repository.UserRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

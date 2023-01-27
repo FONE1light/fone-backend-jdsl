@@ -1,7 +1,7 @@
 package com.fone.filmone.presentation.job_opening
 
 import com.fone.filmone.application.job_opening.RegisterJobOpeningFacade
-import com.fone.filmone.common.response.CommonResponse
+import com.fone.common.response.CommonResponse
 import com.fone.filmone.presentation.job_opening.RegisterJobOpeningDto.RegisterJobOpeningRequest
 import com.fone.filmone.presentation.job_opening.RegisterJobOpeningDto.RegisterJobOpeningResponse
 import io.swagger.annotations.Api

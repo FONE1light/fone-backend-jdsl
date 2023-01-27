@@ -1,7 +1,7 @@
 package com.fone.filmone.presentation.profile
 
 import com.fone.filmone.application.profile.RetrieveProfileMyRegistrationFacade
-import com.fone.filmone.common.response.CommonResponse
+import com.fone.common.response.CommonResponse
 import com.fone.filmone.presentation.profile.RetrieveProfileMyRegistrationDto.RetrieveProfileMyRegistrationResponse
 import io.swagger.annotations.Api
 import org.springframework.data.domain.Pageable

@@ -1,7 +1,7 @@
 package com.fone.filmone.presentation.competition
 
 import com.fone.filmone.application.competition.RegisterCompetitionFacade
-import com.fone.filmone.common.response.CommonResponse
+import com.fone.common.response.CommonResponse
 import com.fone.filmone.presentation.competition.RegisterCompetitionDto.*
 import io.swagger.annotations.Api
 import org.springframework.security.access.prepost.PreAuthorize

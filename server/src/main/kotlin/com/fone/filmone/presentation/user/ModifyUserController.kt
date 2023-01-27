@@ -1,7 +1,7 @@
 package com.fone.filmone.presentation.user
 
 import com.fone.filmone.application.user.ModifyUserFacade
-import com.fone.filmone.common.response.CommonResponse
+import com.fone.common.response.CommonResponse
 import com.fone.filmone.presentation.user.ModifyUserDto.ModifyUserRequest
 import com.fone.filmone.presentation.user.ModifyUserDto.ModifyUserResponse
 import io.swagger.annotations.Api

@@ -1,7 +1,7 @@
 package com.fone.filmone.presentation.profile
 
 import com.fone.filmone.application.profile.PutProfileFacade
-import com.fone.filmone.common.response.CommonResponse
+import com.fone.common.response.CommonResponse
 import com.fone.filmone.presentation.profile.RegisterProfileDto.*
 import io.swagger.annotations.Api
 import org.springframework.security.access.prepost.PreAuthorize

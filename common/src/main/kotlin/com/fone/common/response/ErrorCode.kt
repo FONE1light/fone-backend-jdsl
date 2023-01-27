@@ -1,4 +1,4 @@
-package com.fone.filmone.common.response
+package com.fone.common.response
 
 enum class ErrorCode(
     val errorMsg: String,

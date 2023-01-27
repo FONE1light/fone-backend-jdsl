@@ -1,4 +1,4 @@
-package com.fone.filmone.common.exception
+package com.fone.common.exception
 
 import org.springframework.boot.autoconfigure.web.WebProperties
 import org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler

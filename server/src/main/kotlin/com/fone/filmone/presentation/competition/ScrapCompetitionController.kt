@@ -1,7 +1,7 @@
 package com.fone.filmone.presentation.competition
 
 import com.fone.filmone.application.competition.ScrapCompetitionFacade
-import com.fone.filmone.common.response.CommonResponse
+import com.fone.common.response.CommonResponse
 import io.swagger.annotations.Api
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.PathVariable
