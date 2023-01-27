@@ -31,6 +31,15 @@ class ProfileWantRepositoryImpl(
         }
     }
 
+    override suspend fun findByUserId(userId: Long): Map<Long, ProfileWant?> {
+
+        return queryFactory.listQuery {
+            select(entity(ProfileWant::class))
+            from(entity(ProfileWant::class))
+            where(col(ProfileWant::userId).equal(userId))
+        }.associateBy { it!!.profileId }
+    }
+
     override suspend fun delete(profileWant: ProfileWant): Int {
         return queryFactory.deleteQuery<ProfileWant> {
             where(col(ProfileWant::id).equal(profileWant.id))
