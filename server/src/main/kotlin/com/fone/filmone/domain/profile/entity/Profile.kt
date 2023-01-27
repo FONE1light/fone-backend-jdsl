@@ -46,13 +46,13 @@ data class Profile(
     var career: Career,
 
     @Convert(converter = SeparatorConverter::class)
-    var interests: List<Interest> = listOf(),
+    var interests: List<String> = listOf(),
 
     @Enumerated(EnumType.STRING)
     var type: Type,
 
     @Convert(converter = SeparatorConverter::class)
-    var domains: List<Domain> = listOf(),
+    var domains: List<String> = listOf(),
 
     @Column
     var userId: Long,
@@ -79,9 +79,9 @@ data class Profile(
         specialty = request.specialty
         details = request.details
         career = request.career
-        interests = request.interests
+        interests = request.interests.map{ it.toString() }.toList()
         type = request.type
-        domains = request.domains
+        domains = request.domains.map{ it.toString() }.toList()
     }
 
     fun delete() {

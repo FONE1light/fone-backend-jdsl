@@ -18,7 +18,7 @@ data class JobOpening(
     var title: String,
 
     @Convert(converter = SeparatorConverter::class)
-    var interests: List<Interest> = listOf(),
+    var interests: List<String> = listOf(),
 
     @Column
     var deadline: String,
@@ -45,7 +45,7 @@ data class JobOpening(
     var type: Type,
 
     @Convert(converter = SeparatorConverter::class)
-    var domains: List<Domain> = listOf(),
+    var domains: List<String> = listOf(),
 
     @Column
     var userId: Long,
@@ -65,7 +65,7 @@ data class JobOpening(
 
     fun put(request: RegisterJobOpeningRequest) {
         title = request.title
-        interests = request.interests
+        interests = request.interests.map{ it.toString() }.toList()
         deadline = request.deadline.toString()
         casting = request.casting
         numberOfRecruits = request.numberOfRecruits
@@ -74,7 +74,7 @@ data class JobOpening(
         ageMin = request.ageMin
         career = request.career
         type = request.type
-        domains = request.domains
+        domains = request.domains.map{ it.toString() }.toList()
     }
 
     fun delete() {

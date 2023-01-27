@@ -27,7 +27,7 @@ data class JobOpeningDto(
     ) : this(
         id = jobOpening.id!!,
         title = jobOpening.title,
-        interests = jobOpening.interests,
+        interests = jobOpening.interests.map { Interest(it) }.toList(),
         deadline = jobOpening.deadline,
         casting = jobOpening.casting,
         numberOfRecruits = jobOpening.numberOfRecruits,
@@ -36,7 +36,7 @@ data class JobOpeningDto(
         ageMin = jobOpening.ageMin,
         career = jobOpening.career,
         type = jobOpening.type,
-        domains = jobOpening.domains,
+        domains = jobOpening.domains.map { Domain(it) }.toList(),
         viewCount = jobOpening.viewCount,
         work = WorkDto(jobOpening.work),
         isScrap = userJobOpeningScrapMap.get(jobOpening.id!!) != null,

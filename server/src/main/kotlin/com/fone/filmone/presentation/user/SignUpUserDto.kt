@@ -47,7 +47,7 @@ class SignUpUserDto {
 
             return User(
                 job = job,
-                interests = interests,
+                interests = interests.map { it.toString() }.toList(),
                 nickname = nickname,
                 birthday = birthday,
                 gender = gender,
@@ -58,7 +58,7 @@ class SignUpUserDto {
                 agreeToTermsOfServiceTermsOfUse = agreeToTermsOfServiceTermsOfUse,
                 agreeToPersonalInformation = agreeToPersonalInformation,
                 isReceiveMarketing = isReceiveMarketing,
-                roles = listOf(Role.ROLE_USER),
+                roles = listOf(Role.ROLE_USER).map { it.toString() }.toList(),
                 enabled = true,
             )
         }
@@ -83,7 +83,7 @@ class SignUpUserDto {
             user: User,
         ) : this(
             job = user.job,
-            interests = user.interests,
+            interests = user.interests.map { Interest(it) }.toList(),
             nickname = user.nickname,
             birthday = user.birthday,
             gender = user.gender,

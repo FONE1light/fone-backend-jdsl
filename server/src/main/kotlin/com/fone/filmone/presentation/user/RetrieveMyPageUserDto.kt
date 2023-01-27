@@ -28,7 +28,7 @@ class RetrieveMyPageUserDto {
             user: User,
         ) : this(
             job = user.job,
-            interests = user.interests,
+            interests = user.interests.map { Interest(it) }.toList(),
             nickname = user.nickname,
             birthday = user.birthday,
             gender = user.gender,
