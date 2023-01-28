@@ -23,4 +23,7 @@ dependencies {
 
     // Kotlin 로깅
     implementation("io.github.microutils:kotlin-logging:2.1.21")
+
+    // security
+    implementation("org.springframework.boot:spring-boot-starter-security")
 }

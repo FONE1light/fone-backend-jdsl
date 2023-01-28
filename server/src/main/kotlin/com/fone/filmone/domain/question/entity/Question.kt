@@ -1,5 +1,6 @@
 package com.fone.filmone.domain.question.entity
 
+import com.fone.filmone.domain.common.BaseEntity
 import com.fone.filmone.domain.question.enum.Type
 import javax.persistence.*
 
@@ -25,5 +26,5 @@ data class Question(
     val description: String,
 
     @Column
-    val agreeToPersonalInformation: Boolean
-)
+    val agreeToPersonalInformation: Boolean,
+) : BaseEntity()

@@ -1,10 +1,11 @@
 package com.fone.filmone.domain.profile.entity
 
+import com.fone.filmone.domain.common.BaseEntity
 import javax.persistence.*
 
 @Entity
 @Table(name = "profile_images")
-data class ProfileImage (
+data class ProfileImage(
 
     @Id
     @Column
@@ -16,4 +17,4 @@ data class ProfileImage (
 
     @Column(length = 300)
     val profileUrl: String,
-)
+) : BaseEntity()

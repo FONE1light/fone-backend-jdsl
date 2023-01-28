@@ -1,7 +1,10 @@
 package com.fone.filmone.domain.job_opening.entity
 
 import com.fone.common.converter.SeparatorConverter
-import com.fone.filmone.domain.common.*
+import com.fone.filmone.domain.common.BaseEntity
+import com.fone.filmone.domain.common.Career
+import com.fone.filmone.domain.common.Gender
+import com.fone.filmone.domain.common.Type
 import com.fone.filmone.presentation.job_opening.RegisterJobOpeningDto.RegisterJobOpeningRequest
 import javax.persistence.*
 
@@ -58,14 +61,14 @@ data class JobOpening(
 
     @Embedded
     var work: Work,
-) {
+) : BaseEntity() {
     fun view() {
         viewCount += 1
     }
 
     fun put(request: RegisterJobOpeningRequest) {
         title = request.title
-        interests = request.interests.map{ it.toString() }.toList()
+        interests = request.interests.map { it.toString() }.toList()
         deadline = request.deadline.toString()
         casting = request.casting
         numberOfRecruits = request.numberOfRecruits
@@ -74,7 +77,7 @@ data class JobOpening(
         ageMin = request.ageMin
         career = request.career
         type = request.type
-        domains = request.domains.map{ it.toString() }.toList()
+        domains = request.domains.map { it.toString() }.toList()
     }
 
     fun delete() {

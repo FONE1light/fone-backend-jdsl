@@ -1,5 +1,6 @@
 package com.fone.filmone.domain.competition.entity
 
+import com.fone.filmone.domain.common.BaseEntity
 import javax.persistence.*
 import javax.persistence.FetchType.LAZY
 
@@ -24,7 +25,7 @@ data class Prize(
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "competition_id")
     var competition: Competition? = null,
-) {
+) : BaseEntity() {
 
     override fun toString(): String {
         return "Prize(id=$id)"

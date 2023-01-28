@@ -1,9 +1,9 @@
 package com.fone.filmone.domain.user.entity
 
 import com.fone.common.converter.SeparatorConverter
+import com.fone.filmone.domain.common.BaseEntity
 import com.fone.filmone.domain.common.Gender
 import com.fone.filmone.domain.user.enum.Job
-import com.fone.filmone.domain.user.enum.Role
 import com.fone.filmone.domain.user.enum.SocialLoginType
 import com.fone.filmone.presentation.user.ModifyUserDto.ModifyUserRequest
 import org.springframework.security.core.GrantedAuthority
@@ -63,7 +63,7 @@ data class User(
 
     @Column
     var enabled: Boolean,
-) : UserDetails {
+) : UserDetails, BaseEntity() {
     fun modifyUser(request: ModifyUserRequest) {
         this.nickname = request.nickname
         this.job = request.job
