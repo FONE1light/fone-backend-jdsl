@@ -1,5 +1,6 @@
 package com.fone.filmone.domain.profile.entity
 
+import com.fone.filmone.domain.common.BaseEntity
 import javax.persistence.*
 
 
@@ -17,7 +18,7 @@ data class ProfileWant(
 
     @Column
     val profileId: Long,
-) {
+) : BaseEntity() {
 
     constructor(reqUserId: Long, reqProfileId: Long) : this(
         userId = reqUserId,

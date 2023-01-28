@@ -1,11 +1,12 @@
 package com.fone.filmone.domain.report.entity
 
 import com.fone.common.converter.SeparatorConverter
+import com.fone.filmone.domain.common.BaseEntity
 import javax.persistence.*
 
 @Entity
 @Table(name = "reports")
-data class Report (
+data class Report(
 
     @Id
     @Column
@@ -30,4 +31,4 @@ data class Report (
 
     @Column
     var userId: Long,
-)
+) : BaseEntity()

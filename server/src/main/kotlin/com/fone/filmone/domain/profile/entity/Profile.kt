@@ -1,7 +1,10 @@
 package com.fone.filmone.domain.profile.entity
 
 import com.fone.common.converter.SeparatorConverter
-import com.fone.filmone.domain.common.*
+import com.fone.filmone.domain.common.BaseEntity
+import com.fone.filmone.domain.common.Career
+import com.fone.filmone.domain.common.Gender
+import com.fone.filmone.domain.common.Type
 import com.fone.filmone.presentation.profile.RegisterProfileDto
 import java.time.LocalDate
 import javax.persistence.*
@@ -62,7 +65,7 @@ data class Profile(
 
     @Column
     var isDeleted: Boolean = false,
-) {
+) : BaseEntity() {
 
     fun view() {
         this.viewCount += 1
@@ -79,9 +82,9 @@ data class Profile(
         specialty = request.specialty
         details = request.details
         career = request.career
-        interests = request.interests.map{ it.toString() }.toList()
+        interests = request.interests.map { it.toString() }.toList()
         type = request.type
-        domains = request.domains.map{ it.toString() }.toList()
+        domains = request.domains.map { it.toString() }.toList()
     }
 
     fun delete() {

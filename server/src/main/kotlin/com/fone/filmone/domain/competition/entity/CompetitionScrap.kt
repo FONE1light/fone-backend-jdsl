@@ -1,6 +1,7 @@
 package com.fone.filmone.domain.competition.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fone.filmone.domain.common.BaseEntity
 import javax.persistence.*
 
 
@@ -19,7 +20,7 @@ data class CompetitionScrap(
     @JsonIgnore
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     var competition: Competition? = null,
-) {
+) : BaseEntity() {
     constructor(reqUserId: Long, reqCompetition: Competition) : this(
         userId = reqUserId,
         competition = reqCompetition,

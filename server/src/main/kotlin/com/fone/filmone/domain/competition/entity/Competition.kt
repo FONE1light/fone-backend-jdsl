@@ -1,5 +1,6 @@
 package com.fone.filmone.domain.competition.entity
 
+import com.fone.filmone.domain.common.BaseEntity
 import java.time.LocalDate
 import javax.persistence.*
 
@@ -38,7 +39,7 @@ data class Competition(
 
     @OneToMany(mappedBy = "competition", cascade = [CascadeType.PERSIST])
     var prizes: MutableList<Prize> = mutableListOf(),
-) {
+) : BaseEntity() {
     fun view() {
         viewCount += 1
     }
