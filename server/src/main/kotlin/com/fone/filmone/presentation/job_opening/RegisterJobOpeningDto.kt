@@ -4,7 +4,7 @@ import com.fone.filmone.domain.common.*
 import com.fone.filmone.domain.job_opening.entity.JobOpening
 import com.fone.filmone.domain.job_opening.entity.JobOpeningScrap
 import org.springframework.format.annotation.DateTimeFormat
-import java.sql.Date
+import java.time.LocalDate
 
 class RegisterJobOpeningDto {
 
@@ -12,7 +12,7 @@ class RegisterJobOpeningDto {
         val title: String,
         val interests: List<Interest>,
         @DateTimeFormat(pattern = "yyyy-MM-dd")
-        val deadline: Date,
+        val deadline: LocalDate,
         val casting: String,
         val numberOfRecruits: Int,
         val gender: Gender,
@@ -28,7 +28,7 @@ class RegisterJobOpeningDto {
             return JobOpening(
                 title = title,
                 interests = interests.map { it.toString() }.toList(),
-                deadline = deadline.toString(),
+                deadline = deadline,
                 casting = casting,
                 numberOfRecruits = numberOfRecruits,
                 gender = gender,

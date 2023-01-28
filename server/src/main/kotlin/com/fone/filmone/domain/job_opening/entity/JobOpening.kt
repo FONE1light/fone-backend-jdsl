@@ -6,6 +6,7 @@ import com.fone.filmone.domain.common.Career
 import com.fone.filmone.domain.common.Gender
 import com.fone.filmone.domain.common.Type
 import com.fone.filmone.presentation.job_opening.RegisterJobOpeningDto.RegisterJobOpeningRequest
+import java.time.LocalDate
 import javax.persistence.*
 
 @Entity
@@ -24,7 +25,7 @@ data class JobOpening(
     var interests: List<String> = listOf(),
 
     @Column
-    var deadline: String,
+    var deadline: LocalDate?,
 
     @Column
     var casting: String,
@@ -69,7 +70,7 @@ data class JobOpening(
     fun put(request: RegisterJobOpeningRequest) {
         title = request.title
         interests = request.interests.map { it.toString() }.toList()
-        deadline = request.deadline.toString()
+        deadline = request.deadline
         casting = request.casting
         numberOfRecruits = request.numberOfRecruits
         gender = request.gender
@@ -84,7 +85,7 @@ data class JobOpening(
         work.delete()
 
         interests = listOf()
-        deadline = ""
+        deadline = null
         casting = ""
         numberOfRecruits = 0
         gender = Gender.IRRELEVANT
