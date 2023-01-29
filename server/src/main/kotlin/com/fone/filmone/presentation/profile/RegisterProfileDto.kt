@@ -11,6 +11,7 @@ import javax.validation.constraints.Email
 class RegisterProfileDto {
 
     data class RegisterProfileRequest(
+        val name: String,
         val hookingComment: String,
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         val birthday: LocalDate,
@@ -49,6 +50,7 @@ class RegisterProfileDto {
                 domains = domains.map { it.toString() }.toList(),
                 userId = userId,
                 viewCount = 0,
+                name = name,
             )
         }
     }

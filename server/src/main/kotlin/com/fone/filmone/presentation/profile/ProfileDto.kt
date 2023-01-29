@@ -11,6 +11,7 @@ import java.time.LocalDate
 
 data class ProfileDto(
     val id: Long,
+    val name: String,
     val hookingComment: String,
     val birthday: LocalDate?,
     val gender: Gender,
@@ -31,6 +32,7 @@ data class ProfileDto(
 ) {
     constructor(profile: Profile, userProfileWantMap: Map<Long, ProfileWant?>) : this(
         id = profile.id!!,
+        name = profile.name,
         hookingComment = profile.hookingComment,
         birthday = profile.birthday,
         gender = profile.gender,
