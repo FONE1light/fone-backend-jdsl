@@ -1,5 +1,6 @@
 package com.fone.filmone.presentation.competition
 
+import com.fone.common.utils.DateTimeFormat
 import com.fone.filmone.domain.competition.entity.Competition
 import com.fone.filmone.domain.competition.entity.CompetitionScrap
 import com.fone.filmone.domain.competition.entity.Prize
@@ -15,7 +16,9 @@ data class CompetitionDto(
     val details: String,
     val viewCount: Long,
     val competitionPrizes: List<CompetitionPrizeDto>,
+
     val isScrap: Boolean = false,
+    val dDay: String,
 ) {
     constructor(
         competition: Competition,
@@ -31,6 +34,7 @@ data class CompetitionDto(
         viewCount = competition.viewCount,
         competitionPrizes = competition.prizes.map { CompetitionPrizeDto(it) }.toList(),
         isScrap = userCompetitionScrapMap.get(competition.id!!) != null,
+        dDay = DateTimeFormat.calculate(competition.endDate),
     )
 }
 

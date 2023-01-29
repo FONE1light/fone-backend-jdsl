@@ -11,7 +11,7 @@ spring:
       pool-name: test_pool
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
       use-new-id-generator-mappings: true
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
