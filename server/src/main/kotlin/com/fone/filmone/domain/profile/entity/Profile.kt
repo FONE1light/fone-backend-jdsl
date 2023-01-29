@@ -19,6 +19,9 @@ data class Profile(
     var id: Long? = null,
 
     @Column
+    var name: String,
+
+    @Column
     var hookingComment: String,
 
     @Column
