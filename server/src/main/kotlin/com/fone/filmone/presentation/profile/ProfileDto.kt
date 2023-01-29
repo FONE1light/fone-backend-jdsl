@@ -1,5 +1,6 @@
 package com.fone.filmone.presentation.profile
 
+import com.fone.common.utils.DateTimeFormat
 import com.fone.filmone.domain.common.Career
 import com.fone.filmone.domain.common.Domain
 import com.fone.filmone.domain.common.Gender
@@ -24,7 +25,9 @@ data class ProfileDto(
     val domains: List<Domain>,
     val profileImages: List<String>,
     val viewCount: Long,
+
     val isWant: Boolean = false,
+    val age: Int,
 ) {
     constructor(profile: Profile, userProfileWantMap: Map<Long, ProfileWant?>) : this(
         id = profile.id!!,
@@ -43,5 +46,6 @@ data class ProfileDto(
         profileImages = listOf(),
         viewCount = profile.viewCount,
         isWant = userProfileWantMap.get(profile.id!!) != null,
+        age = DateTimeFormat.calculateAge(profile.birthday)
     )
 }

@@ -5,7 +5,6 @@ import com.fone.filmone.domain.common.*
 import com.fone.filmone.domain.job_opening.entity.JobOpening
 import com.fone.filmone.domain.job_opening.entity.JobOpeningScrap
 import java.time.LocalDate
-import java.time.Period
 
 data class JobOpeningDto(
     val id: Long,
@@ -46,6 +45,6 @@ data class JobOpeningDto(
         viewCount = jobOpening.viewCount,
         work = WorkDto(jobOpening.work),
         isScrap = userJobOpeningScrapMap.get(jobOpening.id!!) != null,
-        dDay = DateTimeFormat.calculate(jobOpening.deadline)
+        dDay = DateTimeFormat.calculateDays(jobOpening.deadline)
     )
 }

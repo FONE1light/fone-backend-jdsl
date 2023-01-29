@@ -34,7 +34,7 @@ data class CompetitionDto(
         viewCount = competition.viewCount,
         competitionPrizes = competition.prizes.map { CompetitionPrizeDto(it) }.toList(),
         isScrap = userCompetitionScrapMap.get(competition.id!!) != null,
-        dDay = DateTimeFormat.calculate(competition.endDate),
+        dDay = DateTimeFormat.calculateDays(competition.endDate),
     )
 }
 
