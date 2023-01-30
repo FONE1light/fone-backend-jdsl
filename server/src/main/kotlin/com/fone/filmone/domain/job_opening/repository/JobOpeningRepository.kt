@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 
 interface JobOpeningRepository {
-    suspend fun findAllTop5ByType(type: Type): List<JobOpening>
+    suspend fun findAllTop5ByType(pageable: Pageable, type: Type): Slice<JobOpening>
 
     suspend fun findByType(pageable: Pageable, type: Type): Slice<JobOpening>
 

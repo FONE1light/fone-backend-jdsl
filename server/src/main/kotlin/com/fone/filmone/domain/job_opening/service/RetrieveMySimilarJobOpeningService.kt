@@ -8,6 +8,7 @@ import com.fone.filmone.domain.user.repository.UserRepository
 import com.fone.filmone.presentation.job_opening.RetrieveMySimilarJobOpeningDto.RetrieveMySimilarJobOpeningResponse
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -19,21 +20,28 @@ class RetrieveMySimilarJobOpeningService(
 ) {
 
     @Transactional(readOnly = true)
-    suspend fun retrieveMySimilarJobOpening(email: String): RetrieveMySimilarJobOpeningResponse {
+    suspend fun retrieveMySimilarJobOpening(
+        pageable: Pageable,
+        email: String,
+    ): RetrieveMySimilarJobOpeningResponse {
         val user = userRepository.findByNicknameOrEmail(null, email)
             ?: throw NotFoundUserException()
 
         return coroutineScope {
             val jobOpenings = async {
                 val jobType = if (user.job.toString() == "ACTOR") "ACTOR" else "STAFF"
-                jobOpeningRepository.findAllTop5ByType(Type(jobType))
+                jobOpeningRepository.findAllTop5ByType(pageable, Type(jobType))
             }
 
             val userJobOpeningScraps = async {
                 jobOpeningScrapRepository.findByUserId(user.id!!)
             }
 
-            RetrieveMySimilarJobOpeningResponse(jobOpenings.await(), userJobOpeningScraps.await())
+            RetrieveMySimilarJobOpeningResponse(
+                jobOpenings.await(),
+                userJobOpeningScraps.await(),
+                pageable
+            )
         }
     }
 }

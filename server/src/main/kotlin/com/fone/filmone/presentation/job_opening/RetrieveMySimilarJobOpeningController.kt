@@ -1,9 +1,10 @@
 package com.fone.filmone.presentation.job_opening
 
-import com.fone.filmone.application.job_opening.RetrieveMySimilarJobOpeningFacade
 import com.fone.common.response.CommonResponse
+import com.fone.filmone.application.job_opening.RetrieveMySimilarJobOpeningFacade
 import com.fone.filmone.presentation.job_opening.RetrieveMySimilarJobOpeningDto.RetrieveMySimilarJobOpeningResponse
 import io.swagger.annotations.Api
+import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -17,9 +18,11 @@ class RetrieveMySimilarJobOpeningController(
 ) {
 
     @GetMapping
-    suspend fun retrieveMySimilarJobOpening(principal: Principal):
+    suspend fun retrieveMySimilarJobOpening(pageable: Pageable, principal: Principal):
             CommonResponse<RetrieveMySimilarJobOpeningResponse> {
-        val response = retrieveMySimilarJobOpeningFacade.retrieveMySimilarJobOpening(principal.name)
+        val response = retrieveMySimilarJobOpeningFacade.retrieveMySimilarJobOpening(
+            pageable,
+            principal.name)
 
         return CommonResponse.success(response)
     }

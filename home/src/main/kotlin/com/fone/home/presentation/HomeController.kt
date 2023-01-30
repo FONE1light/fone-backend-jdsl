@@ -57,11 +57,20 @@ class HomeController {
             .bodyToMono(CommonResponse::class.java)
 
         val response = HomeDto(
-            order = listOf("jobOpenings", "competitions", "profiles"),
-            user = userResponse.awaitSingle().data,
-            jobOpenings = (jobOpeningResponse.awaitSingle().data as LinkedHashMap<*, *>)["jobOpenings"],
-            competitions = (competitionResponse.awaitSingle().data as LinkedHashMap<*, *>)["competitions"],
-            profiles = (profileResponse.awaitSingle().data as LinkedHashMap<*, *>)["profiles"],
+            order = listOf("jobOpening", "competition", "profile"),
+            jobOpening = CollectionDto(
+                title = "나와 비슷한 사람들이 보고있는 공고",
+                subTitle = (userResponse.awaitSingle().data as LinkedHashMap<*, *>)["nickname"].toString() + "님 안녕하세요. 관심사 기반으로 꼭 맞는 공고를 추천 합니다.",
+                data = (jobOpeningResponse.awaitSingle().data as LinkedHashMap<*, *>)["jobOpenings"]
+            ),
+            competition = CollectionDto(
+                title = "인기 공모전",
+                data = (competitionResponse.awaitSingle().data as LinkedHashMap<*, *>)["competitions"]
+            ),
+            profile = CollectionDto(
+                title = "배우 프로필 보기",
+                data = (profileResponse.awaitSingle().data as LinkedHashMap<*, *>)["profiles"]
+            ),
         )
 
         return CommonResponse.success(response)
