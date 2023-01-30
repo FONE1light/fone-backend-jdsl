@@ -57,6 +57,7 @@ class HomeController {
             .bodyToMono(CommonResponse::class.java)
 
         val response = HomeDto(
+            order = listOf("jobOpenings", "competitions", "profiles"),
             user = userResponse.awaitSingle().data,
             jobOpenings = (jobOpeningResponse.awaitSingle().data as LinkedHashMap<*, *>)["jobOpenings"],
             competitions = (competitionResponse.awaitSingle().data as LinkedHashMap<*, *>)["competitions"],
