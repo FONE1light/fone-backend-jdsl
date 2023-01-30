@@ -22,8 +22,8 @@ class JobOpeningRepositoryImpl(
     private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
 ) : JobOpeningRepository {
 
-    override suspend fun findAllTop5ByType(type: Type): List<JobOpening> {
-        return queryFactory.listQuery {
+    override suspend fun findAllTop5ByType(pageable: Pageable, type: Type): Slice<JobOpening> {
+        return queryFactory.pageQuery(pageable) {
             select(entity(JobOpening::class))
             from(entity(JobOpening::class))
             where(
@@ -31,7 +31,6 @@ class JobOpeningRepositoryImpl(
                     typeEq(type)
                 )
             )
-            limit(5)
         }
     }
 
