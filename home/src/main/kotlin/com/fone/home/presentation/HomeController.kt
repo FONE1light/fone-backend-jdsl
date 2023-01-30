@@ -58,9 +58,9 @@ class HomeController {
 
         val response = HomeDto(
             user = userResponse.awaitSingle().data,
-            jobOpenings = jobOpeningResponse.awaitSingle().data,
-            competitions = competitionResponse.awaitSingle().data,
-            profiles = profileResponse.awaitSingle().data,
+            jobOpenings = (jobOpeningResponse.awaitSingle().data as LinkedHashMap<*, *>)["jobOpenings"],
+            competitions = (competitionResponse.awaitSingle().data as LinkedHashMap<*, *>)["competitions"],
+            profiles = (profileResponse.awaitSingle().data as LinkedHashMap<*, *>)["profiles"],
         )
 
         return CommonResponse.success(response)
