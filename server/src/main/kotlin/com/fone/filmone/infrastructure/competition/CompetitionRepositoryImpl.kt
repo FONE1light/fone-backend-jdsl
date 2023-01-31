@@ -4,27 +4,28 @@ import com.fone.filmone.domain.competition.entity.Competition
 import com.fone.filmone.domain.competition.entity.CompetitionScrap
 import com.fone.filmone.domain.competition.entity.Prize
 import com.fone.filmone.domain.competition.repository.CompetitionRepository
+import com.linecorp.kotlinjdsl.query.spec.OrderSpec
 import com.linecorp.kotlinjdsl.querydsl.expression.col
 import com.linecorp.kotlinjdsl.querydsl.expression.column
 import com.linecorp.kotlinjdsl.querydsl.from.fetch
 import com.linecorp.kotlinjdsl.querydsl.from.join
-import com.linecorp.kotlinjdsl.spring.data.SpringDataQueryFactory
-import com.linecorp.kotlinjdsl.spring.data.listQuery
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.SpringDataHibernateMutinyReactiveQueryFactory
+import com.linecorp.kotlinjdsl.spring.data.reactive.query.listQuery
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.pageQuery
-import com.linecorp.kotlinjdsl.spring.data.singleQuery
+import com.linecorp.kotlinjdsl.spring.data.reactive.query.singleQuery
+import com.linecorp.kotlinjdsl.spring.reactive.querydsl.SpringDataReactiveCriteriaQueryDsl
 import io.smallrye.mutiny.coroutines.awaitSuspending
 import org.hibernate.reactive.mutiny.Mutiny
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Repository
 
 @Repository
 class CompetitionRepositoryImpl(
     private val sessionFactory: Mutiny.SessionFactory,
     private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
-    private val queryFactory2: SpringDataQueryFactory,
 ) : CompetitionRepository {
 
     override suspend fun findAll(pageable: Pageable): Slice<Competition> {
@@ -33,11 +34,14 @@ class CompetitionRepositoryImpl(
             from(entity(Competition::class))
         }.content
 
-        val competitions = queryFactory2.listQuery {
+        val competitions = queryFactory.listQuery {
             select(entity(Competition::class))
             from(entity(Competition::class))
             fetch(Competition::class, Prize::class, on(Competition::prizes))
             where(col(Competition::id).`in`(ids))
+            orderBy(
+                orderSpec(pageable.sort)
+            )
         }
 
         return PageImpl(
@@ -48,7 +52,7 @@ class CompetitionRepositoryImpl(
     }
 
     override suspend fun findById(competitionId: Long): Competition? {
-        return queryFactory2.singleQuery {
+        return queryFactory.singleQuery {
             select(entity(Competition::class))
             from(entity(Competition::class))
             fetch(Competition::prizes)
@@ -67,7 +71,7 @@ class CompetitionRepositoryImpl(
             where(col(CompetitionScrap::userId).equal(userId))
         }.content
 
-        val competitions = queryFactory2.listQuery {
+        val competitions = queryFactory.listQuery {
             select(entity(Competition::class))
             from(entity(Competition::class))
             fetch(Competition::prizes)
@@ -93,5 +97,22 @@ class CompetitionRepositoryImpl(
                     .awaitSuspending()
             }
         }
+    }
+
+    private fun SpringDataReactiveCriteriaQueryDsl<Competition?>.orderSpec(sort: Sort): List<OrderSpec> {
+        val res = sort.map {
+            val columnSpec = when (it.property) {
+                "viewCount" -> col(Competition::viewCount)
+                else -> col(Competition::viewCount)
+            }
+
+            if (it.isAscending) {
+                columnSpec.asc()
+            } else {
+                columnSpec.desc()
+            }
+        }.toList()
+
+        return res
     }
 }
