@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModelProperty
 import lombok.RequiredArgsConstructor
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpMethod
 import springfox.documentation.builders.ApiInfoBuilder
 import springfox.documentation.builders.PathSelectors
@@ -17,7 +18,6 @@ import springfox.documentation.spi.DocumentationType
 import springfox.documentation.spi.service.contexts.SecurityContext
 import springfox.documentation.spring.web.plugins.Docket
 import springfox.documentation.swagger2.annotations.EnableSwagger2
-import java.awt.print.Pageable
 import java.util.*
 
 @Configuration
@@ -100,12 +100,12 @@ class SwaggerConfig(
     @ApiModel
     class Page {
         @ApiModelProperty(value = "페이지 번호(0..N)")
-        private val page: Int? = null
+        private val page: Int = 0
 
         @ApiModelProperty(value = "페이지 크기", allowableValues = "range[0, 100]")
-        private val size: Int? = null
+        private val size: Int = 0
 
         @ApiModelProperty(value = "정렬(사용법: 컬럼명,ASC|DESC)")
-        private val sort: List<String>? = null
+        private val sort: List<String> = listOf()
     }
 }
