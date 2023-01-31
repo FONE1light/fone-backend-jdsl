@@ -26,7 +26,7 @@ class HomeController {
         .build()
 
     @GetMapping
-    suspend fun test(
+    suspend fun RetrieveHome(
         @RequestHeader(
             value = "Authorization",
             required = false
@@ -38,20 +38,22 @@ class HomeController {
             .retrieve()
             .bodyToMono(CommonResponse::class.java)
 
+        val userJob = (userResponse.awaitSingle().data as LinkedHashMap<*, *>)["job"].toString()
+
         val jobOpeningResponse = webClient.get()
-            .uri("/api/v1/job-openings/my-similar")
+            .uri("/api/v1/job-openings/my-similar?page=0&size=5&sort=viewCount,DESC&type=$userJob")
             .header("Authorization", token)
             .retrieve()
             .bodyToMono(CommonResponse::class.java)
 
         val competitionResponse = webClient.get()
-            .uri("/api/v1/competitions")
+            .uri("/api/v1/competitions?page=0&size=5&sort=viewCount,DESC")
             .header("Authorization", token)
             .retrieve()
             .bodyToMono(CommonResponse::class.java)
 
         val profileResponse = webClient.get()
-            .uri("/api/v1/profiles?type=ACTOR")
+            .uri("/api/v1/profiles?page=0&size=5&sort=createdAt,DESC&type=ACTOR")
             .header("Authorization", token)
             .retrieve()
             .bodyToMono(CommonResponse::class.java)
