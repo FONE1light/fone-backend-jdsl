@@ -51,6 +51,13 @@ class CompetitionRepositoryImpl(
         )
     }
 
+    override suspend fun count(): Long {
+        return queryFactory.singleQuery {
+            select(count(column(Competition::id)))
+            from(entity(Competition::class))
+        }
+    }
+
     override suspend fun findById(competitionId: Long): Competition? {
         return queryFactory.singleQuery {
             select(entity(Competition::class))

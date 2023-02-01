@@ -37,9 +37,14 @@ class RetrieveCompetitionService(
                 competitionScrapRepository.findByUserId(user.id!!)
             }
 
+            val competitionCount = async {
+                competitionRepository.count()
+            }
+
             RetrieveCompetitionsResponse(
                 competitions.await(),
                 userCompetitionScraps.await(),
+                competitionCount.await(),
                 pageable,
             )
         }
