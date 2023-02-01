@@ -33,17 +33,9 @@ class RegisterProfileService(
             with(request) {
                 val profile = async {
                     val profile = toEntity(user.id!!)
+                    profileUrls.forEach { profile.addProfileImage(ProfileImage(it)) }
+
                     profileRepository.save(profile)
-
-                    val urls = profileUrls.map {
-                        ProfileImage(
-                            profileId = profile.id!!,
-                            profileUrl = it
-                        )
-                    }.toList()
-                    profileImageRepository.saveAll(urls)
-
-                    profile
                 }
 
                 val userProfileWants = async {

@@ -6,6 +6,7 @@ import com.fone.filmone.domain.common.Career
 import com.fone.filmone.domain.common.Gender
 import com.fone.filmone.domain.common.Type
 import com.fone.filmone.presentation.profile.RegisterProfileDto
+import com.fone.filmone.presentation.profile.RegisterProfileDto.*
 import java.time.LocalDate
 import javax.persistence.*
 
@@ -68,13 +69,23 @@ data class Profile(
 
     @Column
     var isDeleted: Boolean = false,
+
+    @Column
+    var profileUrl: String,
+
+    @OneToMany(mappedBy = "profile", cascade = [CascadeType.PERSIST])
+    var profileImages: MutableList<ProfileImage> = mutableListOf(),
 ) : BaseEntity() {
 
     fun view() {
         this.viewCount += 1
     }
 
-    fun put(request: RegisterProfileDto.RegisterProfileRequest) {
+    override fun toString(): String {
+        return "Profile(id=$id)"
+    }
+
+    fun put(request: RegisterProfileRequest) {
         hookingComment = request.hookingComment
         birthday = request.birthday
         gender = request.gender
@@ -88,6 +99,7 @@ data class Profile(
         interests = request.interests.map { it.toString() }.toList()
         type = request.type
         domains = request.domains.map { it.toString() }.toList()
+        profileUrl = request.profileUrl
     }
 
     fun delete() {
@@ -105,5 +117,11 @@ data class Profile(
         type = Type.ACTOR
         domains = listOf()
         isDeleted = true
+    }
+
+    /* 연관관계 메서드 */
+    fun addProfileImage(profileImage: ProfileImage) {
+        this.profileImages.add(profileImage)
+        profileImage.addProfile(this)
     }
 }

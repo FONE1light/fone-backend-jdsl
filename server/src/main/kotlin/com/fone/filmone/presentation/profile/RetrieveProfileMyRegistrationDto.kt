@@ -18,7 +18,13 @@ class RetrieveProfileMyRegistrationDto {
             pageable: Pageable,
         ) : this(
             profiles = PageImpl(
-                profiles.map { ProfileDto(it, userProfileWantMap) }.toList(),
+                profiles.map {
+                    ProfileDto(
+                        it,
+                        userProfileWantMap,
+                        it.profileImages.map { image -> image.profileUrl }.toList()
+                    )
+                }.toList(),
                 pageable,
                 profiles.size.toLong()
             )

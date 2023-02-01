@@ -24,13 +24,18 @@ data class ProfileDto(
     val career: Career,
     val interests: List<Interest>,
     val domains: List<Domain>,
-    val profileImages: List<String>,
+    val profileUrls: List<String>,
     val viewCount: Long,
+    val profileUrl: String,
 
     val isWant: Boolean = false,
     val age: Int,
 ) {
-    constructor(profile: Profile, userProfileWantMap: Map<Long, ProfileWant?>) : this(
+    constructor(
+        profile: Profile,
+        userProfileWantMap: Map<Long, ProfileWant?>,
+        profileUrls: List<String>,
+    ) : this(
         id = profile.id!!,
         name = profile.name,
         hookingComment = profile.hookingComment,
@@ -45,9 +50,10 @@ data class ProfileDto(
         career = profile.career,
         interests = profile.interests.map { Interest(it) }.toList(),
         domains = profile.domains.map { Domain(it) }.toList(),
-        profileImages = listOf(),
+        profileUrls = profileUrls,
         viewCount = profile.viewCount,
         isWant = userProfileWantMap.get(profile.id!!) != null,
-        age = DateTimeFormat.calculateAge(profile.birthday)
+        age = DateTimeFormat.calculateAge(profile.birthday),
+        profileUrl = if (profileUrls.isEmpty()) "" else profileUrls[0],
     )
 }
