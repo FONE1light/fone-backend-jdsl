@@ -17,7 +17,13 @@ class RetrieveProfilesDto {
             pageable: Pageable,
         ) : this(
             profiles = PageImpl(
-                profiles.map { ProfileDto(it, userProfileWantMap) }.toList(),
+                profiles.map {
+                    ProfileDto(
+                        it,
+                        userProfileWantMap,
+                        it.profileImages.map { image -> image.profileUrl }.toList()
+                    )
+                }.toList(),
                 pageable,
                 profiles.size.toLong()
             )
@@ -28,7 +34,11 @@ class RetrieveProfilesDto {
         val profile: ProfileDto,
     ) {
         constructor(profile: Profile, userProfileWantMap: Map<Long, ProfileWant?>) : this(
-            profile = ProfileDto(profile, userProfileWantMap)
+            profile = ProfileDto(
+                profile,
+                userProfileWantMap,
+                profile.profileImages.map { it.profileUrl }.toList()
+            )
         )
     }
 }

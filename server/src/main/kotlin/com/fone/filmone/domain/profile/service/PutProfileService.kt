@@ -3,6 +3,7 @@ package com.fone.filmone.domain.profile.service
 import com.fone.common.exception.InvalidProfileUserIdException
 import com.fone.common.exception.NotFoundProfileException
 import com.fone.common.exception.NotFoundUserException
+import com.fone.filmone.domain.profile.repository.ProfileImageRepository
 import com.fone.filmone.domain.profile.repository.ProfileRepository
 import com.fone.filmone.domain.profile.repository.ProfileWantRepository
 import com.fone.filmone.domain.user.repository.UserRepository
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service
 class PutProfileService(
     private val profileRepository: ProfileRepository,
     private val profileWantRepository: ProfileWantRepository,
+    private val profileImageRepository: ProfileImageRepository,
     private val userRepository: UserRepository,
 ) {
 
@@ -42,7 +44,10 @@ class PutProfileService(
                 profileWantRepository.findByUserId(user.id!!)
             }
 
-            RegisterProfileResponse(profile.await(), userProfileWants.await())
+            RegisterProfileResponse(
+                profile.await(),
+                userProfileWants.await(),
+            )
         }
     }
 }

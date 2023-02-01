@@ -30,6 +30,7 @@ class RegisterProfileDto {
         val domains: List<Domain>,
         val userId: Long,
         val profileUrls: List<String>,
+        val profileUrl: String,
     ) {
 
         fun toEntity(userId: Long): Profile {
@@ -51,6 +52,7 @@ class RegisterProfileDto {
                 userId = userId,
                 viewCount = 0,
                 name = name,
+                profileUrl = profileUrl,
             )
         }
     }
@@ -63,7 +65,11 @@ class RegisterProfileDto {
             profile: Profile,
             userProfileWantMap: Map<Long, ProfileWant?>,
         ) : this(
-            profile = ProfileDto(profile, userProfileWantMap)
+            profile = ProfileDto(
+                profile,
+                userProfileWantMap,
+                profile.profileImages.map { it.profileUrl }.toList()
+            )
         )
     }
 }
