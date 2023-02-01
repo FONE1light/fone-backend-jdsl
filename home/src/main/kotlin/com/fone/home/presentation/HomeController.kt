@@ -59,7 +59,7 @@ class HomeController {
             .bodyToMono(CommonResponse::class.java)
 
         val response = HomeDto(
-            order = listOf("jobOpening", "competition", "profile"),
+            order = mutableListOf("jobOpening", "competition", "profile").shuffled(),
             jobOpening = CollectionDto(
                 title = "나와 비슷한 사람들이 보고있는 공고",
                 subTitle = (userResponse.awaitSingle().data as LinkedHashMap<*, *>)["nickname"].toString() + "님 안녕하세요. 관심사 기반으로 꼭 맞는 공고를 추천 합니다.",
