@@ -4,6 +4,7 @@ import com.fone.filmone.domain.common.Type
 import com.fone.filmone.domain.job_opening.entity.JobOpening
 import com.fone.filmone.domain.job_opening.entity.JobOpeningScrap
 import com.fone.filmone.domain.job_opening.repository.JobOpeningRepository
+import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningDto.*
 import com.linecorp.kotlinjdsl.query.spec.predicate.EqualValueSpec
 import com.linecorp.kotlinjdsl.querydsl.expression.col
 import com.linecorp.kotlinjdsl.querydsl.expression.column
@@ -34,13 +35,19 @@ class JobOpeningRepositoryImpl(
         }
     }
 
-    override suspend fun findByType(pageable: Pageable, type: Type): Slice<JobOpening> {
+    override suspend fun findByFilters(
+        pageable: Pageable,
+        request: RetrieveJobOpeningsRequest,
+    ): Slice<JobOpening> {
         return queryFactory.pageQuery(pageable) {
             select(entity(JobOpening::class))
             from(entity(JobOpening::class))
             where(
                 and(
-                    typeEq(type)
+                    typeEq(request.type),
+                    col(JobOpening::gender).equal(request.gender),
+                    col(JobOpening::ageMax).lessThanOrEqualTo(request.ageMax),
+                    col(JobOpening::ageMin).greaterThanOrEqualTo(request.ageMin),
                 )
             )
         }

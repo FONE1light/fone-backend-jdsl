@@ -6,8 +6,7 @@ import com.fone.filmone.domain.common.Type
 import com.fone.filmone.domain.job_opening.repository.JobOpeningRepository
 import com.fone.filmone.domain.job_opening.repository.JobOpeningScrapRepository
 import com.fone.filmone.domain.user.repository.UserRepository
-import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningDto.RetrieveJobOpeningResponse
-import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningDto.RetrieveJobOpeningsResponse
+import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningDto.*
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.springframework.data.domain.Pageable
@@ -25,14 +24,14 @@ class RetrieveJobOpeningService(
     suspend fun retrieveJobOpenings(
         email: String,
         pageable: Pageable,
-        type: Type,
+        request: RetrieveJobOpeningsRequest,
     ): RetrieveJobOpeningsResponse {
         val user = userRepository.findByNicknameOrEmail(null, email)
             ?: throw NotFoundUserException()
 
         return coroutineScope {
             val jobOpenings = async {
-                jobOpeningRepository.findByType(pageable, type).content
+                jobOpeningRepository.findByFilters(pageable, request).content
             }
 
             val userJobOpeningScraps = async {

@@ -1,10 +1,9 @@
 package com.fone.filmone.presentation.job_opening
 
-import com.fone.filmone.application.job_opening.RetrieveJobOpeningFacade
 import com.fone.common.response.CommonResponse
+import com.fone.filmone.application.job_opening.RetrieveJobOpeningFacade
 import com.fone.filmone.domain.common.Type
-import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningDto.RetrieveJobOpeningResponse
-import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningDto.RetrieveJobOpeningsResponse
+import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningDto.*
 import io.swagger.annotations.Api
 import org.springframework.data.domain.Pageable
 import org.springframework.security.access.prepost.PreAuthorize
@@ -23,10 +22,13 @@ class RetrieveJobOpeningController(
     @PreAuthorize("hasRole('USER')")
     suspend fun retrieveJobOpenings(
         principal: Principal,
-        @RequestParam type: Type,
+        @ModelAttribute request: RetrieveJobOpeningsRequest,
         pageable: Pageable,
     ): CommonResponse<RetrieveJobOpeningsResponse> {
-        val response = retrieveJobOpeningFacade.retrieveJobOpenings(principal.name, pageable, type)
+        val response = retrieveJobOpeningFacade.retrieveJobOpenings(
+            principal.name,
+            pageable,
+            request)
 
         return CommonResponse.success(response)
     }
