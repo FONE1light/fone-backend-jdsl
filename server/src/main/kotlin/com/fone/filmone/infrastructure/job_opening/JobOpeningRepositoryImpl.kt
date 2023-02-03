@@ -46,8 +46,12 @@ class JobOpeningRepositoryImpl(
                 and(
                     typeEq(request.type),
                     col(JobOpening::gender).equal(request.gender),
-                    col(JobOpening::ageMax).lessThanOrEqualTo(request.ageMax),
-                    col(JobOpening::ageMin).greaterThanOrEqualTo(request.ageMin),
+                    or(
+                        col(JobOpening::ageMax).greaterThanOrEqualTo(request.ageMin),
+                        col(JobOpening::ageMin).lessThanOrEqualTo(request.ageMax),
+                    ),
+                    col(JobOpening::interests).`in`(request.interests.map{it.toString()}.toList()),
+                    col(JobOpening::domains).`in`(request.domains.map{it.toString()}.toList()),
                 )
             )
         }
