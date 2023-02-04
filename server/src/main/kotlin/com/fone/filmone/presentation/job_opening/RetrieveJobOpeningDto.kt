@@ -1,6 +1,6 @@
 package com.fone.filmone.presentation.job_opening
 
-import com.fone.filmone.domain.common.Domain
+import com.fone.filmone.domain.common.DomainType
 import com.fone.filmone.domain.common.Gender
 import com.fone.filmone.domain.common.Interest
 import com.fone.filmone.domain.common.Type
@@ -18,7 +18,7 @@ class RetrieveJobOpeningDto {
         val ageMax: Int,
         val ageMin: Int,
         val interests: List<Interest>,
-        val domains: List<Domain>,
+        val domains: List<DomainType>,
     )
 
     data class RetrieveJobOpeningsResponse(

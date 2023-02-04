@@ -78,7 +78,7 @@ data class JobOpening(
         ageMin = request.ageMin
         career = request.career
         type = request.type
-        domains = request.domains.map { it.toString() }.toList()
+        domains = request.domainTypes.map { it.toString() }.toList()
     }
 
     fun delete() {

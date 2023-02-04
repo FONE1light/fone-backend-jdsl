@@ -1,6 +1,6 @@
 package com.fone.filmone.domain.common
 
-enum class Domain(name: String) {
+enum class DomainType(name: String) {
     PLANNING("기획/제작"),
     SCENARIO("시나리오"),
     DIRECTOR("연출"),
@@ -17,6 +17,6 @@ enum class Domain(name: String) {
     ;
 
     companion object {
-        operator fun invoke(domain: String) = Domain.valueOf(domain.uppercase())
+        operator fun invoke(domain: String) = DomainType.valueOf(domain.uppercase())
     }
 }

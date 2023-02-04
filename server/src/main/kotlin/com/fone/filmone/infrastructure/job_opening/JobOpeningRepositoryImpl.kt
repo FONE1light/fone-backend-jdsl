@@ -51,7 +51,7 @@ class JobOpeningRepositoryImpl(
                         col(JobOpening::ageMin).lessThanOrEqualTo(request.ageMax),
                     ),
                     col(JobOpening::interests).`in`(request.interests.map{it.toString()}.toList()),
-                    col(JobOpening::domains).`in`(request.domains.map{it.toString()}.toList()),
+                    col(JobOpening::domains).`in`(request.domainTypes.map{it.toString()}.toList()),
                 )
             )
         }

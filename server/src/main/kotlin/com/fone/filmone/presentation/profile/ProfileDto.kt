@@ -2,7 +2,7 @@ package com.fone.filmone.presentation.profile
 
 import com.fone.common.utils.DateTimeFormat
 import com.fone.filmone.domain.common.Career
-import com.fone.filmone.domain.common.Domain
+import com.fone.filmone.domain.common.DomainType
 import com.fone.filmone.domain.common.Gender
 import com.fone.filmone.domain.common.Interest
 import com.fone.filmone.domain.profile.entity.Profile
@@ -23,7 +23,7 @@ data class ProfileDto(
     val details: String,
     val career: Career,
     val interests: List<Interest>,
-    val domains: List<Domain>,
+    val domains: List<DomainType>,
     val profileUrls: List<String>,
     val viewCount: Long,
     val profileUrl: String,
@@ -49,7 +49,7 @@ data class ProfileDto(
         details = profile.details,
         career = profile.career,
         interests = profile.interests.map { Interest(it) }.toList(),
-        domains = profile.domains.map { Domain(it) }.toList(),
+        domains = profile.domains.map { DomainType(it) }.toList(),
         profileUrls = profileUrls,
         viewCount = profile.viewCount,
         isWant = userProfileWantMap.get(profile.id!!) != null,

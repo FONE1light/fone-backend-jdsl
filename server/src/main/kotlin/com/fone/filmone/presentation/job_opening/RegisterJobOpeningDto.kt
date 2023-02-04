@@ -20,7 +20,7 @@ class RegisterJobOpeningDto {
         val ageMin: Int,
         val career: Career,
         val type: Type,
-        val domains: List<Domain>,
+        val domains: List<DomainType>,
         val work: WorkDto,
     ) {
         fun toEntity(userId: Long): JobOpening {
