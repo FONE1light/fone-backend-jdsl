@@ -27,7 +27,7 @@ class RegisterProfileDto {
         val career: Career,
         val interests: List<Interest>,
         val type: Type,
-        val domains: List<Domain>,
+        val domains: List<DomainType>,
         val userId: Long,
         val profileUrls: List<String>,
         val profileUrl: String,

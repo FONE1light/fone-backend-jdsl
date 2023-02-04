@@ -1,5 +1,6 @@
 package com.fone.filmone.presentation.job_opening
 
+import com.fone.filmone.domain.common.DomainType
 import com.fone.filmone.domain.job_opening.entity.JobOpening
 import com.fone.filmone.domain.job_opening.entity.JobOpeningScrap
 import org.springframework.data.domain.PageImpl
@@ -14,11 +15,17 @@ class RetrieveMySimilarJobOpeningDto {
         constructor(
             jobOpenings: Slice<JobOpening>,
             userJobOpeningScrapMap: Map<Long, JobOpeningScrap?>,
-            pageable: Pageable
+            jobOpeningDomains: Map<Long, List<DomainType>>,
+            pageable: Pageable,
         ) : this(
-//            jobOpenings = jobOpenings.map { JobOpeningDto(it, userJobOpeningScrapMap) }.toList()
             jobOpenings = PageImpl(
-                jobOpenings.map { JobOpeningDto(it, userJobOpeningScrapMap) }.toList(),
+                jobOpenings.map {
+                    JobOpeningDto(
+                        it,
+                        userJobOpeningScrapMap,
+                        jobOpeningDomains[it.id!!] ?: listOf(),
+                    )
+                }.toList(),
                 pageable,
                 jobOpenings.size.toLong()
             )

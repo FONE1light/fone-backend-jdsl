@@ -16,10 +16,10 @@ class CompetitionPrizeRepositoryImpl(
 ) : CompetitionPrizeRepository {
 
     override suspend fun saveAll(prizes: List<Prize>): List<Prize> {
-        sessionFactory.withSession { session ->
-            session.persistAll(*prizes.toTypedArray()).flatMap { session.flush() }
-        }.awaitSuspending()
-
-        return prizes
+        return prizes.also {
+            sessionFactory.withSession { session ->
+                session.persistAll(*it.toTypedArray()).flatMap { session.flush() }
+            }.awaitSuspending()
+        }
     }
 }

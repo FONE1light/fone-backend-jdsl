@@ -20,7 +20,7 @@ class RegisterJobOpeningDto {
         val ageMin: Int,
         val career: Career,
         val type: Type,
-        val domains: List<Domain>,
+        val domains: List<DomainType>,
         val work: WorkDto,
     ) {
         fun toEntity(userId: Long): JobOpening {
@@ -36,7 +36,6 @@ class RegisterJobOpeningDto {
                 ageMin = ageMin,
                 career = career,
                 type = type,
-                domains = domains.map { it.toString() }.toList(),
                 userId = userId,
                 viewCount = 0,
                 work = work.toEntity()
@@ -51,8 +50,9 @@ class RegisterJobOpeningDto {
         constructor(
             jobOpening: JobOpening,
             userJobOpeningScrapMap: Map<Long, JobOpeningScrap?>,
+            domains: List<DomainType>,
         ) : this(
-            jobOpening = JobOpeningDto(jobOpening, userJobOpeningScrapMap)
+            jobOpening = JobOpeningDto(jobOpening, userJobOpeningScrapMap, domains)
         )
     }
 }

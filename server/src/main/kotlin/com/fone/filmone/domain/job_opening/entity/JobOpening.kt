@@ -48,9 +48,6 @@ data class JobOpening(
     @Enumerated(EnumType.STRING)
     var type: Type,
 
-    @Convert(converter = SeparatorConverter::class)
-    var domains: List<String> = listOf(),
-
     @Column
     var userId: Long,
 
@@ -78,7 +75,6 @@ data class JobOpening(
         ageMin = request.ageMin
         career = request.career
         type = request.type
-        domains = request.domains.map { it.toString() }.toList()
     }
 
     fun delete() {
@@ -93,7 +89,6 @@ data class JobOpening(
         ageMin = 0
         career = Career.IRRELEVANT
         type = Type.ACTOR
-        domains = listOf()
         isDeleted = true
     }
 }

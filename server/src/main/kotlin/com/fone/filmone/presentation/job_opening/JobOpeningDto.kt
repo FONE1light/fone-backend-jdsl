@@ -18,7 +18,7 @@ data class JobOpeningDto(
     val ageMin: Int,
     val career: Career,
     val type: Type,
-    val domains: List<Domain>,
+    val domains: List<DomainType>,
     val viewCount: Long,
     val work: WorkDto,
 
@@ -29,6 +29,7 @@ data class JobOpeningDto(
     constructor(
         jobOpening: JobOpening,
         userJobOpeningScrapMap: Map<Long, JobOpeningScrap?>,
+        domains: List<DomainType>,
     ) : this(
         id = jobOpening.id!!,
         title = jobOpening.title,
@@ -41,7 +42,7 @@ data class JobOpeningDto(
         ageMin = jobOpening.ageMin,
         career = jobOpening.career,
         type = jobOpening.type,
-        domains = jobOpening.domains.map { Domain(it) }.toList(),
+        domains = domains,
         viewCount = jobOpening.viewCount,
         work = WorkDto(jobOpening.work),
         isScrap = userJobOpeningScrapMap.get(jobOpening.id!!) != null,

@@ -5,7 +5,6 @@ import com.fone.filmone.domain.common.BaseEntity
 import com.fone.filmone.domain.common.Career
 import com.fone.filmone.domain.common.Gender
 import com.fone.filmone.domain.common.Type
-import com.fone.filmone.presentation.profile.RegisterProfileDto
 import com.fone.filmone.presentation.profile.RegisterProfileDto.*
 import java.time.LocalDate
 import javax.persistence.*
@@ -98,7 +97,6 @@ data class Profile(
         career = request.career
         interests = request.interests.map { it.toString() }.toList()
         type = request.type
-        domains = request.domains.map { it.toString() }.toList()
         profileUrl = request.profileUrl
     }
 
