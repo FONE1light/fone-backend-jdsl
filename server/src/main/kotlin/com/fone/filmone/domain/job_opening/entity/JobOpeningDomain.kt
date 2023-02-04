@@ -1,11 +1,12 @@
 package com.fone.filmone.domain.job_opening.entity
 
+import com.fone.filmone.domain.common.DomainType
 import javax.persistence.*
 
 
 @Entity
-@Table(name = "job_opening_mains")
-data class JobOpeningDomain (
+@Table(name = "job_opening_domains")
+data class JobOpeningDomain(
 
     @Id
     @Column
@@ -15,6 +16,12 @@ data class JobOpeningDomain (
     @Column
     var jobOpeningId: Long,
 
-    @Column
-    var domainId: Long,
-)
+    @Enumerated(EnumType.STRING)
+    var type: DomainType,
+) {
+
+    constructor(reqJobOpeningId: Long, reqType: DomainType) : this(
+        jobOpeningId = reqJobOpeningId,
+        type = reqType,
+    )
+}

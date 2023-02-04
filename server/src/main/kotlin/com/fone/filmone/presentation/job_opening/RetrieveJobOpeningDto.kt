@@ -28,10 +28,17 @@ class RetrieveJobOpeningDto {
         constructor(
             jobOpeningList: List<JobOpening>,
             userJobOpeningScrapMap: Map<Long, JobOpeningScrap?>,
+            jobOpeningDomains: Map<Long, List<DomainType>>,
             pageable: Pageable,
         ) : this(
             jobOpenings = PageImpl(
-                jobOpeningList.map { JobOpeningDto(it, userJobOpeningScrapMap) }.toList(),
+                jobOpeningList.map {
+                    JobOpeningDto(
+                        it,
+                        userJobOpeningScrapMap,
+                        jobOpeningDomains[it.id!!] ?: listOf(),
+                    )
+                }.toList(),
                 pageable,
                 jobOpeningList.size.toLong()
             )
@@ -45,8 +52,9 @@ class RetrieveJobOpeningDto {
         constructor(
             reqJobOpening: JobOpening,
             userJobOpeningScrapMap: Map<Long, JobOpeningScrap?>,
+            domains: List<DomainType>,
         ) : this(
-            jobOpening = JobOpeningDto(reqJobOpening, userJobOpeningScrapMap)
+            jobOpening = JobOpeningDto(reqJobOpening, userJobOpeningScrapMap, domains)
         )
     }
 }

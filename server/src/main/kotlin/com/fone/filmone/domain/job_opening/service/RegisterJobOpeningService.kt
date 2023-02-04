@@ -1,6 +1,8 @@
 package com.fone.filmone.domain.job_opening.service
 
 import com.fone.common.exception.NotFoundUserException
+import com.fone.filmone.domain.job_opening.entity.JobOpeningDomain
+import com.fone.filmone.domain.job_opening.repository.JobOpeningDomainRepository
 import com.fone.filmone.domain.job_opening.repository.JobOpeningRepository
 import com.fone.filmone.domain.job_opening.repository.JobOpeningScrapRepository
 import com.fone.filmone.domain.user.repository.UserRepository
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional
 class RegisterJobOpeningService(
     private val jobOpeningRepository: JobOpeningRepository,
     private val jobOpeningScrapRepository: JobOpeningScrapRepository,
+    private val jobOpeningDomainRepository: JobOpeningDomainRepository,
     private val userRepository: UserRepository,
 ) {
 
@@ -31,6 +34,15 @@ class RegisterJobOpeningService(
                 val jobOpening = async {
                     val jobOpening = toEntity(user.id!!)
                     jobOpeningRepository.save(jobOpening)
+
+                    val jobOpeningDomains = domains.map {
+                        JobOpeningDomain(
+                            jobOpening.id!!,
+                            it
+                        )
+                    }
+                    jobOpeningDomainRepository.saveAll(jobOpeningDomains)
+
                     jobOpening
                 }
 
@@ -39,7 +51,11 @@ class RegisterJobOpeningService(
                     scraps
                 }
 
-                RegisterJobOpeningResponse(jobOpening.await(), userJobOpeningScraps.await())
+                RegisterJobOpeningResponse(
+                    jobOpening.await(),
+                    userJobOpeningScraps.await(),
+                    domains
+                )
             }
         }
     }

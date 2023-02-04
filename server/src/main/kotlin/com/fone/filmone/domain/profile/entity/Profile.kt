@@ -97,7 +97,6 @@ data class Profile(
         career = request.career
         interests = request.interests.map { it.toString() }.toList()
         type = request.type
-        domains = request.domainTypes.map { it.toString() }.toList()
         profileUrl = request.profileUrl
     }
 

@@ -3,6 +3,8 @@ package com.fone.filmone.domain.job_opening.service
 import com.fone.common.exception.InvalidJobOpeningUserIdException
 import com.fone.common.exception.NotFoundJobOpeningException
 import com.fone.common.exception.NotFoundUserException
+import com.fone.filmone.domain.job_opening.entity.JobOpeningDomain
+import com.fone.filmone.domain.job_opening.repository.JobOpeningDomainRepository
 import com.fone.filmone.domain.job_opening.repository.JobOpeningRepository
 import com.fone.filmone.domain.job_opening.repository.JobOpeningScrapRepository
 import com.fone.filmone.domain.user.repository.UserRepository
@@ -10,13 +12,13 @@ import com.fone.filmone.presentation.job_opening.RegisterJobOpeningDto.RegisterJ
 import com.fone.filmone.presentation.job_opening.RegisterJobOpeningDto.RegisterJobOpeningResponse
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.runBlocking
 import org.springframework.stereotype.Service
 
 @Service
 class PutJobOpeningService(
     private val jobOpeningRepository: JobOpeningRepository,
     private val jobOpeningScrapRepository: JobOpeningScrapRepository,
+    private val jobOpeningDomainRepository: JobOpeningDomainRepository,
     private val userRepository: UserRepository,
 ) {
 
@@ -34,6 +36,17 @@ class PutJobOpeningService(
         }
 
         return coroutineScope {
+            val jobOpeningDomains = async {
+                jobOpeningDomainRepository.deleteByJobOpeningId(jobOpening.id!!)
+                val jobOpeningDomains = request.domains.map {
+                    JobOpeningDomain(
+                        jobOpening.id!!,
+                        it
+                    )
+                }
+                jobOpeningDomainRepository.saveAll(jobOpeningDomains)
+            }
+
             val jobOpening = async {
                 jobOpening.put(request)
                 jobOpeningRepository.save(jobOpening)
@@ -43,7 +56,12 @@ class PutJobOpeningService(
                 jobOpeningScrapRepository.findByUserId(user.id!!)
             }
 
-            RegisterJobOpeningResponse(jobOpening.await(), userJobOpeningScraps.await())
+            jobOpeningDomains.await()
+            RegisterJobOpeningResponse(
+                jobOpening.await(),
+                userJobOpeningScraps.await(),
+                request.domains
+            )
         }
     }
 }

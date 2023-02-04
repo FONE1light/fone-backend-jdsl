@@ -3,6 +3,7 @@ package com.fone.filmone.domain.job_opening.service
 import com.fone.common.exception.NotFoundJobOpeningException
 import com.fone.common.exception.NotFoundUserException
 import com.fone.filmone.domain.common.Type
+import com.fone.filmone.domain.job_opening.repository.JobOpeningDomainRepository
 import com.fone.filmone.domain.job_opening.repository.JobOpeningRepository
 import com.fone.filmone.domain.job_opening.repository.JobOpeningScrapRepository
 import com.fone.filmone.domain.user.repository.UserRepository
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional
 class RetrieveJobOpeningService(
     private val jobOpeningRepository: JobOpeningRepository,
     private val jobOpeningScrapRepository: JobOpeningScrapRepository,
+    private val jobOpeningDomainRepository: JobOpeningDomainRepository,
     private val userRepository: UserRepository,
 ) {
 
@@ -38,7 +40,18 @@ class RetrieveJobOpeningService(
                 jobOpeningScrapRepository.findByUserId(user.id!!)
             }
 
-            RetrieveJobOpeningsResponse(jobOpenings.await(), userJobOpeningScraps.await(), pageable)
+            val jobOpeningDomains = async {
+                val jobOpeningIds = jobOpenings.await().map { it.id!! }.toList()
+
+                jobOpeningDomainRepository.findByJobOpeningIds(jobOpeningIds)
+            }
+
+            RetrieveJobOpeningsResponse(
+                jobOpenings.await(),
+                userJobOpeningScraps.await(),
+                jobOpeningDomains.await(),
+                pageable
+            )
         }
     }
 
@@ -63,7 +76,17 @@ class RetrieveJobOpeningService(
                 jobOpeningScrapRepository.findByUserId(user.id!!)
             }
 
-            RetrieveJobOpeningResponse(jobOpening.await(), userJobOpeningScraps.await())
+            val jobOpeningDomains = async {
+                val jobOpeningId = jobOpening.await().id!!
+
+                jobOpeningDomainRepository.findByJobOpeningId(jobOpeningId)
+            }
+
+            RetrieveJobOpeningResponse(
+                jobOpening.await(),
+                userJobOpeningScraps.await(),
+                jobOpeningDomains.await()
+            )
         }
     }
 }
