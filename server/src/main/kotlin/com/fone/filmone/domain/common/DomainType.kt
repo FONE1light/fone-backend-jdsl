@@ -18,5 +18,24 @@ enum class DomainType(name: String) {
 
     companion object {
         operator fun invoke(domain: String) = DomainType.valueOf(domain.uppercase())
+
+        fun getAllEnum(): List<DomainType> {
+
+            return listOf(
+                PLANNING,
+                SCENARIO,
+                DIRECTOR,
+                FILMING,
+                GAFFER,
+                RECORD,
+                PAINTING,
+                ART,
+                MAKE_UP,
+                EDIT,
+                MUSIC,
+                PICTURE,
+                ETC,
+            )
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.fone.filmone.infrastructure.job_opening
 
 import com.fone.filmone.domain.common.Type
 import com.fone.filmone.domain.job_opening.entity.JobOpening
+import com.fone.filmone.domain.job_opening.entity.JobOpeningDomain
 import com.fone.filmone.domain.job_opening.entity.JobOpeningScrap
 import com.fone.filmone.domain.job_opening.repository.JobOpeningRepository
 import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningDto.*
@@ -13,6 +14,7 @@ import com.linecorp.kotlinjdsl.spring.reactive.querydsl.SpringDataReactiveCriter
 import com.linecorp.kotlinjdsl.spring.reactive.querydsl.SpringDataReactivePageableQueryDsl
 import io.smallrye.mutiny.coroutines.awaitSuspending
 import org.hibernate.reactive.mutiny.Mutiny
+import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 import org.springframework.stereotype.Repository
@@ -39,19 +41,33 @@ class JobOpeningRepositoryImpl(
         pageable: Pageable,
         request: RetrieveJobOpeningsRequest,
     ): Slice<JobOpening> {
+        val jobOpeningIds = queryFactory.listQuery {
+            select(col(JobOpeningDomain::jobOpeningId))
+            from(entity(JobOpeningDomain::class))
+            where(col(JobOpeningDomain::type).`in`(request.domains))
+        }
+
+        if (jobOpeningIds.isEmpty()) {
+            return PageImpl(
+                listOf(),
+                pageable,
+                0,
+            )
+        }
+
         return queryFactory.pageQuery(pageable) {
             select(entity(JobOpening::class))
             from(entity(JobOpening::class))
             where(
                 and(
                     typeEq(request.type),
-                    col(JobOpening::gender).equal(request.gender),
+                    col(JobOpening::gender).`in`(request.genders),
                     or(
                         col(JobOpening::ageMax).greaterThanOrEqualTo(request.ageMin),
                         col(JobOpening::ageMin).lessThanOrEqualTo(request.ageMax),
                     ),
-                    col(JobOpening::interests).`in`(request.interests.map{it.toString()}.toList()),
-//                    col(JobOpening::domains).`in`(request.domainTypes.map{it.toString()}.toList()),
+//                    col(JobOpening::interests).`in`(request.interests.map{it.toString()}.toList()),
+                    col(JobOpening::id).`in`(jobOpeningIds),
                 )
             )
         }

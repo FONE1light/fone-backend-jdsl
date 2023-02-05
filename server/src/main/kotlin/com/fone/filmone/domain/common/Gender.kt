@@ -6,5 +6,13 @@ enum class Gender {
     companion object {
 
         operator fun invoke(priority: String) = valueOf(priority.uppercase())
+
+        fun getAllEnum(): List<Gender> {
+            return listOf(
+                MAN,
+                WOMAN,
+                IRRELEVANT,
+            )
+        }
     }
 }
