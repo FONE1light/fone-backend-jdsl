@@ -3,13 +3,17 @@ package com.fone.filmone.domain.profile.service
 import com.fone.common.exception.InvalidProfileUserIdException
 import com.fone.common.exception.NotFoundProfileException
 import com.fone.common.exception.NotFoundUserException
+import com.fone.filmone.domain.profile.repository.ProfileDomainRepository
 import com.fone.filmone.domain.profile.repository.ProfileRepository
 import com.fone.filmone.domain.user.repository.UserRepository
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import org.springframework.stereotype.Service
 
 @Service
 class DeleteProfileService(
     private val profileRepository: ProfileRepository,
+    private val profileDomainRepository: ProfileDomainRepository,
     private val userRepository: UserRepository,
 ) {
 
@@ -26,6 +30,16 @@ class DeleteProfileService(
 
         profile.delete()
 
-        profileRepository.save(profile)
+        coroutineScope{
+            val profile = async {
+                profileRepository.save(profile)
+            }
+            val profileDomain = async {
+                profileDomainRepository.deleteByProfileId(profileId)
+            }
+
+            profile.await()
+            profileDomain.await()
+        }
     }
 }

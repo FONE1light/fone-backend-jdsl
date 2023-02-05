@@ -48,7 +48,6 @@ class RegisterProfileDto {
                 career = career,
                 interests = categories.map { it.toString() }.toList(),
                 type = type,
-                domains = domains.map { it.toString() }.toList(),
                 userId = userId,
                 viewCount = 0,
                 name = name,
@@ -64,11 +63,13 @@ class RegisterProfileDto {
         constructor(
             profile: Profile,
             userProfileWantMap: Map<Long, ProfileWant?>,
+            domains: List<DomainType>,
         ) : this(
             profile = ProfileDto(
                 profile,
                 userProfileWantMap,
-                profile.profileImages.map { it.profileUrl }.toList()
+                profile.profileImages.map { it.profileUrl }.toList(),
+                domains
             )
         )
     }

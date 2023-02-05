@@ -35,6 +35,7 @@ data class ProfileDto(
         profile: Profile,
         userProfileWantMap: Map<Long, ProfileWant?>,
         profileUrls: List<String>,
+        domains: List<DomainType>,
     ) : this(
         id = profile.id!!,
         name = profile.name,
@@ -49,7 +50,7 @@ data class ProfileDto(
         details = profile.details,
         career = profile.career,
         categories = profile.interests.map { CategoryType(it) }.toList(),
-        domains = profile.domains.map { DomainType(it) }.toList(),
+        domains = domains,
         profileUrls = profileUrls,
         viewCount = profile.viewCount,
         isWant = userProfileWantMap.get(profile.id!!) != null,

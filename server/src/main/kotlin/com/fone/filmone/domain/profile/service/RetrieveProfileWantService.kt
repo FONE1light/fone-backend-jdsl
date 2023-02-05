@@ -2,6 +2,7 @@ package com.fone.filmone.domain.profile.service
 
 import com.fone.common.exception.NotFoundUserException
 import com.fone.filmone.domain.common.Type
+import com.fone.filmone.domain.profile.repository.ProfileDomainRepository
 import com.fone.filmone.domain.profile.repository.ProfileRepository
 import com.fone.filmone.domain.profile.repository.ProfileWantRepository
 import com.fone.filmone.domain.user.repository.UserRepository
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional
 class RetrieveProfileWantService(
     private val profileWantRepository: ProfileWantRepository,
     private val profileRepository: ProfileRepository,
+    private val profileDomainRepository: ProfileDomainRepository,
     private val userRepository: UserRepository,
 ) {
 
@@ -37,7 +39,18 @@ class RetrieveProfileWantService(
                 profileWantRepository.findByUserId(user.id!!)
             }
 
-            RetrieveProfileWantResponse(profiles.await(), userProfileWants.await(), pageable)
+            val profileDomains = async {
+                val profileIds = profiles.await().map { it.id!! }.toList()
+
+                profileDomainRepository.findByProfileIds(profileIds)
+            }
+
+            RetrieveProfileWantResponse(
+                profiles.await(),
+                userProfileWants.await(),
+                profileDomains.await(),
+                pageable
+            )
         }
     }
 }

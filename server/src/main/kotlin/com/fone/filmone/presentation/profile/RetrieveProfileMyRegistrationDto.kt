@@ -1,5 +1,6 @@
 package com.fone.filmone.presentation.profile
 
+import com.fone.filmone.domain.common.DomainType
 import com.fone.filmone.domain.profile.entity.Profile
 import com.fone.filmone.domain.profile.entity.ProfileWant
 import org.springframework.data.domain.PageImpl
@@ -15,6 +16,7 @@ class RetrieveProfileMyRegistrationDto {
         constructor(
             profiles: List<Profile>,
             userProfileWantMap: Map<Long, ProfileWant?>,
+            profileDomains: Map<Long, List<DomainType>>,
             pageable: Pageable,
         ) : this(
             profiles = PageImpl(
@@ -22,7 +24,8 @@ class RetrieveProfileMyRegistrationDto {
                     ProfileDto(
                         it,
                         userProfileWantMap,
-                        it.profileImages.map { image -> image.profileUrl }.toList()
+                        it.profileImages.map { image -> image.profileUrl }.toList(),
+                        profileDomains[it.id!!] ?: listOf(),
                     )
                 }.toList(),
                 pageable,
