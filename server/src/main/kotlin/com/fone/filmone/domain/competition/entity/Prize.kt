@@ -19,9 +19,6 @@ data class Prize(
     @Column
     var prizeMoney: String,
 
-    @Column
-    var agency: String,
-
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "competition_id")
     var competition: Competition? = null,

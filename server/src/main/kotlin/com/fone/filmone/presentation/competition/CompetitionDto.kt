@@ -12,6 +12,9 @@ data class CompetitionDto(
     val imageUrl: String,
     val startDate: LocalDate?,
     val endDate: LocalDate?,
+    val submitStartDate: LocalDate?,
+    val submitEndDate: LocalDate?,
+    val showStartDate: LocalDate?,
     val agency: String,
     val details: String,
     val viewCount: Long,
@@ -29,12 +32,15 @@ data class CompetitionDto(
         imageUrl = competition.imageUrl,
         startDate = competition.startDate,
         endDate = competition.endDate,
+        submitStartDate = competition.submitStartDate,
+        submitEndDate = competition.submitEndDate,
+        showStartDate = competition.showStartDate,
         agency = competition.agency,
         details = competition.details,
         viewCount = competition.viewCount,
         competitionPrizes = competition.prizes.map { CompetitionPrizeDto(it) }.toList(),
         isScrap = userCompetitionScrapMap.get(competition.id!!) != null,
-        dDay = DateTimeFormat.calculateDays(competition.endDate),
+        dDay = DateTimeFormat.calculateDays(competition.endDate ?: competition.submitEndDate),
     )
 }
 
@@ -42,14 +48,12 @@ data class CompetitionPrizeDto(
     val id: Long,
     val ranking: String,
     val prizeMoney: String,
-    val agency: String,
     val competitionId: Long,
 ) {
     constructor(prize: Prize) : this(
         id = prize.id!!,
         ranking = prize.ranking,
         prizeMoney = prize.prizeMoney,
-        agency = prize.agency,
         competitionId = prize.competition!!.id!!,
     )
 }
