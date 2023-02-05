@@ -13,5 +13,19 @@ enum class Interest(interest: String) {
 
     companion object {
         operator fun invoke(interest: String) = Interest.valueOf(interest.uppercase())
+
+        fun getAllEnum(): List<Interest> {
+            return listOf(
+                FEATURE_FILM,
+                SHORT_FILM,
+                INDEPENDENT_FILM,
+                WEB_DRAMA,
+                MOVIE,
+                OTT_DRAMA,
+                YOUTUBE,
+                VIRAL,
+                ETC,
+            )
+        }
     }
 }
