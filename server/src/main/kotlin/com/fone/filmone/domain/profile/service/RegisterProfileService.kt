@@ -1,8 +1,10 @@
 package com.fone.filmone.domain.profile.service
 
 import com.fone.common.exception.NotFoundUserException
+import com.fone.filmone.domain.profile.entity.ProfileCategory
 import com.fone.filmone.domain.profile.entity.ProfileDomain
 import com.fone.filmone.domain.profile.entity.ProfileImage
+import com.fone.filmone.domain.profile.repository.ProfileCategoryRepository
 import com.fone.filmone.domain.profile.repository.ProfileDomainRepository
 import com.fone.filmone.domain.profile.repository.ProfileRepository
 import com.fone.filmone.domain.profile.repository.ProfileWantRepository
@@ -19,6 +21,7 @@ class RegisterProfileService(
     private val profileRepository: ProfileRepository,
     private val profileWantRepository: ProfileWantRepository,
     private val profileDomainRepository: ProfileDomainRepository,
+    private val profileCategoryRepository: ProfileCategoryRepository,
     private val userRepository: UserRepository,
 ) {
 
@@ -44,7 +47,16 @@ class RegisterProfileService(
                             it
                         )
                     }
+
+                    val profileCategories = categories.map {
+                        ProfileCategory(
+                            profile.id!!,
+                            it
+                        )
+                    }
+
                     profileDomainRepository.saveAll(profileDomains)
+                    profileCategoryRepository.saveAll(profileCategories)
 
                     profile
                 }
@@ -53,7 +65,12 @@ class RegisterProfileService(
                     profileWantRepository.findByUserId(user.id!!)
                 }
 
-                RegisterProfileResponse(profile.await(), userProfileWants.await(), domains)
+                RegisterProfileResponse(
+                    profile.await(),
+                    userProfileWants.await(),
+                    domains,
+                    categories,
+                )
             }
         }
     }

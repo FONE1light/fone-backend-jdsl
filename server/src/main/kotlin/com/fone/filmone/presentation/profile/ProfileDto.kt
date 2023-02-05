@@ -2,9 +2,9 @@ package com.fone.filmone.presentation.profile
 
 import com.fone.common.utils.DateTimeFormat
 import com.fone.filmone.domain.common.Career
+import com.fone.filmone.domain.common.CategoryType
 import com.fone.filmone.domain.common.DomainType
 import com.fone.filmone.domain.common.Gender
-import com.fone.filmone.domain.common.CategoryType
 import com.fone.filmone.domain.profile.entity.Profile
 import com.fone.filmone.domain.profile.entity.ProfileWant
 import java.time.LocalDate
@@ -36,6 +36,7 @@ data class ProfileDto(
         userProfileWantMap: Map<Long, ProfileWant?>,
         profileUrls: List<String>,
         domains: List<DomainType>,
+        categories: List<CategoryType>,
     ) : this(
         id = profile.id!!,
         name = profile.name,
@@ -49,7 +50,7 @@ data class ProfileDto(
         specialty = profile.specialty,
         details = profile.details,
         career = profile.career,
-        categories = profile.interests.map { CategoryType(it) }.toList(),
+        categories = categories,
         domains = domains,
         profileUrls = profileUrls,
         viewCount = profile.viewCount,
