@@ -1,8 +1,9 @@
 package com.fone.filmone.domain.profile.service
 
 import com.fone.common.exception.NotFoundUserException
+import com.fone.filmone.domain.profile.entity.ProfileDomain
 import com.fone.filmone.domain.profile.entity.ProfileImage
-import com.fone.filmone.domain.profile.repository.ProfileImageRepository
+import com.fone.filmone.domain.profile.repository.ProfileDomainRepository
 import com.fone.filmone.domain.profile.repository.ProfileRepository
 import com.fone.filmone.domain.profile.repository.ProfileWantRepository
 import com.fone.filmone.domain.user.repository.UserRepository
@@ -16,8 +17,8 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class RegisterProfileService(
     private val profileRepository: ProfileRepository,
-    private val profileImageRepository: ProfileImageRepository,
     private val profileWantRepository: ProfileWantRepository,
+    private val profileDomainRepository: ProfileDomainRepository,
     private val userRepository: UserRepository,
 ) {
 
@@ -36,13 +37,23 @@ class RegisterProfileService(
                     profileUrls.forEach { profile.addProfileImage(ProfileImage(it)) }
 
                     profileRepository.save(profile)
+
+                    val profileDomains = domains.map {
+                        ProfileDomain(
+                            profile.id!!,
+                            it
+                        )
+                    }
+                    profileDomainRepository.saveAll(profileDomains)
+
+                    profile
                 }
 
                 val userProfileWants = async {
                     profileWantRepository.findByUserId(user.id!!)
                 }
 
-                RegisterProfileResponse(profile.await(), userProfileWants.await())
+                RegisterProfileResponse(profile.await(), userProfileWants.await(), domains)
             }
         }
     }

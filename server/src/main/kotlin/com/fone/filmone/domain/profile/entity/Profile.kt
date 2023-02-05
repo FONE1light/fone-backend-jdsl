@@ -5,7 +5,7 @@ import com.fone.filmone.domain.common.BaseEntity
 import com.fone.filmone.domain.common.Career
 import com.fone.filmone.domain.common.Gender
 import com.fone.filmone.domain.common.Type
-import com.fone.filmone.presentation.profile.RegisterProfileDto.*
+import com.fone.filmone.presentation.profile.RegisterProfileDto.RegisterProfileRequest
 import java.time.LocalDate
 import javax.persistence.*
 
@@ -56,9 +56,6 @@ data class Profile(
 
     @Enumerated(EnumType.STRING)
     var type: Type,
-
-    @Convert(converter = SeparatorConverter::class)
-    var domains: List<String> = listOf(),
 
     @Column
     var userId: Long,
@@ -113,7 +110,6 @@ data class Profile(
         career = Career.IRRELEVANT
         interests = listOf()
         type = Type.ACTOR
-        domains = listOf()
         isDeleted = true
     }
 
