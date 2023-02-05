@@ -2,8 +2,11 @@ package com.fone.filmone.infrastructure.profile
 
 import com.fone.filmone.domain.common.Type
 import com.fone.filmone.domain.profile.entity.Profile
+import com.fone.filmone.domain.profile.entity.ProfileCategory
+import com.fone.filmone.domain.profile.entity.ProfileDomain
 import com.fone.filmone.domain.profile.entity.ProfileWant
 import com.fone.filmone.domain.profile.repository.ProfileRepository
+import com.fone.filmone.presentation.profile.RetrieveProfilesDto.RetrieveProfilesRequest
 import com.linecorp.kotlinjdsl.query.spec.predicate.EqualValueSpec
 import com.linecorp.kotlinjdsl.querydsl.expression.col
 import com.linecorp.kotlinjdsl.querydsl.expression.column
@@ -27,10 +30,38 @@ class ProfileRepositoryImpl(
     private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
 ) : ProfileRepository {
 
-    override suspend fun findAllByType(pageable: Pageable, type: Type): Slice<Profile> {
+    override suspend fun findAllByFilters(
+        pageable: Pageable,
+        request: RetrieveProfilesRequest,
+    ): Slice<Profile> {
+        val categoryProfileIds = queryFactory.listQuery {
+            select(col(ProfileCategory::profileId))
+            from(entity(ProfileCategory::class))
+            where(col(ProfileCategory::type).`in`(request.categories))
+        }
+
+        if(categoryProfileIds.isEmpty()) {
+            return PageImpl(
+                listOf(),
+                pageable,
+                0,
+            )
+        }
+
         val ids = queryFactory.pageQuery(pageable) {
             select(column(Profile::id))
             from(entity(Profile::class))
+            where(
+                and(
+                    col(Profile::type).equal(request.type),
+                    col(Profile::gender).`in`(request.genders),
+//                    or(
+//                        col(Profile::age).greaterThanOrEqualTo(request.ageMin),
+//                        col(Profile::age).lessThanOrEqualTo(request.ageMax),
+//                    ),
+                    col(Profile::id).`in`(categoryProfileIds)
+                )
+            )
         }.content
 
         val profiles = queryFactory.listQuery {
@@ -39,7 +70,6 @@ class ProfileRepositoryImpl(
             fetch(Profile::profileImages, joinType = JoinType.LEFT)
             where(
                 and(
-                    typeEq(type),
                     col(Profile::id).`in`(ids)
                 )
             )

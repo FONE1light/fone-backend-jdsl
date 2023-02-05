@@ -1,10 +1,9 @@
 package com.fone.filmone.presentation.profile
 
-import com.fone.filmone.application.profile.RetrieveProfilesFacade
 import com.fone.common.response.CommonResponse
+import com.fone.filmone.application.profile.RetrieveProfilesFacade
 import com.fone.filmone.domain.common.Type
-import com.fone.filmone.presentation.profile.RetrieveProfilesDto.RetrieveProfileResponse
-import com.fone.filmone.presentation.profile.RetrieveProfilesDto.RetrieveProfilesResponse
+import com.fone.filmone.presentation.profile.RetrieveProfilesDto.*
 import io.swagger.annotations.Api
 import org.springframework.data.domain.Pageable
 import org.springframework.security.access.prepost.PreAuthorize
@@ -23,9 +22,9 @@ class RetrieveProfilesController(
     suspend fun retrieveProfiles(
         principal: Principal,
         pageable: Pageable,
-        @RequestParam type: Type,
+        @ModelAttribute request: RetrieveProfilesRequest,
     ): CommonResponse<RetrieveProfilesResponse> {
-        val response = retrieveProfilesFacade.retrieveProfiles(pageable, principal.name, type)
+        val response = retrieveProfilesFacade.retrieveProfiles(pageable, principal.name, request)
 
         return CommonResponse.success(response)
     }
