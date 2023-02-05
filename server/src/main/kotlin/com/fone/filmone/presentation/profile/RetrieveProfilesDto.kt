@@ -1,5 +1,6 @@
 package com.fone.filmone.presentation.profile
 
+import com.fone.filmone.domain.common.CategoryType
 import com.fone.filmone.domain.common.DomainType
 import com.fone.filmone.domain.profile.entity.Profile
 import com.fone.filmone.domain.profile.entity.ProfileWant
@@ -16,6 +17,7 @@ class RetrieveProfilesDto {
             profiles: List<Profile>,
             userProfileWantMap: Map<Long, ProfileWant?>,
             profileDomains: Map<Long, List<DomainType>>,
+            profileCategories: Map<Long, List<CategoryType>>,
             pageable: Pageable,
         ) : this(
             profiles = PageImpl(
@@ -24,7 +26,8 @@ class RetrieveProfilesDto {
                         it,
                         userProfileWantMap,
                         it.profileImages.map { image -> image.profileUrl }.toList(),
-                        profileDomains[it.id!!] ?: listOf()
+                        profileDomains[it.id!!] ?: listOf(),
+                        profileCategories[it.id!!] ?: listOf(),
                     )
                 }.toList(),
                 pageable,
@@ -40,12 +43,14 @@ class RetrieveProfilesDto {
             profile: Profile,
             userProfileWantMap: Map<Long, ProfileWant?>,
             profileDomains: List<DomainType>,
+            profileCategories: List<CategoryType>,
         ) : this(
             profile = ProfileDto(
                 profile,
                 userProfileWantMap,
                 profile.profileImages.map { it.profileUrl }.toList(),
                 profileDomains,
+                profileCategories,
             )
         )
     }

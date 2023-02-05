@@ -3,7 +3,9 @@ package com.fone.filmone.domain.profile.service
 import com.fone.common.exception.InvalidProfileUserIdException
 import com.fone.common.exception.NotFoundProfileException
 import com.fone.common.exception.NotFoundUserException
+import com.fone.filmone.domain.profile.entity.ProfileCategory
 import com.fone.filmone.domain.profile.entity.ProfileDomain
+import com.fone.filmone.domain.profile.repository.ProfileCategoryRepository
 import com.fone.filmone.domain.profile.repository.ProfileDomainRepository
 import com.fone.filmone.domain.profile.repository.ProfileRepository
 import com.fone.filmone.domain.profile.repository.ProfileWantRepository
@@ -19,6 +21,7 @@ class PutProfileService(
     private val profileRepository: ProfileRepository,
     private val profileWantRepository: ProfileWantRepository,
     private val profileDomainRepository: ProfileDomainRepository,
+    private val profileCategoryRepository: ProfileCategoryRepository,
     private val userRepository: UserRepository,
 ) {
 
@@ -47,6 +50,17 @@ class PutProfileService(
                 profileDomainRepository.saveAll(profileDomains)
             }
 
+            val profileCategories = async {
+                profileCategoryRepository.deleteByProfileId(profile.id!!)
+                val profileCategories = request.categories.map {
+                    ProfileCategory(
+                        profile.id!!,
+                        it
+                    )
+                }
+                profileCategoryRepository.saveAll(profileCategories)
+            }
+
             val profile = async {
                 profile.put(request)
                 profileRepository.save(profile)
@@ -57,11 +71,13 @@ class PutProfileService(
             }
 
             profileDomains.await()
+            profileCategories.await()
 
             RegisterProfileResponse(
                 profile.await(),
                 userProfileWants.await(),
                 request.domains,
+                request.categories,
             )
         }
     }

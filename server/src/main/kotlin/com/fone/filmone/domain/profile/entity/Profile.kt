@@ -1,6 +1,5 @@
 package com.fone.filmone.domain.profile.entity
 
-import com.fone.common.converter.SeparatorConverter
 import com.fone.filmone.domain.common.BaseEntity
 import com.fone.filmone.domain.common.Career
 import com.fone.filmone.domain.common.Gender
@@ -51,9 +50,6 @@ data class Profile(
     @Enumerated(EnumType.STRING)
     var career: Career,
 
-    @Convert(converter = SeparatorConverter::class)
-    var interests: List<String> = listOf(),
-
     @Enumerated(EnumType.STRING)
     var type: Type,
 
@@ -92,7 +88,6 @@ data class Profile(
         specialty = request.specialty
         details = request.details
         career = request.career
-        interests = request.categories.map { it.toString() }.toList()
         type = request.type
         profileUrl = request.profileUrl
     }
@@ -108,7 +103,6 @@ data class Profile(
         specialty = ""
         details = ""
         career = Career.IRRELEVANT
-        interests = listOf()
         type = Type.ACTOR
         isDeleted = true
     }

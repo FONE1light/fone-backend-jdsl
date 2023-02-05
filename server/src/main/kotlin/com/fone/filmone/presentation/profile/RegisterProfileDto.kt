@@ -46,7 +46,6 @@ class RegisterProfileDto {
                 specialty = specialty,
                 details = details,
                 career = career,
-                interests = categories.map { it.toString() }.toList(),
                 type = type,
                 userId = userId,
                 viewCount = 0,
@@ -64,12 +63,14 @@ class RegisterProfileDto {
             profile: Profile,
             userProfileWantMap: Map<Long, ProfileWant?>,
             domains: List<DomainType>,
+            categories: List<CategoryType>,
         ) : this(
             profile = ProfileDto(
                 profile,
                 userProfileWantMap,
                 profile.profileImages.map { it.profileUrl }.toList(),
-                domains
+                domains,
+                categories,
             )
         )
     }

@@ -1,6 +1,7 @@
 package com.fone.filmone.domain.profile.service
 
 import com.fone.common.exception.NotFoundUserException
+import com.fone.filmone.domain.profile.repository.ProfileCategoryRepository
 import com.fone.filmone.domain.profile.repository.ProfileDomainRepository
 import com.fone.filmone.domain.profile.repository.ProfileRepository
 import com.fone.filmone.domain.profile.repository.ProfileWantRepository
@@ -18,6 +19,7 @@ class RetrieveProfileMyRegistrationService(
     private val profileWantRepository: ProfileWantRepository,
     private val profileRepository: ProfileRepository,
     private val profileDomainRepository: ProfileDomainRepository,
+    private val profileCategoryRepository: ProfileCategoryRepository,
 ) {
 
     @Transactional(readOnly = true)
@@ -35,16 +37,21 @@ class RetrieveProfileMyRegistrationService(
                 profileWantRepository.findByUserId(user.id!!)
             }
 
-            val profileDomains = async {
-                val profileIds = profiles.await().map { it.id!! }.toList()
+            val profileIds = profiles.await().map { it.id!! }.toList()
 
+            val profileDomains = async {
                 profileDomainRepository.findByProfileIds(profileIds)
+            }
+
+            val profileCategories = async {
+                profileCategoryRepository.findByProfileIds(profileIds)
             }
 
             RetrieveProfileMyRegistrationResponse(
                 profiles.await(),
                 userProfileWants.await(),
                 profileDomains.await(),
+                profileCategories.await(),
                 pageable,
             )
         }
