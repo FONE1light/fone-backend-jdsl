@@ -21,6 +21,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Repository
+import java.time.LocalDate
 
 @Repository
 class CompetitionRepositoryImpl(
@@ -38,7 +39,12 @@ class CompetitionRepositoryImpl(
             select(entity(Competition::class))
             from(entity(Competition::class))
             fetch(Competition::class, Prize::class, on(Competition::prizes))
-            where(col(Competition::id).`in`(ids))
+            where(
+                and(
+                    col(Competition::id).`in`(ids),
+                    col(Competition::showStartDate).greaterThanOrEqualTo(LocalDate.now())
+                )
+            )
             orderBy(
                 orderSpec(pageable.sort)
             )

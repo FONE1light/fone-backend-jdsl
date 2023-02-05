@@ -26,6 +26,15 @@ data class Competition(
     var endDate: LocalDate?,
 
     @Column
+    var submitStartDate: LocalDate?,
+
+    @Column
+    var submitEndDate: LocalDate?,
+
+    @Column
+    var showStartDate: LocalDate?,
+
+    @Column
     var agency: String,
 
     @Column(length = 500)

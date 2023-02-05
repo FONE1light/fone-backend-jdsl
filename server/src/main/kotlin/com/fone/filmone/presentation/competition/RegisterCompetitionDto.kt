@@ -11,9 +11,15 @@ class RegisterCompetitionDto {
         val title: String,
         val imageUrl: String,
         @DateTimeFormat(pattern = "yyyy-MM-dd")
-        val startDate: LocalDate,
+        val startDate: LocalDate?,
         @DateTimeFormat(pattern = "yyyy-MM-dd")
-        val endDate: LocalDate,
+        val endDate: LocalDate?,
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
+        val submitStartDate: LocalDate?,
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
+        val submitEndDate: LocalDate?,
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
+        val showStartDate: LocalDate,
         val agency: String,
         val details: String,
         val prizes: List<PrizeRequest>,
@@ -24,6 +30,9 @@ class RegisterCompetitionDto {
                 imageUrl = imageUrl,
                 startDate = startDate,
                 endDate = endDate,
+                submitStartDate = submitStartDate,
+                submitEndDate = submitEndDate,
+                showStartDate = showStartDate,
                 agency = agency,
                 details = details,
                 userId = userId,
@@ -35,14 +44,12 @@ class RegisterCompetitionDto {
     data class PrizeRequest(
         val ranking: String,
         val prizeMoney: String,
-        val agency: String,
         val competitionId: Long,
     ) {
         fun toEntity(): Prize {
             return Prize(
                 ranking = ranking,
                 prizeMoney = prizeMoney,
-                agency = agency,
             )
         }
     }
