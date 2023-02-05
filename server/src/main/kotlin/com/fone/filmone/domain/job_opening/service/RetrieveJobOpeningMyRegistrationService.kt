@@ -1,6 +1,7 @@
 package com.fone.filmone.domain.job_opening.service
 
 import com.fone.common.exception.NotFoundUserException
+import com.fone.filmone.domain.job_opening.repository.JobOpeningCategoryRepository
 import com.fone.filmone.domain.job_opening.repository.JobOpeningDomainRepository
 import com.fone.filmone.domain.job_opening.repository.JobOpeningRepository
 import com.fone.filmone.domain.job_opening.repository.JobOpeningScrapRepository
@@ -18,6 +19,7 @@ class RetrieveJobOpeningMyRegistrationService(
     private val jobOpeningRepository: JobOpeningRepository,
     private val jobOpeningScrapRepository: JobOpeningScrapRepository,
     private val jobOpeningDomainRepository: JobOpeningDomainRepository,
+    private val jobOpeningCategoryRepository: JobOpeningCategoryRepository,
 ) {
 
 
@@ -44,10 +46,17 @@ class RetrieveJobOpeningMyRegistrationService(
                 jobOpeningDomainRepository.findByJobOpeningIds(jobOpeningIds)
             }
 
+            val jobOpeningCategories = async {
+                val jobOpeningIds = jobOpenings.await().map { it.id!! }.toList()
+
+                jobOpeningCategoryRepository.findByJobOpeningIds(jobOpeningIds)
+            }
+
             RetrieveJobOpeningMyRegistrationResponse(
                 jobOpenings.await(),
                 userJobOpeningScraps.await(),
                 jobOpeningDomains.await(),
+                jobOpeningCategories.await(),
                 pageable
             )
         }

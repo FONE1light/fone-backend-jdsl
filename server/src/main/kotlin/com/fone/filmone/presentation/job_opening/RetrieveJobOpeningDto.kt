@@ -1,8 +1,8 @@
 package com.fone.filmone.presentation.job_opening
 
+import com.fone.filmone.domain.common.CategoryType
 import com.fone.filmone.domain.common.DomainType
 import com.fone.filmone.domain.common.Gender
-import com.fone.filmone.domain.common.Interest
 import com.fone.filmone.domain.common.Type
 import com.fone.filmone.domain.job_opening.entity.JobOpening
 import com.fone.filmone.domain.job_opening.entity.JobOpeningScrap
@@ -23,7 +23,7 @@ class RetrieveJobOpeningDto {
         @ApiModelProperty(value = "최소 나이", required = false)
         val ageMin: Int = 0,
         @ApiModelProperty(value = "카테고리", required = false)
-        val interests: List<Interest> = Interest.getAllEnum(),
+        val categories: List<CategoryType> = CategoryType.getAllEnum(),
         @ApiModelProperty(value = "분야", required = false)
         val domains: List<DomainType> = DomainType.getAllEnum(),
     )
@@ -36,6 +36,7 @@ class RetrieveJobOpeningDto {
             jobOpeningList: List<JobOpening>,
             userJobOpeningScrapMap: Map<Long, JobOpeningScrap?>,
             jobOpeningDomains: Map<Long, List<DomainType>>,
+            jobOpeningCategories: Map<Long, List<CategoryType>>,
             pageable: Pageable,
         ) : this(
             jobOpenings = PageImpl(
@@ -44,6 +45,7 @@ class RetrieveJobOpeningDto {
                         it,
                         userJobOpeningScrapMap,
                         jobOpeningDomains[it.id!!] ?: listOf(),
+                        jobOpeningCategories[it.id!!] ?: listOf(),
                     )
                 }.toList(),
                 pageable,
@@ -60,8 +62,9 @@ class RetrieveJobOpeningDto {
             reqJobOpening: JobOpening,
             userJobOpeningScrapMap: Map<Long, JobOpeningScrap?>,
             domains: List<DomainType>,
+            categories: List<CategoryType>,
         ) : this(
-            jobOpening = JobOpeningDto(reqJobOpening, userJobOpeningScrapMap, domains)
+            jobOpening = JobOpeningDto(reqJobOpening, userJobOpeningScrapMap, domains, categories)
         )
     }
 }

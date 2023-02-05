@@ -11,6 +11,6 @@ enum class Career(name: String) {
     ;
 
     companion object {
-        operator fun invoke(name: String) = Interest.valueOf(name.uppercase())
+        operator fun invoke(name: String) = Career.valueOf(name.uppercase())
     }
 }

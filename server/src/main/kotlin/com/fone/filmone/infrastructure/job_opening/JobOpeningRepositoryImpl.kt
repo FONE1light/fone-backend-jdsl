@@ -2,10 +2,11 @@ package com.fone.filmone.infrastructure.job_opening
 
 import com.fone.filmone.domain.common.Type
 import com.fone.filmone.domain.job_opening.entity.JobOpening
+import com.fone.filmone.domain.job_opening.entity.JobOpeningCategory
 import com.fone.filmone.domain.job_opening.entity.JobOpeningDomain
 import com.fone.filmone.domain.job_opening.entity.JobOpeningScrap
 import com.fone.filmone.domain.job_opening.repository.JobOpeningRepository
-import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningDto.*
+import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningDto.RetrieveJobOpeningsRequest
 import com.linecorp.kotlinjdsl.query.spec.predicate.EqualValueSpec
 import com.linecorp.kotlinjdsl.querydsl.expression.col
 import com.linecorp.kotlinjdsl.querydsl.expression.column
@@ -41,13 +42,19 @@ class JobOpeningRepositoryImpl(
         pageable: Pageable,
         request: RetrieveJobOpeningsRequest,
     ): Slice<JobOpening> {
-        val jobOpeningIds = queryFactory.listQuery {
+        val domainJobOpeningIds = queryFactory.listQuery {
             select(col(JobOpeningDomain::jobOpeningId))
             from(entity(JobOpeningDomain::class))
             where(col(JobOpeningDomain::type).`in`(request.domains))
         }
 
-        if (jobOpeningIds.isEmpty()) {
+        val categoryJobOpeningIds = queryFactory.listQuery {
+            select(col(JobOpeningCategory::jobOpeningId))
+            from(entity(JobOpeningCategory::class))
+            where(col(JobOpeningCategory::type).`in`(request.categories))
+        }
+
+        if (domainJobOpeningIds.isEmpty() || categoryJobOpeningIds.isEmpty()) {
             return PageImpl(
                 listOf(),
                 pageable,
@@ -66,8 +73,8 @@ class JobOpeningRepositoryImpl(
                         col(JobOpening::ageMax).greaterThanOrEqualTo(request.ageMin),
                         col(JobOpening::ageMin).lessThanOrEqualTo(request.ageMax),
                     ),
-//                    col(JobOpening::interests).`in`(request.interests.map{it.toString()}.toList()),
-                    col(JobOpening::id).`in`(jobOpeningIds),
+                    col(JobOpening::id).`in`(domainJobOpeningIds),
+                    col(JobOpening::id).`in`(categoryJobOpeningIds),
                 )
             )
         }

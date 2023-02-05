@@ -3,6 +3,7 @@ package com.fone.filmone.domain.job_opening.service
 import com.fone.common.exception.NotFoundJobOpeningException
 import com.fone.common.exception.NotFoundUserException
 import com.fone.filmone.domain.common.Type
+import com.fone.filmone.domain.job_opening.repository.JobOpeningCategoryRepository
 import com.fone.filmone.domain.job_opening.repository.JobOpeningDomainRepository
 import com.fone.filmone.domain.job_opening.repository.JobOpeningRepository
 import com.fone.filmone.domain.job_opening.repository.JobOpeningScrapRepository
@@ -19,6 +20,7 @@ class RetrieveJobOpeningService(
     private val jobOpeningRepository: JobOpeningRepository,
     private val jobOpeningScrapRepository: JobOpeningScrapRepository,
     private val jobOpeningDomainRepository: JobOpeningDomainRepository,
+    private val jobOpeningCategoryRepository: JobOpeningCategoryRepository,
     private val userRepository: UserRepository,
 ) {
 
@@ -46,10 +48,17 @@ class RetrieveJobOpeningService(
                 jobOpeningDomainRepository.findByJobOpeningIds(jobOpeningIds)
             }
 
+            val jobOpeningCategories = async {
+                val jobOpeningIds = jobOpenings.await().map { it.id!! }.toList()
+
+                jobOpeningCategoryRepository.findByJobOpeningIds(jobOpeningIds)
+            }
+
             RetrieveJobOpeningsResponse(
                 jobOpenings.await(),
                 userJobOpeningScraps.await(),
                 jobOpeningDomains.await(),
+                jobOpeningCategories.await(),
                 pageable
             )
         }
@@ -82,10 +91,17 @@ class RetrieveJobOpeningService(
                 jobOpeningDomainRepository.findByJobOpeningId(jobOpeningId)
             }
 
+            val jobOpeningCategories = async {
+                val jobOpeningId = jobOpening.await().id!!
+
+                jobOpeningCategoryRepository.findByJobOpeningId(jobOpeningId)
+            }
+
             RetrieveJobOpeningResponse(
                 jobOpening.await(),
                 userJobOpeningScraps.await(),
-                jobOpeningDomains.await()
+                jobOpeningDomains.await(),
+                jobOpeningCategories.await(),
             )
         }
     }

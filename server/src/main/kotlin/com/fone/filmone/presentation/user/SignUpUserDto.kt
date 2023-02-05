@@ -1,7 +1,7 @@
 package com.fone.filmone.presentation.user
 
 import com.fone.filmone.domain.common.Gender
-import com.fone.filmone.domain.common.Interest
+import com.fone.filmone.domain.common.CategoryType
 import com.fone.filmone.domain.user.entity.User
 import com.fone.filmone.domain.user.enum.Job
 import com.fone.filmone.domain.user.enum.Role
@@ -17,7 +17,7 @@ class SignUpUserDto {
         @field:NotNull(message = "직업은 필수 값 입니다.")
         val job: Job,
         @field:Size(min = 1, message = "관심사는 1개 이상 선택 되어야 합니다")
-        val interests: List<Interest>,
+        val interests: List<CategoryType>,
         @field:NotEmpty(message = "닉네임은 필수 값 입니다.")
         val nickname: String,
         @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -66,7 +66,7 @@ class SignUpUserDto {
 
     data class SignUpUserResponse(
         val job: Job,
-        val interests: List<Interest>,
+        val interests: List<CategoryType>,
         val nickname: String,
         val birthday: LocalDate?,
         val gender: Gender,
@@ -83,7 +83,7 @@ class SignUpUserDto {
             user: User,
         ) : this(
             job = user.job,
-            interests = user.interests.map { Interest(it) }.toList(),
+            interests = user.interests.map { CategoryType(it) }.toList(),
             nickname = user.nickname,
             birthday = user.birthday,
             gender = user.gender,

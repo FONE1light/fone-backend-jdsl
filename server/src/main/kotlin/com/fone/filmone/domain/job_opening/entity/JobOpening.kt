@@ -21,9 +21,6 @@ data class JobOpening(
     @Column
     var title: String,
 
-    @Convert(converter = SeparatorConverter::class)
-    var interests: List<String> = listOf(),
-
     @Column
     var deadline: LocalDate?,
 
@@ -66,7 +63,6 @@ data class JobOpening(
 
     fun put(request: RegisterJobOpeningRequest) {
         title = request.title
-        interests = request.interests.map { it.toString() }.toList()
         deadline = request.deadline
         casting = request.casting
         numberOfRecruits = request.numberOfRecruits
@@ -80,7 +76,6 @@ data class JobOpening(
     fun delete() {
         work.delete()
 
-        interests = listOf()
         deadline = null
         casting = ""
         numberOfRecruits = 0

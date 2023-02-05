@@ -1,7 +1,7 @@
 package com.fone.filmone.presentation.user
 
 import com.fone.filmone.domain.common.Gender
-import com.fone.filmone.domain.common.Interest
+import com.fone.filmone.domain.common.CategoryType
 import com.fone.filmone.domain.user.entity.User
 import com.fone.filmone.domain.user.enum.Job
 import com.fone.filmone.domain.user.enum.SocialLoginType
@@ -11,7 +11,7 @@ class RetrieveMyPageUserDto {
 
     data class RetrieveMyPageUserResponse(
         val job: Job,
-        val interests: List<Interest>,
+        val interests: List<CategoryType>,
         val nickname: String,
         val birthday: LocalDate?,
         val gender: Gender,
@@ -28,7 +28,7 @@ class RetrieveMyPageUserDto {
             user: User,
         ) : this(
             job = user.job,
-            interests = user.interests.map { Interest(it) }.toList(),
+            interests = user.interests.map { CategoryType(it) }.toList(),
             nickname = user.nickname,
             birthday = user.birthday,
             gender = user.gender,

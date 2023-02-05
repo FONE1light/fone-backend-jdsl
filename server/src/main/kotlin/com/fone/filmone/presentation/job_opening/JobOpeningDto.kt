@@ -9,7 +9,7 @@ import java.time.LocalDate
 data class JobOpeningDto(
     val id: Long,
     val title: String,
-    val interests: List<Interest>,
+    val categories: List<CategoryType>,
     val deadline: LocalDate?,
     val casting: String,
     val numberOfRecruits: Int,
@@ -30,10 +30,11 @@ data class JobOpeningDto(
         jobOpening: JobOpening,
         userJobOpeningScrapMap: Map<Long, JobOpeningScrap?>,
         domains: List<DomainType>,
+        categories: List<CategoryType>,
     ) : this(
         id = jobOpening.id!!,
         title = jobOpening.title,
-        interests = jobOpening.interests.map { Interest(it) }.toList(),
+        categories = categories,
         deadline = jobOpening.deadline,
         casting = jobOpening.casting,
         numberOfRecruits = jobOpening.numberOfRecruits,

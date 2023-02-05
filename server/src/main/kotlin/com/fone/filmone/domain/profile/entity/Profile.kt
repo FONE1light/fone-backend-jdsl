@@ -95,7 +95,7 @@ data class Profile(
         specialty = request.specialty
         details = request.details
         career = request.career
-        interests = request.interests.map { it.toString() }.toList()
+        interests = request.categories.map { it.toString() }.toList()
         type = request.type
         profileUrl = request.profileUrl
     }
