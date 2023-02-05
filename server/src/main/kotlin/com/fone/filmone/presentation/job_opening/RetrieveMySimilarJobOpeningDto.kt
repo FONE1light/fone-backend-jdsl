@@ -1,5 +1,6 @@
 package com.fone.filmone.presentation.job_opening
 
+import com.fone.filmone.domain.common.CategoryType
 import com.fone.filmone.domain.common.DomainType
 import com.fone.filmone.domain.job_opening.entity.JobOpening
 import com.fone.filmone.domain.job_opening.entity.JobOpeningScrap
@@ -16,6 +17,7 @@ class RetrieveMySimilarJobOpeningDto {
             jobOpenings: Slice<JobOpening>,
             userJobOpeningScrapMap: Map<Long, JobOpeningScrap?>,
             jobOpeningDomains: Map<Long, List<DomainType>>,
+            jobOpeningCategories: Map<Long, List<CategoryType>>,
             pageable: Pageable,
         ) : this(
             jobOpenings = PageImpl(
@@ -24,6 +26,7 @@ class RetrieveMySimilarJobOpeningDto {
                         it,
                         userJobOpeningScrapMap,
                         jobOpeningDomains[it.id!!] ?: listOf(),
+                        jobOpeningCategories[it.id!!] ?: listOf(),
                     )
                 }.toList(),
                 pageable,

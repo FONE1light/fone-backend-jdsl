@@ -10,7 +10,7 @@ class RegisterJobOpeningDto {
 
     data class RegisterJobOpeningRequest(
         val title: String,
-        val interests: List<Interest>,
+        val categories: List<CategoryType>,
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         val deadline: LocalDate,
         val casting: String,
@@ -27,7 +27,6 @@ class RegisterJobOpeningDto {
 
             return JobOpening(
                 title = title,
-                interests = interests.map { it.toString() }.toList(),
                 deadline = deadline,
                 casting = casting,
                 numberOfRecruits = numberOfRecruits,
@@ -51,8 +50,9 @@ class RegisterJobOpeningDto {
             jobOpening: JobOpening,
             userJobOpeningScrapMap: Map<Long, JobOpeningScrap?>,
             domains: List<DomainType>,
+            categories: List<CategoryType>,
         ) : this(
-            jobOpening = JobOpeningDto(jobOpening, userJobOpeningScrapMap, domains)
+            jobOpening = JobOpeningDto(jobOpening, userJobOpeningScrapMap, domains, categories)
         )
     }
 }

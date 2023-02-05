@@ -1,6 +1,6 @@
 package com.fone.filmone.domain.common
 
-enum class Interest(interest: String) {
+enum class CategoryType(category: String) {
     FEATURE_FILM("장편영화"),
     SHORT_FILM("단편영화"),
     INDEPENDENT_FILM("독립영화"),
@@ -12,9 +12,9 @@ enum class Interest(interest: String) {
     ETC("기타");
 
     companion object {
-        operator fun invoke(interest: String) = Interest.valueOf(interest.uppercase())
+        operator fun invoke(category: String) = CategoryType.valueOf(category.uppercase())
 
-        fun getAllEnum(): List<Interest> {
+        fun getAllEnum(): List<CategoryType> {
             return listOf(
                 FEATURE_FILM,
                 SHORT_FILM,

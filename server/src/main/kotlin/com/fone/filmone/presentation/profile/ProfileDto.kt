@@ -4,7 +4,7 @@ import com.fone.common.utils.DateTimeFormat
 import com.fone.filmone.domain.common.Career
 import com.fone.filmone.domain.common.DomainType
 import com.fone.filmone.domain.common.Gender
-import com.fone.filmone.domain.common.Interest
+import com.fone.filmone.domain.common.CategoryType
 import com.fone.filmone.domain.profile.entity.Profile
 import com.fone.filmone.domain.profile.entity.ProfileWant
 import java.time.LocalDate
@@ -22,7 +22,7 @@ data class ProfileDto(
     val specialty: String,
     val details: String,
     val career: Career,
-    val interests: List<Interest>,
+    val categories: List<CategoryType>,
     val domains: List<DomainType>,
     val profileUrls: List<String>,
     val viewCount: Long,
@@ -48,7 +48,7 @@ data class ProfileDto(
         specialty = profile.specialty,
         details = profile.details,
         career = profile.career,
-        interests = profile.interests.map { Interest(it) }.toList(),
+        categories = profile.interests.map { CategoryType(it) }.toList(),
         domains = profile.domains.map { DomainType(it) }.toList(),
         profileUrls = profileUrls,
         viewCount = profile.viewCount,
