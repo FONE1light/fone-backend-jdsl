@@ -8,8 +8,7 @@ import com.fone.filmone.domain.profile.repository.ProfileDomainRepository
 import com.fone.filmone.domain.profile.repository.ProfileRepository
 import com.fone.filmone.domain.profile.repository.ProfileWantRepository
 import com.fone.filmone.domain.user.repository.UserRepository
-import com.fone.filmone.presentation.profile.RetrieveProfilesDto.RetrieveProfileResponse
-import com.fone.filmone.presentation.profile.RetrieveProfilesDto.RetrieveProfilesResponse
+import com.fone.filmone.presentation.profile.RetrieveProfilesDto.*
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.springframework.data.domain.Pageable
@@ -29,14 +28,14 @@ class RetrieveProfilesService(
     suspend fun retrieveProfiles(
         pageable: Pageable,
         email: String,
-        type: Type,
+        request: RetrieveProfilesRequest,
     ): RetrieveProfilesResponse {
         val user = userRepository.findByNicknameOrEmail(null, email)
             ?: throw NotFoundUserException()
 
         return coroutineScope {
             val profiles = async {
-                profileRepository.findAllByType(pageable, type).content
+                profileRepository.findAllByFilters(pageable, request).content
             }
 
             val userProfileWants = async {
