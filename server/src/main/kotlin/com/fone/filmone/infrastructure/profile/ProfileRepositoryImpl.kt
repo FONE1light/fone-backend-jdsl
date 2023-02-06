@@ -3,10 +3,10 @@ package com.fone.filmone.infrastructure.profile
 import com.fone.filmone.domain.common.Type
 import com.fone.filmone.domain.profile.entity.Profile
 import com.fone.filmone.domain.profile.entity.ProfileCategory
-import com.fone.filmone.domain.profile.entity.ProfileDomain
 import com.fone.filmone.domain.profile.entity.ProfileWant
 import com.fone.filmone.domain.profile.repository.ProfileRepository
 import com.fone.filmone.presentation.profile.RetrieveProfilesDto.RetrieveProfilesRequest
+import com.linecorp.kotlinjdsl.query.spec.OrderSpec
 import com.linecorp.kotlinjdsl.query.spec.predicate.EqualValueSpec
 import com.linecorp.kotlinjdsl.querydsl.expression.col
 import com.linecorp.kotlinjdsl.querydsl.expression.column
@@ -21,6 +21,7 @@ import org.hibernate.reactive.mutiny.Mutiny
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Repository
 import javax.persistence.criteria.JoinType
 
@@ -40,7 +41,7 @@ class ProfileRepositoryImpl(
             where(col(ProfileCategory::type).`in`(request.categories))
         }
 
-        if(categoryProfileIds.isEmpty()) {
+        if (categoryProfileIds.isEmpty()) {
             return PageImpl(
                 listOf(),
                 pageable,
@@ -72,6 +73,9 @@ class ProfileRepositoryImpl(
                 and(
                     col(Profile::id).`in`(ids)
                 )
+            )
+            orderBy(
+                orderSpec(pageable.sort)
             )
         }
 
@@ -178,5 +182,23 @@ class ProfileRepositoryImpl(
         type ?: return null
 
         return col(Profile::type).equal(type)
+    }
+
+    private fun SpringDataReactiveCriteriaQueryDsl<Profile?>.orderSpec(sort: Sort): List<OrderSpec> {
+        val res = sort.map {
+            val columnSpec = when (it.property) {
+                "viewCount" -> col(Profile::viewCount)
+                "createdAt" -> col(Profile::createdAt)
+                else -> col(Profile::viewCount)
+            }
+
+            if (it.isAscending) {
+                columnSpec.asc()
+            } else {
+                columnSpec.desc()
+            }
+        }.toList()
+
+        return res
     }
 }
