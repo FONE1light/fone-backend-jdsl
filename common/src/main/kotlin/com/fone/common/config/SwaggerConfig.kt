@@ -99,10 +99,10 @@ class SwaggerConfig(
 
     @ApiModel
     class Page {
-        @ApiModelProperty(value = "페이지 번호(0..N)")
+        @ApiModelProperty(value = "페이지 번호(0..N)", example = "0")
         private val page: Int = 0
 
-        @ApiModelProperty(value = "페이지 크기", allowableValues = "range[0, 100]")
+        @ApiModelProperty(value = "페이지 크기", allowableValues = "range[0, 100]", example = "0")
         private val size: Int = 0
 
         @ApiModelProperty(value = "정렬(사용법: 컬럼명,ASC|DESC)")
