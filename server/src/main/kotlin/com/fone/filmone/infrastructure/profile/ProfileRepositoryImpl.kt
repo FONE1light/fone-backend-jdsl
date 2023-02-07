@@ -1,5 +1,6 @@
 package com.fone.filmone.infrastructure.profile
 
+import com.fone.common.utils.DateTimeFormat
 import com.fone.filmone.domain.common.Type
 import com.fone.filmone.domain.profile.entity.Profile
 import com.fone.filmone.domain.profile.entity.ProfileCategory
@@ -56,10 +57,8 @@ class ProfileRepositoryImpl(
                 and(
                     col(Profile::type).equal(request.type),
                     col(Profile::gender).`in`(request.genders),
-//                    or(
-//                        col(Profile::age).greaterThanOrEqualTo(request.ageMin),
-//                        col(Profile::age).lessThanOrEqualTo(request.ageMax),
-//                    ),
+                    col(Profile::birthday).lessThanOrEqualTo(DateTimeFormat.calculdateLocalDate(request.ageMin)),
+                    col(Profile::birthday).greaterThanOrEqualTo(DateTimeFormat.calculdateLocalDate(request.ageMax)),
                     col(Profile::id).`in`(categoryProfileIds)
                 )
             )

@@ -36,6 +36,13 @@ class DateTimeFormat(
 
             return age
         }
+
+        fun calculdateLocalDate(age: Int): LocalDate {
+            val nowDate = LocalDate.now()
+
+            println("test.." + age + ".." + nowDate.minusYears(age.toLong()))
+            return nowDate.minusYears(age.toLong())
+        }
     }
 
 }
