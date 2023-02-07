@@ -24,12 +24,22 @@ class ScrapCompetitionService(
         competitionScrapRepository.findByUserIdAndCompetitionId(user.id!!, competitionId)
             ?.let {
                 competitionScrapRepository.delete(it)
+
+                val competition = competitionRepository.findById(competitionId)
+                    ?: throw NotFoundCompetitionException()
+
+                competition.scrapCount -= 1
+
+                competitionRepository.save(competition)
                 return
             }
 
         val competition = competitionRepository.findById(competitionId)
             ?: throw NotFoundCompetitionException()
 
+        competition.scrapCount += 1
+
         competitionScrapRepository.save(CompetitionScrap(user.id!!, competition))
+        competitionRepository.save(competition)
     }
 }

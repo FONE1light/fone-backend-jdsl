@@ -37,6 +37,7 @@ class RegisterCompetitionDto {
                 details = details,
                 userId = userId,
                 viewCount = 0,
+                scrapCount = 0,
             )
         }
     }

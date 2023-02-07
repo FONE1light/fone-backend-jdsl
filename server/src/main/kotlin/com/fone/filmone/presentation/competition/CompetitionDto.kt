@@ -18,6 +18,7 @@ data class CompetitionDto(
     val agency: String,
     val details: String,
     val viewCount: Long,
+    val scrapCount: Long,
     val competitionPrizes: List<CompetitionPrizeDto>,
 
     val isScrap: Boolean = false,
@@ -38,6 +39,7 @@ data class CompetitionDto(
         agency = competition.agency,
         details = competition.details,
         viewCount = competition.viewCount,
+        scrapCount = competition.scrapCount,
         competitionPrizes = competition.prizes.map { CompetitionPrizeDto(it) }.toList(),
         isScrap = userCompetitionScrapMap.get(competition.id!!) != null,
         dDay = DateTimeFormat.calculateDays(competition.endDate ?: competition.submitEndDate),

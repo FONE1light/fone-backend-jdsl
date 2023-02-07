@@ -46,6 +46,9 @@ data class Competition(
     @Column
     var viewCount: Long,
 
+    @Column
+    var scrapCount: Long,
+
     @OneToMany(mappedBy = "competition", cascade = [CascadeType.PERSIST])
     var prizes: MutableList<Prize> = mutableListOf(),
 ) : BaseEntity() {

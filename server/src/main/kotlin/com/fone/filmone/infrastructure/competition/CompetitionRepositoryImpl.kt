@@ -42,11 +42,11 @@ class CompetitionRepositoryImpl(
             where(
                 and(
                     col(Competition::id).`in`(ids),
-                    col(Competition::showStartDate).greaterThanOrEqualTo(LocalDate.now())
+                    col(Competition::showStartDate).lessThanOrEqualTo(LocalDate.now())
                 )
             )
             orderBy(
-                orderSpec(pageable.sort)
+                orderSpec(pageable.sort),
             )
         }
 
@@ -116,6 +116,8 @@ class CompetitionRepositoryImpl(
         val res = sort.map {
             val columnSpec = when (it.property) {
                 "viewCount" -> col(Competition::viewCount)
+                "createdAt" -> col(Competition::createdAt)
+                "scrapCount" -> col(Competition::scrapCount)
                 else -> col(Competition::viewCount)
             }
 
