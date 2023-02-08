@@ -7,6 +7,7 @@ import com.fone.filmone.domain.job_opening.entity.JobOpeningDomain
 import com.fone.filmone.domain.job_opening.entity.JobOpeningScrap
 import com.fone.filmone.domain.job_opening.repository.JobOpeningRepository
 import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningDto.RetrieveJobOpeningsRequest
+import com.linecorp.kotlinjdsl.query.spec.OrderSpec
 import com.linecorp.kotlinjdsl.query.spec.predicate.EqualValueSpec
 import com.linecorp.kotlinjdsl.querydsl.expression.col
 import com.linecorp.kotlinjdsl.querydsl.expression.column
@@ -18,7 +19,9 @@ import org.hibernate.reactive.mutiny.Mutiny
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
+import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Repository
+import java.time.LocalDate
 
 @Repository
 class JobOpeningRepositoryImpl(
@@ -62,12 +65,12 @@ class JobOpeningRepositoryImpl(
             )
         }
 
-        return queryFactory.pageQuery(pageable) {
-            select(entity(JobOpening::class))
+        val ids = queryFactory.pageQuery(pageable) {
+            select(column(JobOpening::id))
             from(entity(JobOpening::class))
             where(
                 and(
-                    typeEq(request.type),
+                    col(JobOpening::type).equal(request.type),
                     col(JobOpening::gender).`in`(request.genders),
                     or(
                         col(JobOpening::ageMax).greaterThanOrEqualTo(request.ageMin),
@@ -77,7 +80,22 @@ class JobOpeningRepositoryImpl(
                     col(JobOpening::id).`in`(categoryJobOpeningIds),
                 )
             )
+        }.content
+
+        val jobOpenings = queryFactory.listQuery {
+            select(entity(JobOpening::class))
+            from(entity(JobOpening::class))
+            where(
+                col(JobOpening::id).`in`(ids)
+            )
+            orderBy(
+                orderSpec(pageable.sort),
+            )
         }
+
+        return PageImpl(
+            jobOpenings, pageable, jobOpenings.size.toLong()
+        )
     }
 
     override suspend fun findByTypeAndId(type: Type?, jobOpeningId: Long?): JobOpening? {
@@ -171,5 +189,31 @@ class JobOpeningRepositoryImpl(
     ): EqualValueSpec<Type>? {
         type ?: return null
         return col(JobOpening::type).equal(type)
+    }
+
+    private fun SpringDataReactiveCriteriaQueryDsl<JobOpening?>.orderSpec(sort: Sort): List<OrderSpec> {
+        val endDate = case(
+            `when`(column(JobOpening::deadline).lessThanOrEqualTo(LocalDate.now())).then(
+                literal(1)
+            ),
+            `else` = literal(0)
+        ).asc()
+
+        val res = sort.map {
+            val columnSpec = when (it.property) {
+                "viewCount" -> col(JobOpening::viewCount)
+                "createdAt" -> col(JobOpening::createdAt)
+                "scrapCount" -> col(JobOpening::scrapCount)
+                else -> col(JobOpening::viewCount)
+            }
+
+            if (it.isAscending) {
+                columnSpec.asc()
+            } else {
+                columnSpec.desc()
+            }
+        }.toList()
+
+        return listOf(endDate) + res
     }
 }
