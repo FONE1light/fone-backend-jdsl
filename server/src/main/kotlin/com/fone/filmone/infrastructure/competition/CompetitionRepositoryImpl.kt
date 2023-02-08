@@ -51,9 +51,7 @@ class CompetitionRepositoryImpl(
         }
 
         return PageImpl(
-            competitions,
-            pageable,
-            competitions.size.toLong()
+            competitions, pageable, competitions.size.toLong()
         )
     }
 
@@ -92,9 +90,7 @@ class CompetitionRepositoryImpl(
         }
 
         return PageImpl(
-            competitions,
-            pageable,
-            competitions.size.toLong()
+            competitions, pageable, competitions.size.toLong()
         )
     }
 
@@ -105,14 +101,27 @@ class CompetitionRepositoryImpl(
                     session.persist(it)
                 } else {
                     session.merge(it)
-                }
-                    .flatMap { session.flush() }
-                    .awaitSuspending()
+                }.flatMap { session.flush() }.awaitSuspending()
             }
         }
     }
 
     private fun SpringDataReactiveCriteriaQueryDsl<Competition?>.orderSpec(sort: Sort): List<OrderSpec> {
+        val endDate = case(
+            `when`(column(Competition::submitEndDate).lessThanOrEqualTo(LocalDate.now())).then(
+                literal(1)
+            ),
+            `when`(column(Competition::submitEndDate).isNull()).then(
+                case(
+                    `when`(column(Competition::endDate).lessThanOrEqualTo(LocalDate.now())).then(
+                        literal(1)
+                    ),
+                    `else` = literal(0)
+                )
+            ),
+            `else` = literal(0)
+        ).asc()
+
         val res = sort.map {
             val columnSpec = when (it.property) {
                 "viewCount" -> col(Competition::viewCount)
@@ -128,6 +137,6 @@ class CompetitionRepositoryImpl(
             }
         }.toList()
 
-        return res
+        return listOf(endDate) + res
     }
 }
