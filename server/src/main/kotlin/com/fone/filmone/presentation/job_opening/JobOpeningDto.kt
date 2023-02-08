@@ -20,6 +20,7 @@ data class JobOpeningDto(
     val type: Type,
     val domains: List<DomainType>,
     val viewCount: Long,
+    val scrapCount: Long,
     val work: WorkDto,
 
     val isScrap: Boolean = false,
@@ -45,6 +46,7 @@ data class JobOpeningDto(
         type = jobOpening.type,
         domains = domains,
         viewCount = jobOpening.viewCount,
+        scrapCount = jobOpening.scrapCount,
         work = WorkDto(jobOpening.work),
         isScrap = userJobOpeningScrapMap.get(jobOpening.id!!) != null,
         dDay = DateTimeFormat.calculateDays(jobOpening.deadline)

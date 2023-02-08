@@ -52,6 +52,9 @@ data class JobOpening(
     var viewCount: Long,
 
     @Column
+    var scrapCount: Long,
+
+    @Column
     var isDeleted: Boolean = false,
 
     @Embedded

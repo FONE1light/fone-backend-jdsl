@@ -37,7 +37,8 @@ class RegisterJobOpeningDto {
                 type = type,
                 userId = userId,
                 viewCount = 0,
-                work = work.toEntity()
+                scrapCount = 0,
+                work = work.toEntity(),
             )
         }
     }
