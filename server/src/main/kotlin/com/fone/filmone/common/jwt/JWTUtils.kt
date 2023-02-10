@@ -19,6 +19,9 @@ class JWTUtils {
     @Value("\${security.jwt.access-token-validity-in-seconds}")
     private lateinit var accessTokenExpirationTime: String
 
+    @Value("\${security.jwt.refresh-token-validity-in-seconds}")
+    private lateinit var refreshTokenExpirationTime: String
+
     private lateinit var key: Key
 
     @PostConstruct
@@ -56,9 +59,12 @@ class JWTUtils {
 
     private fun doGenerateToken(claims: Map<String, Any?>, email: String): Token {
         val accessTokenExpirationTimeLong = accessTokenExpirationTime.toLong()
+        val refreshTokenExpirationTimeLong = refreshTokenExpirationTime.toLong()
         val createdDate = Date()
         val accessTokenExpirationDate =
             Date(createdDate.time + accessTokenExpirationTimeLong * 1000)
+        val refreshTokenExpirationDate =
+            Date(createdDate.time + refreshTokenExpirationTimeLong * 1000)
 
         val accessToken = Jwts.builder()
             .setClaims(claims)
@@ -67,10 +73,17 @@ class JWTUtils {
             .setExpiration(accessTokenExpirationDate)
             .signWith(key)
             .compact()
+        val refreshToken = Jwts.builder()
+            .setClaims(claims)
+            .setSubject(email)
+            .setIssuedAt(createdDate)
+            .setExpiration(refreshTokenExpirationDate)
+            .signWith(key)
+            .compact()
 
         return Token(
             accessToken,
-            "",
+            refreshToken,
             "Bearer",
             accessTokenExpirationTimeLong,
             createdDate
