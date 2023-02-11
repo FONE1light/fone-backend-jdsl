@@ -4,7 +4,9 @@ import com.fone.filmone.domain.user.Token
 import com.fone.filmone.domain.user.enum.Role
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
+import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.security.Key
@@ -12,21 +14,23 @@ import java.util.*
 import javax.annotation.PostConstruct
 
 @Component
-class JWTUtils {
-    @Value("\${security.jwt.secret}")
-    private lateinit var secret: String
+class JWTUtils(
+    @Value("\${security.jwt.secret}") private val secret: String,
+    @Value("\${security.jwt.access-token-validity-in-seconds}") val accessTokenValidityInSeconds: Long,
+    @Value("\${security.jwt.refresh-token-validity-in-seconds}") val refreshTokenValidityInSeconds: Long,
+) : InitializingBean {
+    private val accessTokenValidityInMilliseconds: Long
+    val refreshTokenValidityInMilliseconds: Long
+    private var key: Key? = null
 
-    @Value("\${security.jwt.access-token-validity-in-seconds}")
-    private lateinit var accessTokenExpirationTime: String
+    init {
+        accessTokenValidityInMilliseconds = accessTokenValidityInSeconds * 1000
+        refreshTokenValidityInMilliseconds = refreshTokenValidityInSeconds * 1000
+    }
 
-    @Value("\${security.jwt.refresh-token-validity-in-seconds}")
-    private lateinit var refreshTokenExpirationTime: String
-
-    private lateinit var key: Key
-
-    @PostConstruct
-    fun init() {
-        key = Keys.hmacShaKeyFor(secret.toByteArray())
+    override fun afterPropertiesSet() {
+        val keyBytes = Decoders.BASE64.decode(secret)
+        key = Keys.hmacShaKeyFor(keyBytes)
     }
 
     fun generateUserToken(email: String, roles: List<Role>): Token {
@@ -58,35 +62,23 @@ class JWTUtils {
     }
 
     private fun doGenerateToken(claims: Map<String, Any?>, email: String): Token {
-        val accessTokenExpirationTimeLong = accessTokenExpirationTime.toLong()
-        val refreshTokenExpirationTimeLong = refreshTokenExpirationTime.toLong()
+        val accessTokenExpirationTimeLong = accessTokenValidityInMilliseconds
+        val refreshTokenExpirationTimeLong = refreshTokenValidityInMilliseconds
         val createdDate = Date()
         val accessTokenExpirationDate =
             Date(createdDate.time + accessTokenExpirationTimeLong * 1000)
         val refreshTokenExpirationDate =
             Date(createdDate.time + refreshTokenExpirationTimeLong * 1000)
 
-        val accessToken = Jwts.builder()
-            .setClaims(claims)
-            .setSubject(email)
-            .setIssuedAt(createdDate)
-            .setExpiration(accessTokenExpirationDate)
-            .signWith(key)
-            .compact()
-        val refreshToken = Jwts.builder()
-            .setClaims(claims)
-            .setSubject(email)
-            .setIssuedAt(createdDate)
-            .setExpiration(refreshTokenExpirationDate)
-            .signWith(key)
-            .compact()
+        val accessToken =
+            Jwts.builder().setClaims(claims).setSubject(email).setIssuedAt(createdDate)
+                .setExpiration(accessTokenExpirationDate).signWith(key).compact()
+        val refreshToken =
+            Jwts.builder().setClaims(claims).setSubject(email).setIssuedAt(createdDate)
+                .setExpiration(refreshTokenExpirationDate).signWith(key).compact()
 
         return Token(
-            accessToken,
-            refreshToken,
-            "Bearer",
-            accessTokenExpirationTimeLong,
-            createdDate
+            accessToken, refreshToken, "Bearer", accessTokenExpirationTimeLong, createdDate
         )
     }
 }
