@@ -1,6 +1,11 @@
-package com.fone.common.config
+package com.fone.filmone.common.config
 
 import com.fasterxml.classmate.TypeResolver
+import com.fone.filmone.presentation.user.CheckNicknameDuplicateDto.CheckNicknameDuplicateResponse
+import com.fone.filmone.presentation.user.ModifyUserDto.ModifyUserResponse
+import com.fone.filmone.presentation.user.RetrieveMyPageUserDto.RetrieveMyPageUserResponse
+import com.fone.filmone.presentation.user.SignUpUserDto
+import com.fone.filmone.presentation.user.SignUpUserDto.*
 import io.swagger.annotations.ApiModel
 import io.swagger.annotations.ApiModelProperty
 import lombok.RequiredArgsConstructor
@@ -31,6 +36,12 @@ class SwaggerConfig(
     fun api(): Docket? {
         val commonResponse = setCommonResponse()
         return Docket(DocumentationType.SWAGGER_2).useDefaultResponseMessages(false)
+            .additionalModels(
+                typeResolver.resolve(CheckNicknameDuplicateResponse::class.java),
+                typeResolver.resolve(ModifyUserResponse::class.java),
+                typeResolver.resolve(RetrieveMyPageUserResponse::class.java),
+                typeResolver.resolve(SignUpUserResponse::class.java),
+            )
             .globalResponses(HttpMethod.GET, commonResponse)
             .globalResponses(HttpMethod.POST, commonResponse)
             .globalResponses(HttpMethod.PUT, commonResponse)
