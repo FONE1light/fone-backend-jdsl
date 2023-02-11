@@ -1,0 +1,40 @@
+### 유저 생성
+POST http://localhost:8080/api/v1/user/sign-up
+Content-Type: application/json
+
+{
+  "accessToken": "string",
+  "agreeToPersonalInformation": true,
+  "agreeToTermsOfServiceTermsOfUse": true,
+  "birthday": "2023-02-11",
+  "email": "test@test.com",
+  "gender": "IRRELEVANT",
+  "interests": [
+    "ETC"
+  ],
+  "isReceiveMarketing": true,
+  "job": "ACTOR",
+  "nickname": "string",
+  "phoneNumber": "010-1234-1234",
+  "profileUrl": "string",
+  "socialLoginType": "APPLE"
+}
+
+### 로그인
+POST http://localhost:8080/api/v1/user/sign-in
+Content-Type: application/json
+
+{
+  "accessToken": "string",
+  "email": "test@test.com",
+  "socialLoginType": "APPLE"
+}
+> {%
+ client.global.set("accessToken", response.body.data.token.accessToken);
+ client.global.set("refreshToken", response.body.data.token.refreshToken);
+ %}
+
+### 공모전 조회
+GET http://localhost:8080/api/v1/competitions
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
