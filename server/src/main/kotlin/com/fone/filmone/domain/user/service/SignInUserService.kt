@@ -1,6 +1,7 @@
 package com.fone.filmone.domain.user.service
 
 import com.fone.common.exception.NotFoundUserException
+import com.fone.common.redis.RedisRepository
 import com.fone.filmone.common.jwt.JWTUtils
 import com.fone.filmone.domain.user.enum.Role
 import com.fone.filmone.domain.user.repository.UserRepository
@@ -8,11 +9,13 @@ import com.fone.filmone.presentation.user.SignInUserDto.SignInUserRequest
 import com.fone.filmone.presentation.user.SignInUserDto.SignInUserResponse
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.concurrent.TimeUnit
 
 @Service
 class SignInUserService(
     private val userRepository: UserRepository,
-    val jwtUtils: JWTUtils,
+    private val jwtUtils: JWTUtils,
+    private val redisRepository: RedisRepository,
 ) {
 
     @Transactional(readOnly = true)
@@ -26,6 +29,13 @@ class SignInUserService(
             val token = jwtUtils.generateUserToken(
                 user.email,
                 user.roles.map { Role(it) }.toList()
+            )
+
+            redisRepository.setValue(
+                redisRepository.REFRESH_PREFIX + email,
+                token.refreshToken,
+                jwtUtils.refreshTokenValidityInMilliseconds,
+                TimeUnit.MILLISECONDS
             )
 
             return SignInUserResponse(user, token)
