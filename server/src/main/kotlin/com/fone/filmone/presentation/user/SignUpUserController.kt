@@ -1,10 +1,14 @@
 package com.fone.filmone.presentation.user
 
-import com.fone.filmone.application.user.SignUpUserFacade
 import com.fone.common.response.CommonResponse
+import com.fone.filmone.application.user.SignUpUserFacade
 import com.fone.filmone.presentation.user.SignUpUserDto.SignUpUserRequest
 import com.fone.filmone.presentation.user.SignUpUserDto.SignUpUserResponse
 import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -19,6 +23,12 @@ class SignUpUserController(
 ) {
 
     @PostMapping("/sign-up")
+    @ApiOperation(value = "회원가입 API")
+    @ApiResponse(
+        responseCode = "200",
+        description = "성공",
+        content = [Content(schema = Schema(implementation = SignUpUserResponse::class))]
+    )
     suspend fun signUp(@Valid @RequestBody request: SignUpUserRequest): CommonResponse<SignUpUserResponse> {
         val response = signUpUserFacade.signUp(request)
         return CommonResponse.success(response)
