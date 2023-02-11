@@ -1,10 +1,11 @@
 package com.fone.filmone.presentation.user
 
-import com.fone.filmone.application.user.CheckNicknameDuplicationFacade
 import com.fone.common.response.CommonResponse
+import com.fone.filmone.application.user.CheckNicknameDuplicationFacade
 import com.fone.filmone.presentation.user.CheckNicknameDuplicateDto.CheckNicknameDuplicateRequest
 import com.fone.filmone.presentation.user.CheckNicknameDuplicateDto.CheckNicknameDuplicateResponse
 import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.RequestMapping
@@ -19,6 +20,7 @@ class CheckNicknameDuplicateController(
 ) {
 
     @GetMapping("/check-nickname-duplication")
+    @ApiOperation(value = "닉네임 중복체크 API")
     suspend fun checkNicknameDuplicate(@Valid @ModelAttribute request: CheckNicknameDuplicateRequest):
             CommonResponse<CheckNicknameDuplicateResponse> {
         val response = checkNicknameDuplicateFacade.check(request)
