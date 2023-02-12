@@ -1,10 +1,14 @@
 package com.fone.filmone.presentation.profile
 
-import com.fone.filmone.application.profile.RetrieveProfileWantFacade
 import com.fone.common.response.CommonResponse
+import com.fone.filmone.application.profile.RetrieveProfileWantFacade
 import com.fone.filmone.domain.common.Type
 import com.fone.filmone.presentation.profile.RetrieveProfileWantDto.RetrieveProfileWantResponse
 import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.data.domain.Pageable
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
@@ -23,6 +27,12 @@ class RetrieveProfileWantController(
 
     @GetMapping("/wants")
     @PreAuthorize("hasRole('USER')")
+    @ApiOperation(value = "내가 찜한 프로필 조회 API")
+    @ApiResponse(
+        responseCode = "200",
+        description = "성공",
+        content = [Content(schema = Schema(implementation = RetrieveProfileWantResponse::class))],
+    )
     suspend fun retrieveProfileWant(
         pageable: Pageable,
         principal: Principal,
