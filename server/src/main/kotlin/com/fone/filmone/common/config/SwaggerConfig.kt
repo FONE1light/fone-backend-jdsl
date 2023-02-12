@@ -1,27 +1,26 @@
 package com.fone.filmone.common.config
 
 import com.fasterxml.classmate.TypeResolver
-import com.fone.filmone.presentation.job_opening.*
-import com.fone.filmone.presentation.job_opening.RegisterJobOpeningDto.*
-import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningDto.*
-import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningMyRegistrationDto.*
-import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningScrapDto.*
-import com.fone.filmone.presentation.job_opening.RetrieveMySimilarJobOpeningDto.*
-import com.fone.filmone.presentation.profile.RegisterProfileDto
-import com.fone.filmone.presentation.profile.RegisterProfileDto.*
-import com.fone.filmone.presentation.profile.RetrieveProfileMyRegistrationDto
-import com.fone.filmone.presentation.profile.RetrieveProfileMyRegistrationDto.*
-import com.fone.filmone.presentation.profile.RetrieveProfileWantDto
-import com.fone.filmone.presentation.profile.RetrieveProfileWantDto.*
-import com.fone.filmone.presentation.profile.RetrieveProfilesDto
-import com.fone.filmone.presentation.profile.RetrieveProfilesDto.*
-import com.fone.filmone.presentation.question.RegisterQuestionDto
-import com.fone.filmone.presentation.question.RegisterQuestionDto.*
+import com.fone.filmone.presentation.competition.RegisterCompetitionDto.RegisterCompetitionResponse
+import com.fone.filmone.presentation.competition.RetrieveCompetitionDto.RetrieveCompetitionResponse
+import com.fone.filmone.presentation.competition.RetrieveCompetitionDto.RetrieveCompetitionsResponse
+import com.fone.filmone.presentation.competition.RetrieveCompetitionScrapDto.RetrieveCompetitionScrapResponse
+import com.fone.filmone.presentation.job_opening.RegisterJobOpeningDto.RegisterJobOpeningResponse
+import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningDto.RetrieveJobOpeningResponse
+import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningDto.RetrieveJobOpeningsResponse
+import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningMyRegistrationDto.RetrieveJobOpeningMyRegistrationResponse
+import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningScrapDto.RetrieveJobOpeningScrapResponse
+import com.fone.filmone.presentation.job_opening.RetrieveMySimilarJobOpeningDto.RetrieveMySimilarJobOpeningResponse
+import com.fone.filmone.presentation.profile.RegisterProfileDto.RegisterProfileResponse
+import com.fone.filmone.presentation.profile.RetrieveProfileMyRegistrationDto.RetrieveProfileMyRegistrationResponse
+import com.fone.filmone.presentation.profile.RetrieveProfileWantDto.RetrieveProfileWantResponse
+import com.fone.filmone.presentation.profile.RetrieveProfilesDto.RetrieveProfileResponse
+import com.fone.filmone.presentation.profile.RetrieveProfilesDto.RetrieveProfilesResponse
+import com.fone.filmone.presentation.question.RegisterQuestionDto.RegisterQuestionResponse
 import com.fone.filmone.presentation.user.CheckNicknameDuplicateDto.CheckNicknameDuplicateResponse
 import com.fone.filmone.presentation.user.ModifyUserDto.ModifyUserResponse
 import com.fone.filmone.presentation.user.RetrieveMyPageUserDto.RetrieveMyPageUserResponse
-import com.fone.filmone.presentation.user.SignUpUserDto
-import com.fone.filmone.presentation.user.SignUpUserDto.*
+import com.fone.filmone.presentation.user.SignUpUserDto.SignUpUserResponse
 import io.swagger.annotations.ApiModel
 import io.swagger.annotations.ApiModelProperty
 import lombok.RequiredArgsConstructor
@@ -69,6 +68,10 @@ class SwaggerConfig(
                 typeResolver.resolve(RetrieveProfilesResponse::class.java),
                 typeResolver.resolve(RetrieveProfileResponse::class.java),
                 typeResolver.resolve(RetrieveProfileWantResponse::class.java),
+                typeResolver.resolve(RegisterCompetitionResponse::class.java),
+                typeResolver.resolve(RetrieveCompetitionsResponse::class.java),
+                typeResolver.resolve(RetrieveCompetitionResponse::class.java),
+                typeResolver.resolve(RetrieveCompetitionScrapResponse::class.java),
             )
             .globalResponses(HttpMethod.GET, commonResponse)
             .globalResponses(HttpMethod.POST, commonResponse)
