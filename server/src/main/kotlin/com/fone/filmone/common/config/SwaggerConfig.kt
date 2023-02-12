@@ -7,6 +7,14 @@ import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningDto.*
 import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningMyRegistrationDto.*
 import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningScrapDto.*
 import com.fone.filmone.presentation.job_opening.RetrieveMySimilarJobOpeningDto.*
+import com.fone.filmone.presentation.profile.RegisterProfileDto
+import com.fone.filmone.presentation.profile.RegisterProfileDto.*
+import com.fone.filmone.presentation.profile.RetrieveProfileMyRegistrationDto
+import com.fone.filmone.presentation.profile.RetrieveProfileMyRegistrationDto.*
+import com.fone.filmone.presentation.profile.RetrieveProfileWantDto
+import com.fone.filmone.presentation.profile.RetrieveProfileWantDto.*
+import com.fone.filmone.presentation.profile.RetrieveProfilesDto
+import com.fone.filmone.presentation.profile.RetrieveProfilesDto.*
 import com.fone.filmone.presentation.question.RegisterQuestionDto
 import com.fone.filmone.presentation.question.RegisterQuestionDto.*
 import com.fone.filmone.presentation.user.CheckNicknameDuplicateDto.CheckNicknameDuplicateResponse
@@ -56,6 +64,11 @@ class SwaggerConfig(
                 typeResolver.resolve(RetrieveJobOpeningMyRegistrationResponse::class.java),
                 typeResolver.resolve(RetrieveJobOpeningScrapResponse::class.java),
                 typeResolver.resolve(RetrieveMySimilarJobOpeningResponse::class.java),
+                typeResolver.resolve(RegisterProfileResponse::class.java),
+                typeResolver.resolve(RetrieveProfileMyRegistrationResponse::class.java),
+                typeResolver.resolve(RetrieveProfilesResponse::class.java),
+                typeResolver.resolve(RetrieveProfileResponse::class.java),
+                typeResolver.resolve(RetrieveProfileWantResponse::class.java),
             )
             .globalResponses(HttpMethod.GET, commonResponse)
             .globalResponses(HttpMethod.POST, commonResponse)

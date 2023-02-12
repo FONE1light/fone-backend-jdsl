@@ -1,9 +1,13 @@
 package com.fone.filmone.presentation.profile
 
-import com.fone.filmone.application.profile.RetrieveProfileMyRegistrationFacade
 import com.fone.common.response.CommonResponse
+import com.fone.filmone.application.profile.RetrieveProfileMyRegistrationFacade
 import com.fone.filmone.presentation.profile.RetrieveProfileMyRegistrationDto.RetrieveProfileMyRegistrationResponse
 import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.data.domain.Pageable
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
@@ -20,6 +24,12 @@ class RetrieveProfileMyRegistrationController(
 
     @GetMapping("/my-registrations")
     @PreAuthorize("hasRole('USER')")
+    @ApiOperation(value = "내가 등록한 프로필 조회 API")
+    @ApiResponse(
+        responseCode = "200",
+        description = "성공",
+        content = [Content(schema = Schema(implementation = RetrieveProfileMyRegistrationResponse::class))],
+    )
     suspend fun retrieveProfileMyRegistration(
         principal: Principal,
         pageable: Pageable,

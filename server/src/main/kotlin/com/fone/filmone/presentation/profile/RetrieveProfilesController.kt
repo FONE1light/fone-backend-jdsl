@@ -5,6 +5,10 @@ import com.fone.filmone.application.profile.RetrieveProfilesFacade
 import com.fone.filmone.domain.common.Type
 import com.fone.filmone.presentation.profile.RetrieveProfilesDto.*
 import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.data.domain.Pageable
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
@@ -19,6 +23,12 @@ class RetrieveProfilesController(
 
     @GetMapping
     @PreAuthorize("hasRole('USER')")
+    @ApiOperation(value = "프로필 리스트 조회 API")
+    @ApiResponse(
+        responseCode = "200",
+        description = "성공",
+        content = [Content(schema = Schema(implementation = RetrieveProfilesResponse::class))],
+    )
     suspend fun retrieveProfiles(
         principal: Principal,
         pageable: Pageable,
@@ -31,6 +41,12 @@ class RetrieveProfilesController(
 
     @GetMapping("/{profileId}")
     @PreAuthorize("hasRole('USER')")
+    @ApiOperation(value = "프로필 디테일 조회 API")
+    @ApiResponse(
+        responseCode = "200",
+        description = "성공",
+        content = [Content(schema = Schema(implementation = RetrieveProfileResponse::class))],
+    )
     suspend fun retrieveProfile(
         principal: Principal,
         @RequestParam type: Type,

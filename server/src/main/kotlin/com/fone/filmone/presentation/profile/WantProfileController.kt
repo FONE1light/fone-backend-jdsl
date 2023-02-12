@@ -3,6 +3,10 @@ package com.fone.filmone.presentation.profile
 import com.fone.filmone.application.profile.WantProfileFacade
 import com.fone.common.response.CommonResponse
 import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -19,6 +23,11 @@ class WantProfileController(
 
     @PostMapping("/{profileId}/want")
     @PreAuthorize("hasRole('USER')")
+    @ApiOperation(value = "프로필 찜하기 API")
+    @ApiResponse(
+        responseCode = "200",
+        description = "성공",
+    )
     suspend fun wantProfile(
         principal: Principal,
         @PathVariable profileId: Long,

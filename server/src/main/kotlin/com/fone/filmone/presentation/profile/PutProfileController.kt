@@ -1,9 +1,14 @@
 package com.fone.filmone.presentation.profile
 
-import com.fone.filmone.application.profile.PutProfileFacade
 import com.fone.common.response.CommonResponse
-import com.fone.filmone.presentation.profile.RegisterProfileDto.*
+import com.fone.filmone.application.profile.PutProfileFacade
+import com.fone.filmone.presentation.profile.RegisterProfileDto.RegisterProfileRequest
+import com.fone.filmone.presentation.profile.RegisterProfileDto.RegisterProfileResponse
 import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 import java.security.Principal
@@ -18,6 +23,12 @@ class PutProfileController(
 
     @PutMapping("/{profileId}")
     @PreAuthorize("hasRole('USER')")
+    @ApiOperation(value = "프로필 수정 API")
+    @ApiResponse(
+        responseCode = "200",
+        description = "성공",
+        content = [Content(schema = Schema(implementation = RegisterProfileResponse::class))],
+    )
     suspend fun putProfile(
         principal: Principal,
         @Valid @RequestBody request: RegisterProfileRequest,

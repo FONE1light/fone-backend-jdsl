@@ -2,7 +2,12 @@ package com.fone.filmone.presentation.profile
 
 import com.fone.filmone.application.profile.DeleteProfileFacade
 import com.fone.common.response.CommonResponse
+import com.fone.filmone.presentation.job_opening.RegisterJobOpeningDto
 import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -19,6 +24,11 @@ class DeleteProfileController(
 
     @DeleteMapping("/{profileId}")
     @PreAuthorize("hasRole('USER')")
+    @ApiOperation(value = "프로필 삭제 API")
+    @ApiResponse(
+        responseCode = "200",
+        description = "성공",
+    )
     suspend fun deleteProfile(
         principal: Principal,
         @PathVariable profileId: Long,
