@@ -1,9 +1,13 @@
 package com.fone.filmone.presentation.competition
 
-import com.fone.filmone.application.competition.RetrieveCompetitionScrapFacade
 import com.fone.common.response.CommonResponse
+import com.fone.filmone.application.competition.RetrieveCompetitionScrapFacade
 import com.fone.filmone.presentation.competition.RetrieveCompetitionScrapDto.RetrieveCompetitionScrapResponse
 import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.data.domain.Pageable
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
@@ -20,6 +24,12 @@ class RetrieveCompetitionScrapController(
 
     @GetMapping("/scraps")
     @PreAuthorize("hasRole('USER')")
+    @ApiOperation(value = "스크랩한 공모전 조회 API")
+    @ApiResponse(
+        responseCode = "200",
+        description = "성공",
+        content = [Content(schema = Schema(implementation = RetrieveCompetitionScrapResponse::class))],
+    )
     suspend fun retrieveCompetitionScraps(
         pageable: Pageable,
         principal: Principal,
