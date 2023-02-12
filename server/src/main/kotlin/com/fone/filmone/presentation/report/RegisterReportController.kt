@@ -1,10 +1,14 @@
 package com.fone.filmone.presentation.report
 
-import com.fone.filmone.application.report.RegisterReportFacade
 import com.fone.common.response.CommonResponse
+import com.fone.filmone.application.report.RegisterReportFacade
 import com.fone.filmone.presentation.report.RegisterReportDto.RegisterReportRequest
 import com.fone.filmone.presentation.report.RegisterReportDto.RegisterReportResponse
 import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -22,6 +26,12 @@ class RegisterReportController(
 
     @PostMapping
     @PreAuthorize("hasRole('USER')")
+    @ApiOperation(value = "신고 등록 API")
+    @ApiResponse(
+        responseCode = "200",
+        description = "성공",
+        content = [Content(schema = Schema(implementation = RegisterReportResponse::class))],
+    )
     suspend fun registerReport(
         principal: Principal,
         @Valid @RequestBody request: RegisterReportRequest,
