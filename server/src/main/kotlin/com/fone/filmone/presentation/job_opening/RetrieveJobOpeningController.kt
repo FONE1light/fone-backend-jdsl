@@ -28,7 +28,6 @@ class RetrieveJobOpeningController(
     @ApiResponse(
         responseCode = "200",
         description = "성공",
-        content = [Content(schema = Schema(implementation = RetrieveJobOpeningsResponse::class))],
     )
     suspend fun retrieveJobOpenings(
         principal: Principal,
@@ -50,7 +49,6 @@ class RetrieveJobOpeningController(
     @ApiResponse(
         responseCode = "200",
         description = "성공",
-        content = [Content(schema = Schema(implementation = RetrieveJobOpeningResponse::class))],
     )
     suspend fun retrieveJobOpening(
         principal: Principal,

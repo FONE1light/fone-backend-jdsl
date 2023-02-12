@@ -27,7 +27,6 @@ class SignInUserController(
     @ApiResponse(
         responseCode = "200",
         description = "성공",
-        content = [Content(schema = Schema(implementation = SignInUserResponse::class))]
     )
     suspend fun signInUser(@Valid @RequestBody request: SignInUserRequest): CommonResponse<SignInUserResponse> {
         val response = signInUserFacade.signIn(request)

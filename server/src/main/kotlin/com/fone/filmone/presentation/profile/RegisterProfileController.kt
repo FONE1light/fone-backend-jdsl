@@ -30,7 +30,6 @@ class RegisterProfileController(
     @ApiResponse(
         responseCode = "200",
         description = "성공",
-        content = [Content(schema = Schema(implementation = RegisterProfileResponse::class))],
     )
     suspend fun registerProfile(
         principal: Principal,

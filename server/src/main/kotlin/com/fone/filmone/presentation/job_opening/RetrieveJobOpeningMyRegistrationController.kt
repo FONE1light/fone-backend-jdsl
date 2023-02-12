@@ -29,7 +29,6 @@ class RetrieveJobOpeningMyRegistrationController(
     @ApiResponse(
         responseCode = "200",
         description = "성공",
-        content = [Content(schema = Schema(implementation = RetrieveJobOpeningMyRegistrationResponse::class))],
     )
     suspend fun retrieveJobOpeningMyRegistrations(
         pageable: Pageable,
