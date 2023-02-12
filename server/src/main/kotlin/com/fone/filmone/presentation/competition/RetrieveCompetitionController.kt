@@ -30,7 +30,6 @@ class RetrieveCompetitionController(
     @ApiResponse(
         responseCode = "200",
         description = "성공",
-        content = [Content(schema = Schema(implementation = RetrieveCompetitionsResponse::class))],
     )
     suspend fun retrieveCompetitions(
         principal: Principal,
@@ -46,7 +45,6 @@ class RetrieveCompetitionController(
     @ApiResponse(
         responseCode = "200",
         description = "성공",
-        content = [Content(schema = Schema(implementation = RetrieveCompetitionResponse::class))],
     )
     suspend fun retrieveCompetition(
         principal: Principal,

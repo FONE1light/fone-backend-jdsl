@@ -27,7 +27,6 @@ class RetrieveMyPageUserController(
     @ApiResponse(
         responseCode = "200",
         description = "성공",
-        content = [Content(schema = Schema(implementation = RetrieveMyPageUserResponse::class))]
     )
     private suspend fun retrieveMyPageUser(principal: Principal):
             CommonResponse<RetrieveMyPageUserResponse> {

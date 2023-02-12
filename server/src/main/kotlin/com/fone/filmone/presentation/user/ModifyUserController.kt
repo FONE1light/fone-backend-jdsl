@@ -30,7 +30,6 @@ class ModifyUserController(
     @ApiResponse(
         responseCode = "200",
         description = "성공",
-        content = [Content(schema = Schema(implementation = ModifyUserResponse::class))]
     )
     suspend fun modifyUser(principal: Principal, @Valid @RequestBody request: ModifyUserRequest):
             CommonResponse<ModifyUserResponse> {

@@ -28,7 +28,6 @@ class RetrieveCompetitionScrapController(
     @ApiResponse(
         responseCode = "200",
         description = "성공",
-        content = [Content(schema = Schema(implementation = RetrieveCompetitionScrapResponse::class))],
     )
     suspend fun retrieveCompetitionScraps(
         pageable: Pageable,

@@ -27,7 +27,6 @@ class RetrieveProfilesController(
     @ApiResponse(
         responseCode = "200",
         description = "성공",
-        content = [Content(schema = Schema(implementation = RetrieveProfilesResponse::class))],
     )
     suspend fun retrieveProfiles(
         principal: Principal,
@@ -45,7 +44,6 @@ class RetrieveProfilesController(
     @ApiResponse(
         responseCode = "200",
         description = "성공",
-        content = [Content(schema = Schema(implementation = RetrieveProfileResponse::class))],
     )
     suspend fun retrieveProfile(
         principal: Principal,

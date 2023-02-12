@@ -30,7 +30,6 @@ class RegisterReportController(
     @ApiResponse(
         responseCode = "200",
         description = "성공",
-        content = [Content(schema = Schema(implementation = RegisterReportResponse::class))],
     )
     suspend fun registerReport(
         principal: Principal,

@@ -27,7 +27,6 @@ class RegisterQuestionController(
     @ApiResponse(
         responseCode = "200",
         description = "성공",
-        content = [Content(schema = Schema(implementation = RegisterQuestionResponse::class))],
     )
     suspend fun registerQuestion(@Valid @RequestBody request: RegisterQuestionRequest):
             CommonResponse<RegisterQuestionResponse> {

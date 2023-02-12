@@ -30,7 +30,6 @@ class RegisterJobOpeningController(
     @ApiResponse(
         responseCode = "200",
         description = "성공",
-        content = [Content(schema = Schema(implementation = RegisterJobOpeningResponse::class))],
     )
     suspend fun registerJobOpening(
         principal: Principal,
