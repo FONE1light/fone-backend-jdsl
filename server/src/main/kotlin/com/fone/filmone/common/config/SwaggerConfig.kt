@@ -1,6 +1,8 @@
 package com.fone.filmone.common.config
 
 import com.fasterxml.classmate.TypeResolver
+import com.fone.filmone.presentation.question.RegisterQuestionDto
+import com.fone.filmone.presentation.question.RegisterQuestionDto.*
 import com.fone.filmone.presentation.user.CheckNicknameDuplicateDto.CheckNicknameDuplicateResponse
 import com.fone.filmone.presentation.user.ModifyUserDto.ModifyUserResponse
 import com.fone.filmone.presentation.user.RetrieveMyPageUserDto.RetrieveMyPageUserResponse
@@ -41,6 +43,7 @@ class SwaggerConfig(
                 typeResolver.resolve(ModifyUserResponse::class.java),
                 typeResolver.resolve(RetrieveMyPageUserResponse::class.java),
                 typeResolver.resolve(SignUpUserResponse::class.java),
+                typeResolver.resolve(RegisterQuestionResponse::class.java),
             )
             .globalResponses(HttpMethod.GET, commonResponse)
             .globalResponses(HttpMethod.POST, commonResponse)
