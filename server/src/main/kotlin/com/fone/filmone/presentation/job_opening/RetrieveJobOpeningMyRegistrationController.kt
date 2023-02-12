@@ -1,9 +1,13 @@
 package com.fone.filmone.presentation.job_opening
 
-import com.fone.filmone.application.job_opening.RetrieveJobOpeningMyRegistrationFacade
 import com.fone.common.response.CommonResponse
+import com.fone.filmone.application.job_opening.RetrieveJobOpeningMyRegistrationFacade
 import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningMyRegistrationDto.RetrieveJobOpeningMyRegistrationResponse
 import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.data.domain.Pageable
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
@@ -21,6 +25,12 @@ class RetrieveJobOpeningMyRegistrationController(
 
     @GetMapping("/my-registrations")
     @PreAuthorize("hasRole('USER')")
+    @ApiOperation(value = "내가 등록한 구인구직 조회 API")
+    @ApiResponse(
+        responseCode = "200",
+        description = "성공",
+        content = [Content(schema = Schema(implementation = RetrieveJobOpeningMyRegistrationResponse::class))],
+    )
     suspend fun retrieveJobOpeningMyRegistrations(
         pageable: Pageable,
         principal: Principal,

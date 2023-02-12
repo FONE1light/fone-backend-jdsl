@@ -3,6 +3,10 @@ package com.fone.filmone.presentation.job_opening
 import com.fone.filmone.application.job_opening.ScrapJobOpeningFacade
 import com.fone.common.response.CommonResponse
 import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -19,6 +23,11 @@ class ScrapJobOpeningController(
 
     @PostMapping("/{jobOpeningId}/scrap")
     @PreAuthorize("hasRole('USER')")
+    @ApiOperation(value = "구인구직 스크랩 API")
+    @ApiResponse(
+        responseCode = "200",
+        description = "성공",
+    )
     suspend fun scrapJobOpening(
         principal: Principal,
         @PathVariable jobOpeningId: Long,

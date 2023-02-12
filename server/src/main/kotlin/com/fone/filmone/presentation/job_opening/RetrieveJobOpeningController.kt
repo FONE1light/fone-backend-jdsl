@@ -5,6 +5,10 @@ import com.fone.filmone.application.job_opening.RetrieveJobOpeningFacade
 import com.fone.filmone.domain.common.Type
 import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningDto.*
 import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.data.domain.Pageable
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
@@ -20,6 +24,12 @@ class RetrieveJobOpeningController(
 
     @GetMapping
     @PreAuthorize("hasRole('USER')")
+    @ApiOperation(value = "구인구직 리스트 조회 API")
+    @ApiResponse(
+        responseCode = "200",
+        description = "성공",
+        content = [Content(schema = Schema(implementation = RetrieveJobOpeningsResponse::class))],
+    )
     suspend fun retrieveJobOpenings(
         principal: Principal,
         @ModelAttribute request: RetrieveJobOpeningsRequest,
@@ -28,13 +38,20 @@ class RetrieveJobOpeningController(
         val response = retrieveJobOpeningFacade.retrieveJobOpenings(
             principal.name,
             pageable,
-            request)
+            request
+        )
 
         return CommonResponse.success(response)
     }
 
     @GetMapping("/{jobOpeningId}")
     @PreAuthorize("hasRole('USER')")
+    @ApiOperation(value = "구인구직 디테일 조회 API")
+    @ApiResponse(
+        responseCode = "200",
+        description = "성공",
+        content = [Content(schema = Schema(implementation = RetrieveJobOpeningResponse::class))],
+    )
     suspend fun retrieveJobOpening(
         principal: Principal,
         @RequestParam type: Type,
