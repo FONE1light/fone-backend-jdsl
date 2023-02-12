@@ -17,6 +17,8 @@ import com.fone.filmone.presentation.profile.RetrieveProfileWantDto.RetrieveProf
 import com.fone.filmone.presentation.profile.RetrieveProfilesDto.RetrieveProfileResponse
 import com.fone.filmone.presentation.profile.RetrieveProfilesDto.RetrieveProfilesResponse
 import com.fone.filmone.presentation.question.RegisterQuestionDto.RegisterQuestionResponse
+import com.fone.filmone.presentation.report.RegisterReportDto
+import com.fone.filmone.presentation.report.RegisterReportDto.*
 import com.fone.filmone.presentation.user.CheckNicknameDuplicateDto.CheckNicknameDuplicateResponse
 import com.fone.filmone.presentation.user.ModifyUserDto.ModifyUserResponse
 import com.fone.filmone.presentation.user.RetrieveMyPageUserDto.RetrieveMyPageUserResponse
@@ -72,6 +74,7 @@ class SwaggerConfig(
                 typeResolver.resolve(RetrieveCompetitionsResponse::class.java),
                 typeResolver.resolve(RetrieveCompetitionResponse::class.java),
                 typeResolver.resolve(RetrieveCompetitionScrapResponse::class.java),
+                typeResolver.resolve(RegisterReportResponse::class.java),
             )
             .globalResponses(HttpMethod.GET, commonResponse)
             .globalResponses(HttpMethod.POST, commonResponse)
