@@ -1,6 +1,12 @@
 package com.fone.filmone.common.config
 
 import com.fasterxml.classmate.TypeResolver
+import com.fone.filmone.presentation.job_opening.*
+import com.fone.filmone.presentation.job_opening.RegisterJobOpeningDto.*
+import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningDto.*
+import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningMyRegistrationDto.*
+import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningScrapDto.*
+import com.fone.filmone.presentation.job_opening.RetrieveMySimilarJobOpeningDto.*
 import com.fone.filmone.presentation.question.RegisterQuestionDto
 import com.fone.filmone.presentation.question.RegisterQuestionDto.*
 import com.fone.filmone.presentation.user.CheckNicknameDuplicateDto.CheckNicknameDuplicateResponse
@@ -44,6 +50,12 @@ class SwaggerConfig(
                 typeResolver.resolve(RetrieveMyPageUserResponse::class.java),
                 typeResolver.resolve(SignUpUserResponse::class.java),
                 typeResolver.resolve(RegisterQuestionResponse::class.java),
+                typeResolver.resolve(RegisterJobOpeningResponse::class.java),
+                typeResolver.resolve(RetrieveJobOpeningsResponse::class.java),
+                typeResolver.resolve(RetrieveJobOpeningResponse::class.java),
+                typeResolver.resolve(RetrieveJobOpeningMyRegistrationResponse::class.java),
+                typeResolver.resolve(RetrieveJobOpeningScrapResponse::class.java),
+                typeResolver.resolve(RetrieveMySimilarJobOpeningResponse::class.java),
             )
             .globalResponses(HttpMethod.GET, commonResponse)
             .globalResponses(HttpMethod.POST, commonResponse)
