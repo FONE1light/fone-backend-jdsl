@@ -5,8 +5,6 @@ import com.fone.filmone.application.user.RetrieveMyPageUserFacade
 import com.fone.filmone.presentation.user.RetrieveMyPageUserDto.RetrieveMyPageUserResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
-import io.swagger.v3.oas.annotations.media.Content
-import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping

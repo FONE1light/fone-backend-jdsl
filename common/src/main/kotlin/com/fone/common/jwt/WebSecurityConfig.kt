@@ -1,4 +1,4 @@
-package com.fone.filmone.common.jwt
+package com.fone.common.jwt
 
 import com.fone.common.exception.UnauthorizedException
 import org.springframework.context.annotation.Bean

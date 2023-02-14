@@ -1,4 +1,4 @@
-package com.fone.filmone.common.jwt
+package com.fone.common.jwt
 
 import org.springframework.http.HttpHeaders
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken

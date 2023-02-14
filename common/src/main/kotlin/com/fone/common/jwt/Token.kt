@@ -1,4 +1,4 @@
-package com.fone.filmone.domain.user
+package com.fone.common.jwt
 
 import java.util.*
 

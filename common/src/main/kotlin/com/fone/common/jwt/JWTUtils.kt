@@ -1,7 +1,5 @@
-package com.fone.filmone.common.jwt
+package com.fone.common.jwt
 
-import com.fone.filmone.domain.user.Token
-import com.fone.filmone.domain.user.enum.Role
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.io.Decoders
@@ -11,7 +9,6 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.security.Key
 import java.util.*
-import javax.annotation.PostConstruct
 
 @Component
 class JWTUtils(
