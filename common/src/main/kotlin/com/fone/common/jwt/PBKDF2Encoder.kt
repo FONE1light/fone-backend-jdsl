@@ -1,4 +1,4 @@
-package com.fone.filmone.common.jwt
+package com.fone.common.jwt
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.crypto.password.PasswordEncoder

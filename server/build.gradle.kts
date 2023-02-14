@@ -51,11 +51,6 @@ dependencies {
     implementation("com.linecorp.armeria:armeria-grpc")
     implementation("com.linecorp.armeria:armeria-spring-boot2-webflux-starter")
 
-    // JWT 인증
-    implementation("io.jsonwebtoken:jjwt-api:0.11.5")
-    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
-    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
-
     implementation(project(":idl"))
 
     // Kotlin 로깅

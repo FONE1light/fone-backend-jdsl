@@ -1,6 +1,5 @@
-package com.fone.filmone.common.jwt
+package com.fone.common.jwt
 
-import com.fone.filmone.domain.user.repository.UserRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import org.springframework.security.authentication.ReactiveAuthenticationManager
@@ -14,7 +13,7 @@ import java.util.stream.Collectors
 @Component
 class AuthenticationManager(
     val jwtUtils: JWTUtils,
-    val userRepository: UserRepository,
+    val userRepository: JwtUserRepository,
 ) : ReactiveAuthenticationManager {
 
     override fun authenticate(authentication: Authentication): Mono<Authentication> {
@@ -27,7 +26,7 @@ class AuthenticationManager(
         }
 
         runBlocking {
-            return@runBlocking async { userRepository.findByNicknameOrEmail(null, email) }.await()
+            return@runBlocking async { userRepository.validTokenByEmail(email) }.await()
         } ?: return Mono.empty()
 
         return Mono.just(jwtUtils.validateToken(authToken)).filter { valid -> valid }

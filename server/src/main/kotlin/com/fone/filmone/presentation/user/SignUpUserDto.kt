@@ -4,7 +4,7 @@ import com.fone.filmone.domain.common.Gender
 import com.fone.filmone.domain.common.CategoryType
 import com.fone.filmone.domain.user.entity.User
 import com.fone.filmone.domain.user.enum.Job
-import com.fone.filmone.domain.user.enum.Role
+import com.fone.common.jwt.Role
 import com.fone.filmone.domain.user.enum.SocialLoginType
 import io.swagger.annotations.ApiModelProperty
 import org.springframework.format.annotation.DateTimeFormat

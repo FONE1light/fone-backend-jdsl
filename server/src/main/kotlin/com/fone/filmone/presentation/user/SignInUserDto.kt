@@ -1,6 +1,6 @@
 package com.fone.filmone.presentation.user
 
-import com.fone.filmone.domain.user.Token
+import com.fone.common.jwt.Token
 import com.fone.filmone.domain.user.entity.User
 import com.fone.filmone.domain.user.enum.SocialLoginType
 import io.swagger.annotations.ApiModelProperty
