@@ -28,18 +28,18 @@ fun roomActor(roomId: Int) = CoroutineScope(Dispatchers.Default).actor<RoomActor
         when (msg) {
             is Join -> {
                 users[msg.username] = msg.channel
-                broadCast(UserOutgoingMessage("admin", "${msg.username} joined."))
+                broadCast(UserOutgoingMessage("admin", "${msg.username} joined.", "1"))
                 log.info("${msg.username} joined room $roomId, current user list: ${users.keys}")
             }
 
             is IncomingMessage -> {
-                broadCast(UserOutgoingMessage(msg.username, msg.message))
+                broadCast(UserOutgoingMessage(msg.username, msg.message, "1"))
                 log.info("${msg.username} sent message: ${msg.message}")
             }
 
             is Terminated -> {
                 users.remove(msg.username)
-                broadCast(UserOutgoingMessage("admin", "${msg.username} left."))
+                broadCast(UserOutgoingMessage("admin", "${msg.username} left.", "1"))
                 log.info("${msg.username} left room $roomId, current user list: ${users.keys}")
             }
         }
