@@ -26,7 +26,7 @@ class RetrieveMyPageUserController(
         responseCode = "200",
         description = "성공",
     )
-    private suspend fun retrieveMyPageUser(principal: Principal):
+    suspend fun retrieveMyPageUser(principal: Principal):
             CommonResponse<RetrieveMyPageUserResponse> {
         val response = retrieveMyPageUserFacade.retrieveMyPageUser(principal.name)
         return CommonResponse.success(response)
