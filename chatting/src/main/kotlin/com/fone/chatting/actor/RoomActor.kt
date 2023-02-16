@@ -24,22 +24,44 @@ fun roomActor(roomId: Int) = CoroutineScope(Dispatchers.Default).actor<RoomActor
         it.send(outgoingMessage)
     }
 
+    val userOutgoingMessages = mutableListOf<UserOutgoingMessage>()
+
+    suspend fun broadCastAll(
+        username: String,
+        users: ConcurrentHashMap<String, SendChannel<UserActorMsg>>
+    ) {
+        if (users[username] != null) {
+            return
+        }
+
+        userOutgoingMessages.forEach {
+            if (username == it.author) {
+                it.count = it.count
+            } else {
+                it.count = "0"
+            }
+            broadCast(it)
+        }
+    }
+
     for (msg in channel) {
+
         when (msg) {
             is Join -> {
+                broadCastAll(msg.username, users)
                 users[msg.username] = msg.channel
-                broadCast(UserOutgoingMessage("admin", "${msg.username} joined."))
                 log.info("${msg.username} joined room $roomId, current user list: ${users.keys}")
             }
 
             is IncomingMessage -> {
-                broadCast(UserOutgoingMessage(msg.username, msg.message))
+                val outgoingMessage = UserOutgoingMessage(msg.username, msg.message, (1 - users.values.count() + 1).toString())
+                userOutgoingMessages.add(outgoingMessage)
+                broadCast(outgoingMessage)
                 log.info("${msg.username} sent message: ${msg.message}")
             }
 
             is Terminated -> {
                 users.remove(msg.username)
-                broadCast(UserOutgoingMessage("admin", "${msg.username} left."))
                 log.info("${msg.username} left room $roomId, current user list: ${users.keys}")
             }
         }
