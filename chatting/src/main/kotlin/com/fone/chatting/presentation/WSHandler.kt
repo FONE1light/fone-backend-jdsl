@@ -41,7 +41,7 @@ class WSHandler : WebSocketHandler {
             .asFlow()
             .onCompletion { userActor.send(Completed) }
             .collect {
-                val userIncomingMessage = UserIncomingMessage(username, it.payloadAsText, "1")
+                val userIncomingMessage = UserIncomingMessage(username, it.payloadAsText, "0")
 
                 userActor.send(userIncomingMessage)
             }

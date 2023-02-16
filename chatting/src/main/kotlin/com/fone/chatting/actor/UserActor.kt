@@ -12,7 +12,7 @@ class Connected(val routeActor: SendChannel<UserOutgoingMessage>, val username: 
 
 object Completed : UserActorMsg()
 data class UserIncomingMessage(val username: String, val message: String, val count: String) : UserActorMsg()
-data class UserOutgoingMessage(val author: String, val message: String, val count: String) : UserActorMsg()
+data class UserOutgoingMessage(val author: String, val message: String, var count: String) : UserActorMsg()
 
 fun userActor(roomActor: SendChannel<RoomActorMsg>) =
     CoroutineScope(Dispatchers.Default).actor<UserActorMsg> {
