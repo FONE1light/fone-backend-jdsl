@@ -1,14 +1,14 @@
 version: "3.7"
 services:
-  fone-be:
-    depends_on:
-      - fone-db
-    image: sinkyoungdeok/fone-backend
-    ports:
-      - "80:8080"
-    environment:
-      - USE_PROFILE=prod
-    restart: always
+#  fone-be:
+#    depends_on:
+#      - fone-db
+#    image: sinkyoungdeok/fone-backend
+#    ports:
+#      - "80:8080"
+#    environment:
+#      - USE_PROFILE=prod
+#    restart: always
   fone-db:
     image: mysql:8.0
     platform: linux/amd64

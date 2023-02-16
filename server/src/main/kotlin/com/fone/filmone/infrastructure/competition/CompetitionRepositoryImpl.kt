@@ -38,7 +38,7 @@ class CompetitionRepositoryImpl(
         val competitions = queryFactory.listQuery {
             select(entity(Competition::class))
             from(entity(Competition::class))
-            fetch(Competition::class, Prize::class, on(Competition::prizes))
+            fetch(Competition::class, Prize::class, on(Competition::prizes)) // fetch join
             where(
                 and(
                     col(Competition::id).`in`(ids),
