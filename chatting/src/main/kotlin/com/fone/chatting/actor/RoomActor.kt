@@ -28,11 +28,17 @@ fun roomActor(roomId: Int) = CoroutineScope(Dispatchers.Default).actor<RoomActor
 
     suspend fun broadCastAll(
         username: String,
-        users: ConcurrentHashMap<String, SendChannel<UserActorMsg>>
+        users: ConcurrentHashMap<String, SendChannel<UserActorMsg>>,
+        msg: Join
     ) {
         if (users[username] != null) {
             return
         }
+
+        val outgoingMessage = UserOutgoingMessage(msg.username, "", "")
+        broadCast(outgoingMessage)
+
+        users[msg.username] = msg.channel
 
         userOutgoingMessages.forEach {
             if (username == it.author) {
@@ -48,8 +54,7 @@ fun roomActor(roomId: Int) = CoroutineScope(Dispatchers.Default).actor<RoomActor
 
         when (msg) {
             is Join -> {
-                broadCastAll(msg.username, users)
-                users[msg.username] = msg.channel
+                broadCastAll(msg.username, users, msg)
                 log.info("${msg.username} joined room $roomId, current user list: ${users.keys}")
             }
 
