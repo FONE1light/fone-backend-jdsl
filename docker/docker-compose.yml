@@ -9,6 +9,11 @@ services:
     environment:
       - USE_PROFILE=prod
     restart: always
+  fone-chatting:
+    image: sinkyoungdeok/fone-chatting
+    ports:
+      - "8000:8000"
+    restart: always
   fone-db:
     image: mysql:8.0
     platform: linux/amd64
