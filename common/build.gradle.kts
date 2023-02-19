@@ -1,7 +1,3 @@
-plugins {
-    kotlin("plugin.jpa") version "1.7.0"
-}
-
 dependencies {
     // persistence
     implementation("javax.persistence:javax.persistence-api")
