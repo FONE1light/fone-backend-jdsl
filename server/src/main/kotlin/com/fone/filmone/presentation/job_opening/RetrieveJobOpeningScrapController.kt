@@ -2,12 +2,10 @@ package com.fone.filmone.presentation.job_opening
 
 import com.fone.common.response.CommonResponse
 import com.fone.filmone.application.job_opening.RetrieveJobOpeningScrapFacade
-import com.fone.filmone.domain.common.Type
+import com.fone.common.entity.Type
 import com.fone.filmone.presentation.job_opening.RetrieveJobOpeningScrapDto.RetrieveJobOpeningScrapResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
-import io.swagger.v3.oas.annotations.media.Content
-import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.data.domain.Pageable
 import org.springframework.security.access.prepost.PreAuthorize

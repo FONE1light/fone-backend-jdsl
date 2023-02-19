@@ -1,7 +1,7 @@
 package com.fone.filmone.domain.competition.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import com.fone.filmone.domain.common.BaseEntity
+import com.fone.common.entity.BaseEntity
 import javax.persistence.*
 
 

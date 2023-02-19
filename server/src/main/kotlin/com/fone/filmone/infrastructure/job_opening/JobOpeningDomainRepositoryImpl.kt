@@ -1,6 +1,6 @@
 package com.fone.filmone.infrastructure.job_opening
 
-import com.fone.filmone.domain.common.DomainType
+import com.fone.common.entity.DomainType
 import com.fone.filmone.domain.job_opening.entity.JobOpeningDomain
 import com.fone.filmone.domain.job_opening.repository.JobOpeningDomainRepository
 import com.linecorp.kotlinjdsl.querydsl.expression.col

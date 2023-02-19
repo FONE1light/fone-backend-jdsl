@@ -1,6 +1,6 @@
 package com.fone.filmone.presentation.profile
 
-import com.fone.filmone.domain.common.*
+import com.fone.common.entity.*
 import com.fone.filmone.domain.profile.entity.Profile
 import com.fone.filmone.domain.profile.entity.ProfileWant
 import io.swagger.annotations.ApiModelProperty

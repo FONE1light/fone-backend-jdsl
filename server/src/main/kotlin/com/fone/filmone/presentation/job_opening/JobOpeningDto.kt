@@ -1,7 +1,7 @@
 package com.fone.filmone.presentation.job_opening
 
+import com.fone.common.entity.*
 import com.fone.common.utils.DateTimeFormat
-import com.fone.filmone.domain.common.*
 import com.fone.filmone.domain.job_opening.entity.JobOpening
 import com.fone.filmone.domain.job_opening.entity.JobOpeningScrap
 import java.time.LocalDate

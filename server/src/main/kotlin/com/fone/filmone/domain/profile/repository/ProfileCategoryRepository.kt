@@ -1,6 +1,6 @@
 package com.fone.filmone.domain.profile.repository
 
-import com.fone.filmone.domain.common.CategoryType
+import com.fone.common.entity.CategoryType
 import com.fone.filmone.domain.profile.entity.ProfileCategory
 
 interface ProfileCategoryRepository {

@@ -1,6 +1,6 @@
 package com.fone.filmone.application.profile
 
-import com.fone.filmone.domain.common.Type
+import com.fone.common.entity.Type
 import com.fone.filmone.domain.profile.service.RetrieveProfileWantService
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service

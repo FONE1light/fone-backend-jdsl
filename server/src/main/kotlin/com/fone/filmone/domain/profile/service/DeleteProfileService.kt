@@ -6,7 +6,7 @@ import com.fone.common.exception.NotFoundUserException
 import com.fone.filmone.domain.profile.repository.ProfileCategoryRepository
 import com.fone.filmone.domain.profile.repository.ProfileDomainRepository
 import com.fone.filmone.domain.profile.repository.ProfileRepository
-import com.fone.filmone.domain.user.repository.UserRepository
+import com.fone.user.domain.repository.UserRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.springframework.stereotype.Service

@@ -1,7 +1,7 @@
 package com.fone.filmone.infrastructure.jwt
 
 import com.fone.common.jwt.JwtUserRepository
-import com.fone.filmone.domain.user.repository.UserRepository
+import com.fone.user.domain.repository.UserRepository
 import org.springframework.stereotype.Repository
 
 @Repository

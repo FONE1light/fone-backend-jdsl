@@ -9,7 +9,7 @@ import com.fone.filmone.domain.profile.repository.ProfileCategoryRepository
 import com.fone.filmone.domain.profile.repository.ProfileDomainRepository
 import com.fone.filmone.domain.profile.repository.ProfileRepository
 import com.fone.filmone.domain.profile.repository.ProfileWantRepository
-import com.fone.filmone.domain.user.repository.UserRepository
+import com.fone.user.domain.repository.UserRepository
 import com.fone.filmone.presentation.profile.RegisterProfileDto.RegisterProfileRequest
 import com.fone.filmone.presentation.profile.RegisterProfileDto.RegisterProfileResponse
 import kotlinx.coroutines.async

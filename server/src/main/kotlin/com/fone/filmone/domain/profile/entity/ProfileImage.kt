@@ -1,8 +1,8 @@
 package com.fone.filmone.domain.profile.entity
 
-import com.fone.filmone.domain.common.BaseEntity
+import com.fone.common.entity.BaseEntity
 import javax.persistence.*
-import javax.persistence.FetchType.*
+import javax.persistence.FetchType.LAZY
 
 @Entity
 @Table(name = "profile_images")
@@ -21,7 +21,7 @@ data class ProfileImage(
     var profile: Profile? = null,
 ) : BaseEntity() {
 
-    constructor(url: String) : this (
+    constructor(url: String) : this(
         profileUrl = url
     )
 

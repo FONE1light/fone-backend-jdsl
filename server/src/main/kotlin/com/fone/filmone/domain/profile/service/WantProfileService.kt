@@ -3,7 +3,7 @@ package com.fone.filmone.domain.profile.service
 import com.fone.common.exception.NotFoundUserException
 import com.fone.filmone.domain.profile.entity.ProfileWant
 import com.fone.filmone.domain.profile.repository.ProfileWantRepository
-import com.fone.filmone.domain.user.repository.UserRepository
+import com.fone.user.domain.repository.UserRepository
 import org.springframework.stereotype.Service
 
 @Service

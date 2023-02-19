@@ -1,6 +1,6 @@
 package com.fone.filmone.domain.job_opening.entity
 
-import com.fone.filmone.domain.common.CategoryType
+import com.fone.common.entity.CategoryType
 import javax.persistence.*
 
 @Entity
@@ -19,7 +19,7 @@ data class JobOpeningCategory(
     var type: CategoryType,
 ) {
 
-    constructor(reqJobOpeningId: Long, categoryType: CategoryType): this(
+    constructor(reqJobOpeningId: Long, categoryType: CategoryType) : this(
         jobOpeningId = reqJobOpeningId,
         type = categoryType,
     )
