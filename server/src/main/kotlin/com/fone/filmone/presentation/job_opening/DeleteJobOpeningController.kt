@@ -1,12 +1,9 @@
 package com.fone.filmone.presentation.job_opening
 
-import com.fone.filmone.application.job_opening.DeleteJobOpeningFacade
 import com.fone.common.response.CommonResponse
-import com.fone.filmone.presentation.user.CheckNicknameDuplicateDto
+import com.fone.filmone.application.job_opening.DeleteJobOpeningFacade
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
-import io.swagger.v3.oas.annotations.media.Content
-import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.DeleteMapping

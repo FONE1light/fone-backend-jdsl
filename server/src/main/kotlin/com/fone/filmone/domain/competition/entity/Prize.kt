@@ -1,6 +1,6 @@
 package com.fone.filmone.domain.competition.entity
 
-import com.fone.filmone.domain.common.BaseEntity
+import com.fone.common.entity.BaseEntity
 import javax.persistence.*
 import javax.persistence.FetchType.LAZY
 

@@ -2,7 +2,7 @@ package com.fone.filmone.domain.report.service
 
 import com.fone.common.exception.NotFoundUserException
 import com.fone.filmone.domain.report.repository.ReportRepository
-import com.fone.filmone.domain.user.repository.UserRepository
+import com.fone.user.domain.repository.UserRepository
 import com.fone.filmone.presentation.report.RegisterReportDto.RegisterReportRequest
 import com.fone.filmone.presentation.report.RegisterReportDto.RegisterReportResponse
 import org.springframework.stereotype.Service

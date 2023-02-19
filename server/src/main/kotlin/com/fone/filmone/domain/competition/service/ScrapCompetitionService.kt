@@ -5,7 +5,7 @@ import com.fone.common.exception.NotFoundUserException
 import com.fone.filmone.domain.competition.entity.CompetitionScrap
 import com.fone.filmone.domain.competition.repository.CompetitionRepository
 import com.fone.filmone.domain.competition.repository.CompetitionScrapRepository
-import com.fone.filmone.domain.user.repository.UserRepository
+import com.fone.user.domain.repository.UserRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

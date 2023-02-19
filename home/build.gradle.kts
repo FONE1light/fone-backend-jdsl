@@ -1,13 +1,5 @@
 dependencies {
-    implementation(project(":common"))
-
-    // webflux
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
-    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-
-    // Kotlin 로깅
-    implementation("io.github.microutils:kotlin-logging:2.1.21")
+    implementation(project(path = ":common", configuration = "default"))
 
     // Kotlin
     implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -28,3 +20,5 @@ dependencies {
     runtimeOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:$coroutineVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:$coroutineVersion")
 }
+
+tasks.bootJar { enabled = false }

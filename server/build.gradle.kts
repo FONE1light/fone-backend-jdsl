@@ -1,20 +1,13 @@
-plugins {
-    kotlin("plugin.jpa") version "1.7.0"
-}
-
 dependencies {
-    implementation(project(":common"))
+    implementation(project(path = ":common", configuration = "default"))
     implementation(project(":home"))
+    implementation(project(":user"))
 
     // persistence
     implementation("javax.persistence:javax.persistence-api")
 
     // security
     implementation("org.springframework.boot:spring-boot-starter-security")
-
-    // validation
-    implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("org.hibernate.validator:hibernate-validator:6.1.2.Final")
 
     // kotlin-jdsl
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -42,11 +35,6 @@ dependencies {
     implementation("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
 
-    // webflux
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
-    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-
     // armeria
     implementation("com.linecorp.armeria:armeria-grpc")
     implementation("com.linecorp.armeria:armeria-spring-boot2-webflux-starter")
@@ -69,6 +57,9 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
+
+tasks.jar { enabled = false }
+tasks.bootJar { enabled = true }
 
 dependencyManagement {
     imports {

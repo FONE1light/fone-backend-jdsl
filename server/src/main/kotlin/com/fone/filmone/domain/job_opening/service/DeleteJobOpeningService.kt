@@ -6,7 +6,7 @@ import com.fone.common.exception.NotFoundUserException
 import com.fone.filmone.domain.job_opening.repository.JobOpeningCategoryRepository
 import com.fone.filmone.domain.job_opening.repository.JobOpeningDomainRepository
 import com.fone.filmone.domain.job_opening.repository.JobOpeningRepository
-import com.fone.filmone.domain.user.repository.UserRepository
+import com.fone.user.domain.repository.UserRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.springframework.stereotype.Service

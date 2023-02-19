@@ -1,6 +1,6 @@
 package com.fone.filmone.infrastructure.job_opening
 
-import com.fone.filmone.domain.common.Type
+import com.fone.common.entity.Type
 import com.fone.filmone.domain.job_opening.entity.JobOpening
 import com.fone.filmone.domain.job_opening.entity.JobOpeningCategory
 import com.fone.filmone.domain.job_opening.entity.JobOpeningDomain

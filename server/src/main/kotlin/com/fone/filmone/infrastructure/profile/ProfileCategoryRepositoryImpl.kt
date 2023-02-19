@@ -1,6 +1,6 @@
 package com.fone.filmone.infrastructure.profile
 
-import com.fone.filmone.domain.common.CategoryType
+import com.fone.common.entity.CategoryType
 import com.fone.filmone.domain.profile.entity.ProfileCategory
 import com.fone.filmone.domain.profile.repository.ProfileCategoryRepository
 import com.linecorp.kotlinjdsl.querydsl.expression.col

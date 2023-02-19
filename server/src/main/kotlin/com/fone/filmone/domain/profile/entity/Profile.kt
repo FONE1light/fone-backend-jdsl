@@ -1,9 +1,9 @@
 package com.fone.filmone.domain.profile.entity
 
-import com.fone.filmone.domain.common.BaseEntity
-import com.fone.filmone.domain.common.Career
-import com.fone.filmone.domain.common.Gender
-import com.fone.filmone.domain.common.Type
+import com.fone.common.entity.BaseEntity
+import com.fone.common.entity.Career
+import com.fone.common.entity.Gender
+import com.fone.common.entity.Type
 import com.fone.filmone.presentation.profile.RegisterProfileDto.RegisterProfileRequest
 import java.time.LocalDate
 import javax.persistence.*

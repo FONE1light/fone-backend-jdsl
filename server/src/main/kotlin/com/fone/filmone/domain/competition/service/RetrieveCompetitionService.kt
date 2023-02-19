@@ -4,9 +4,9 @@ import com.fone.common.exception.NotFoundCompetitionException
 import com.fone.common.exception.NotFoundUserException
 import com.fone.filmone.domain.competition.repository.CompetitionRepository
 import com.fone.filmone.domain.competition.repository.CompetitionScrapRepository
-import com.fone.filmone.domain.user.repository.UserRepository
 import com.fone.filmone.presentation.competition.RetrieveCompetitionDto.RetrieveCompetitionResponse
 import com.fone.filmone.presentation.competition.RetrieveCompetitionDto.RetrieveCompetitionsResponse
+import com.fone.user.domain.repository.UserRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.springframework.data.domain.Pageable

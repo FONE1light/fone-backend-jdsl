@@ -1,12 +1,12 @@
 package com.fone.filmone.domain.profile.service
 
 import com.fone.common.exception.NotFoundUserException
-import com.fone.filmone.domain.common.Type
+import com.fone.common.entity.Type
 import com.fone.filmone.domain.profile.repository.ProfileCategoryRepository
 import com.fone.filmone.domain.profile.repository.ProfileDomainRepository
 import com.fone.filmone.domain.profile.repository.ProfileRepository
 import com.fone.filmone.domain.profile.repository.ProfileWantRepository
-import com.fone.filmone.domain.user.repository.UserRepository
+import com.fone.user.domain.repository.UserRepository
 import com.fone.filmone.presentation.profile.RetrieveProfileWantDto.RetrieveProfileWantResponse
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope

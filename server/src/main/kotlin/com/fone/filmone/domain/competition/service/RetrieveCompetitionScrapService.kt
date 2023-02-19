@@ -3,12 +3,10 @@ package com.fone.filmone.domain.competition.service
 import com.fone.common.exception.NotFoundUserException
 import com.fone.filmone.domain.competition.repository.CompetitionRepository
 import com.fone.filmone.domain.competition.repository.CompetitionScrapRepository
-import com.fone.filmone.domain.user.repository.UserRepository
-import com.fone.filmone.presentation.competition.CompetitionDto
 import com.fone.filmone.presentation.competition.RetrieveCompetitionScrapDto.RetrieveCompetitionScrapResponse
+import com.fone.user.domain.repository.UserRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

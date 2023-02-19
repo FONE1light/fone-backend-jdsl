@@ -1,9 +1,9 @@
 package com.fone.filmone.presentation.profile
 
-import com.fone.filmone.domain.common.CategoryType
-import com.fone.filmone.domain.common.DomainType
-import com.fone.filmone.domain.common.Gender
-import com.fone.filmone.domain.common.Type
+import com.fone.common.entity.CategoryType
+import com.fone.common.entity.DomainType
+import com.fone.common.entity.Gender
+import com.fone.common.entity.Type
 import com.fone.filmone.domain.profile.entity.Profile
 import com.fone.filmone.domain.profile.entity.ProfileWant
 import io.swagger.annotations.ApiModelProperty

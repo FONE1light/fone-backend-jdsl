@@ -1,6 +1,6 @@
 package com.fone.filmone.domain.job_opening.repository
 
-import com.fone.filmone.domain.common.DomainType
+import com.fone.common.entity.DomainType
 import com.fone.filmone.domain.job_opening.entity.JobOpeningDomain
 
 interface JobOpeningDomainRepository {

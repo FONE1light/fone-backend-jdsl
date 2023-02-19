@@ -1,6 +1,6 @@
 package com.fone.filmone.domain.question.entity
 
-import com.fone.filmone.domain.common.BaseEntity
+import com.fone.common.entity.BaseEntity
 import com.fone.filmone.domain.question.enum.Type
 import javax.persistence.*
 

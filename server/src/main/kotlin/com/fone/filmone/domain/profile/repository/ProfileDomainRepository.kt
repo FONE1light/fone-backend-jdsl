@@ -1,6 +1,6 @@
 package com.fone.filmone.domain.profile.repository
 
-import com.fone.filmone.domain.common.DomainType
+import com.fone.common.entity.DomainType
 import com.fone.filmone.domain.profile.entity.ProfileDomain
 
 interface ProfileDomainRepository {

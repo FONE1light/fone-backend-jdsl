@@ -1,7 +1,7 @@
 package com.fone.filmone.infrastructure.profile
 
 import com.fone.common.utils.DateTimeFormat
-import com.fone.filmone.domain.common.Type
+import com.fone.common.entity.Type
 import com.fone.filmone.domain.profile.entity.Profile
 import com.fone.filmone.domain.profile.entity.ProfileCategory
 import com.fone.filmone.domain.profile.entity.ProfileWant

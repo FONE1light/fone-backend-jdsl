@@ -1,0 +1,25 @@
+package com.fone.user.domain.service
+
+import com.fone.user.domain.repository.UserRepository
+import com.fone.user.presentation.CheckNicknameDuplicateDto.CheckNicknameDuplicateRequest
+import com.fone.user.presentation.CheckNicknameDuplicateDto.CheckNicknameDuplicateResponse
+import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
+
+@Service
+class CheckNicknameDuplicateService(
+    private val userRepository: UserRepository,
+) {
+
+    @Transactional(readOnly = true)
+    suspend fun checkNicknameDuplicate(request: CheckNicknameDuplicateRequest):
+            CheckNicknameDuplicateResponse {
+        with(request) {
+            userRepository.findByNicknameOrEmail(nickname, null)?.let {
+                return CheckNicknameDuplicateResponse(request.nickname, true)
+            }
+
+            return CheckNicknameDuplicateResponse(request.nickname, false)
+        }
+    }
+}
