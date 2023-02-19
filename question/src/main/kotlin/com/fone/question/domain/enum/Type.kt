@@ -1,4 +1,4 @@
-package com.fone.filmone.domain.question.enum
+package com.fone.question.domain.enum
 
 enum class Type {
     USE_QUESTION,
