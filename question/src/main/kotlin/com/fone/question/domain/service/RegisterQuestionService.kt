@@ -1,14 +1,14 @@
-package com.fone.filmone.domain.question.service
+package com.fone.question.domain.service
 
-import com.fone.filmone.domain.question.repository.QuestionRepository
-import com.fone.filmone.presentation.question.RegisterQuestionDto.RegisterQuestionRequest
-import com.fone.filmone.presentation.question.RegisterQuestionDto.RegisterQuestionResponse
+import com.fone.question.domain.repository.QuestionRepository
+import com.fone.question.presentation.RegisterQuestionDto.RegisterQuestionRequest
+import com.fone.question.presentation.RegisterQuestionDto.RegisterQuestionResponse
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class RegisterQuestionService(
-    private val questionRepository: QuestionRepository
+    private val questionRepository: QuestionRepository,
 ) {
 
     @Transactional

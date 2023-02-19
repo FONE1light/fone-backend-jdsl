@@ -1,13 +1,11 @@
-package com.fone.filmone.presentation.question
+package com.fone.question.presentation
 
 import com.fone.common.response.CommonResponse
-import com.fone.filmone.application.question.RegisterQuestionFacade
-import com.fone.filmone.presentation.question.RegisterQuestionDto.RegisterQuestionRequest
-import com.fone.filmone.presentation.question.RegisterQuestionDto.RegisterQuestionResponse
+import com.fone.question.application.RegisterQuestionFacade
+import com.fone.question.presentation.RegisterQuestionDto.RegisterQuestionRequest
+import com.fone.question.presentation.RegisterQuestionDto.RegisterQuestionResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
-import io.swagger.v3.oas.annotations.media.Content
-import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody

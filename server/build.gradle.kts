@@ -7,6 +7,7 @@ dependencies {
     implementation(project(":home"))
     implementation(project(":user"))
     implementation(project(":jobOpening"))
+    implementation(project(":question"))
 
     // persistence
     implementation("javax.persistence:javax.persistence-api")

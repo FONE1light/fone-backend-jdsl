@@ -1,7 +1,7 @@
-package com.fone.filmone.presentation.question
+package com.fone.question.presentation
 
-import com.fone.filmone.domain.question.entity.Question
-import com.fone.filmone.domain.question.enum.Type
+import com.fone.question.domain.entity.Question
+import com.fone.question.domain.enum.Type
 import io.swagger.annotations.ApiModelProperty
 import javax.validation.constraints.AssertTrue
 import javax.validation.constraints.Email
@@ -46,7 +46,7 @@ class RegisterQuestionDto {
     ) {
 
         constructor(
-            question: Question
+            question: Question,
         ) : this(
             email = question.email,
             type = question.type,

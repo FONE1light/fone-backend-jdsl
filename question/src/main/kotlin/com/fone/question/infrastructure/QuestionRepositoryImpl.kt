@@ -1,7 +1,7 @@
-package com.fone.filmone.infrastructure.question
+package com.fone.question.infrastructure
 
-import com.fone.filmone.domain.question.entity.Question
-import com.fone.filmone.domain.question.repository.QuestionRepository
+import com.fone.question.domain.entity.Question
+import com.fone.question.domain.repository.QuestionRepository
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.SpringDataHibernateMutinyReactiveQueryFactory
 import io.smallrye.mutiny.coroutines.awaitSuspending
 import org.hibernate.reactive.mutiny.Mutiny
