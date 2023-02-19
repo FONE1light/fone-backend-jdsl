@@ -38,21 +38,13 @@ class RegisterQuestionDto {
     }
 
     data class RegisterQuestionResponse(
-        val email: String,
-        val type: Type,
-        val title: String,
-        val description: String,
-        val agreeToPersonalInformation: Boolean,
+        val question: QuestionDto
     ) {
 
         constructor(
             question: Question,
         ) : this(
-            email = question.email,
-            type = question.type,
-            title = question.title,
-            description = question.description,
-            agreeToPersonalInformation = question.agreeToPersonalInformation,
+            question = QuestionDto(question)
         )
     }
 }
