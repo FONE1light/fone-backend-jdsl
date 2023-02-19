@@ -31,9 +31,9 @@ jobs:
       - name: Docker build
         run: |
           docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
-          docker build -f docker/api.Dockerfile -t fone-backend .
-          docker tag fone-backend sinkyoungdeok/fone-backend
-          docker push sinkyoungdeok/fone-backend
+          docker build -f docker/api.Dockerfile -t fone-api .
+          docker tag fone-api sinkyoungdeok/fone-api
+          docker push sinkyoungdeok/fone-api
       - name: Deploy Prod
         uses: appleboy/ssh-action@v0.1.4
         with:
@@ -43,6 +43,6 @@ jobs:
           port : 22
           script: |
             docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
-            docker pull sinkyoungdeok/fone-backend
+            docker pull sinkyoungdeok/fone-api
             docker-compose down 
             docker-compose up -d
