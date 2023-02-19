@@ -1,4 +1,4 @@
-package com.fone.filmone.domain.report.entity
+package com.fone.report.domain.entity
 
 import com.fone.common.converter.SeparatorConverter
 import com.fone.common.entity.BaseEntity

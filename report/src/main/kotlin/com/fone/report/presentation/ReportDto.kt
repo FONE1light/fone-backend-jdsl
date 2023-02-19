@@ -1,9 +1,9 @@
-package com.fone.filmone.presentation.report
+package com.fone.report.presentation
 
-import com.fone.filmone.domain.report.entity.Report
-import com.fone.filmone.domain.report.enum.Type
+import com.fone.report.domain.entity.Report
+import com.fone.report.domain.enum.Type
 
-data class ReportDto (
+data class ReportDto(
     val id: Long,
     val reportUserId: Long,
     val type: Type,

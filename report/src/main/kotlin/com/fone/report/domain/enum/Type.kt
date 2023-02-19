@@ -1,4 +1,4 @@
-package com.fone.filmone.domain.report.enum
+package com.fone.report.domain.enum
 
 enum class Type {
     JOB_OPENING,

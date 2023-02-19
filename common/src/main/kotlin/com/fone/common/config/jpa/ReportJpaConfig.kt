@@ -5,6 +5,6 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 
 @Configuration
-@EntityScan(basePackages = ["com.fone.filmone.domain.report"])
-@EnableJpaRepositories(basePackages = ["com.fone.filmone.infrastructure.report"])
+@EntityScan(basePackages = ["com.fone.report.domain"])
+@EnableJpaRepositories(basePackages = ["com.fone.report.infrastructure"])
 class ReportJpaConfig
