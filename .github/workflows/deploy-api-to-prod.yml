@@ -30,7 +30,7 @@ jobs:
       - name: Docker build
         run: |
           docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
-          docker build -t fone-backend .
+          docker build -f docker/api.Dockerfile -t fone-backend .
           docker tag fone-backend sinkyoungdeok/fone-backend
           docker push sinkyoungdeok/fone-backend
       - name: Deploy Prod
