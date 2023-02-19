@@ -1,4 +1,4 @@
-name: Deploy API To Prod
+name: Deploy Chatting To Prod
 
 on:
   push:
