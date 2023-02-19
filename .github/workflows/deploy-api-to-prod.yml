@@ -7,6 +7,8 @@ on:
     paths-ignore:
       - 'chatting/**'
       - '.github/workflows/deploy-chatting-to-prod.yml'
+      - '.github/auto-assign.yml'
+      - '.github/workflows/auto-assign.yml'
 
 jobs:
   build:
