@@ -22,8 +22,7 @@ class SignInUserDto {
     )
 
     data class SignInUserResponse(
-        val socialLoginType: SocialLoginType,
-        val email: String,
+        val user: UserDto,
         val token: Token,
     ) {
 
@@ -31,8 +30,7 @@ class SignInUserDto {
             user: User,
             token: Token,
         ) : this(
-            socialLoginType = user.socialLoginType,
-            email = user.email,
+            user = UserDto(user),
             token = token,
         )
     }
