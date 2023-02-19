@@ -15,7 +15,7 @@ import javax.validation.Valid
 
 @Api(tags = ["02. Question Info"], description = "문의등록 서비스")
 @RestController
-@RequestMapping("/api/v1/question")
+@RequestMapping("/api/v1/questions")
 class RegisterQuestionController(
     val registerQuestionFacade: RegisterQuestionFacade,
 ) {

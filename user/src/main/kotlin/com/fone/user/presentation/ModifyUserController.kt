@@ -17,7 +17,7 @@ import javax.validation.Valid
 
 @Api(tags = ["01. User Info"], description = "유저 서비스")
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/v1/users")
 class ModifyUserController(
     private val modifyFacade: ModifyUserFacade,
 ) {
