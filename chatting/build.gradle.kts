@@ -3,3 +3,6 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 }
+
+tasks.jar { enabled = false }
+tasks.bootJar { enabled = true }
