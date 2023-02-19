@@ -1,9 +1,11 @@
-name: Deploy to Prod
+name: Deploy API To Prod
 
 on:
   push:
     branches:
       - main
+    paths-ignore:
+      - 'chatting/**'
 
 jobs:
   build:
