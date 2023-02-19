@@ -46,6 +46,23 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+
+    // Kotlin
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
+    val coroutineVersion = "1.6.3"
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:$coroutineVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactive:$coroutineVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion")
+    runtimeOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:$coroutineVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:$coroutineVersion")
+
+    // Annotation Processor
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 tasks.bootJar { enabled = false }
