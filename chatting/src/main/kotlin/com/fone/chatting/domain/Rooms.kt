@@ -1,7 +1,7 @@
 package com.fone.chatting.domain
 
-import com.fone.chatting.actor.RoomActorMsg
-import com.fone.chatting.actor.roomActor
+import com.fone.chatting.domain.actor.RoomActorMsg
+import com.fone.chatting.domain.actor.roomActor
 import kotlinx.coroutines.channels.SendChannel
 import java.util.concurrent.ConcurrentHashMap
 

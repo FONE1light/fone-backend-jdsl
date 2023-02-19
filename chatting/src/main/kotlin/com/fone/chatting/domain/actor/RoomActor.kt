@@ -1,4 +1,4 @@
-package com.fone.chatting.actor
+package com.fone.chatting.domain.actor
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
