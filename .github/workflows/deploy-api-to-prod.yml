@@ -6,6 +6,7 @@ on:
       - main
     paths-ignore:
       - 'chatting/**'
+      - '.github/workflows/deploy-chatting-to-prod.yml'
 
 jobs:
   build:

@@ -31,7 +31,7 @@ jobs:
       - name: Docker build
         run: |
           docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
-          docker build -f docker/api.Dockerfile -t fone-chatting .
+          docker build -f docker/chatting.Dockerfile -t fone-chatting .
           docker tag fone-chatting sinkyoungdeok/fone-chatting
           docker push sinkyoungdeok/fone-chatting
       - name: Deploy Prod
