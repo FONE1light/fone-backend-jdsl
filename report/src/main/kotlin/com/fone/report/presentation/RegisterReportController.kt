@@ -1,13 +1,11 @@
-package com.fone.filmone.presentation.report
+package com.fone.report.presentation
 
 import com.fone.common.response.CommonResponse
-import com.fone.filmone.application.report.RegisterReportFacade
-import com.fone.filmone.presentation.report.RegisterReportDto.RegisterReportRequest
-import com.fone.filmone.presentation.report.RegisterReportDto.RegisterReportResponse
+import com.fone.report.application.RegisterReportFacade
+import com.fone.report.presentation.RegisterReportDto.RegisterReportRequest
+import com.fone.report.presentation.RegisterReportDto.RegisterReportResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
-import io.swagger.v3.oas.annotations.media.Content
-import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.PostMapping

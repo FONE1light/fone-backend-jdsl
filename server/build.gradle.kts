@@ -10,6 +10,7 @@ dependencies {
     implementation(project(":question"))
     implementation(project(":profile"))
     implementation(project(":competition"))
+    implementation(project(":report"))
 
     // persistence
     implementation("javax.persistence:javax.persistence-api")

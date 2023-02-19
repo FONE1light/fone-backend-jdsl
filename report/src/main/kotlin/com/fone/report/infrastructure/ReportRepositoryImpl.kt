@@ -1,7 +1,7 @@
-package com.fone.filmone.infrastructure.report
+package com.fone.report.infrastructure
 
-import com.fone.filmone.domain.report.entity.Report
-import com.fone.filmone.domain.report.repository.ReportRepository
+import com.fone.report.domain.entity.Report
+import com.fone.report.domain.repository.ReportRepository
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.SpringDataHibernateMutinyReactiveQueryFactory
 import io.smallrye.mutiny.coroutines.awaitSuspending
 import org.hibernate.reactive.mutiny.Mutiny
