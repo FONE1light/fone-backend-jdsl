@@ -5,6 +5,6 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 
 @Configuration
-@EntityScan(basePackages = ["com.fone.filmone.domain.competition"])
-@EnableJpaRepositories(basePackages = ["com.fone.filmone.infrastructure.competition"])
+@EntityScan(basePackages = ["com.fone.competition.domain"])
+@EnableJpaRepositories(basePackages = ["com.fone.competition.infrastructure"])
 class CompetitionJpaConfig
