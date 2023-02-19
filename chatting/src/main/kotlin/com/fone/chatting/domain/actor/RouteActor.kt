@@ -1,4 +1,4 @@
-package com.fone.chatting.actor
+package com.fone.chatting.domain.actor
 
 import com.fone.chatting.presentation.jsonMapper
 import kotlinx.coroutines.CoroutineScope

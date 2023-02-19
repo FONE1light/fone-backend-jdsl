@@ -1,7 +1,7 @@
 package com.fone.chatting.presentation
 
-import com.fone.chatting.actor.*
 import com.fone.chatting.domain.Rooms
+import com.fone.chatting.domain.actor.*
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.reactive.asFlow
