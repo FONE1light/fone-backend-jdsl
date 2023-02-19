@@ -14,7 +14,7 @@ import java.time.Duration
 
 @Api(tags = ["07. Home Info"], description = "홈 서비스")
 @RestController
-@RequestMapping("/home/v1/home")
+@RequestMapping("/home/v1/homes")
 class HomeController {
 
     val client = HttpClient.create()
@@ -33,7 +33,7 @@ class HomeController {
         ) token: String,
     ): CommonResponse<HomeDto> {
         val userResponse = webClient.get()
-            .uri("/api/v1/user")
+            .uri("/api/v1/users")
             .header("Authorization", token)
             .retrieve()
             .bodyToMono(CommonResponse::class.java)
