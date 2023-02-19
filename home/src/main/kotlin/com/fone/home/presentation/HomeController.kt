@@ -14,7 +14,7 @@ import java.time.Duration
 
 @Api(tags = ["07. Home Info"], description = "홈 서비스")
 @RestController
-@RequestMapping("/home/v1/homes")
+@RequestMapping("/api/v1/homes")
 class HomeController {
 
     val client = HttpClient.create()
