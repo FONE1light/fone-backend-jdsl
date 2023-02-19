@@ -1,7 +1,7 @@
-package com.fone.filmone.presentation.profile
+package com.fone.jobOpening.presentation
 
 import com.fone.common.response.CommonResponse
-import com.fone.filmone.application.profile.DeleteProfileFacade
+import com.fone.jobOpening.application.DeleteJobOpeningFacade
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -12,25 +12,25 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.security.Principal
 
-@Api(tags = ["04. Profile Info"], description = "프로필 서비스")
+@Api(tags = ["03. Job Opening Info"], description = "구인구직 모집 서비스")
 @RestController
-@RequestMapping("/api/v1/profiles")
-class DeleteProfileController(
-    private val deleteProfileFacade: DeleteProfileFacade,
+@RequestMapping("/api/v1/job-openings")
+class DeleteJobOpeningController(
+    private val deleteJobOpeningFacade: DeleteJobOpeningFacade,
 ) {
 
-    @DeleteMapping("/{profileId}")
+    @DeleteMapping("/{jobOpeningId}")
     @PreAuthorize("hasRole('USER')")
-    @ApiOperation(value = "프로필 삭제 API")
+    @ApiOperation(value = "구인구직 삭제 API")
     @ApiResponse(
         responseCode = "200",
         description = "성공",
     )
-    suspend fun deleteProfile(
+    suspend fun deleteJobOpening(
         principal: Principal,
-        @PathVariable profileId: Long,
+        @PathVariable jobOpeningId: Long,
     ): CommonResponse<Unit> {
-        val response = deleteProfileFacade.deleteProfile(principal.name, profileId)
+        val response = deleteJobOpeningFacade.deleteJobOpening(principal.name, jobOpeningId)
 
         return CommonResponse.success(response)
     }
