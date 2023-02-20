@@ -1,9 +1,9 @@
 version: "3.7"
 services:
-  fone-be:
+  fone-api:
     depends_on:
       - fone-db
-    image: sinkyoungdeok/fone-backend
+    image: sinkyoungdeok/fone-api
     ports:
       - "80:8080"
     environment:
