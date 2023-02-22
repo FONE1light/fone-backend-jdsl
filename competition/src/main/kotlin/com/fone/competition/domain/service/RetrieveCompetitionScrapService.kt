@@ -4,7 +4,7 @@ import com.fone.common.exception.NotFoundUserException
 import com.fone.common.repository.UserCommonRepository
 import com.fone.competition.domain.repository.CompetitionRepository
 import com.fone.competition.domain.repository.CompetitionScrapRepository
-import com.fone.competition.presentation.RetrieveCompetitionScrapDto.RetrieveCompetitionScrapResponse
+import com.fone.competition.presentation.dto.RetrieveCompetitionScrapDto.RetrieveCompetitionScrapResponse
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.springframework.data.domain.Pageable

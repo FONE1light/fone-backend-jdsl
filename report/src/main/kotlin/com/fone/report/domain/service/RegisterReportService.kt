@@ -3,8 +3,8 @@ package com.fone.report.domain.service
 import com.fone.common.exception.NotFoundUserException
 import com.fone.common.repository.UserCommonRepository
 import com.fone.report.domain.repository.ReportRepository
-import com.fone.report.presentation.RegisterReportDto.RegisterReportRequest
-import com.fone.report.presentation.RegisterReportDto.RegisterReportResponse
+import com.fone.report.presentation.dto.RegisterReportDto.RegisterReportRequest
+import com.fone.report.presentation.dto.RegisterReportDto.RegisterReportResponse
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

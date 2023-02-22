@@ -5,8 +5,8 @@ import com.fone.common.jwt.JWTUtils
 import com.fone.common.jwt.Role
 import com.fone.common.redis.RedisRepository
 import com.fone.user.domain.repository.UserRepository
-import com.fone.user.presentation.SignInUserDto.SignInUserRequest
-import com.fone.user.presentation.SignInUserDto.SignInUserResponse
+import com.fone.user.presentation.dto.SignInUserDto.SignInUserRequest
+import com.fone.user.presentation.dto.SignInUserDto.SignInUserResponse
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.concurrent.TimeUnit

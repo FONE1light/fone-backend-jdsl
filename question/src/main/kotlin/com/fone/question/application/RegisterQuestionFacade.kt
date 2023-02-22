@@ -1,7 +1,7 @@
 package com.fone.question.application
 
 import com.fone.question.domain.service.RegisterQuestionService
-import com.fone.question.presentation.RegisterQuestionDto.RegisterQuestionRequest
+import com.fone.question.presentation.dto.RegisterQuestionDto.RegisterQuestionRequest
 import org.springframework.stereotype.Service
 
 @Service

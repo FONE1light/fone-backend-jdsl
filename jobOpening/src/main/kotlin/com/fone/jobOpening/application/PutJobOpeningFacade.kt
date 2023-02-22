@@ -1,7 +1,7 @@
 package com.fone.jobOpening.application
 
 import com.fone.jobOpening.domain.service.PutJobOpeningService
-import com.fone.jobOpening.presentation.RegisterJobOpeningDto.RegisterJobOpeningRequest
+import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningRequest
 import org.springframework.stereotype.Service
 
 @Service

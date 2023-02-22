@@ -2,8 +2,8 @@ package com.fone.user.domain.service
 
 import com.fone.common.exception.DuplicateUserException
 import com.fone.user.domain.repository.UserRepository
-import com.fone.user.presentation.SignUpUserDto.SignUpUserRequest
-import com.fone.user.presentation.SignUpUserDto.SignUpUserResponse
+import com.fone.user.presentation.dto.SignUpUserDto.SignUpUserRequest
+import com.fone.user.presentation.dto.SignUpUserDto.SignUpUserResponse
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

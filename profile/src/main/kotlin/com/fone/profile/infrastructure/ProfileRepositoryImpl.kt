@@ -6,7 +6,7 @@ import com.fone.profile.domain.entity.Profile
 import com.fone.profile.domain.entity.ProfileCategory
 import com.fone.profile.domain.entity.ProfileWant
 import com.fone.profile.domain.repository.ProfileRepository
-import com.fone.profile.presentation.RetrieveProfilesDto.RetrieveProfilesRequest
+import com.fone.profile.presentation.dto.RetrieveProfilesDto.RetrieveProfilesRequest
 import com.linecorp.kotlinjdsl.query.spec.OrderSpec
 import com.linecorp.kotlinjdsl.query.spec.predicate.EqualValueSpec
 import com.linecorp.kotlinjdsl.querydsl.expression.col
