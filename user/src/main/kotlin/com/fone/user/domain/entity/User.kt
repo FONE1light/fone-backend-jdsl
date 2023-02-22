@@ -5,7 +5,7 @@ import com.fone.common.entity.BaseEntity
 import com.fone.common.entity.Gender
 import com.fone.user.domain.enum.Job
 import com.fone.user.domain.enum.SocialLoginType
-import com.fone.user.presentation.ModifyUserDto.*
+import com.fone.user.presentation.dto.ModifyUserDto.*
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails

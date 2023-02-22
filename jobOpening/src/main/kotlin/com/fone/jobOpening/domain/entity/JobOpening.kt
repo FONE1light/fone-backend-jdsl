@@ -4,7 +4,7 @@ import com.fone.common.entity.BaseEntity
 import com.fone.common.entity.Career
 import com.fone.common.entity.Gender
 import com.fone.common.entity.Type
-import com.fone.jobOpening.presentation.RegisterJobOpeningDto.RegisterJobOpeningRequest
+import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningRequest
 import java.time.LocalDate
 import javax.persistence.*
 

@@ -1,7 +1,7 @@
 package com.fone.user.application
 
 import com.fone.user.domain.service.SignInUserService
-import com.fone.user.presentation.SignInUserDto.SignInUserRequest
+import com.fone.user.presentation.dto.SignInUserDto.SignInUserRequest
 import org.springframework.stereotype.Service
 
 @Service

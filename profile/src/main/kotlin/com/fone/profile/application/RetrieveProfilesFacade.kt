@@ -2,7 +2,7 @@ package com.fone.profile.application
 
 import com.fone.common.entity.Type
 import com.fone.profile.domain.service.RetrieveProfilesService
-import com.fone.profile.presentation.RetrieveProfilesDto.RetrieveProfilesRequest
+import com.fone.profile.presentation.dto.RetrieveProfilesDto.RetrieveProfilesRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 

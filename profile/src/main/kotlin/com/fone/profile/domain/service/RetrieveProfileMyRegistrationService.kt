@@ -6,7 +6,7 @@ import com.fone.profile.domain.repository.ProfileCategoryRepository
 import com.fone.profile.domain.repository.ProfileDomainRepository
 import com.fone.profile.domain.repository.ProfileRepository
 import com.fone.profile.domain.repository.ProfileWantRepository
-import com.fone.profile.presentation.RetrieveProfileMyRegistrationDto.RetrieveProfileMyRegistrationResponse
+import com.fone.profile.presentation.dto.RetrieveProfileMyRegistrationDto.RetrieveProfileMyRegistrationResponse
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.springframework.data.domain.Pageable
