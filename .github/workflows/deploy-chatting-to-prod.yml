@@ -9,26 +9,26 @@ on:
       - '.github/workflows/deploy-chatting-to-prod.yml'
 
 jobs:
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Set up JDK 17
+      - name: Set Up JDK 17
         uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'adopt'
-      - name: Grant execute permission for gradlew
+      - name: Grant Execute Permission For Gradlew
         run: chmod +x gradlew
-      - name: make application-prod.yml
+      - name: Make Prod Yml
         run: |
           cd ./chatting/src/main/resources
           touch ./application-prod.yml
           echo "${{ secrets.PROPERTIES_PROD }}" > ./application-prod.yml
         shell: bash
-      - name: Build with Gradle
+      - name: Build With Gradle
         run: ./gradlew :chatting:bootJar -x test
-      - name: Docker build
+      - name: Docker Build And Push
         run: |
           docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
           docker build -f docker/chatting.Dockerfile -t fone-chatting .
