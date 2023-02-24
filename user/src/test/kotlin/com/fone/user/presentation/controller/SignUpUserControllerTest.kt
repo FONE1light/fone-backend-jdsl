@@ -5,6 +5,7 @@ import com.fone.common.entity.Gender
 import com.fone.user.domain.enum.Job
 import com.fone.user.domain.enum.SocialLoginType
 import com.fone.user.presentation.dto.SignUpUserDto.SignUpUserRequest
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
@@ -15,7 +16,7 @@ import reactor.core.publisher.Mono
 import java.time.LocalDate
 
 @WebFluxTest(SignUpUserController::class)
-@ExternalCoroutineApi
+@ExperimentalCoroutinesApi
 internal class SignUpUserControllerTest {
 
     @Autowired

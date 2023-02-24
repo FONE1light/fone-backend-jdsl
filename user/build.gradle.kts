@@ -15,10 +15,6 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
     testImplementation("com.ninja-squad:springmockk:3.0.1")
-    testImplementation(kotlin("test"))
-
-    val coroutineVersion = "1.6.3"
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion")
 }
 
 tasks.bootJar { enabled = false }
