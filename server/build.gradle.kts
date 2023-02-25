@@ -13,20 +13,18 @@ dependencies {
     implementation(project(":report"))
     implementation(project(":idl"))
 
-    // armeria
+    // Armeria
     implementation("com.linecorp.armeria:armeria-grpc")
     implementation("com.linecorp.armeria:armeria-spring-boot2-webflux-starter")
 
-    // test
-    testImplementation("org.springframework.boot:spring-boot-starter-test") {
-        exclude(module = "mockito-core")
-    }
-    testImplementation("org.junit.jupiter:junit-jupiter-api")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
-    testImplementation("com.ninja-squad:springmockk:3.0.1")
+    // Test
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("junit","junit","4.13.2")
+    testImplementation("io.kotest:kotest-runner-junit5:5.5.4")
+    testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
+    testImplementation("io.mockk:mockk:1.12.0")
 
-    // testcontainers
+    // Testcontainers
     testImplementation("org.testcontainers:testcontainers:1.17.1")
     testImplementation("org.testcontainers:junit-jupiter:1.17.1")
     testImplementation("org.testcontainers:mysql:1.17.1")

@@ -1,29 +1,23 @@
 package com.fone.user.presentation.controller
 
-import com.fone.common.TCIntegrationTest
+import com.fone.common.CustomDescribeSpec
+import com.fone.common.IntegrationTest
+import com.fone.common.doPost
 import com.fone.common.entity.CategoryType
 import com.fone.common.entity.Gender
 import com.fone.user.domain.enum.Job
 import com.fone.user.domain.enum.SocialLoginType
-import com.fone.user.presentation.dto.SignUpUserDto.SignUpUserRequest
-import org.junit.Test
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.MediaType
+import com.fone.user.presentation.dto.SignUpUserDto
 import org.springframework.test.web.reactive.server.WebTestClient
-import org.springframework.test.web.reactive.server.body
-import org.testcontainers.junit.jupiter.Testcontainers
-import reactor.core.publisher.Mono
 import java.time.LocalDate
 
-@Testcontainers
-class SignUpUserControllerTest : TCIntegrationTest() {
+@IntegrationTest
+class SignUpUserControllerTest(client: WebTestClient) : CustomDescribeSpec() {
 
-    @Autowired
-    private lateinit var wtc: WebTestClient
+    private val baseUrl = "/api/v1/users/sign-up"
 
-    @Test
-    fun `sign up user`() {
-        val signUpUserRequest = SignUpUserRequest(
+    init {
+        val signUpUserRequest = SignUpUserDto.SignUpUserRequest(
             Job.ACTOR,
             listOf(CategoryType.ETC),
             "test5",
@@ -39,14 +33,27 @@ class SignUpUserControllerTest : TCIntegrationTest() {
             "test",
         )
 
-        wtc.post().uri("/api/v1/users/sign-up")
-            .contentType(MediaType.APPLICATION_JSON)
-            .accept(MediaType.APPLICATION_JSON)
-            .body(Mono.just(signUpUserRequest))
-            .exchange()
-            .expectStatus().isOk
-            .expectBody()
-            .consumeWith { println(it) }
-            .jsonPath("$.result").isNotEmpty
+        describe("#signUp") {
+            context("새 유저 정보가 들어오면") {
+                it("새 유저를 생성한다") {
+                    client
+                        .doPost(baseUrl, signUpUserRequest)
+                        .expectStatus().isOk
+                        .expectBody()
+                        .consumeWith { println(it) }
+                }
+            }
+
+            context("이미 존재하는 유저라면") {
+                it("유저 생성을 실패한다.") {
+                    client
+                        .doPost(baseUrl, signUpUserRequest)
+                        .expectStatus().isOk
+                        .expectBody()
+                        .consumeWith { println(it) }
+                        .jsonPath("$.result").isEqualTo("FAIL")
+                }
+            }
+        }
     }
 }
