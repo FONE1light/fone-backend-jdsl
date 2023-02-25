@@ -1,25 +1,21 @@
 package com.fone.common
 
-import com.fone.filmone.ServerApplication
 import com.github.dockerjava.api.model.ExposedPort
 import com.github.dockerjava.api.model.PortBinding
 import com.github.dockerjava.api.model.Ports
-import org.junit.runner.RunWith
-import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.junit4.SpringRunner
+import org.springframework.context.ApplicationContextInitializer
+import org.springframework.context.ConfigurableApplicationContext
 import org.testcontainers.containers.MySQLContainer
-import org.testcontainers.junit.jupiter.Testcontainers
 import org.testcontainers.utility.DockerImageName
 
-@SpringBootTest(classes = [ServerApplication::class])
-@RunWith(SpringRunner::class)
-@Testcontainers
-@AutoConfigureWebTestClient
-abstract class TCIntegrationTest {
+class IntegrationTestContextInitializer :
+    ApplicationContextInitializer<ConfigurableApplicationContext> {
 
-    companion object {
-        @JvmStatic
+    override fun initialize(applicationContext: ConfigurableApplicationContext) {
+        val DATABASE_NAME: String = "fone"
+        val USERNAME: String = "root"
+        val PASSWORD: String = "fone-flim-be"
+
         val MY_SQL_CONTAINER: MySQLContainer<*> =
             // image for linux/arm64/v8 m1 support
             DockerImageName.parse("mysql/mysql-server:8.0.26")
@@ -46,9 +42,5 @@ abstract class TCIntegrationTest {
                     }
                     start()
                 }
-
-        const val DATABASE_NAME: String = "fone"
-        const val USERNAME: String = "root"
-        const val PASSWORD: String = "fone-flim-be"
     }
 }
