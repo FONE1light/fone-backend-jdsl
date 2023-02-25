@@ -1,0 +1,39 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:33006/fone?&characterEncoding=UTF-8
+    username: root
+    password: fone-flim-be
+    hikari:
+      pool-name: test_pool
+  jpa:
+    hibernate:
+      ddl-auto: create
+      use-new-id-generator-mappings: true
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        default_batch_fetch_size: 1000
+        check_nullability: true
+        use_sql_comments: true
+        format_sql: true
+        show_sql: true
+
+  redis:
+    host: localhost
+    port: 6379
+
+security:
+  password:
+    encoder:
+      secret: mysecret
+      iteration: 33
+      keylength: 256
+  jwt:
+    secret: foneBackendSecretfoneBackendSecretfoneBackendSecret
+    access-token-validity-in-seconds: 7200
+    refresh-token-validity-in-seconds: 1209600
