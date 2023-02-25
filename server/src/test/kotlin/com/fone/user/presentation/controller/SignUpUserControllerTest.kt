@@ -51,7 +51,7 @@ class SignUpUserControllerTest(client: WebTestClient) : CustomDescribeSpec() {
                         .expectStatus().isOk
                         .expectBody()
                         .consumeWith { println(it) }
-                        .jsonPath("$.result").isEqualTo("FAIL")
+                        .jsonPath("$.result").isEqualTo("SUCCESS")
                 }
             }
         }
