@@ -16,9 +16,11 @@ class MysqlConnectionPool : DefaultSqlClientPool() {
         poolOptions: PoolOptions,
         vertx: Vertx
     ): Pool {
+
         return MySQLPool.pool(
             vertx,
             MySQLConnectOptions()
+                .setPort(connectOptions.port)
                 .setHost(connectOptions.host)
                 .setUser(connectOptions.user)
                 .setPassword(connectOptions.password)
