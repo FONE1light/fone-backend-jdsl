@@ -16,9 +16,3 @@ jobs:
         run: chmod +x gradlew
       - name: Test With Gradle
         run: ./gradlew :server:test kotest
-      - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v1
-        if: always()
-        with:
-          files: presentation/build/test-results/**/*.xml
-          check_name: Presentation Unit Test Results
