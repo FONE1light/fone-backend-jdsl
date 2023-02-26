@@ -19,9 +19,11 @@ class ProfileCategoryRepositoryImpl(
 
     override suspend fun saveAll(profileCategory: List<ProfileCategory>): List<ProfileCategory> {
         return profileCategory.also {
-            sessionFactory.withSession { session ->
-                session.persistAll(*it.toTypedArray()).flatMap { session.flush() }
-            }.awaitSuspending()
+            sessionFactory
+                .withSession { session ->
+                    session.persistAll(*it.toTypedArray()).flatMap { session.flush() }
+                }
+                .awaitSuspending()
         }
     }
 
@@ -31,13 +33,14 @@ class ProfileCategoryRepositoryImpl(
         }
     }
 
-    override suspend fun findByProfileIds(profileIds: List<Long>):
-            Map<Long, List<CategoryType>> {
-        return queryFactory.listQuery {
-            select(entity(ProfileCategory::class))
-            from(entity(ProfileCategory::class))
-            where(col(ProfileCategory::profileId).`in`(profileIds))
-        }.groupBy({ it!!.profileId }, { it!!.type })
+    override suspend fun findByProfileIds(profileIds: List<Long>): Map<Long, List<CategoryType>> {
+        return queryFactory
+            .listQuery {
+                select(entity(ProfileCategory::class))
+                from(entity(ProfileCategory::class))
+                where(col(ProfileCategory::profileId).`in`(profileIds))
+            }
+            .groupBy({ it!!.profileId }, { it!!.type })
     }
 
     override suspend fun findByProfileId(profileId: Long): List<CategoryType> {

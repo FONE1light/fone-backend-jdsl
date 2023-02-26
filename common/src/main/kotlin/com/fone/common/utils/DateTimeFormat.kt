@@ -6,18 +6,18 @@ import java.time.Period
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-class DateTimeFormat(
-) {
+class DateTimeFormat() {
 
     companion object {
         private val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
         fun calculateDays(deadline: LocalDate?): String {
-            val diffDays = Period.between(
-                LocalDate.parse(LocalDate.now().toString(), dateFormatter),
-                LocalDate.parse(deadline.toString(), dateFormatter)
-            ).days
-
+            val diffDays =
+                Period.between(
+                        LocalDate.parse(LocalDate.now().toString(), dateFormatter),
+                        LocalDate.parse(deadline.toString(), dateFormatter)
+                    )
+                    .days
 
             return if (diffDays >= 0) "D-$diffDays" else "마감"
         }
@@ -30,9 +30,11 @@ class DateTimeFormat(
             val currentMonth = current[Calendar.MONTH]
             val currentDay = current[Calendar.DAY_OF_MONTH]
             var age = currentYear - birthCalendar[Calendar.YEAR]
-            if (birthCalendar[Calendar.MONTH] * 100 +
-                birthCalendar[Calendar.DAY_OF_MONTH] > currentMonth * 100 + currentDay
-            ) age--
+            if (
+                birthCalendar[Calendar.MONTH] * 100 + birthCalendar[Calendar.DAY_OF_MONTH] >
+                    currentMonth * 100 + currentDay
+            )
+                age--
 
             return age
         }
@@ -44,5 +46,4 @@ class DateTimeFormat(
             return nowDate.minusYears(age.toLong())
         }
     }
-
 }

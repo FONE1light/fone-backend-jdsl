@@ -8,7 +8,7 @@ data class CommonResponse<T>(
 ) {
 
     companion object {
-        //status 200 + success (message가 있을 경우)
+        // status 200 + success (message가 있을 경우)
         fun <T> success(data: T, message: String): CommonResponse<T> {
             return CommonResponse(
                 result = Result.SUCCESS,
@@ -18,7 +18,7 @@ data class CommonResponse<T>(
             )
         }
 
-        //status 200 + success (message가 없을 경우)
+        // status 200 + success (message가 없을 경우)
         fun <T> success(data: T): CommonResponse<T> {
             return CommonResponse(
                 result = Result.SUCCESS,
@@ -28,7 +28,7 @@ data class CommonResponse<T>(
             )
         }
 
-        //status 200 + success (data가 없을 경우)
+        // status 200 + success (data가 없을 경우)
         fun <T> success(): CommonResponse<T> {
             return CommonResponse(
                 result = Result.SUCCESS,
@@ -38,7 +38,7 @@ data class CommonResponse<T>(
             )
         }
 
-        //status 200 + fail
+        // status 200 + fail
         fun <T> fail(data: T, message: String): CommonResponse<T> {
             return CommonResponse(
                 result = Result.FAIL,
@@ -67,9 +67,9 @@ data class CommonResponse<T>(
         }
     }
 
-
     enum class Result {
-        SUCCESS, FAIL
+        SUCCESS,
+        FAIL
     }
 }
 

@@ -3,6 +3,7 @@ package com.fone.common.config
 import com.fasterxml.classmate.TypeResolver
 import io.swagger.annotations.ApiModel
 import io.swagger.annotations.ApiModelProperty
+import java.util.*
 import lombok.RequiredArgsConstructor
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -18,7 +19,6 @@ import springfox.documentation.spi.DocumentationType
 import springfox.documentation.spi.service.contexts.SecurityContext
 import springfox.documentation.spring.web.plugins.Docket
 import springfox.documentation.swagger2.annotations.EnableSwagger2
-import java.util.*
 
 @Configuration
 @EnableSwagger2
@@ -30,7 +30,8 @@ class SwaggerConfig(
     @Bean
     fun api(): Docket? {
         val commonResponse = setCommonResponse()
-        return Docket(DocumentationType.SWAGGER_2).useDefaultResponseMessages(false)
+        return Docket(DocumentationType.SWAGGER_2)
+            .useDefaultResponseMessages(false)
             .globalResponses(HttpMethod.GET, commonResponse)
             .globalResponses(HttpMethod.POST, commonResponse)
             .globalResponses(HttpMethod.PUT, commonResponse)
@@ -43,9 +44,12 @@ class SwaggerConfig(
                 )
             )
             .consumes(getConsumeContentTypes())
-            .produces(getProduceContentTypes()).apiInfo(apiInfo()).select()
+            .produces(getProduceContentTypes())
+            .apiInfo(apiInfo())
+            .select()
             .apis(RequestHandlerSelectors.basePackage("com.fone"))
-            .paths(PathSelectors.ant("/**")).build()
+            .paths(PathSelectors.ant("/**"))
+            .build()
             .securityContexts(Arrays.asList(securityContext()))
             .securitySchemes(Arrays.asList<SecurityScheme>(apiKey()))
     }
@@ -53,9 +57,7 @@ class SwaggerConfig(
     private fun setCommonResponse(): List<Response> {
         val list: MutableList<Response> = ArrayList()
         list.add(ResponseBuilder().code("200").description("정상 처리(성공)").build())
-        list.add(
-            ResponseBuilder().code("401").description("토큰 만료 또는 비정상 토큰 또는 권한 없음").build()
-        )
+        list.add(ResponseBuilder().code("401").description("토큰 만료 또는 비정상 토큰 또는 권한 없음").build())
         list.add(ResponseBuilder().code("404").description("존재하지 않는 api 요청 ").build())
         list.add(ResponseBuilder().code("500").description("내부 서버 오류(문의 필요)").build())
         return list
@@ -66,14 +68,14 @@ class SwaggerConfig(
     }
 
     private fun securityContext(): SecurityContext {
-        return SecurityContext.builder().securityReferences(defaultAuth())
-            .forPaths(PathSelectors.any()).build()
+        return SecurityContext.builder()
+            .securityReferences(defaultAuth())
+            .forPaths(PathSelectors.any())
+            .build()
     }
 
     private fun defaultAuth(): List<SecurityReference>? {
-        val authorizationScope = AuthorizationScope(
-            "global", "accessEverything"
-        )
+        val authorizationScope = AuthorizationScope("global", "accessEverything")
         val authorizationScopes = arrayOfNulls<AuthorizationScope>(1)
         authorizationScopes[0] = authorizationScope
         return Arrays.asList(SecurityReference("JWT", authorizationScopes))
@@ -93,19 +95,21 @@ class SwaggerConfig(
     }
 
     private fun apiInfo(): ApiInfo? {
-        return ApiInfoBuilder().title("Sig-Predict REST API Document")
-            .description("work in progress").termsOfServiceUrl("localhost").version("1.0").build()
+        return ApiInfoBuilder()
+            .title("Sig-Predict REST API Document")
+            .description("work in progress")
+            .termsOfServiceUrl("localhost")
+            .version("1.0")
+            .build()
     }
 
     @ApiModel
     class Page {
-        @ApiModelProperty(value = "페이지 번호(0..N)", example = "0")
-        private val page: Int = 0
+        @ApiModelProperty(value = "페이지 번호(0..N)", example = "0") private val page: Int = 0
 
         @ApiModelProperty(value = "페이지 크기", allowableValues = "range[0, 100]", example = "0")
         private val size: Int = 0
 
-        @ApiModelProperty(value = "정렬(사용법: 컬럼명,ASC|DESC)")
-        private val sort: List<String> = listOf()
+        @ApiModelProperty(value = "정렬(사용법: 컬럼명,ASC|DESC)") private val sort: List<String> = listOf()
     }
 }

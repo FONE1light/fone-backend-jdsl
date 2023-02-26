@@ -27,36 +27,36 @@ class WebSecurityConfig(
                 Mono.fromRunnable {
                     throw UnauthorizedException(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다.")
                 }
-            }.accessDeniedHandler { swe: ServerWebExchange, _: AccessDeniedException? ->
+            }
+            .accessDeniedHandler { swe: ServerWebExchange, _: AccessDeniedException? ->
                 Mono.fromRunnable { swe.response.statusCode = HttpStatus.FORBIDDEN }
             }
-
             .and()
-
-            .csrf().disable()
-            .formLogin().disable()
-            .httpBasic().disable()
-
+            .csrf()
+            .disable()
+            .formLogin()
+            .disable()
+            .httpBasic()
+            .disable()
             .authenticationManager(authenticationManager)
             .securityContextRepository(securityContextRepository)
-
             .authorizeExchange()
-            .pathMatchers(HttpMethod.OPTIONS).permitAll()
+            .pathMatchers(HttpMethod.OPTIONS)
+            .permitAll()
             .pathMatchers(
                 "/swagger-ui/**",
                 "/swagger-resources/**",
                 "/v2/api-docs",
                 "/webjars/**",
-
                 "/api/v1/users/sign-in",
                 "/api/v1/users/sign-up",
                 "/api/v1/users/check-nickname-duplication",
                 "/api/v1/question",
-            ).permitAll()
-            .anyExchange().authenticated()
-
+            )
+            .permitAll()
+            .anyExchange()
+            .authenticated()
             .and()
-
             .build()
     }
 }

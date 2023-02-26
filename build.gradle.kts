@@ -1,54 +1,67 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	id("org.springframework.boot") version "2.7.5"
-	id("io.spring.dependency-management") version "1.0.15.RELEASE"
-	kotlin("jvm") version "1.7.0"
-	kotlin("plugin.spring") version "1.7.0"
-	kotlin("kapt") version "1.6.21"
+    id("org.springframework.boot") version "2.7.5"
+    id("io.spring.dependency-management") version "1.0.15.RELEASE"
+    id("com.diffplug.spotless") version "6.12.1"
+    kotlin("jvm") version "1.7.0"
+    kotlin("plugin.spring") version "1.7.0"
+    kotlin("kapt") version "1.6.21"
 
-	id("com.google.protobuf") version "0.8.15"
+    id("com.google.protobuf") version "0.8.15"
 }
 
 allprojects {
-	repositories {
-		mavenCentral()
-	}
+    apply { plugin("com.diffplug.spotless") }
 
+    repositories { mavenCentral() }
+
+    spotless {
+        kotlin { ktfmt("0.42").kotlinlangStyle() }
+        kotlinGradle {
+            target("*.gradle.kts")
+            ktfmt("0.42").kotlinlangStyle()
+        }
+    }
 }
 
 subprojects {
-	group = "com.fone.filmone"
-	version = "0.0.1-SNAPSHOT"
+    group = "com.fone.filmone"
+    version = "0.0.1-SNAPSHOT"
 
-	apply(plugin = "kotlin")
-	apply(plugin = "kotlin-spring")
-	apply(plugin = "io.spring.dependency-management")
-	apply(plugin = "kotlin-kapt")
-	apply(plugin = "org.springframework.boot")
+    apply(plugin = "kotlin")
+    apply(plugin = "kotlin-spring")
+    apply(plugin = "io.spring.dependency-management")
+    apply(plugin = "kotlin-kapt")
+    apply(plugin = "org.springframework.boot")
 
-	java.sourceCompatibility = JavaVersion.VERSION_17
-	java.targetCompatibility = JavaVersion.VERSION_17
+    java.sourceCompatibility = JavaVersion.VERSION_17
+    java.targetCompatibility = JavaVersion.VERSION_17
 
-	dependencies {
+    dependencies {}
 
-	}
+    dependencyManagement {
+        imports {
+            mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
+        }
+    }
 
-	dependencyManagement {
-		imports {
-			mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
-		}
-	}
+    tasks.withType<KotlinCompile> {
+        kotlinOptions {
+            freeCompilerArgs = listOf("-Xjsr305=strict")
+            jvmTarget = "17"
+        }
+    }
 
-	tasks.withType<KotlinCompile> {
-		kotlinOptions {
-			freeCompilerArgs = listOf("-Xjsr305=strict")
-			jvmTarget = "17"
-		}
-	}
+    tasks.withType<Test> {
+        enabled = false
+        useJUnitPlatform()
+    }
+}
 
-	tasks.withType<Test> {
-		enabled = false
-		useJUnitPlatform()
-	}
+tasks {
+    assemble {
+        dependsOn(spotlessApply)
+        shouldRunAfter(spotlessApply)
+    }
 }

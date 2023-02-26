@@ -13,8 +13,8 @@ fun routeActor(session: WebSocketSession) =
         val jsonMapper = jsonMapper()
 
         for (msg in channel) {
-            session.send(
-                session.textMessage(jsonMapper.writeValueAsString(msg)).toMono()
-            ).awaitSingleOrNull()
+            session
+                .send(session.textMessage(jsonMapper.writeValueAsString(msg)).toMono())
+                .awaitSingleOrNull()
         }
     }

@@ -11,12 +11,9 @@ import javax.validation.constraints.Size
 class ModifyUserDto {
 
     data class ModifyUserRequest(
-        @field:NotNull(message = "직업은 필수 값 입니다.")
-        val job: Job,
-        @field:Size(min = 1, message = "관심사는 1개 이상 선택 되어야 합니다")
-        val interests: List<CategoryType>,
-        @field:NotEmpty(message = "닉네임은 필수 값 입니다.")
-        val nickname: String,
+        @field:NotNull(message = "직업은 필수 값 입니다.") val job: Job,
+        @field:Size(min = 1, message = "관심사는 1개 이상 선택 되어야 합니다") val interests: List<CategoryType>,
+        @field:NotEmpty(message = "닉네임은 필수 값 입니다.") val nickname: String,
         val profileUrl: String?,
     )
 
@@ -26,8 +23,6 @@ class ModifyUserDto {
 
         constructor(
             user: User,
-        ) : this(
-            user = UserDto(user)
-        )
+        ) : this(user = UserDto(user))
     }
 }

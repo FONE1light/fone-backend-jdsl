@@ -17,11 +17,12 @@ class RetrieveCompetitionScrapDto {
             userCompetitionScrapMap: Map<Long, CompetitionScrap?>,
             pageable: Pageable,
         ) : this(
-            competitions = PageImpl(
-                competitions.map { CompetitionDto(it, userCompetitionScrapMap) }.toList(),
-                pageable,
-                competitions.size.toLong()
-            )
+            competitions =
+                PageImpl(
+                    competitions.map { CompetitionDto(it, userCompetitionScrapMap) }.toList(),
+                    pageable,
+                    competitions.size.toLong()
+                )
         )
     }
 }

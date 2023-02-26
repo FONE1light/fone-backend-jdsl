@@ -15,11 +15,10 @@ class WantProfileService(
     suspend fun wantProfile(email: String, profileId: Long) {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 
-        profileWantRepository.findByUserIdAndProfileId(userId, profileId)
-            ?.let {
-                profileWantRepository.delete(it)
-                return
-            }
+        profileWantRepository.findByUserIdAndProfileId(userId, profileId)?.let {
+            profileWantRepository.delete(it)
+            return
+        }
 
         val profileWant = ProfileWant(userId, profileId)
         profileWantRepository.save(profileWant)

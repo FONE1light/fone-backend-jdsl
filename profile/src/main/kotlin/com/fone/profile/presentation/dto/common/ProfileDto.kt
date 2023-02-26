@@ -27,7 +27,6 @@ data class ProfileDto(
     val profileUrls: List<String>,
     val viewCount: Long,
     val profileUrl: String,
-
     val isWant: Boolean = false,
     val age: Int,
 ) {

@@ -7,11 +7,10 @@ import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.*
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
+import java.security.Principal
 import org.springframework.data.domain.Pageable
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
-import java.security.Principal
-
 
 @Api(tags = ["03. Job Opening Info"], description = "구인구직 모집 서비스")
 @RestController
@@ -32,11 +31,8 @@ class RetrieveJobOpeningController(
         @ModelAttribute request: RetrieveJobOpeningsRequest,
         pageable: Pageable,
     ): CommonResponse<RetrieveJobOpeningsResponse> {
-        val response = retrieveJobOpeningFacade.retrieveJobOpenings(
-            principal.name,
-            pageable,
-            request
-        )
+        val response =
+            retrieveJobOpeningFacade.retrieveJobOpenings(principal.name, pageable, request)
 
         return CommonResponse.success(response)
     }
@@ -53,11 +49,8 @@ class RetrieveJobOpeningController(
         @RequestParam type: Type,
         @PathVariable jobOpeningId: Long,
     ): CommonResponse<RetrieveJobOpeningResponse> {
-        val response = retrieveJobOpeningFacade.retrieveJobOpening(
-            principal.name,
-            type,
-            jobOpeningId
-        )
+        val response =
+            retrieveJobOpeningFacade.retrieveJobOpening(principal.name, type, jobOpeningId)
 
         return CommonResponse.success(response)
     }

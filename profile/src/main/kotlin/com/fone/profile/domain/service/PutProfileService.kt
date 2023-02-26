@@ -31,8 +31,8 @@ class PutProfileService(
         profileId: Long,
     ): RegisterProfileResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
-        val profile = profileRepository.findByTypeAndId(null, profileId)
-            ?: throw NotFoundProfileException()
+        val profile =
+            profileRepository.findByTypeAndId(null, profileId) ?: throw NotFoundProfileException()
         if (userId != profile.userId) {
             throw InvalidProfileUserIdException()
         }
@@ -40,23 +40,13 @@ class PutProfileService(
         return coroutineScope {
             val profileDomains = async {
                 profileDomainRepository.deleteByProfileId(profile.id!!)
-                val profileDomains = request.domains.map {
-                    ProfileDomain(
-                        profile.id!!,
-                        it
-                    )
-                }
+                val profileDomains = request.domains.map { ProfileDomain(profile.id!!, it) }
                 profileDomainRepository.saveAll(profileDomains)
             }
 
             val profileCategories = async {
                 profileCategoryRepository.deleteByProfileId(profile.id!!)
-                val profileCategories = request.categories.map {
-                    ProfileCategory(
-                        profile.id!!,
-                        it
-                    )
-                }
+                val profileCategories = request.categories.map { ProfileCategory(profile.id!!, it) }
                 profileCategoryRepository.saveAll(profileCategories)
             }
 
@@ -65,9 +55,7 @@ class PutProfileService(
                 profileRepository.save(profile)
             }
 
-            val userProfileWants = async {
-                profileWantRepository.findByUserId(userId)
-            }
+            val userProfileWants = async { profileWantRepository.findByUserId(userId) }
 
             profileDomains.await()
             profileCategories.await()

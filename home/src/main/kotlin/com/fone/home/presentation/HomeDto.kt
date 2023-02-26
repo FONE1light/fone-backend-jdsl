@@ -1,6 +1,6 @@
 package com.fone.home.presentation
 
-data class HomeDto (
+data class HomeDto(
     val order: List<String>,
     val jobOpening: CollectionDto,
     val competition: CollectionDto,

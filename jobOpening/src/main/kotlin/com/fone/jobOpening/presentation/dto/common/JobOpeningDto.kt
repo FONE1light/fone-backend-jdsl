@@ -22,7 +22,6 @@ data class JobOpeningDto(
     val viewCount: Long,
     val scrapCount: Long,
     val work: WorkDto,
-
     val isScrap: Boolean = false,
     val dDay: String,
 ) {

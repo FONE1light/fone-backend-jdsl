@@ -30,9 +30,7 @@ class RetrieveCompetitionScrapService(
                 competitionRepository.findScrapAllById(pageable, userId).content
             }
 
-            val userCompetitionScraps = async {
-                competitionScrapRepository.findByUserId(userId)
-            }
+            val userCompetitionScraps = async { competitionScrapRepository.findByUserId(userId) }
 
             RetrieveCompetitionScrapResponse(
                 competitions.await(),

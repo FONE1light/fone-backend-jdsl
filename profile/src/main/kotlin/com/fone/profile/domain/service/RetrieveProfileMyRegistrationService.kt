@@ -23,28 +23,22 @@ class RetrieveProfileMyRegistrationService(
 ) {
 
     @Transactional(readOnly = true)
-    suspend fun retrieveProfileMyRegistration(pageable: Pageable, email: String):
-            RetrieveProfileMyRegistrationResponse {
+    suspend fun retrieveProfileMyRegistration(
+        pageable: Pageable,
+        email: String
+    ): RetrieveProfileMyRegistrationResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 
         return coroutineScope {
-            val profiles = async {
-                profileRepository.findAllByUserId(pageable, userId).content
-            }
+            val profiles = async { profileRepository.findAllByUserId(pageable, userId).content }
 
-            val userProfileWants = async {
-                profileWantRepository.findByUserId(userId)
-            }
+            val userProfileWants = async { profileWantRepository.findByUserId(userId) }
 
             val profileIds = profiles.await().map { it.id!! }.toList()
 
-            val profileDomains = async {
-                profileDomainRepository.findByProfileIds(profileIds)
-            }
+            val profileDomains = async { profileDomainRepository.findByProfileIds(profileIds) }
 
-            val profileCategories = async {
-                profileCategoryRepository.findByProfileIds(profileIds)
-            }
+            val profileCategories = async { profileCategoryRepository.findByProfileIds(profileIds) }
 
             RetrieveProfileMyRegistrationResponse(
                 profiles.await(),

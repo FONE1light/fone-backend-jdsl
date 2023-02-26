@@ -11,8 +11,12 @@ class Connected(val routeActor: SendChannel<UserOutgoingMessage>, val username: 
     UserActorMsg()
 
 object Completed : UserActorMsg()
-data class UserIncomingMessage(val username: String, val message: String, val count: String) : UserActorMsg()
-data class UserOutgoingMessage(val author: String, val message: String, var count: String) : UserActorMsg()
+
+data class UserIncomingMessage(val username: String, val message: String, val count: String) :
+    UserActorMsg()
+
+data class UserOutgoingMessage(val author: String, val message: String, var count: String) :
+    UserActorMsg()
 
 fun userActor(roomActor: SendChannel<RoomActorMsg>) =
     CoroutineScope(Dispatchers.Default).actor<UserActorMsg> {
@@ -27,15 +31,12 @@ fun userActor(roomActor: SendChannel<RoomActorMsg>) =
                     routeActor = msg.routeActor
                     username = msg.username
                 }
-
                 is Completed -> {
                     roomActor.send(Terminated(username))
                 }
-
                 is UserIncomingMessage -> {
                     roomActor.send(IncomingMessage(msg.username, msg.message))
                 }
-
                 is UserOutgoingMessage -> {
                     routeActor.send(msg)
                 }

@@ -19,11 +19,12 @@ class RetrieveCompetitionDto {
             totalCount: Long,
             pageable: Pageable,
         ) : this(
-            competitions = PageImpl(
-                competitions.map { CompetitionDto(it, userCompetitionScrapMap) }.toList(),
-                pageable,
-                competitions.size.toLong()
-            ),
+            competitions =
+                PageImpl(
+                    competitions.map { CompetitionDto(it, userCompetitionScrapMap) }.toList(),
+                    pageable,
+                    competitions.size.toLong()
+                ),
             totalCount = totalCount,
         )
     }
@@ -34,8 +35,6 @@ class RetrieveCompetitionDto {
         constructor(
             reqCompetition: Competition,
             userCompetitionScrapMap: Map<Long, CompetitionScrap?>,
-        ) : this(
-            competition = CompetitionDto(reqCompetition, userCompetitionScrapMap)
-        )
+        ) : this(competition = CompetitionDto(reqCompetition, userCompetitionScrapMap))
     }
 }

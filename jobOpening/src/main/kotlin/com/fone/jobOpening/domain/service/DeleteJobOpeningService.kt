@@ -22,8 +22,9 @@ class DeleteJobOpeningService(
     suspend fun deleteJobOpening(email: String, jobOpeningId: Long) {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 
-        val jobOpening = jobOpeningRepository.findByTypeAndId(null, jobOpeningId)
-            ?: throw NotFoundJobOpeningException()
+        val jobOpening =
+            jobOpeningRepository.findByTypeAndId(null, jobOpeningId)
+                ?: throw NotFoundJobOpeningException()
 
         if (jobOpening.userId != userId) {
             throw InvalidJobOpeningUserIdException()
@@ -32,9 +33,7 @@ class DeleteJobOpeningService(
         jobOpening.delete()
 
         coroutineScope {
-            val jobOpening = async {
-                jobOpeningRepository.save(jobOpening)
-            }
+            val jobOpening = async { jobOpeningRepository.save(jobOpening) }
             val jobOpeningDomain = async {
                 jobOpeningDomainRepository.deleteByJobOpeningId(jobOpeningId)
             }

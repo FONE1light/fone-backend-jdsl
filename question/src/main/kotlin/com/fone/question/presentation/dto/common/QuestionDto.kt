@@ -3,7 +3,7 @@ package com.fone.question.presentation.dto.common
 import com.fone.question.domain.entity.Question
 import com.fone.question.domain.enum.Type
 
-data class QuestionDto (
+data class QuestionDto(
     val id: Long,
     val email: String,
     val type: Type,
@@ -14,7 +14,7 @@ data class QuestionDto (
 
     constructor(
         question: Question
-    ) : this (
+    ) : this(
         id = question.id!!,
         email = question.email,
         type = question.type,

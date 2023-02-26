@@ -6,20 +6,15 @@ import javax.persistence.*
 @Entity
 @Table(name = "job_opening_categories")
 data class JobOpeningCategory(
-
-    @Id
-    @Column
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null,
-
-    @Column
-    var jobOpeningId: Long,
-
-    @Enumerated(EnumType.STRING)
-    var type: CategoryType,
+    @Id @Column @GeneratedValue(strategy = GenerationType.IDENTITY) var id: Long? = null,
+    @Column var jobOpeningId: Long,
+    @Enumerated(EnumType.STRING) var type: CategoryType,
 ) {
 
-    constructor(reqJobOpeningId: Long, categoryType: CategoryType) : this(
+    constructor(
+        reqJobOpeningId: Long,
+        categoryType: CategoryType
+    ) : this(
         jobOpeningId = reqJobOpeningId,
         type = categoryType,
     )

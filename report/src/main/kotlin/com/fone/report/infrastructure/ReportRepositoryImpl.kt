@@ -17,10 +17,10 @@ class ReportRepositoryImpl(
         return report.also {
             queryFactory.withFactory { session, factory ->
                 if (it.id == null) {
-                    session.persist(it)
-                } else {
-                    session.merge(it)
-                }
+                        session.persist(it)
+                    } else {
+                        session.merge(it)
+                    }
                     .flatMap { session.flush() }
                     .awaitSuspending()
             }

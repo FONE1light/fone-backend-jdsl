@@ -11,60 +11,23 @@ import javax.persistence.*
 @Entity
 @Table(name = "profiles")
 data class Profile(
-
-    @Id
-    @Column
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null,
-
-    @Column
-    var name: String,
-
-    @Column
-    var hookingComment: String,
-
-    @Column
-    var birthday: LocalDate?,
-
-    @Enumerated(EnumType.STRING)
-    var gender: Gender,
-
-    @Column
-    var height: Int,
-
-    @Column
-    var weight: Int,
-
-    @Column
-    var email: String,
-
-    @Column(length = 300)
-    var sns: String,
-
-    @Column
-    var specialty: String,
-
-    @Column(length = 500)
-    var details: String,
-
-    @Enumerated(EnumType.STRING)
-    var career: Career,
-
-    @Enumerated(EnumType.STRING)
-    var type: Type,
-
-    @Column
-    var userId: Long,
-
-    @Column
-    var viewCount: Long,
-
-    @Column
-    var isDeleted: Boolean = false,
-
-    @Column
-    var profileUrl: String,
-
+    @Id @Column @GeneratedValue(strategy = GenerationType.IDENTITY) var id: Long? = null,
+    @Column var name: String,
+    @Column var hookingComment: String,
+    @Column var birthday: LocalDate?,
+    @Enumerated(EnumType.STRING) var gender: Gender,
+    @Column var height: Int,
+    @Column var weight: Int,
+    @Column var email: String,
+    @Column(length = 300) var sns: String,
+    @Column var specialty: String,
+    @Column(length = 500) var details: String,
+    @Enumerated(EnumType.STRING) var career: Career,
+    @Enumerated(EnumType.STRING) var type: Type,
+    @Column var userId: Long,
+    @Column var viewCount: Long,
+    @Column var isDeleted: Boolean = false,
+    @Column var profileUrl: String,
     @OneToMany(mappedBy = "profile", cascade = [CascadeType.PERSIST])
     var profileImages: MutableList<ProfileImage> = mutableListOf(),
 ) : BaseEntity() {

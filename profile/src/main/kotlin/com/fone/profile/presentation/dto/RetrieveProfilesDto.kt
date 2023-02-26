@@ -15,14 +15,11 @@ import org.springframework.data.domain.Slice
 class RetrieveProfilesDto {
 
     data class RetrieveProfilesRequest(
-        @ApiModelProperty(value = "타입", example = "ACTOR", required = true)
-        val type: Type,
+        @ApiModelProperty(value = "타입", example = "ACTOR", required = true) val type: Type,
         @ApiModelProperty(value = "성별", required = false)
         val genders: List<Gender> = Gender.getAllEnum(),
-        @ApiModelProperty(value = "최대 나이", required = false, example = "200")
-        val ageMax: Int = 200,
-        @ApiModelProperty(value = "최소 나이", required = false, example = "0")
-        val ageMin: Int = 0,
+        @ApiModelProperty(value = "최대 나이", required = false, example = "200") val ageMax: Int = 200,
+        @ApiModelProperty(value = "최소 나이", required = false, example = "0") val ageMin: Int = 0,
         @ApiModelProperty(value = "카테고리", required = false)
         val categories: List<CategoryType> = CategoryType.getAllEnum(),
     )
@@ -37,19 +34,22 @@ class RetrieveProfilesDto {
             profileCategories: Map<Long, List<CategoryType>>,
             pageable: Pageable,
         ) : this(
-            profiles = PageImpl(
-                profiles.map {
-                    ProfileDto(
-                        it,
-                        userProfileWantMap,
-                        it.profileImages.map { image -> image.profileUrl }.toList(),
-                        profileDomains[it.id!!] ?: listOf(),
-                        profileCategories[it.id!!] ?: listOf(),
-                    )
-                }.toList(),
-                pageable,
-                profiles.size.toLong()
-            )
+            profiles =
+                PageImpl(
+                    profiles
+                        .map {
+                            ProfileDto(
+                                it,
+                                userProfileWantMap,
+                                it.profileImages.map { image -> image.profileUrl }.toList(),
+                                profileDomains[it.id!!] ?: listOf(),
+                                profileCategories[it.id!!] ?: listOf(),
+                            )
+                        }
+                        .toList(),
+                    pageable,
+                    profiles.size.toLong()
+                )
         )
     }
 
@@ -62,13 +62,14 @@ class RetrieveProfilesDto {
             profileDomains: List<DomainType>,
             profileCategories: List<CategoryType>,
         ) : this(
-            profile = ProfileDto(
-                profile,
-                userProfileWantMap,
-                profile.profileImages.map { it.profileUrl }.toList(),
-                profileDomains,
-                profileCategories,
-            )
+            profile =
+                ProfileDto(
+                    profile,
+                    userProfileWantMap,
+                    profile.profileImages.map { it.profileUrl }.toList(),
+                    profileDomains,
+                    profileCategories,
+                )
         )
     }
 }

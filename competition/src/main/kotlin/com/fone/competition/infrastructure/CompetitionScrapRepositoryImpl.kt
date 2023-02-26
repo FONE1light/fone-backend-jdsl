@@ -38,12 +38,14 @@ class CompetitionScrapRepositoryImpl(
 
     override suspend fun findByUserId(userId: Long): Map<Long, CompetitionScrap?> {
 
-        return queryFactory.listQuery {
-            select(entity(CompetitionScrap::class))
-            from(entity(CompetitionScrap::class))
-            fetch(CompetitionScrap::competition)
-            where(col(CompetitionScrap::userId).equal(userId))
-        }.associateBy { it!!.competition?.id!! }
+        return queryFactory
+            .listQuery {
+                select(entity(CompetitionScrap::class))
+                from(entity(CompetitionScrap::class))
+                fetch(CompetitionScrap::competition)
+                where(col(CompetitionScrap::userId).equal(userId))
+            }
+            .associateBy { it!!.competition?.id!! }
     }
 
     override suspend fun delete(competitionScrap: CompetitionScrap): Int {
@@ -56,10 +58,10 @@ class CompetitionScrapRepositoryImpl(
         return competitionScrap.also {
             queryFactory.withFactory { session, factory ->
                 if (it.id == null) {
-                    session.persist(it)
-                } else {
-                    session.merge(it)
-                }
+                        session.persist(it)
+                    } else {
+                        session.merge(it)
+                    }
                     .flatMap { session.flush() }
                     .awaitSuspending()
             }

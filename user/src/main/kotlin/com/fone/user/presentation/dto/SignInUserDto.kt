@@ -12,14 +12,12 @@ import javax.validation.constraints.NotNull
 class SignInUserDto {
 
     data class SignInUserRequest(
-        @field:NotNull(message = "소셜로그인 타입은 필수 값 입니다.")
-        val socialLoginType: SocialLoginType,
+        @field:NotNull(message = "소셜로그인 타입은 필수 값 입니다.") val socialLoginType: SocialLoginType,
         @field:NotEmpty(message = "이메일은 필수 값 입니다.")
         @field:Email(message = "유효하지 않는 이메일 입니다.")
         @ApiModelProperty(value = "이메일", example = "test@test.com", required = true)
         val email: String,
-        @field:NotEmpty(message = "accessToken은 필수 값 입니다.")
-        val accessToken: String,
+        @field:NotEmpty(message = "accessToken은 필수 값 입니다.") val accessToken: String,
     )
 
     data class SignInUserResponse(

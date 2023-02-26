@@ -39,19 +39,9 @@ class RegisterProfileService(
 
                     profileRepository.save(profile)
 
-                    val profileDomains = domains.map {
-                        ProfileDomain(
-                            profile.id!!,
-                            it
-                        )
-                    }
+                    val profileDomains = domains.map { ProfileDomain(profile.id!!, it) }
 
-                    val profileCategories = categories.map {
-                        ProfileCategory(
-                            profile.id!!,
-                            it
-                        )
-                    }
+                    val profileCategories = categories.map { ProfileCategory(profile.id!!, it) }
 
                     profileDomainRepository.saveAll(profileDomains)
                     profileCategoryRepository.saveAll(profileCategories)
@@ -59,9 +49,7 @@ class RegisterProfileService(
                     profile
                 }
 
-                val userProfileWants = async {
-                    profileWantRepository.findByUserId(userId)
-                }
+                val userProfileWants = async { profileWantRepository.findByUserId(userId) }
 
                 RegisterProfileResponse(
                     profile.await(),

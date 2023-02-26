@@ -15,13 +15,13 @@ import com.linecorp.kotlinjdsl.spring.data.reactive.query.*
 import com.linecorp.kotlinjdsl.spring.reactive.querydsl.SpringDataReactiveCriteriaQueryDsl
 import com.linecorp.kotlinjdsl.spring.reactive.querydsl.SpringDataReactivePageableQueryDsl
 import io.smallrye.mutiny.coroutines.awaitSuspending
+import java.time.LocalDate
 import org.hibernate.reactive.mutiny.Mutiny
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Repository
-import java.time.LocalDate
 
 @Repository
 class JobOpeningRepositoryImpl(
@@ -33,11 +33,7 @@ class JobOpeningRepositoryImpl(
         return queryFactory.pageQuery(pageable) {
             select(entity(JobOpening::class))
             from(entity(JobOpening::class))
-            where(
-                and(
-                    typeEq(type)
-                )
-            )
+            where(and(typeEq(type)))
         }
     }
 
@@ -45,17 +41,19 @@ class JobOpeningRepositoryImpl(
         pageable: Pageable,
         request: RetrieveJobOpeningsRequest,
     ): Slice<JobOpening> {
-        val domainJobOpeningIds = queryFactory.listQuery {
-            select(col(JobOpeningDomain::jobOpeningId))
-            from(entity(JobOpeningDomain::class))
-            where(col(JobOpeningDomain::type).`in`(request.domains))
-        }
+        val domainJobOpeningIds =
+            queryFactory.listQuery {
+                select(col(JobOpeningDomain::jobOpeningId))
+                from(entity(JobOpeningDomain::class))
+                where(col(JobOpeningDomain::type).`in`(request.domains))
+            }
 
-        val categoryJobOpeningIds = queryFactory.listQuery {
-            select(col(JobOpeningCategory::jobOpeningId))
-            from(entity(JobOpeningCategory::class))
-            where(col(JobOpeningCategory::type).`in`(request.categories))
-        }
+        val categoryJobOpeningIds =
+            queryFactory.listQuery {
+                select(col(JobOpeningCategory::jobOpeningId))
+                from(entity(JobOpeningCategory::class))
+                where(col(JobOpeningCategory::type).`in`(request.categories))
+            }
 
         if (domainJobOpeningIds.isEmpty() || categoryJobOpeningIds.isEmpty()) {
             return PageImpl(
@@ -65,37 +63,37 @@ class JobOpeningRepositoryImpl(
             )
         }
 
-        val ids = queryFactory.pageQuery(pageable) {
-            select(column(JobOpening::id))
-            from(entity(JobOpening::class))
-            where(
-                and(
-                    col(JobOpening::type).equal(request.type),
-                    col(JobOpening::gender).`in`(request.genders),
-                    or(
-                        col(JobOpening::ageMax).greaterThanOrEqualTo(request.ageMin),
-                        col(JobOpening::ageMin).lessThanOrEqualTo(request.ageMax),
-                    ),
-                    col(JobOpening::id).`in`(domainJobOpeningIds),
-                    col(JobOpening::id).`in`(categoryJobOpeningIds),
+        val ids =
+            queryFactory
+                .pageQuery(pageable) {
+                    select(column(JobOpening::id))
+                    from(entity(JobOpening::class))
+                    where(
+                        and(
+                            col(JobOpening::type).equal(request.type),
+                            col(JobOpening::gender).`in`(request.genders),
+                            or(
+                                col(JobOpening::ageMax).greaterThanOrEqualTo(request.ageMin),
+                                col(JobOpening::ageMin).lessThanOrEqualTo(request.ageMax),
+                            ),
+                            col(JobOpening::id).`in`(domainJobOpeningIds),
+                            col(JobOpening::id).`in`(categoryJobOpeningIds),
+                        )
+                    )
+                }
+                .content
+
+        val jobOpenings =
+            queryFactory.listQuery {
+                select(entity(JobOpening::class))
+                from(entity(JobOpening::class))
+                where(col(JobOpening::id).`in`(ids))
+                orderBy(
+                    orderSpec(pageable.sort),
                 )
-            )
-        }.content
+            }
 
-        val jobOpenings = queryFactory.listQuery {
-            select(entity(JobOpening::class))
-            from(entity(JobOpening::class))
-            where(
-                col(JobOpening::id).`in`(ids)
-            )
-            orderBy(
-                orderSpec(pageable.sort),
-            )
-        }
-
-        return PageImpl(
-            jobOpenings, pageable, jobOpenings.size.toLong()
-        )
+        return PageImpl(jobOpenings, pageable, jobOpenings.size.toLong())
     }
 
     override suspend fun findByTypeAndId(type: Type?, jobOpeningId: Long?): JobOpening? {
@@ -124,11 +122,12 @@ class JobOpeningRepositoryImpl(
         userId: Long,
         type: Type,
     ): Slice<JobOpening> {
-        val jobOpeningIds = queryFactory.subquery {
-            select(column(JobOpeningScrap::id))
-            from(entity(JobOpeningScrap::class))
-            where(col(JobOpeningScrap::userId).equal(userId))
-        }
+        val jobOpeningIds =
+            queryFactory.subquery {
+                select(column(JobOpeningScrap::id))
+                from(entity(JobOpeningScrap::class))
+                where(col(JobOpeningScrap::userId).equal(userId))
+            }
 
         return queryFactory.pageQuery(pageable) {
             select(entity(JobOpening::class))
@@ -146,10 +145,10 @@ class JobOpeningRepositoryImpl(
         return jobOpening.also {
             queryFactory.withFactory { session, factory ->
                 if (it.id == null) {
-                    session.persist(it)
-                } else {
-                    session.merge(it)
-                }
+                        session.persist(it)
+                    } else {
+                        session.merge(it)
+                    }
                     .flatMap { session.flush() }
                     .awaitSuspending()
             }
@@ -191,28 +190,35 @@ class JobOpeningRepositoryImpl(
         return col(JobOpening::type).equal(type)
     }
 
-    private fun SpringDataReactiveCriteriaQueryDsl<JobOpening?>.orderSpec(sort: Sort): List<OrderSpec> {
-        val endDate = case(
-            `when`(column(JobOpening::deadline).lessThanOrEqualTo(LocalDate.now())).then(
-                literal(1)
-            ),
-            `else` = literal(0)
-        ).asc()
+    private fun SpringDataReactiveCriteriaQueryDsl<JobOpening?>.orderSpec(
+        sort: Sort
+    ): List<OrderSpec> {
+        val endDate =
+            case(
+                    `when`(column(JobOpening::deadline).lessThanOrEqualTo(LocalDate.now()))
+                        .then(literal(1)),
+                    `else` = literal(0)
+                )
+                .asc()
 
-        val res = sort.map {
-            val columnSpec = when (it.property) {
-                "viewCount" -> col(JobOpening::viewCount)
-                "createdAt" -> col(JobOpening::createdAt)
-                "scrapCount" -> col(JobOpening::scrapCount)
-                else -> col(JobOpening::viewCount)
-            }
+        val res =
+            sort
+                .map {
+                    val columnSpec =
+                        when (it.property) {
+                            "viewCount" -> col(JobOpening::viewCount)
+                            "createdAt" -> col(JobOpening::createdAt)
+                            "scrapCount" -> col(JobOpening::scrapCount)
+                            else -> col(JobOpening::viewCount)
+                        }
 
-            if (it.isAscending) {
-                columnSpec.asc()
-            } else {
-                columnSpec.desc()
-            }
-        }.toList()
+                    if (it.isAscending) {
+                        columnSpec.asc()
+                    } else {
+                        columnSpec.desc()
+                    }
+                }
+                .toList()
 
         return listOf(endDate) + res
     }

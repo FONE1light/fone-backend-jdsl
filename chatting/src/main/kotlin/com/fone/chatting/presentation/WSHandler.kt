@@ -13,10 +13,7 @@ import reactor.core.publisher.Mono
 @InternalCoroutinesApi
 class WSHandler : WebSocketHandler {
     override fun handle(session: WebSocketSession): Mono<Void> =
-        mono {
-            handleSuspended(session)
-        }
-            .then()
+        mono { handleSuspended(session) }.then()
 
     private suspend fun handleSuspended(session: WebSocketSession) {
         val params = parseQueryString(session.handshakeInfo.uri)
@@ -28,14 +25,12 @@ class WSHandler : WebSocketHandler {
 
         val routeActor = routeActor(session)
 
-        val connectedMsg = Connected(
-            routeActor = routeActor,
-            username = username
-        )
+        val connectedMsg = Connected(routeActor = routeActor, username = username)
 
         userActor.send(connectedMsg)
 
-        session.receive()
+        session
+            .receive()
             .log()
             .map { it.retain() }
             .asFlow()

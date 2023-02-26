@@ -10,8 +10,7 @@ class JwtUserRepositoryImpl(
 ) : JwtUserRepository {
 
     override suspend fun validTokenByEmail(email: String): Boolean? {
-        val user = userJpaRepository.findByNicknameOrEmail(null, email)
-            ?: return null
+        val user = userJpaRepository.findByNicknameOrEmail(null, email) ?: return null
         if (!user.enabled) {
             return null
         }

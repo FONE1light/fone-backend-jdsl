@@ -7,7 +7,7 @@ import com.fone.user.domain.enum.Job
 import com.fone.user.domain.enum.SocialLoginType
 import java.time.LocalDate
 
-data class UserDto (
+data class UserDto(
     val id: Long,
     val job: Job,
     val interests: List<CategoryType>,

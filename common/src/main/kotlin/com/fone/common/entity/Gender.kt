@@ -1,7 +1,9 @@
 package com.fone.common.entity
 
 enum class Gender {
-    MAN, WOMAN, IRRELEVANT;
+    MAN,
+    WOMAN,
+    IRRELEVANT;
 
     companion object {
 
