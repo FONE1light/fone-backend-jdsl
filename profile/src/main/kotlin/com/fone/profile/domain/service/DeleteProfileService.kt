@@ -21,8 +21,8 @@ class DeleteProfileService(
 
     suspend fun deleteProfile(email: String, profileId: Long) {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
-        val profile = profileRepository.findByTypeAndId(null, profileId)
-            ?: throw NotFoundProfileException()
+        val profile =
+            profileRepository.findByTypeAndId(null, profileId) ?: throw NotFoundProfileException()
 
         if (profile.userId != userId) {
             throw InvalidProfileUserIdException()
@@ -31,15 +31,9 @@ class DeleteProfileService(
         profile.delete()
 
         coroutineScope {
-            val profile = async {
-                profileRepository.save(profile)
-            }
-            val profileDomain = async {
-                profileDomainRepository.deleteByProfileId(profileId)
-            }
-            val profileCategory = async {
-                profileCategoryRepository.deleteByProfileId(profileId)
-            }
+            val profile = async { profileRepository.save(profile) }
+            val profileDomain = async { profileDomainRepository.deleteByProfileId(profileId) }
+            val profileCategory = async { profileCategoryRepository.deleteByProfileId(profileId) }
 
             profile.await()
             profileDomain.await()

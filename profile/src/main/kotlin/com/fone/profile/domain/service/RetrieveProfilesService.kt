@@ -33,19 +33,13 @@ class RetrieveProfilesService(
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 
         return coroutineScope {
-            val profiles = async {
-                profileRepository.findAllByFilters(pageable, request).content
-            }
+            val profiles = async { profileRepository.findAllByFilters(pageable, request).content }
 
-            val userProfileWants = async {
-                profileWantRepository.findByUserId(userId)
-            }
+            val userProfileWants = async { profileWantRepository.findByUserId(userId) }
 
             val profileIds = profiles.await().map { it.id!! }.toList()
-            val profileDomains = profileDomainRepository
-                .findByProfileIds(profileIds)
-            val profileCategories = profileCategoryRepository
-                .findByProfileIds(profileIds)
+            val profileDomains = profileDomainRepository.findByProfileIds(profileIds)
+            val profileCategories = profileCategoryRepository.findByProfileIds(profileIds)
 
             RetrieveProfilesResponse(
                 profiles.await(),
@@ -67,25 +61,20 @@ class RetrieveProfilesService(
 
         return coroutineScope {
             val profile = async {
-                val profile = profileRepository.findByTypeAndId(type, profileId)
-                    ?: throw NotFoundProfileException()
+                val profile =
+                    profileRepository.findByTypeAndId(type, profileId)
+                        ?: throw NotFoundProfileException()
                 profile.view()
                 profileRepository.save(profile)
             }
 
-            val userProfileWants = async {
-                profileWantRepository.findByUserId(userId)
-            }
+            val userProfileWants = async { profileWantRepository.findByUserId(userId) }
 
             val profileId = profile.await().id!!
 
-            val profileDomains = async {
-                profileDomainRepository.findByProfileId(profileId)
-            }
+            val profileDomains = async { profileDomainRepository.findByProfileId(profileId) }
 
-            val profileCategories = async {
-                profileCategoryRepository.findByProfileId(profileId)
-            }
+            val profileCategories = async { profileCategoryRepository.findByProfileId(profileId) }
 
             RetrieveProfileResponse(
                 profile.await(),

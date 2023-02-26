@@ -36,9 +36,7 @@ class RetrieveJobOpeningScrapService(
                 jobOpeningRepository.findScrapAllByUserId(pageable, userId, type).content
             }
 
-            val userJobOpeningScraps = async {
-                jobOpeningScrapRepository.findByUserId(userId)
-            }
+            val userJobOpeningScraps = async { jobOpeningScrapRepository.findByUserId(userId) }
 
             val jobOpeningDomains = async {
                 val jobOpeningIds = jobOpenings.await().map { it.id!! }.toList()

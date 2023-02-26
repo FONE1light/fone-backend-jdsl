@@ -19,9 +19,11 @@ class ProfileDomainRepositoryImpl(
 
     override suspend fun saveAll(profileDomain: List<ProfileDomain>): List<ProfileDomain> {
         return profileDomain.also {
-            sessionFactory.withSession { session ->
-                session.persistAll(*it.toTypedArray()).flatMap { session.flush() }
-            }.awaitSuspending()
+            sessionFactory
+                .withSession { session ->
+                    session.persistAll(*it.toTypedArray()).flatMap { session.flush() }
+                }
+                .awaitSuspending()
         }
     }
 
@@ -31,13 +33,14 @@ class ProfileDomainRepositoryImpl(
         }
     }
 
-    override suspend fun findByProfileIds(profileIds: List<Long>):
-            Map<Long, List<DomainType>> {
-        return queryFactory.listQuery {
-            select(entity(ProfileDomain::class))
-            from(entity(ProfileDomain::class))
-            where(col(ProfileDomain::profileId).`in`(profileIds))
-        }.groupBy({ it!!.profileId }, { it!!.type })
+    override suspend fun findByProfileIds(profileIds: List<Long>): Map<Long, List<DomainType>> {
+        return queryFactory
+            .listQuery {
+                select(entity(ProfileDomain::class))
+                from(entity(ProfileDomain::class))
+                where(col(ProfileDomain::profileId).`in`(profileIds))
+            }
+            .groupBy({ it!!.profileId }, { it!!.type })
     }
 
     override suspend fun findByProfileId(profileId: Long): List<DomainType> {

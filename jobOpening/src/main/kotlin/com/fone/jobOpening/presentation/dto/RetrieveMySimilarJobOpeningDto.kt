@@ -21,18 +21,21 @@ class RetrieveMySimilarJobOpeningDto {
             jobOpeningCategories: Map<Long, List<CategoryType>>,
             pageable: Pageable,
         ) : this(
-            jobOpenings = PageImpl(
-                jobOpenings.map {
-                    JobOpeningDto(
-                        it,
-                        userJobOpeningScrapMap,
-                        jobOpeningDomains[it.id!!] ?: listOf(),
-                        jobOpeningCategories[it.id!!] ?: listOf(),
-                    )
-                }.toList(),
-                pageable,
-                jobOpenings.size.toLong()
-            )
+            jobOpenings =
+                PageImpl(
+                    jobOpenings
+                        .map {
+                            JobOpeningDto(
+                                it,
+                                userJobOpeningScrapMap,
+                                jobOpeningDomains[it.id!!] ?: listOf(),
+                                jobOpeningCategories[it.id!!] ?: listOf(),
+                            )
+                        }
+                        .toList(),
+                    pageable,
+                    jobOpenings.size.toLong()
+                )
         )
     }
 }

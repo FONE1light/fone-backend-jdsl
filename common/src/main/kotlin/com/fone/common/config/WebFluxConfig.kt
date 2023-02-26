@@ -5,7 +5,6 @@ import org.springframework.data.web.ReactivePageableHandlerMethodArgumentResolve
 import org.springframework.web.reactive.config.WebFluxConfigurer
 import org.springframework.web.reactive.result.method.annotation.ArgumentResolverConfigurer
 
-
 @Configuration
 class WebFluxConfig : WebFluxConfigurer {
 

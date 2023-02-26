@@ -37,17 +37,10 @@ class RegisterJobOpeningService(
                     val jobOpening = toEntity(userId)
                     jobOpeningRepository.save(jobOpening)
 
-                    val jobOpeningDomains = domains.map {
-                        JobOpeningDomain(
-                            jobOpening.id!!, it
-                        )
-                    }
+                    val jobOpeningDomains = domains.map { JobOpeningDomain(jobOpening.id!!, it) }
 
-                    val jobOpeningCategories = categories.map {
-                        JobOpeningCategory(
-                            jobOpening.id!!, it
-                        )
-                    }
+                    val jobOpeningCategories =
+                        categories.map { JobOpeningCategory(jobOpening.id!!, it) }
                     jobOpeningDomainRepository.saveAll(jobOpeningDomains)
                     jobOpeningCategoryRepository.saveAll(jobOpeningCategories)
 

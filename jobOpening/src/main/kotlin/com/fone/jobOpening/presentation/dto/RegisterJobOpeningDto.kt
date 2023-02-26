@@ -5,16 +5,15 @@ import com.fone.jobOpening.domain.entity.JobOpening
 import com.fone.jobOpening.domain.entity.JobOpeningScrap
 import com.fone.jobOpening.presentation.dto.common.JobOpeningDto
 import com.fone.jobOpening.presentation.dto.common.WorkDto
-import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDate
+import org.springframework.format.annotation.DateTimeFormat
 
 class RegisterJobOpeningDto {
 
     data class RegisterJobOpeningRequest(
         val title: String,
         val categories: List<CategoryType>,
-        @DateTimeFormat(pattern = "yyyy-MM-dd")
-        val deadline: LocalDate,
+        @DateTimeFormat(pattern = "yyyy-MM-dd") val deadline: LocalDate,
         val casting: String,
         val numberOfRecruits: Int,
         val gender: Gender,

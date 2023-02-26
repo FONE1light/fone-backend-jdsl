@@ -11,9 +11,6 @@ class SeparatorConverter : AttributeConverter<List<Any>, String> {
     }
 
     override fun convertToEntityAttribute(dbData: String): List<Any> {
-        return dbData
-            .split(",".toRegex())
-            .dropLastWhile { it.isEmpty() }
-            .toList()
+        return dbData.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toList()
     }
 }

@@ -21,7 +21,7 @@ dependencies {
 
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("junit","junit","4.13.2")
+    testImplementation("junit", "junit", "4.13.2")
     testImplementation("io.kotest:kotest-runner-junit5:5.5.4")
     testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
     testImplementation("io.mockk:mockk:1.12.0")
@@ -33,7 +33,9 @@ dependencies {
 }
 
 tasks.jar { enabled = false }
+
 tasks.bootJar { enabled = true }
+
 tasks.kotest { enabled = true }
 
 dependencyManagement {

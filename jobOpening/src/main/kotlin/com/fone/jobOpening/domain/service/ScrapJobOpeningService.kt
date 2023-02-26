@@ -20,21 +20,22 @@ class ScrapJobOpeningService(
     suspend fun scrapJobOpening(email: String, jobOpeningId: Long) {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 
-        jobOpeningScrapRepository.findByUserIdAndJobOpeningId(userId, jobOpeningId)
-            ?.let {
-                jobOpeningScrapRepository.delete(it)
+        jobOpeningScrapRepository.findByUserIdAndJobOpeningId(userId, jobOpeningId)?.let {
+            jobOpeningScrapRepository.delete(it)
 
-                val jobOpening = jobOpeningRepository.findByTypeAndId(null, jobOpeningId)
+            val jobOpening =
+                jobOpeningRepository.findByTypeAndId(null, jobOpeningId)
                     ?: throw NotFoundJobOpeningException()
 
-                jobOpening.scrapCount -= 1
+            jobOpening.scrapCount -= 1
 
-                jobOpeningRepository.save(jobOpening)
-                return
-            }
+            jobOpeningRepository.save(jobOpening)
+            return
+        }
 
-        val jobOpening = jobOpeningRepository.findByTypeAndId(null, jobOpeningId)
-            ?: throw NotFoundJobOpeningException()
+        val jobOpening =
+            jobOpeningRepository.findByTypeAndId(null, jobOpeningId)
+                ?: throw NotFoundJobOpeningException()
 
         jobOpening.scrapCount += 1
 

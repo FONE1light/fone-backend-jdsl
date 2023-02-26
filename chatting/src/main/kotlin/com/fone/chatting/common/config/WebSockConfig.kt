@@ -19,6 +19,5 @@ class WebsocketConfig {
         return SimpleUrlHandlerMapping(map, order)
     }
 
-    @Bean
-    fun handlerAdapter() = WebSocketHandlerAdapter()
+    @Bean fun handlerAdapter() = WebSocketHandlerAdapter()
 }

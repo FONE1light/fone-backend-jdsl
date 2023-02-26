@@ -11,7 +11,9 @@ data class ReportDto(
     val inconvenients: List<String>,
     val details: String,
 ) {
-    constructor(report: Report) : this(
+    constructor(
+        report: Report
+    ) : this(
         id = report.id!!,
         reportUserId = report.reportUserId,
         type = Type(report.type),

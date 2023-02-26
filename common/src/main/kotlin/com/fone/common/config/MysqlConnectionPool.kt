@@ -6,8 +6,8 @@ import io.vertx.mysqlclient.MySQLPool
 import io.vertx.sqlclient.Pool
 import io.vertx.sqlclient.PoolOptions
 import io.vertx.sqlclient.SqlConnectOptions
-import org.hibernate.reactive.pool.impl.DefaultSqlClientPool
 import java.net.URI
+import org.hibernate.reactive.pool.impl.DefaultSqlClientPool
 
 class MysqlConnectionPool : DefaultSqlClientPool() {
     override fun createPool(

@@ -20,7 +20,6 @@ data class CompetitionDto(
     val viewCount: Long,
     val scrapCount: Long,
     val competitionPrizes: List<CompetitionPrizeDto>,
-
     val isScrap: Boolean = false,
     val dDay: String,
 ) {
@@ -52,7 +51,9 @@ data class CompetitionPrizeDto(
     val prizeMoney: String,
     val competitionId: Long,
 ) {
-    constructor(prize: Prize) : this(
+    constructor(
+        prize: Prize
+    ) : this(
         id = prize.id!!,
         ranking = prize.ranking,
         prizeMoney = prize.prizeMoney,

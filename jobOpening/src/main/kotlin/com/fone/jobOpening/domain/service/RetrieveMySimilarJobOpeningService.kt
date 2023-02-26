@@ -37,9 +37,7 @@ class RetrieveMySimilarJobOpeningService(
                 jobOpeningRepository.findAllTop5ByType(pageable, Type(jobType))
             }
 
-            val userJobOpeningScraps = async {
-                jobOpeningScrapRepository.findByUserId(userId)
-            }
+            val userJobOpeningScraps = async { jobOpeningScrapRepository.findByUserId(userId) }
 
             val jobOpeningDomains = async {
                 val jobOpeningIds = jobOpenings.await().map { it.id!! }.toList()

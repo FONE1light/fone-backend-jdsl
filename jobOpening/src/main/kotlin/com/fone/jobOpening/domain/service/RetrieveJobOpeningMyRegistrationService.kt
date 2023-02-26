@@ -22,7 +22,6 @@ class RetrieveJobOpeningMyRegistrationService(
     private val jobOpeningCategoryRepository: JobOpeningCategoryRepository,
 ) {
 
-
     @Transactional(readOnly = true)
     suspend fun retrieveJobOpeningMyRegistrations(
         pageable: Pageable,
@@ -35,9 +34,7 @@ class RetrieveJobOpeningMyRegistrationService(
                 jobOpeningRepository.findAllByUserId(pageable, userId).content
             }
 
-            val userJobOpeningScraps = async {
-                jobOpeningScrapRepository.findByUserId(userId)
-            }
+            val userJobOpeningScraps = async { jobOpeningScrapRepository.findByUserId(userId) }
 
             val jobOpeningDomains = async {
                 val jobOpeningIds = jobOpenings.await().map { it.id!! }.toList()

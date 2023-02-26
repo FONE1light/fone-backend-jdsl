@@ -11,9 +11,8 @@ import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
 
 @Component
-class SecurityContextRepository(
-    val authenticationManager: AuthenticationManager
-) : ServerSecurityContextRepository {
+class SecurityContextRepository(val authenticationManager: AuthenticationManager) :
+    ServerSecurityContextRepository {
     override fun save(swe: ServerWebExchange, sc: SecurityContext): Mono<Void> {
         throw UnsupportedOperationException("Not supported yet.")
     }

@@ -14,9 +14,6 @@ class GrpcTestService : TestServiceGrpcKt.TestServiceCoroutineImplBase() {
     override suspend fun testUser(request: TestUserRequest): TestUserResponse {
         log.info(request.loginId)
 
-        return TestUserResponse
-            .newBuilder()
-            .setLoginId(request.loginId)
-            .build()
+        return TestUserResponse.newBuilder().setLoginId(request.loginId).build()
     }
 }

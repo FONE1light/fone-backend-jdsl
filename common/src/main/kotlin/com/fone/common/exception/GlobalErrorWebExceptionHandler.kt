@@ -4,7 +4,7 @@ import org.springframework.boot.autoconfigure.web.WebProperties
 import org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler
 import org.springframework.boot.web.error.ErrorAttributeOptions
 import org.springframework.boot.web.reactive.error.ErrorAttributes
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContext
 import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -17,7 +17,8 @@ import reactor.core.publisher.Mono
 @Component
 @Order(-2)
 class GlobalErrorWebExceptionHandler(
-    g: GlobalErrorAttributes?, applicationContext: ApplicationContext?,
+    g: GlobalErrorAttributes?,
+    applicationContext: ApplicationContext?,
     serverCodecConfigurer: ServerCodecConfigurer
 ) : AbstractErrorWebExceptionHandler(g, WebProperties.Resources(), applicationContext) {
     init {
@@ -25,11 +26,11 @@ class GlobalErrorWebExceptionHandler(
         super.setMessageReaders(serverCodecConfigurer.readers)
     }
 
-    override fun getRoutingFunction(errorAttributes: ErrorAttributes): RouterFunction<ServerResponse> {
+    override fun getRoutingFunction(
+        errorAttributes: ErrorAttributes
+    ): RouterFunction<ServerResponse> {
         return RouterFunctions.route(RequestPredicates.all()) { request: ServerRequest ->
-            renderErrorResponse(
-                request
-            )
+            renderErrorResponse(request)
         }
     }
 

@@ -15,7 +15,9 @@ data class WorkDto(
     val manager: String,
     val email: String,
 ) {
-    constructor(work: Work) : this(
+    constructor(
+        work: Work
+    ) : this(
         produce = work.produce,
         workTitle = work.workTitle,
         director = work.director,

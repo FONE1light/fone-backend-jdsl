@@ -11,53 +11,21 @@ import javax.persistence.*
 @Entity
 @Table(name = "job_openings")
 data class JobOpening(
-
-    @Id
-    @Column
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null,
-
-    @Column
-    var title: String,
-
-    @Column
-    var deadline: LocalDate?,
-
-    @Column
-    var casting: String,
-
-    @Column
-    var numberOfRecruits: Int,
-
-    @Enumerated(EnumType.STRING)
-    var gender: Gender,
-
-    @Column
-    var ageMax: Int,
-
-    @Column
-    var ageMin: Int,
-
-    @Enumerated(EnumType.STRING)
-    var career: Career,
-
-    @Enumerated(EnumType.STRING)
-    var type: Type,
-
-    @Column
-    var userId: Long,
-
-    @Column
-    var viewCount: Long,
-
-    @Column
-    var scrapCount: Long,
-
-    @Column
-    var isDeleted: Boolean = false,
-
-    @Embedded
-    var work: Work,
+    @Id @Column @GeneratedValue(strategy = GenerationType.IDENTITY) var id: Long? = null,
+    @Column var title: String,
+    @Column var deadline: LocalDate?,
+    @Column var casting: String,
+    @Column var numberOfRecruits: Int,
+    @Enumerated(EnumType.STRING) var gender: Gender,
+    @Column var ageMax: Int,
+    @Column var ageMin: Int,
+    @Enumerated(EnumType.STRING) var career: Career,
+    @Enumerated(EnumType.STRING) var type: Type,
+    @Column var userId: Long,
+    @Column var viewCount: Long,
+    @Column var scrapCount: Long,
+    @Column var isDeleted: Boolean = false,
+    @Embedded var work: Work,
 ) : BaseEntity() {
     fun view() {
         viewCount += 1

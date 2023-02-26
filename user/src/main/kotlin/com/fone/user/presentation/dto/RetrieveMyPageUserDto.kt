@@ -11,8 +11,6 @@ class RetrieveMyPageUserDto {
 
         constructor(
             user: User,
-        ) : this(
-            user = UserDto(user)
-        )
+        ) : this(user = UserDto(user))
     }
 }

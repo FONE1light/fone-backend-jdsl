@@ -3,24 +3,19 @@ package com.fone.competition.presentation.dto
 import com.fone.competition.domain.entity.Competition
 import com.fone.competition.domain.entity.Prize
 import com.fone.competition.presentation.dto.common.CompetitionDto
-import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDate
+import org.springframework.format.annotation.DateTimeFormat
 
 class RegisterCompetitionDto {
 
     data class RegisterCompetitionRequest(
         val title: String,
         val imageUrl: String,
-        @DateTimeFormat(pattern = "yyyy-MM-dd")
-        val startDate: LocalDate?,
-        @DateTimeFormat(pattern = "yyyy-MM-dd")
-        val endDate: LocalDate?,
-        @DateTimeFormat(pattern = "yyyy-MM-dd")
-        val submitStartDate: LocalDate?,
-        @DateTimeFormat(pattern = "yyyy-MM-dd")
-        val submitEndDate: LocalDate?,
-        @DateTimeFormat(pattern = "yyyy-MM-dd")
-        val showStartDate: LocalDate,
+        @DateTimeFormat(pattern = "yyyy-MM-dd") val startDate: LocalDate?,
+        @DateTimeFormat(pattern = "yyyy-MM-dd") val endDate: LocalDate?,
+        @DateTimeFormat(pattern = "yyyy-MM-dd") val submitStartDate: LocalDate?,
+        @DateTimeFormat(pattern = "yyyy-MM-dd") val submitEndDate: LocalDate?,
+        @DateTimeFormat(pattern = "yyyy-MM-dd") val showStartDate: LocalDate,
         val agency: String,
         val details: String,
         val prizes: List<PrizeRequest>,
@@ -59,8 +54,8 @@ class RegisterCompetitionDto {
     data class RegisterCompetitionResponse(
         val competition: CompetitionDto,
     ) {
-        constructor(reqCompetition: Competition) : this(
-            competition = CompetitionDto(reqCompetition, mapOf())
-        )
+        constructor(
+            reqCompetition: Competition
+        ) : this(competition = CompetitionDto(reqCompetition, mapOf()))
     }
 }

@@ -5,17 +5,16 @@ import com.fone.profile.domain.entity.Profile
 import com.fone.profile.domain.entity.ProfileWant
 import com.fone.profile.presentation.dto.common.ProfileDto
 import io.swagger.annotations.ApiModelProperty
-import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDate
 import javax.validation.constraints.Email
+import org.springframework.format.annotation.DateTimeFormat
 
 class RegisterProfileDto {
 
     data class RegisterProfileRequest(
         val name: String,
         val hookingComment: String,
-        @DateTimeFormat(pattern = "yyyy-MM-dd")
-        val birthday: LocalDate,
+        @DateTimeFormat(pattern = "yyyy-MM-dd") val birthday: LocalDate,
         val gender: Gender,
         val height: Int,
         val weight: Int,
@@ -66,13 +65,14 @@ class RegisterProfileDto {
             domains: List<DomainType>,
             categories: List<CategoryType>,
         ) : this(
-            profile = ProfileDto(
-                profile,
-                userProfileWantMap,
-                profile.profileImages.map { it.profileUrl }.toList(),
-                domains,
-                categories,
-            )
+            profile =
+                ProfileDto(
+                    profile,
+                    userProfileWantMap,
+                    profile.profileImages.map { it.profileUrl }.toList(),
+                    domains,
+                    categories,
+                )
         )
     }
 }

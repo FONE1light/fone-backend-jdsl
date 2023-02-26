@@ -17,12 +17,15 @@ class JobOpeningCategoryRepositoryImpl(
     private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
 ) : JobOpeningCategoryRepository {
 
-    override suspend fun saveAll(jobOpeningCategories: List<JobOpeningCategory>):
-            List<JobOpeningCategory> {
+    override suspend fun saveAll(
+        jobOpeningCategories: List<JobOpeningCategory>
+    ): List<JobOpeningCategory> {
         return jobOpeningCategories.also {
-            sessionFactory.withSession { session ->
-                session.persistAll(*it.toTypedArray()).flatMap { session.flush() }
-            }.awaitSuspending()
+            sessionFactory
+                .withSession { session ->
+                    session.persistAll(*it.toTypedArray()).flatMap { session.flush() }
+                }
+                .awaitSuspending()
         }
     }
 
@@ -32,13 +35,16 @@ class JobOpeningCategoryRepositoryImpl(
         }
     }
 
-    override suspend fun findByJobOpeningIds(jobOpeningIds: List<Long>):
-            Map<Long, List<CategoryType>> {
-        return queryFactory.listQuery {
-            select(entity(JobOpeningCategory::class))
-            from(entity(JobOpeningCategory::class))
-            where(col(JobOpeningCategory::jobOpeningId).`in`(jobOpeningIds))
-        }.groupBy({ it!!.jobOpeningId }, { it!!.type })
+    override suspend fun findByJobOpeningIds(
+        jobOpeningIds: List<Long>
+    ): Map<Long, List<CategoryType>> {
+        return queryFactory
+            .listQuery {
+                select(entity(JobOpeningCategory::class))
+                from(entity(JobOpeningCategory::class))
+                where(col(JobOpeningCategory::jobOpeningId).`in`(jobOpeningIds))
+            }
+            .groupBy({ it!!.jobOpeningId }, { it!!.type })
     }
 
     override suspend fun findByJobOpeningId(jobOpeningId: Long): List<CategoryType> {

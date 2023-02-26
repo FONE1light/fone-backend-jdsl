@@ -22,18 +22,21 @@ class RetrieveJobOpeningScrapDto {
             jobOpeningCategories: Map<Long, List<CategoryType>>,
             pageable: Pageable,
         ) : this(
-            jobOpenings = PageImpl(
-                jobOpeningList.map {
-                    JobOpeningDto(
-                        it,
-                        userJobOpeningScrapMap,
-                        jobOpeningDomains[it.id!!] ?: listOf(),
-                        jobOpeningCategories[it.id!!] ?: listOf(),
-                    )
-                }.toList(),
-                pageable,
-                jobOpeningList.size.toLong(),
-            )
+            jobOpenings =
+                PageImpl(
+                    jobOpeningList
+                        .map {
+                            JobOpeningDto(
+                                it,
+                                userJobOpeningScrapMap,
+                                jobOpeningDomains[it.id!!] ?: listOf(),
+                                jobOpeningCategories[it.id!!] ?: listOf(),
+                            )
+                        }
+                        .toList(),
+                    pageable,
+                    jobOpeningList.size.toLong(),
+                )
         )
     }
 }

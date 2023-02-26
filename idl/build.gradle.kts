@@ -4,7 +4,10 @@ apply(plugin = "com.google.protobuf")
 
 configurations.forEach {
     if (it.name.toLowerCase().contains("proto")) {
-        it.attributes.attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage::class.java, "java-runtime"))
+        it.attributes.attribute(
+            Usage.USAGE_ATTRIBUTE,
+            objects.named(Usage::class.java, "java-runtime")
+        )
     }
 }
 
@@ -20,16 +23,10 @@ dependencies {
 
 protobuf {
     generatedFilesBaseDir = "$projectDir/build/generated/source"
-    protoc {
-        artifact = "com.google.protobuf:protoc:3.21.7"
-    }
+    protoc { artifact = "com.google.protobuf:protoc:3.21.7" }
     plugins {
-        id("grpc") {
-            artifact = "io.grpc:protoc-gen-grpc-java:1.49.2"
-        }
-        id("grpckt") {
-            artifact = "io.grpc:protoc-gen-grpc-kotlin:1.3.0:jdk8@jar"
-        }
+        id("grpc") { artifact = "io.grpc:protoc-gen-grpc-java:1.49.2" }
+        id("grpckt") { artifact = "io.grpc:protoc-gen-grpc-kotlin:1.3.0:jdk8@jar" }
     }
     generateProtoTasks {
         ofSourceSet("main").forEach {
@@ -40,7 +37,8 @@ protobuf {
             it.generateDescriptorSet = true
             it.descriptorSetOptions.includeSourceInfo = true
             it.descriptorSetOptions.includeImports = true
-            it.descriptorSetOptions.path = "$buildDir/resources/META-INF/armeria/grpc/service-name.dsc"
+            it.descriptorSetOptions.path =
+                "$buildDir/resources/META-INF/armeria/grpc/service-name.dsc"
         }
     }
 }

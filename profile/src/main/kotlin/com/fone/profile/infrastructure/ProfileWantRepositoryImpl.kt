@@ -33,11 +33,13 @@ class ProfileWantRepositoryImpl(
 
     override suspend fun findByUserId(userId: Long): Map<Long, ProfileWant?> {
 
-        return queryFactory.listQuery {
-            select(entity(ProfileWant::class))
-            from(entity(ProfileWant::class))
-            where(col(ProfileWant::userId).equal(userId))
-        }.associateBy { it!!.profileId }
+        return queryFactory
+            .listQuery {
+                select(entity(ProfileWant::class))
+                from(entity(ProfileWant::class))
+                where(col(ProfileWant::userId).equal(userId))
+            }
+            .associateBy { it!!.profileId }
     }
 
     override suspend fun delete(profileWant: ProfileWant): Int {
@@ -50,10 +52,10 @@ class ProfileWantRepositoryImpl(
         return profileWant.also {
             queryFactory.withFactory { session, factory ->
                 if (it.id == null) {
-                    session.persist(it)
-                } else {
-                    session.merge(it)
-                }
+                        session.persist(it)
+                    } else {
+                        session.merge(it)
+                    }
                     .flatMap { session.flush() }
                     .awaitSuspending()
             }

@@ -20,21 +20,21 @@ class ScrapCompetitionService(
     suspend fun scrapCompetition(email: String, competitionId: Long) {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 
-        competitionScrapRepository.findByUserIdAndCompetitionId(userId, competitionId)
-            ?.let {
-                competitionScrapRepository.delete(it)
+        competitionScrapRepository.findByUserIdAndCompetitionId(userId, competitionId)?.let {
+            competitionScrapRepository.delete(it)
 
-                val competition = competitionRepository.findById(competitionId)
+            val competition =
+                competitionRepository.findById(competitionId)
                     ?: throw NotFoundCompetitionException()
 
-                competition.scrapCount -= 1
+            competition.scrapCount -= 1
 
-                competitionRepository.save(competition)
-                return
-            }
+            competitionRepository.save(competition)
+            return
+        }
 
-        val competition = competitionRepository.findById(competitionId)
-            ?: throw NotFoundCompetitionException()
+        val competition =
+            competitionRepository.findById(competitionId) ?: throw NotFoundCompetitionException()
 
         competition.scrapCount += 1
 

@@ -29,8 +29,6 @@ class RegisterReportDto {
     data class RegisterReportResponse(
         val report: ReportDto,
     ) {
-        constructor(reqReport: Report) : this(
-            report = ReportDto(reqReport)
-        )
+        constructor(reqReport: Report) : this(report = ReportDto(reqReport))
     }
 }

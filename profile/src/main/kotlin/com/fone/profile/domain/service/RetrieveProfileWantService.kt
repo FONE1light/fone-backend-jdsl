@@ -36,19 +36,13 @@ class RetrieveProfileWantService(
                 profileRepository.findWantAllByUserId(pageable, userId, type).content
             }
 
-            val userProfileWants = async {
-                profileWantRepository.findByUserId(userId)
-            }
+            val userProfileWants = async { profileWantRepository.findByUserId(userId) }
 
             val profileIds = profiles.await().map { it.id!! }.toList()
 
-            val profileDomains = async {
-                profileDomainRepository.findByProfileIds(profileIds)
-            }
+            val profileDomains = async { profileDomainRepository.findByProfileIds(profileIds) }
 
-            val profileCategories = async {
-                profileCategoryRepository.findByProfileIds(profileIds)
-            }
+            val profileCategories = async { profileCategoryRepository.findByProfileIds(profileIds) }
 
             RetrieveProfileWantResponse(
                 profiles.await(),
