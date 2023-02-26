@@ -34,6 +34,7 @@ dependencies {
 
 tasks.jar { enabled = false }
 tasks.bootJar { enabled = true }
+tasks.kotest { enabled = true }
 
 dependencyManagement {
     imports {

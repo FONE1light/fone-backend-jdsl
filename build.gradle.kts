@@ -8,7 +8,6 @@ plugins {
 	kotlin("kapt") version "1.6.21"
 
 	id("com.google.protobuf") version "0.8.15"
-	id("io.kotest") version "0.3.8"
 }
 
 allprojects {
