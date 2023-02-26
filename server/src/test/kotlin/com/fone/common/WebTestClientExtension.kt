@@ -9,9 +9,17 @@ import org.springframework.web.util.UriBuilder
 
 fun WebTestClient.doGet(
     url: String,
-    queryParams: Map<String, Any>? = null
+    token: String?,
+    queryParams: Map<String, Any>? = null,
 ): WebTestClient.ResponseSpec {
-    return this.get().uri() { it.setUriBuilder(url, queryParams) }.exchange()
+    if (token == null) {
+        return this.get().uri() { it.setUriBuilder(url, queryParams) }.exchange()
+    }
+
+    return this.get()
+        .uri() { it.setUriBuilder(url, queryParams) }
+        .headers { it.setBearerAuth(token) }
+        .exchange()
 }
 
 fun <T> WebTestClient.doPost(
