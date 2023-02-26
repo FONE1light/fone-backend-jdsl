@@ -15,7 +15,7 @@ jobs:
       - name: Grant Execute Permission For Gradlew
         run: chmod +x gradlew
       - name: Test With Gradle
-        run: ./gradlew :server:test
+        run: ./gradlew kotest
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
         if: always()
