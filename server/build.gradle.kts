@@ -1,5 +1,7 @@
 plugins {
     kotlin("plugin.jpa") version "1.7.0"
+
+    id("io.kotest") version "0.3.8"
 }
 
 dependencies {
