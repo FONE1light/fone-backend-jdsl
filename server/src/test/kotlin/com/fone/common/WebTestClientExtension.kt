@@ -9,20 +9,46 @@ import org.springframework.web.util.UriBuilder
 
 fun WebTestClient.doGet(
     url: String,
-    queryParams: Map<String, Any>? = null
+    token: String?,
+    queryParams: Map<String, Any>? = null,
 ): WebTestClient.ResponseSpec {
-    return this.get().uri() { it.setUriBuilder(url, queryParams) }.exchange()
+    if (token == null) {
+        return this.get().uri() { it.setUriBuilder(url, queryParams) }.exchange()
+    }
+
+    return this.get()
+        .uri() { it.setUriBuilder(url, queryParams) }
+        .headers { it.setBearerAuth(token) }
+        .exchange()
 }
 
 fun <T> WebTestClient.doPost(
     url: String,
     request: T,
-    queryParams: Map<String, Any>? = null
+    token: String? = null,
+    queryParams: Map<String, Any>? = null,
 ): WebTestClient.ResponseSpec {
+    if (request == null && token != null) {
+        return this.post()
+            .uri() { it.setUriBuilder(url, queryParams) }
+            .contentType(MediaType.APPLICATION_JSON)
+            .headers { it.setBearerAuth(token) }
+            .exchange()
+    }
+
+    if (token == null) {
+        return this.post()
+            .uri() { it.setUriBuilder(url, queryParams) }
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(BodyInserters.fromValue(request))
+            .exchange()
+    }
+
     return this.post()
         .uri() { it.setUriBuilder(url, queryParams) }
         .contentType(MediaType.APPLICATION_JSON)
         .body(BodyInserters.fromValue(request))
+        .headers { it.setBearerAuth(token) }
         .exchange()
 }
 
@@ -35,6 +61,36 @@ fun <T> WebTestClient.doPut(
         .uri() { it.setUriBuilder(url, queryParams) }
         .contentType(MediaType.APPLICATION_JSON)
         .body(BodyInserters.fromValue(request))
+        .exchange()
+}
+
+fun <T> WebTestClient.doPatch(
+    url: String,
+    request: T,
+    token: String? = null,
+    queryParams: Map<String, Any>? = null
+): WebTestClient.ResponseSpec {
+    if (request == null && token != null) {
+        return this.patch()
+            .uri() { it.setUriBuilder(url, queryParams) }
+            .contentType(MediaType.APPLICATION_JSON)
+            .headers { it.setBearerAuth(token) }
+            .exchange()
+    }
+
+    if (token == null) {
+        return this.patch()
+            .uri() { it.setUriBuilder(url, queryParams) }
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(BodyInserters.fromValue(request))
+            .exchange()
+    }
+
+    return this.patch()
+        .uri() { it.setUriBuilder(url, queryParams) }
+        .contentType(MediaType.APPLICATION_JSON)
+        .body(BodyInserters.fromValue(request))
+        .headers { it.setBearerAuth(token) }
         .exchange()
 }
 
