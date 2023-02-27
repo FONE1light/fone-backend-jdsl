@@ -16,12 +16,13 @@ class ModifyUserControllerTest(client: WebTestClient) : CustomDescribeSpec() {
 
     init {
         val (accessToken, _) = CommonCallApi.getAccessToken(client)
-        val modifyUserRequest = ModifyUserDto.ModifyUserRequest(
-            Job.ACTOR,
-            listOf(CategoryType.ETC),
-            "test1515151",
-            "",
-        )
+        val modifyUserRequest =
+            ModifyUserDto.ModifyUserRequest(
+                Job.ACTOR,
+                listOf(CategoryType.ETC),
+                "test1515151",
+                "",
+            )
 
         describe("#modify") {
             context("존재하는 유저의 정보로 수정을 요청하면") {

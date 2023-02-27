@@ -15,7 +15,7 @@ class SignOutUserControllerTest(client: WebTestClient) : CustomDescribeSpec() {
         val (accessToken, _) = CommonCallApi.getAccessToken(client)
 
         describe("#signOut") {
-            context("존재하는 유저의 정보로 회원탈퇴를 하면"){
+            context("존재하는 유저의 정보로 회원탈퇴를 하면") {
                 it("성공한다.") {
                     client
                         .doPatch(signOutUrl, null, accessToken)
