@@ -8,10 +8,9 @@ import com.fone.common.entity.CategoryType
 import com.fone.common.entity.Gender
 import com.fone.user.domain.enum.Job
 import com.fone.user.domain.enum.SocialLoginType
-import com.fone.user.presentation.dto.SignInUserDto
 import com.fone.user.presentation.dto.SignUpUserDto
-import org.springframework.test.web.reactive.server.WebTestClient
 import java.time.LocalDate
+import org.springframework.test.web.reactive.server.WebTestClient
 
 @IntegrationTest
 class CheckNicknameDuplicateControllerTest(client: WebTestClient) : CustomDescribeSpec() {
@@ -61,7 +60,7 @@ class CheckNicknameDuplicateControllerTest(client: WebTestClient) : CustomDescri
                 Gender.IRRELEVANT,
                 null,
                 "010-1234-1234",
-                "test6@test.com",
+                "nicknameTest@test.com",
                 SocialLoginType.APPLE,
                 true,
                 true,
