@@ -25,12 +25,30 @@ fun WebTestClient.doGet(
 fun <T> WebTestClient.doPost(
     url: String,
     request: T,
-    queryParams: Map<String, Any>? = null
+    token: String? = null,
+    queryParams: Map<String, Any>? = null,
 ): WebTestClient.ResponseSpec {
+    if (request == null && token != null) {
+        return this.post()
+            .uri() { it.setUriBuilder(url, queryParams) }
+            .contentType(MediaType.APPLICATION_JSON)
+            .headers { it.setBearerAuth(token) }
+            .exchange()
+    }
+
+    if (token == null) {
+        return this.post()
+            .uri() { it.setUriBuilder(url, queryParams) }
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(BodyInserters.fromValue(request))
+            .exchange()
+    }
+
     return this.post()
         .uri() { it.setUriBuilder(url, queryParams) }
         .contentType(MediaType.APPLICATION_JSON)
         .body(BodyInserters.fromValue(request))
+        .headers { it.setBearerAuth(token) }
         .exchange()
 }
 
