@@ -64,6 +64,36 @@ fun <T> WebTestClient.doPut(
         .exchange()
 }
 
+fun <T> WebTestClient.doPatch(
+    url: String,
+    request: T,
+    token: String? = null,
+    queryParams: Map<String, Any>? = null
+): WebTestClient.ResponseSpec {
+    if (request == null && token != null) {
+        return this.patch()
+            .uri() { it.setUriBuilder(url, queryParams) }
+            .contentType(MediaType.APPLICATION_JSON)
+            .headers { it.setBearerAuth(token) }
+            .exchange()
+    }
+
+    if (token == null) {
+        return this.patch()
+            .uri() { it.setUriBuilder(url, queryParams) }
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(BodyInserters.fromValue(request))
+            .exchange()
+    }
+
+    return this.patch()
+        .uri() { it.setUriBuilder(url, queryParams) }
+        .contentType(MediaType.APPLICATION_JSON)
+        .body(BodyInserters.fromValue(request))
+        .headers { it.setBearerAuth(token) }
+        .exchange()
+}
+
 fun WebTestClient.doDelete(
     url: String,
     queryParams: Map<String, Any>? = null
