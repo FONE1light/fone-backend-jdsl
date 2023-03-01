@@ -20,7 +20,16 @@ class RegisterQuestionControllerTest(client: WebTestClient) : CustomDescribeSpec
 
         describe("#register question") {
             context("유효한 정보로 문의등록을 하면") {
-                it("성공한다") { client.doPost(registerUrl, registerQuestionRequest, accessToken) }
+                it("성공한다") {
+                    client
+                        .doPost(registerUrl, registerQuestionRequest, accessToken)
+                        .expectStatus()
+                        .isOk
+                        .expectBody()
+                        .consumeWith { println(it) }
+                        .jsonPath("$.result")
+                        .isEqualTo("SUCCESS")
+                }
             }
         }
     }
