@@ -67,4 +67,37 @@ object CommonCallApi {
 
         return Pair(accessToken.toString(), email)
     }
+
+    fun signUp(client: WebTestClient): Pair<String, String> {
+        val nickname = UUID.randomUUID().toString()
+        val email = "$nickname@test.com"
+
+        val signUpUserRequest =
+            SignUpUserDto.SignUpUserRequest(
+                Job.ACTOR,
+                listOf(CategoryType.ETC),
+                nickname,
+                LocalDate.now(),
+                Gender.IRRELEVANT,
+                null,
+                "010-1234-1234",
+                email,
+                SocialLoginType.APPLE,
+                true,
+                true,
+                true,
+                "test",
+            )
+
+        client
+            .doPost(signUpBaseUrl, signUpUserRequest)
+            .expectStatus()
+            .isOk
+            .expectBody()
+            .consumeWith { println(it) }
+            .jsonPath("$.result")
+            .isEqualTo("SUCCESS")
+
+        return Pair(nickname, email)
+    }
 }
