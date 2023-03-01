@@ -1,6 +1,6 @@
 package com.fone.question.presentation.controller
 
-import com.fone.common.CommonCallApi
+import com.fone.common.CommonUserCallApi
 import com.fone.common.CustomDescribeSpec
 import com.fone.common.IntegrationTest
 import com.fone.common.doPost
@@ -14,7 +14,7 @@ class RegisterQuestionControllerTest(client: WebTestClient) : CustomDescribeSpec
     private val registerUrl = "/api/v1/questions"
 
     init {
-        val (accessToken, email) = CommonCallApi.getAccessToken(client)
+        val (accessToken, email) = CommonUserCallApi.getAccessToken(client)
         val registerQuestionRequest =
             RegisterQuestionRequest(email, Type.ALLIANCE, "테스트 제목", "테스트 설명", true)
 

@@ -1,6 +1,6 @@
 package com.fone.jobOpening.presentation.controller
 
-import com.fone.common.CommonCallApi
+import com.fone.common.CommonUserCallApi
 import com.fone.common.CustomDescribeSpec
 import com.fone.common.IntegrationTest
 import com.fone.common.doPost
@@ -16,7 +16,7 @@ class RegisterJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
     private val registerUrl = "/api/v1/job-openings"
 
     init {
-        val (accessToken, email) = CommonCallApi.getAccessToken(client)
+        val (accessToken, email) = CommonUserCallApi.getAccessToken(client)
         val registerJobOpeningActorRequest =
             RegisterJobOpeningRequest(
                 "테스트 제목",

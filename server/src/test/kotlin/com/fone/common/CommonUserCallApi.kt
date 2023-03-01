@@ -12,7 +12,7 @@ import java.time.LocalDate
 import java.util.*
 import kotlin.collections.LinkedHashMap
 
-object CommonCallApi {
+object CommonUserCallApi {
     private const val signInBaseUrl = "/api/v1/users/sign-in"
     private const val signUpBaseUrl = "/api/v1/users/sign-up"
 

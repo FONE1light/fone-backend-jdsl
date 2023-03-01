@@ -13,7 +13,7 @@ class CheckNicknameDuplicateControllerTest(client: WebTestClient) : CustomDescri
     private val checkNicknameDuplicateUrl = "/api/v1/users/check-nickname-duplication"
 
     init {
-        val (nickname, _) = CommonCallApi.signUp(client)
+        val (nickname, _) = CommonUserCallApi.signUp(client)
 
         describe("#checkNicknameDuplicate") {
             context("존재하지 않는 닉네임을 입력하면") {
