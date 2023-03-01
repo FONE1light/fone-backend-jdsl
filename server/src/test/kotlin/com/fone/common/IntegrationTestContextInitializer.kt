@@ -5,6 +5,7 @@ import com.github.dockerjava.api.model.PortBinding
 import com.github.dockerjava.api.model.Ports
 import org.springframework.context.ApplicationContextInitializer
 import org.springframework.context.ConfigurableApplicationContext
+import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.MySQLContainer
 import org.testcontainers.utility.DockerImageName
 
@@ -17,8 +18,8 @@ class IntegrationTestContextInitializer :
         val PASSWORD: String = "fone-flim-be"
 
         val MY_SQL_CONTAINER: MySQLContainer<*> =
-        // image for linux/arm64/v8 m1 support
-        DockerImageName.parse("mysql/mysql-server:8.0.26")
+            // image for linux/arm64/v8 m1 support
+            DockerImageName.parse("mysql/mysql-server:8.0.26")
                 .asCompatibleSubstituteFor("mysql")
                 .let { compatibleImageName -> MySQLContainer<Nothing>(compatibleImageName) }
                 .apply {
@@ -35,11 +36,19 @@ class IntegrationTestContextInitializer :
                     withUrlParam("serverTimezone", "Asia/Seoul")
                     withCreateContainerCmdModifier {
                         it.withPortBindings(
-                                PortBinding(Ports.Binding.bindPort(33006), ExposedPort(3306))
-                            )
+                            PortBinding(Ports.Binding.bindPort(33006), ExposedPort(3306))
+                        )
                             .withHostName("app-host")
                     }
                     start()
                 }
+
+        val REDIS_CONTAINER = GenericContainer(DockerImageName.parse("redis:5.0.3-alpine"))
+            .withExposedPorts(6379)
+
+        REDIS_CONTAINER.start()
+
+        System.setProperty("spring.redis.host", REDIS_CONTAINER.getHost())
+        System.setProperty("spring.redis.port", REDIS_CONTAINER.getMappedPort(6379).toString())
     }
 }
