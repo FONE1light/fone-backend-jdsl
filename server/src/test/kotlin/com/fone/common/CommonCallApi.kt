@@ -17,13 +17,14 @@ object CommonCallApi {
     private const val signUpBaseUrl = "/api/v1/users/sign-up"
 
     fun getAccessToken(client: WebTestClient): Pair<String, String> {
-        val email = UUID.randomUUID().toString() + "@test.com"
+        val nickname = UUID.randomUUID().toString()
+        val email = "$nickname@test.com"
 
         val signUpUserRequest =
             SignUpUserDto.SignUpUserRequest(
                 Job.ACTOR,
                 listOf(CategoryType.ETC),
-                "test7",
+                nickname,
                 LocalDate.now(),
                 Gender.IRRELEVANT,
                 null,
