@@ -70,9 +70,14 @@ fun <T> WebTestClient.doPatch(
 
 fun WebTestClient.doDelete(
     url: String,
+    token: String? = null,
     queryParams: Map<String, Any>? = null,
 ): WebTestClient.ResponseSpec {
-    return this.delete().uri { it.setUriBuilder(url, queryParams) }.exchange()
+    if (token == null) {
+        return this.delete().uri() { it.setUriBuilder(url, queryParams) }.exchange()
+    }
+
+    return this.delete().uri() { it.setUriBuilder(url, queryParams) }.headers { it.setBearerAuth(token) }.exchange()
 }
 
 private fun UriBuilder.setUriBuilder(url: String, queryParams: Map<String, Any>? = null): URI {
