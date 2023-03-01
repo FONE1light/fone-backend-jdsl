@@ -5,6 +5,7 @@ import com.github.dockerjava.api.model.PortBinding
 import com.github.dockerjava.api.model.Ports
 import org.springframework.context.ApplicationContextInitializer
 import org.springframework.context.ConfigurableApplicationContext
+import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.MySQLContainer
 import org.testcontainers.utility.DockerImageName
 
@@ -41,5 +42,13 @@ class IntegrationTestContextInitializer :
                     }
                     start()
                 }
+
+        val REDIS_CONTAINER =
+            GenericContainer(DockerImageName.parse("redis:5.0.3-alpine")).withExposedPorts(6379)
+
+        REDIS_CONTAINER.start()
+
+        System.setProperty("spring.redis.host", REDIS_CONTAINER.getHost())
+        System.setProperty("spring.redis.port", REDIS_CONTAINER.getMappedPort(6379).toString())
     }
 }

@@ -17,13 +17,14 @@ object CommonCallApi {
     private const val signUpBaseUrl = "/api/v1/users/sign-up"
 
     fun getAccessToken(client: WebTestClient): Pair<String, String> {
-        val email = UUID.randomUUID().toString() + "@test.com"
+        val nickname = UUID.randomUUID().toString()
+        val email = "$nickname@test.com"
 
         val signUpUserRequest =
             SignUpUserDto.SignUpUserRequest(
                 Job.ACTOR,
                 listOf(CategoryType.ETC),
-                "test7",
+                nickname,
                 LocalDate.now(),
                 Gender.IRRELEVANT,
                 null,
@@ -65,5 +66,38 @@ object CommonCallApi {
         val accessToken = (token as LinkedHashMap<*, *>)["accessToken"]
 
         return Pair(accessToken.toString(), email)
+    }
+
+    fun signUp(client: WebTestClient): Pair<String, String> {
+        val nickname = UUID.randomUUID().toString()
+        val email = "$nickname@test.com"
+
+        val signUpUserRequest =
+            SignUpUserDto.SignUpUserRequest(
+                Job.ACTOR,
+                listOf(CategoryType.ETC),
+                nickname,
+                LocalDate.now(),
+                Gender.IRRELEVANT,
+                null,
+                "010-1234-1234",
+                email,
+                SocialLoginType.APPLE,
+                true,
+                true,
+                true,
+                "test",
+            )
+
+        client
+            .doPost(signUpBaseUrl, signUpUserRequest)
+            .expectStatus()
+            .isOk
+            .expectBody()
+            .consumeWith { println(it) }
+            .jsonPath("$.result")
+            .isEqualTo("SUCCESS")
+
+        return Pair(nickname, email)
     }
 }
