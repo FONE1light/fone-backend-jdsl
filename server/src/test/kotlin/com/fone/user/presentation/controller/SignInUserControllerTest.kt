@@ -14,10 +14,12 @@ class SignInUserControllerTest(client: WebTestClient) : CustomDescribeSpec() {
     private val signInBaseUrl = "/api/v1/users/sign-in"
 
     init {
+        val (_, email) = CommonCallApi.signUp(client)
+
         val signInUserSuccessRequest =
             SignInUserRequest(
                 SocialLoginType.APPLE,
-                "test6@test.com",
+                email,
                 "test",
             )
 
@@ -27,8 +29,6 @@ class SignInUserControllerTest(client: WebTestClient) : CustomDescribeSpec() {
                 "test7@test.com",
                 "test",
             )
-
-        CommonCallApi.signUp(client)
 
         describe("#signIn") {
             context("존재하는 유저의 정보가 입력되면") {
