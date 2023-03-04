@@ -14,5 +14,5 @@ jobs:
           distribution: 'adopt'
       - name: Grant Execute Permission For Gradlew
         run: chmod +x gradlew
-      - name: ktlint & detekt Check
+      - name: Ktlint & Detekt Check
         run: ./gradlew check
