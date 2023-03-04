@@ -1,4 +1,4 @@
-name: SpotlessLint
+name: Ktlint
 
 on: pull_request
 
