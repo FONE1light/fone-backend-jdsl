@@ -6,12 +6,24 @@ import com.fone.common.entity.Gender
 import com.fone.common.entity.Type
 import com.fone.profile.presentation.dto.RegisterProfileDto.RegisterProfileRequest
 import java.time.LocalDate
-import javax.persistence.*
+import javax.persistence.CascadeType
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
+import javax.persistence.Id
+import javax.persistence.OneToMany
+import javax.persistence.Table
 
 @Entity
 @Table(name = "profiles")
 data class Profile(
-    @Id @Column @GeneratedValue(strategy = GenerationType.IDENTITY) var id: Long? = null,
+    @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Long? = null,
     @Column var name: String,
     @Column var hookingComment: String,
     @Column var birthday: LocalDate?,
@@ -29,7 +41,7 @@ data class Profile(
     @Column var isDeleted: Boolean = false,
     @Column var profileUrl: String,
     @OneToMany(mappedBy = "profile", cascade = [CascadeType.PERSIST])
-    var profileImages: MutableList<ProfileImage> = mutableListOf(),
+    var profileImages: MutableList<ProfileImage> = mutableListOf()
 ) : BaseEntity() {
 
     fun view() {

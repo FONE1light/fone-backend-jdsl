@@ -22,13 +22,13 @@ class PutProfileService(
     private val profileWantRepository: ProfileWantRepository,
     private val profileDomainRepository: ProfileDomainRepository,
     private val profileCategoryRepository: ProfileCategoryRepository,
-    private val userRepository: UserCommonRepository,
+    private val userRepository: UserCommonRepository
 ) {
 
     suspend fun putProfile(
         request: RegisterProfileRequest,
         email: String,
-        profileId: Long,
+        profileId: Long
     ): RegisterProfileResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
         val profile =
@@ -50,7 +50,7 @@ class PutProfileService(
                 profileCategoryRepository.saveAll(profileCategories)
             }
 
-            val profile = async {
+            val p = async {
                 profile.put(request)
                 profileRepository.save(profile)
             }
@@ -61,10 +61,10 @@ class PutProfileService(
             profileCategories.await()
 
             RegisterProfileResponse(
-                profile.await(),
+                p.await(),
                 userProfileWants.await(),
                 request.domains,
-                request.categories,
+                request.categories
             )
         }
     }

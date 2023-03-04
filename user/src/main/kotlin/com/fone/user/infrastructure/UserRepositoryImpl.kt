@@ -15,12 +15,12 @@ import org.springframework.stereotype.Repository
 @Repository
 class UserRepositoryImpl(
     private val sessionFactory: Mutiny.SessionFactory,
-    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
+    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory
 ) : UserRepository {
 
     override suspend fun findByEmailAndSocialLoginType(
         email: String,
-        socialLoginType: SocialLoginType,
+        socialLoginType: SocialLoginType
     ): User? {
         return queryFactory.singleQueryOrNull {
             select(entity(User::class))
@@ -28,7 +28,7 @@ class UserRepositoryImpl(
             where(
                 and(
                     emailEq(email),
-                    socialLoginTypeEq(socialLoginType),
+                    socialLoginTypeEq(socialLoginType)
                 )
             )
         }
@@ -41,7 +41,7 @@ class UserRepositoryImpl(
             where(
                 or(
                     emailEq(email),
-                    nicknameEq(nickname),
+                    nicknameEq(nickname)
                 )
             )
         }
@@ -51,10 +51,10 @@ class UserRepositoryImpl(
         return newUser.also {
             queryFactory.withFactory { session, _ ->
                 if (it.id == null) {
-                        session.persist(it)
-                    } else {
-                        session.merge(it)
-                    }
+                    session.persist(it)
+                } else {
+                    session.merge(it)
+                }
                     .flatMap { session.flush() }
                     .awaitSuspending()
             }
@@ -62,7 +62,7 @@ class UserRepositoryImpl(
     }
 
     private fun SpringDataReactiveCriteriaQueryDsl<User?>.socialLoginTypeEq(
-        socialLoginType: SocialLoginType?,
+        socialLoginType: SocialLoginType?
     ): EqualValueSpec<SocialLoginType>? {
         socialLoginType ?: return null
 
@@ -70,7 +70,7 @@ class UserRepositoryImpl(
     }
 
     private fun SpringDataReactiveCriteriaQueryDsl<User?>.emailEq(
-        email: String?,
+        email: String?
     ): EqualValueSpec<String>? {
         email ?: return null
 
@@ -78,7 +78,7 @@ class UserRepositoryImpl(
     }
 
     private fun SpringDataReactiveCriteriaQueryDsl<User?>.nicknameEq(
-        nickname: String?,
+        nickname: String?
     ): EqualValueSpec<String>? {
         nickname ?: return null
 

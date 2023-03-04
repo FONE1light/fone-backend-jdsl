@@ -16,12 +16,12 @@ import org.springframework.stereotype.Repository
 @Repository
 class JobOpeningScrapRepositoryImpl(
     private val sessionFactory: Mutiny.SessionFactory,
-    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
+    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory
 ) : JobOpeningScrapRepository {
 
     override suspend fun findByUserIdAndJobOpeningId(
         userId: Long,
-        jobOpeningId: Long,
+        jobOpeningId: Long
     ): JobOpeningScrap? {
         return queryFactory.singleQueryOrNull {
             select(entity(JobOpeningScrap::class))
@@ -29,14 +29,13 @@ class JobOpeningScrapRepositoryImpl(
             where(
                 and(
                     userIdEq(userId),
-                    jobOpeningIdEq(jobOpeningId),
+                    jobOpeningIdEq(jobOpeningId)
                 )
             )
         }
     }
 
     override suspend fun findByUserId(userId: Long): Map<Long, JobOpeningScrap?> {
-
         return queryFactory
             .listQuery {
                 select(entity(JobOpeningScrap::class))
@@ -54,12 +53,12 @@ class JobOpeningScrapRepositoryImpl(
 
     override suspend fun save(jobOpeningScrap: JobOpeningScrap): JobOpeningScrap {
         return jobOpeningScrap.also {
-            queryFactory.withFactory { session, factory ->
+            queryFactory.withFactory { session, _ ->
                 if (it.id == null) {
-                        session.persist(it)
-                    } else {
-                        session.merge(it)
-                    }
+                    session.persist(it)
+                } else {
+                    session.merge(it)
+                }
                     .flatMap { session.flush() }
                     .awaitSuspending()
             }
@@ -67,11 +66,11 @@ class JobOpeningScrapRepositoryImpl(
     }
 
     private fun SpringDataReactiveCriteriaQueryDsl<JobOpeningScrap?>.jobOpeningIdEq(
-        jobOpeningId: Long,
+        jobOpeningId: Long
     ) = col(JobOpeningScrap::jobOpeningId).equal(jobOpeningId)
 
     private fun SpringDataReactiveCriteriaQueryDsl<JobOpeningScrap?>.userIdEq(
-        userId: Long,
+        userId: Long
     ) = col(JobOpeningScrap::userId).equal(userId)
 
     private fun CriteriaDeleteQueryDsl.jobOpeningScrapId(jobOpeningScrap: JobOpeningScrap) =

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class UserCommonRepositoryImpl(
-    private val userRepository: UserRepository,
+    private val userRepository: UserRepository
 ) : UserCommonRepository {
 
     override suspend fun findByEmail(email: String): Long? {

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository
 @Repository
 class CompetitionPrizeRepositoryImpl(
     private val sessionFactory: SessionFactory,
-    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
+    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory
 ) : CompetitionPrizeRepository {
 
     override suspend fun saveAll(prizes: List<Prize>): List<Prize> {

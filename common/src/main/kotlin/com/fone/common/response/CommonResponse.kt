@@ -4,7 +4,7 @@ data class CommonResponse<T>(
     val result: Result,
     val data: T?,
     val message: String,
-    val errorCode: String?,
+    val errorCode: String?
 ) {
 
     companion object {
@@ -14,7 +14,7 @@ data class CommonResponse<T>(
                 result = Result.SUCCESS,
                 data = data,
                 message = message,
-                errorCode = null,
+                errorCode = null
             )
         }
 
@@ -24,7 +24,7 @@ data class CommonResponse<T>(
                 result = Result.SUCCESS,
                 data = data,
                 message = "",
-                errorCode = null,
+                errorCode = null
             )
         }
 
@@ -34,7 +34,7 @@ data class CommonResponse<T>(
                 result = Result.SUCCESS,
                 data = null,
                 message = "",
-                errorCode = null,
+                errorCode = null
             )
         }
 
@@ -44,7 +44,7 @@ data class CommonResponse<T>(
                 result = Result.FAIL,
                 data = data,
                 message = message,
-                errorCode = null,
+                errorCode = null
             )
         }
 
@@ -53,7 +53,7 @@ data class CommonResponse<T>(
                 result = Result.FAIL,
                 data = data,
                 message = errorCode.errorMsg,
-                errorCode = errorCode.name,
+                errorCode = errorCode.name
             )
         }
 
@@ -62,7 +62,7 @@ data class CommonResponse<T>(
                 result = Result.FAIL,
                 data = null,
                 message = message,
-                errorCode = exceptionName,
+                errorCode = exceptionName
             )
         }
     }
@@ -76,5 +76,5 @@ data class CommonResponse<T>(
 data class Error(
     val field: String? = null,
     val message: String? = null,
-    val value: Any? = null,
+    val value: Any? = null
 )

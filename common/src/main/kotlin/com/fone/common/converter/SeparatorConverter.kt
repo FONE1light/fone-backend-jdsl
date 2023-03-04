@@ -6,7 +6,6 @@ import javax.persistence.Converter
 @Converter
 class SeparatorConverter : AttributeConverter<List<Any>, String> {
     override fun convertToDatabaseColumn(attribute: List<Any>): String {
-
         return attribute.map { it.toString() }.joinToString(",")
     }
 

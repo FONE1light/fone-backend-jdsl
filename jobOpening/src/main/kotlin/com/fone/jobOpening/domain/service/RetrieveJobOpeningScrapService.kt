@@ -20,14 +20,14 @@ class RetrieveJobOpeningScrapService(
     private val jobOpeningRepository: JobOpeningRepository,
     private val jobOpeningDomainRepository: JobOpeningDomainRepository,
     private val jobOpeningCategoryRepository: JobOpeningCategoryRepository,
-    private val userRepository: UserCommonRepository,
+    private val userRepository: UserCommonRepository
 ) {
 
     @Transactional(readOnly = true)
     suspend fun retrieveJobOpeningScrap(
         pageable: Pageable,
         email: String,
-        type: Type,
+        type: Type
     ): RetrieveJobOpeningScrapResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 

@@ -1,6 +1,10 @@
 package com.fone.jobOpening.presentation.dto.common
 
-import com.fone.common.entity.*
+import com.fone.common.entity.Career
+import com.fone.common.entity.CategoryType
+import com.fone.common.entity.DomainType
+import com.fone.common.entity.Gender
+import com.fone.common.entity.Type
 import com.fone.common.utils.DateTimeFormat
 import com.fone.jobOpening.domain.entity.JobOpening
 import com.fone.jobOpening.domain.entity.JobOpeningScrap
@@ -23,14 +27,14 @@ data class JobOpeningDto(
     val scrapCount: Long,
     val work: WorkDto,
     val isScrap: Boolean = false,
-    val dDay: String,
+    val dDay: String
 ) {
 
     constructor(
         jobOpening: JobOpening,
         userJobOpeningScrapMap: Map<Long, JobOpeningScrap?>,
         domains: List<DomainType>,
-        categories: List<CategoryType>,
+        categories: List<CategoryType>
     ) : this(
         id = jobOpening.id!!,
         title = jobOpening.title,

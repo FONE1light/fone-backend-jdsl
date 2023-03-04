@@ -21,7 +21,6 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(ServerException::class)
     fun handleServerException(ex: ServerException): ResponseEntity<Any> {
-
         val response = CommonResponse.fail(ex.message, ex.javaClass.simpleName)
         return ResponseEntity(response, null, ex.code)
     }
@@ -31,9 +30,7 @@ class GlobalExceptionHandler {
     fun methodArgumentNotValidException(
         e: ServerWebInputException
     ): Mono<CommonResponse<Nothing?>> {
-
         val errorResponse = CommonResponse.fail(null, ErrorCode.COMMON_NULL_PARAMETER)
-
         return Mono.just(errorResponse)
     }
 
@@ -46,7 +43,7 @@ class GlobalExceptionHandler {
                 Error(
                     field = (it as FieldError).field,
                     message = it.defaultMessage,
-                    value = it.rejectedValue,
+                    value = it.rejectedValue
                 )
             errors.add(error)
         }

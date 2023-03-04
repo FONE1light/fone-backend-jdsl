@@ -13,7 +13,7 @@ object DateTimeFormat {
         val diffDays =
             Period.between(
                 LocalDate.parse(LocalDate.now().toString(), dateFormatter),
-                LocalDate.parse(deadline.toString(), dateFormatter),
+                LocalDate.parse(deadline.toString(), dateFormatter)
             ).days
 
         return if (diffDays >= 0) "D-$diffDays" else "마감"

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class SignUpUserFacade(
-    private val signUpUserService: SignUpUserService,
+    private val signUpUserService: SignUpUserService
 ) {
 
     suspend fun signUp(request: SignUpUserRequest) = signUpUserService.signUpUser(request)

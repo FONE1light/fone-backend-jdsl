@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class RetrieveCompetitionFacade(
-    private val retrieveCompetitionService: RetrieveCompetitionService,
+    private val retrieveCompetitionService: RetrieveCompetitionService
 ) {
 
     suspend fun retrieveCompetitions(email: String, pageable: Pageable) =

@@ -1,6 +1,5 @@
 package com.fone.common.jwt
 
-import java.util.stream.Collectors
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import org.springframework.security.authentication.ReactiveAuthenticationManager
@@ -9,11 +8,12 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.stereotype.Component
 import reactor.core.publisher.Mono
+import java.util.stream.Collectors
 
 @Component
 class AuthenticationManager(
     val jwtUtils: JWTUtils,
-    val userRepository: JwtUserRepository,
+    val userRepository: JwtUserRepository
 ) : ReactiveAuthenticationManager {
 
     override fun authenticate(authentication: Authentication): Mono<Authentication> {

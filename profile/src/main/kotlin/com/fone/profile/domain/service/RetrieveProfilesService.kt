@@ -8,7 +8,9 @@ import com.fone.profile.domain.repository.ProfileCategoryRepository
 import com.fone.profile.domain.repository.ProfileDomainRepository
 import com.fone.profile.domain.repository.ProfileRepository
 import com.fone.profile.domain.repository.ProfileWantRepository
-import com.fone.profile.presentation.dto.RetrieveProfilesDto.*
+import com.fone.profile.presentation.dto.RetrieveProfilesDto.RetrieveProfileResponse
+import com.fone.profile.presentation.dto.RetrieveProfilesDto.RetrieveProfilesRequest
+import com.fone.profile.presentation.dto.RetrieveProfilesDto.RetrieveProfilesResponse
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.springframework.data.domain.Pageable
@@ -21,14 +23,14 @@ class RetrieveProfilesService(
     private val profileWantRepository: ProfileWantRepository,
     private val userRepository: UserCommonRepository,
     private val profileDomainRepository: ProfileDomainRepository,
-    private val profileCategoryRepository: ProfileCategoryRepository,
+    private val profileCategoryRepository: ProfileCategoryRepository
 ) {
 
     @Transactional(readOnly = true)
     suspend fun retrieveProfiles(
         pageable: Pageable,
         email: String,
-        request: RetrieveProfilesRequest,
+        request: RetrieveProfilesRequest
     ): RetrieveProfilesResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 
@@ -55,7 +57,7 @@ class RetrieveProfilesService(
     suspend fun retrieveProfile(
         email: String,
         type: Type,
-        profileId: Long,
+        profileId: Long
     ): RetrieveProfileResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 
@@ -70,17 +72,17 @@ class RetrieveProfilesService(
 
             val userProfileWants = async { profileWantRepository.findByUserId(userId) }
 
-            val profileId = profile.await().id!!
+            val id = profile.await().id!!
 
-            val profileDomains = async { profileDomainRepository.findByProfileId(profileId) }
+            val profileDomains = async { profileDomainRepository.findByProfileId(id) }
 
-            val profileCategories = async { profileCategoryRepository.findByProfileId(profileId) }
+            val profileCategories = async { profileCategoryRepository.findByProfileId(id) }
 
             RetrieveProfileResponse(
                 profile.await(),
                 userProfileWants.await(),
                 profileDomains.await(),
-                profileCategories.await(),
+                profileCategories.await()
             )
         }
     }

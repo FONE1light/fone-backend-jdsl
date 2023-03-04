@@ -17,13 +17,13 @@ import org.springframework.transaction.annotation.Transactional
 class RetrieveCompetitionService(
     private val competitionRepository: CompetitionRepository,
     private val competitionScrapRepository: CompetitionScrapRepository,
-    private val userRepository: UserCommonRepository,
+    private val userRepository: UserCommonRepository
 ) {
 
     @Transactional(readOnly = true)
     suspend fun retrieveCompetitions(
         email: String,
-        pageable: Pageable,
+        pageable: Pageable
     ): RetrieveCompetitionsResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 
@@ -38,7 +38,7 @@ class RetrieveCompetitionService(
                 competitions.await(),
                 userCompetitionScraps.await(),
                 competitionCount.await(),
-                pageable,
+                pageable
             )
         }
     }
@@ -46,7 +46,7 @@ class RetrieveCompetitionService(
     @Transactional
     suspend fun retrieveCompetition(
         email: String,
-        competitionId: Long,
+        competitionId: Long
     ): RetrieveCompetitionResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 
@@ -63,7 +63,7 @@ class RetrieveCompetitionService(
 
             RetrieveCompetitionResponse(
                 competition.await(),
-                userCompetitionScraps.await(),
+                userCompetitionScraps.await()
             )
         }
     }

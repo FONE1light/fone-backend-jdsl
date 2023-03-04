@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional
 class ScrapCompetitionService(
     private val userRepository: UserCommonRepository,
     private val competitionRepository: CompetitionRepository,
-    private val competitionScrapRepository: CompetitionScrapRepository,
+    private val competitionScrapRepository: CompetitionScrapRepository
 ) {
 
     @Transactional

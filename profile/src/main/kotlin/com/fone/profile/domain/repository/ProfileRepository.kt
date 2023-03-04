@@ -9,7 +9,7 @@ import org.springframework.data.domain.Slice
 interface ProfileRepository {
     suspend fun findAllByFilters(
         pageable: Pageable,
-        request: RetrieveProfilesRequest,
+        request: RetrieveProfilesRequest
     ): Slice<Profile>
 
     suspend fun findByTypeAndId(type: Type?, profileId: Long?): Profile?

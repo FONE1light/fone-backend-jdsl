@@ -12,7 +12,7 @@ import org.springframework.data.domain.Slice
 class RetrieveProfileMyRegistrationDto {
 
     data class RetrieveProfileMyRegistrationResponse(
-        val profiles: Slice<ProfileDto>,
+        val profiles: Slice<ProfileDto>
     ) {
 
         constructor(
@@ -20,24 +20,24 @@ class RetrieveProfileMyRegistrationDto {
             userProfileWantMap: Map<Long, ProfileWant?>,
             profileDomains: Map<Long, List<DomainType>>,
             profileCategories: Map<Long, List<CategoryType>>,
-            pageable: Pageable,
+            pageable: Pageable
         ) : this(
             profiles =
-                PageImpl(
-                    profiles
-                        .map {
-                            ProfileDto(
-                                it,
-                                userProfileWantMap,
-                                it.profileImages.map { image -> image.profileUrl }.toList(),
-                                profileDomains[it.id!!] ?: listOf(),
-                                profileCategories[it.id!!] ?: listOf(),
-                            )
-                        }
-                        .toList(),
-                    pageable,
-                    profiles.size.toLong()
-                )
+            PageImpl(
+                profiles
+                    .map {
+                        ProfileDto(
+                            it,
+                            userProfileWantMap,
+                            it.profileImages.map { image -> image.profileUrl }.toList(),
+                            profileDomains[it.id!!] ?: listOf(),
+                            profileCategories[it.id!!] ?: listOf()
+                        )
+                    }
+                    .toList(),
+                pageable,
+                profiles.size.toLong()
+            )
         )
     }
 }

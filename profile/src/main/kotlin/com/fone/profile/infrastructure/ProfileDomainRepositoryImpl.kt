@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository
 @Repository
 class ProfileDomainRepositoryImpl(
     private val sessionFactory: Mutiny.SessionFactory,
-    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
+    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory
 ) : ProfileDomainRepository {
 
     override suspend fun saveAll(profileDomain: List<ProfileDomain>): List<ProfileDomain> {

@@ -24,7 +24,7 @@ enum class CategoryType(category: String) {
                 OTT_DRAMA,
                 YOUTUBE,
                 VIRAL,
-                ETC,
+                ETC
             )
         }
     }

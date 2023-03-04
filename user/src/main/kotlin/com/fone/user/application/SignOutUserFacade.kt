@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class SignOutUserFacade(
-    private val signOutUserService: SignOutUserService,
+    private val signOutUserService: SignOutUserService
 ) {
 
     suspend fun signOutUser(email: String) = signOutUserService.signOutUser(email)

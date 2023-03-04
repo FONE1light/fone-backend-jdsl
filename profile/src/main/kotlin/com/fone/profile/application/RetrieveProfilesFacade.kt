@@ -8,13 +8,13 @@ import org.springframework.stereotype.Service
 
 @Service
 class RetrieveProfilesFacade(
-    private val retrieveProfilesService: RetrieveProfilesService,
+    private val retrieveProfilesService: RetrieveProfilesService
 ) {
 
     suspend fun retrieveProfiles(
         pageable: Pageable,
         email: String,
-        request: RetrieveProfilesRequest,
+        request: RetrieveProfilesRequest
     ) = retrieveProfilesService.retrieveProfiles(pageable, email, request)
 
     suspend fun retrieveProfile(email: String, type: Type, profileId: Long) =

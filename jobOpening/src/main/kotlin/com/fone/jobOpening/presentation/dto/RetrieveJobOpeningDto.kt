@@ -23,11 +23,11 @@ class RetrieveJobOpeningDto {
         @ApiModelProperty(value = "카테고리", required = false)
         val categories: List<CategoryType> = CategoryType.getAllEnum(),
         @ApiModelProperty(value = "분야", required = false)
-        val domains: List<DomainType> = DomainType.getAllEnum(),
+        val domains: List<DomainType> = DomainType.getAllEnum()
     )
 
     data class RetrieveJobOpeningsResponse(
-        val jobOpenings: Slice<JobOpeningDto>,
+        val jobOpenings: Slice<JobOpeningDto>
     ) {
 
         constructor(
@@ -35,35 +35,35 @@ class RetrieveJobOpeningDto {
             userJobOpeningScrapMap: Map<Long, JobOpeningScrap?>,
             jobOpeningDomains: Map<Long, List<DomainType>>,
             jobOpeningCategories: Map<Long, List<CategoryType>>,
-            pageable: Pageable,
+            pageable: Pageable
         ) : this(
             jobOpenings =
-                PageImpl(
-                    jobOpeningList
-                        .map {
-                            JobOpeningDto(
-                                it,
-                                userJobOpeningScrapMap,
-                                jobOpeningDomains[it.id!!] ?: listOf(),
-                                jobOpeningCategories[it.id!!] ?: listOf(),
-                            )
-                        }
-                        .toList(),
-                    pageable,
-                    jobOpeningList.size.toLong()
-                )
+            PageImpl(
+                jobOpeningList
+                    .map {
+                        JobOpeningDto(
+                            it,
+                            userJobOpeningScrapMap,
+                            jobOpeningDomains[it.id!!] ?: listOf(),
+                            jobOpeningCategories[it.id!!] ?: listOf()
+                        )
+                    }
+                    .toList(),
+                pageable,
+                jobOpeningList.size.toLong()
+            )
         )
     }
 
     data class RetrieveJobOpeningResponse(
-        val jobOpening: JobOpeningDto,
+        val jobOpening: JobOpeningDto
     ) {
 
         constructor(
             reqJobOpening: JobOpening,
             userJobOpeningScrapMap: Map<Long, JobOpeningScrap?>,
             domains: List<DomainType>,
-            categories: List<CategoryType>,
+            categories: List<CategoryType>
         ) : this(
             jobOpening = JobOpeningDto(reqJobOpening, userJobOpeningScrapMap, domains, categories)
         )

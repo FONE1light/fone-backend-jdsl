@@ -15,7 +15,7 @@ data class Work(
     @Column var pay: String,
     @Column(length = 500) var details: String,
     @Column var manager: String,
-    @Column var email: String,
+    @Column var email: String
 ) {
     fun delete() {
         produce = ""

@@ -5,17 +5,28 @@ import com.fone.common.entity.BaseEntity
 import com.fone.common.entity.Gender
 import com.fone.user.domain.enum.Job
 import com.fone.user.domain.enum.SocialLoginType
-import com.fone.user.presentation.dto.ModifyUserDto.*
-import java.time.LocalDate
-import javax.persistence.*
+import com.fone.user.presentation.dto.ModifyUserDto.ModifyUserRequest
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
+import java.time.LocalDate
+import javax.persistence.Column
+import javax.persistence.Convert
+import javax.persistence.Entity
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
+import javax.persistence.Id
+import javax.persistence.Table
 
 @Entity
 @Table(name = "users")
 data class User(
-    @Id @Column @GeneratedValue(strategy = GenerationType.IDENTITY) var id: Long? = null,
+    @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Long? = null,
     @Enumerated(EnumType.STRING) var job: Job,
     @Convert(converter = SeparatorConverter::class) var interests: List<String> = listOf(),
     @Column var nickname: String,
@@ -29,7 +40,7 @@ data class User(
     @Column val agreeToPersonalInformation: Boolean,
     @Column val isReceiveMarketing: Boolean,
     @Convert(converter = SeparatorConverter::class) var roles: List<String>,
-    @Column var enabled: Boolean,
+    @Column var enabled: Boolean
 ) : UserDetails, BaseEntity() {
     fun modifyUser(request: ModifyUserRequest) {
         this.nickname = request.nickname

@@ -3,8 +3,8 @@ package com.fone.competition.presentation.dto
 import com.fone.competition.domain.entity.Competition
 import com.fone.competition.domain.entity.Prize
 import com.fone.competition.presentation.dto.common.CompetitionDto
-import java.time.LocalDate
 import org.springframework.format.annotation.DateTimeFormat
+import java.time.LocalDate
 
 class RegisterCompetitionDto {
 
@@ -18,7 +18,7 @@ class RegisterCompetitionDto {
         @DateTimeFormat(pattern = "yyyy-MM-dd") val showStartDate: LocalDate,
         val agency: String,
         val details: String,
-        val prizes: List<PrizeRequest>,
+        val prizes: List<PrizeRequest>
     ) {
         fun toEntity(userId: Long): Competition {
             return Competition(
@@ -33,7 +33,7 @@ class RegisterCompetitionDto {
                 details = details,
                 userId = userId,
                 viewCount = 0,
-                scrapCount = 0,
+                scrapCount = 0
             )
         }
     }
@@ -41,18 +41,18 @@ class RegisterCompetitionDto {
     data class PrizeRequest(
         val ranking: String,
         val prizeMoney: String,
-        val competitionId: Long,
+        val competitionId: Long
     ) {
         fun toEntity(): Prize {
             return Prize(
                 ranking = ranking,
-                prizeMoney = prizeMoney,
+                prizeMoney = prizeMoney
             )
         }
     }
 
     data class RegisterCompetitionResponse(
-        val competition: CompetitionDto,
+        val competition: CompetitionDto
     ) {
         constructor(
             reqCompetition: Competition

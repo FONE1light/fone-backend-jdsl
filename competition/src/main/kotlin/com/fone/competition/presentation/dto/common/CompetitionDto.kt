@@ -21,11 +21,11 @@ data class CompetitionDto(
     val scrapCount: Long,
     val competitionPrizes: List<CompetitionPrizeDto>,
     val isScrap: Boolean = false,
-    val dDay: String,
+    val dDay: String
 ) {
     constructor(
         competition: Competition,
-        userCompetitionScrapMap: Map<Long, CompetitionScrap?>,
+        userCompetitionScrapMap: Map<Long, CompetitionScrap?>
     ) : this(
         id = competition.id!!,
         title = competition.title,
@@ -41,7 +41,7 @@ data class CompetitionDto(
         scrapCount = competition.scrapCount,
         competitionPrizes = competition.prizes.map { CompetitionPrizeDto(it) }.toList(),
         isScrap = userCompetitionScrapMap.get(competition.id!!) != null,
-        dDay = DateTimeFormat.calculateDays(competition.endDate ?: competition.submitEndDate),
+        dDay = DateTimeFormat.calculateDays(competition.endDate ?: competition.submitEndDate)
     )
 }
 
@@ -49,7 +49,7 @@ data class CompetitionPrizeDto(
     val id: Long,
     val ranking: String,
     val prizeMoney: String,
-    val competitionId: Long,
+    val competitionId: Long
 ) {
     constructor(
         prize: Prize
@@ -57,6 +57,6 @@ data class CompetitionPrizeDto(
         id = prize.id!!,
         ranking = prize.ranking,
         prizeMoney = prize.prizeMoney,
-        competitionId = prize.competition!!.id!!,
+        competitionId = prize.competition!!.id!!
     )
 }

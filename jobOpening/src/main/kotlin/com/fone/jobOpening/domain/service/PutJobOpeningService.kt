@@ -10,7 +10,8 @@ import com.fone.jobOpening.domain.repository.JobOpeningCategoryRepository
 import com.fone.jobOpening.domain.repository.JobOpeningDomainRepository
 import com.fone.jobOpening.domain.repository.JobOpeningRepository
 import com.fone.jobOpening.domain.repository.JobOpeningScrapRepository
-import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.*
+import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningRequest
+import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningResponse
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.springframework.stereotype.Service
@@ -21,13 +22,13 @@ class PutJobOpeningService(
     private val jobOpeningScrapRepository: JobOpeningScrapRepository,
     private val jobOpeningDomainRepository: JobOpeningDomainRepository,
     private val jobOpeningCategoryRepository: JobOpeningCategoryRepository,
-    private val userRepository: UserCommonRepository,
+    private val userRepository: UserCommonRepository
 ) {
 
     suspend fun putJobOpening(
         request: RegisterJobOpeningRequest,
         email: String,
-        jobOpeningId: Long,
+        jobOpeningId: Long
     ): RegisterJobOpeningResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
         val jobOpening =
@@ -47,11 +48,10 @@ class PutJobOpeningService(
 
             val jobOpeningCategories = async {
                 jobOpeningCategoryRepository.deleteByJobOpeningId(jobOpening.id!!)
-                val jobOpeningCategories =
-                    request.categories.map { JobOpeningCategory(jobOpening.id!!, it) }
+                request.categories.map { JobOpeningCategory(jobOpening.id!!, it) }
             }
 
-            val jobOpening = async {
+            val jo = async {
                 jobOpening.put(request)
                 jobOpeningRepository.save(jobOpening)
             }
@@ -62,7 +62,7 @@ class PutJobOpeningService(
             jobOpeningCategories.await()
 
             RegisterJobOpeningResponse(
-                jobOpening.await(),
+                jo.await(),
                 userJobOpeningScraps.await(),
                 request.domains,
                 request.categories

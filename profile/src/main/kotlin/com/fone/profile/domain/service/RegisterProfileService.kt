@@ -9,7 +9,8 @@ import com.fone.profile.domain.repository.ProfileCategoryRepository
 import com.fone.profile.domain.repository.ProfileDomainRepository
 import com.fone.profile.domain.repository.ProfileRepository
 import com.fone.profile.domain.repository.ProfileWantRepository
-import com.fone.profile.presentation.dto.RegisterProfileDto.*
+import com.fone.profile.presentation.dto.RegisterProfileDto.RegisterProfileRequest
+import com.fone.profile.presentation.dto.RegisterProfileDto.RegisterProfileResponse
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.springframework.stereotype.Service
@@ -21,13 +22,13 @@ class RegisterProfileService(
     private val profileWantRepository: ProfileWantRepository,
     private val profileDomainRepository: ProfileDomainRepository,
     private val profileCategoryRepository: ProfileCategoryRepository,
-    private val userRepository: UserCommonRepository,
+    private val userRepository: UserCommonRepository
 ) {
 
     @Transactional
     suspend fun registerProfile(
         request: RegisterProfileRequest,
-        email: String,
+        email: String
     ): RegisterProfileResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 
@@ -55,7 +56,7 @@ class RegisterProfileService(
                     profile.await(),
                     userProfileWants.await(),
                     domains,
-                    categories,
+                    categories
                 )
             }
         }

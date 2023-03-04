@@ -21,13 +21,13 @@ class RegisterJobOpeningService(
     private val jobOpeningScrapRepository: JobOpeningScrapRepository,
     private val jobOpeningDomainRepository: JobOpeningDomainRepository,
     private val jobOpeningCategoryRepository: JobOpeningCategoryRepository,
-    private val userRepository: UserCommonRepository,
+    private val userRepository: UserCommonRepository
 ) {
 
     @Transactional
     suspend fun registerJobOpening(
         request: RegisterJobOpeningRequest,
-        email: String,
+        email: String
     ): RegisterJobOpeningResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 
@@ -56,7 +56,7 @@ class RegisterJobOpeningService(
                     jobOpening.await(),
                     userJobOpeningScraps.await(),
                     domains,
-                    categories,
+                    categories
                 )
             }
         }

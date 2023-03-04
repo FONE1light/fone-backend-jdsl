@@ -6,11 +6,11 @@ import org.springframework.stereotype.Service
 
 @Service
 class RegisterProfileFacade(
-    private val registerProfileService: RegisterProfileService,
+    private val registerProfileService: RegisterProfileService
 ) {
 
     suspend fun registerProfile(
         request: RegisterProfileRequest,
-        email: String,
+        email: String
     ) = registerProfileService.registerProfile(request, email)
 }

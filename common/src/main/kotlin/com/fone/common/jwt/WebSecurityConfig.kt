@@ -23,7 +23,7 @@ class WebSecurityConfig(
     fun securityWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
         return http
             .exceptionHandling()
-            .authenticationEntryPoint { swe: ServerWebExchange, _: AuthenticationException? ->
+            .authenticationEntryPoint { _: ServerWebExchange, _: AuthenticationException? ->
                 Mono.fromRunnable {
                     throw UnauthorizedException(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다.")
                 }
@@ -51,7 +51,7 @@ class WebSecurityConfig(
                 "/api/v1/users/sign-in",
                 "/api/v1/users/sign-up",
                 "/api/v1/users/check-nickname-duplication",
-                "/api/v1/question",
+                "/api/v1/question"
             )
             .permitAll()
             .anyExchange()

@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional
 class ScrapJobOpeningService(
     private val userRepository: UserCommonRepository,
     private val jobOpeningScrapRepository: JobOpeningScrapRepository,
-    private val jobOpeningRepository: JobOpeningRepository,
+    private val jobOpeningRepository: JobOpeningRepository
 ) {
 
     @Transactional

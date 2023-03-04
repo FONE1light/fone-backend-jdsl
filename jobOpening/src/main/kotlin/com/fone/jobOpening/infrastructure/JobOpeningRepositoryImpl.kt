@@ -11,22 +11,26 @@ import com.linecorp.kotlinjdsl.query.spec.OrderSpec
 import com.linecorp.kotlinjdsl.query.spec.predicate.EqualValueSpec
 import com.linecorp.kotlinjdsl.querydsl.expression.col
 import com.linecorp.kotlinjdsl.querydsl.expression.column
-import com.linecorp.kotlinjdsl.spring.data.reactive.query.*
+import com.linecorp.kotlinjdsl.spring.data.reactive.query.SpringDataHibernateMutinyReactiveQueryFactory
+import com.linecorp.kotlinjdsl.spring.data.reactive.query.listQuery
+import com.linecorp.kotlinjdsl.spring.data.reactive.query.pageQuery
+import com.linecorp.kotlinjdsl.spring.data.reactive.query.singleQueryOrNull
+import com.linecorp.kotlinjdsl.spring.data.reactive.query.subquery
 import com.linecorp.kotlinjdsl.spring.reactive.querydsl.SpringDataReactiveCriteriaQueryDsl
 import com.linecorp.kotlinjdsl.spring.reactive.querydsl.SpringDataReactivePageableQueryDsl
 import io.smallrye.mutiny.coroutines.awaitSuspending
-import java.time.LocalDate
 import org.hibernate.reactive.mutiny.Mutiny
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Repository
+import java.time.LocalDate
 
 @Repository
 class JobOpeningRepositoryImpl(
     private val sessionFactory: Mutiny.SessionFactory,
-    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
+    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory
 ) : JobOpeningRepository {
 
     override suspend fun findAllTop5ByType(pageable: Pageable, type: Type): Slice<JobOpening> {
@@ -39,7 +43,7 @@ class JobOpeningRepositoryImpl(
 
     override suspend fun findByFilters(
         pageable: Pageable,
-        request: RetrieveJobOpeningsRequest,
+        request: RetrieveJobOpeningsRequest
     ): Slice<JobOpening> {
         val domainJobOpeningIds =
             queryFactory.listQuery {
@@ -59,7 +63,7 @@ class JobOpeningRepositoryImpl(
             return PageImpl(
                 listOf(),
                 pageable,
-                0,
+                0
             )
         }
 
@@ -74,10 +78,10 @@ class JobOpeningRepositoryImpl(
                             col(JobOpening::gender).`in`(request.genders),
                             or(
                                 col(JobOpening::ageMax).greaterThanOrEqualTo(request.ageMin),
-                                col(JobOpening::ageMin).lessThanOrEqualTo(request.ageMax),
+                                col(JobOpening::ageMin).lessThanOrEqualTo(request.ageMax)
                             ),
                             col(JobOpening::id).`in`(domainJobOpeningIds),
-                            col(JobOpening::id).`in`(categoryJobOpeningIds),
+                            col(JobOpening::id).`in`(categoryJobOpeningIds)
                         )
                     )
                 }
@@ -89,7 +93,7 @@ class JobOpeningRepositoryImpl(
                 from(entity(JobOpening::class))
                 where(col(JobOpening::id).`in`(ids))
                 orderBy(
-                    orderSpec(pageable.sort),
+                    orderSpec(pageable.sort)
                 )
             }
 
@@ -103,7 +107,7 @@ class JobOpeningRepositoryImpl(
             where(
                 and(
                     typeEqOrNull(type),
-                    jobOpeningIdEq(jobOpeningId),
+                    jobOpeningIdEq(jobOpeningId)
                 )
             )
         }
@@ -120,7 +124,7 @@ class JobOpeningRepositoryImpl(
     override suspend fun findScrapAllByUserId(
         pageable: Pageable,
         userId: Long,
-        type: Type,
+        type: Type
     ): Slice<JobOpening> {
         val jobOpeningIds =
             queryFactory.subquery {
@@ -135,7 +139,7 @@ class JobOpeningRepositoryImpl(
             where(
                 and(
                     col(JobOpening::id).`in`(jobOpeningIds),
-                    typeEq(type),
+                    typeEq(type)
                 )
             )
         }
@@ -143,12 +147,12 @@ class JobOpeningRepositoryImpl(
 
     override suspend fun save(jobOpening: JobOpening): JobOpening {
         return jobOpening.also {
-            queryFactory.withFactory { session, factory ->
+            queryFactory.withFactory { session, _ ->
                 if (it.id == null) {
-                        session.persist(it)
-                    } else {
-                        session.merge(it)
-                    }
+                    session.persist(it)
+                } else {
+                    session.merge(it)
+                }
                     .flatMap { session.flush() }
                     .awaitSuspending()
             }
@@ -156,19 +160,19 @@ class JobOpeningRepositoryImpl(
     }
 
     private fun SpringDataReactiveCriteriaQueryDsl<JobOpening?>.jobOpeningIdEq(
-        jobOpeningId: Long?,
+        jobOpeningId: Long?
     ) = col(JobOpening::id).equal(jobOpeningId)
 
     private fun SpringDataReactivePageableQueryDsl<JobOpening>.idIn(
-        jobOpeningIds: List<Long>,
+        jobOpeningIds: List<Long>
     ) = col(JobOpening::id).`in`(jobOpeningIds)
 
     private fun SpringDataReactivePageableQueryDsl<JobOpening>.userIdEq(
-        userId: Long,
+        userId: Long
     ) = col(JobOpening::userId).equal(userId)
 
     private fun SpringDataReactiveCriteriaQueryDsl<JobOpening?>.typeEqOrNull(
-        type: Type?,
+        type: Type?
     ): EqualValueSpec<Type>? {
         type ?: return null
 
@@ -176,7 +180,7 @@ class JobOpeningRepositoryImpl(
     }
 
     private fun SpringDataReactiveCriteriaQueryDsl<JobOpening>.typeEq(
-        type: Type?,
+        type: Type?
     ): EqualValueSpec<Type>? {
         type ?: return null
 
@@ -184,7 +188,7 @@ class JobOpeningRepositoryImpl(
     }
 
     private fun SpringDataReactivePageableQueryDsl<JobOpening>.typeEq(
-        type: Type?,
+        type: Type?
     ): EqualValueSpec<Type>? {
         type ?: return null
         return col(JobOpening::type).equal(type)
@@ -195,11 +199,10 @@ class JobOpeningRepositoryImpl(
     ): List<OrderSpec> {
         val endDate =
             case(
-                    `when`(column(JobOpening::deadline).lessThanOrEqualTo(LocalDate.now()))
-                        .then(literal(1)),
-                    `else` = literal(0)
-                )
-                .asc()
+                `when`(column(JobOpening::deadline).lessThanOrEqualTo(LocalDate.now()))
+                    .then(literal(1)),
+                `else` = literal(0)
+            ).asc()
 
         val res =
             sort

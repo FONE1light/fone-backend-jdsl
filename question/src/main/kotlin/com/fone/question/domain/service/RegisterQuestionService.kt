@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class RegisterQuestionService(
-    private val questionRepository: QuestionRepository,
+    private val questionRepository: QuestionRepository
 ) {
 
     @Transactional

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository
 @Repository
 class JobOpeningDomainRepositoryImpl(
     private val sessionFactory: Mutiny.SessionFactory,
-    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
+    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory
 ) : JobOpeningDomainRepository {
 
     override suspend fun saveAll(jobOpeningDomain: List<JobOpeningDomain>): List<JobOpeningDomain> {

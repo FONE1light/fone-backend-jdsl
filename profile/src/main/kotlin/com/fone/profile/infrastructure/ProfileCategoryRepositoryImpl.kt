@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository
 @Repository
 class ProfileCategoryRepositoryImpl(
     private val sessionFactory: Mutiny.SessionFactory,
-    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
+    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory
 ) : ProfileCategoryRepository {
 
     override suspend fun saveAll(profileCategory: List<ProfileCategory>): List<ProfileCategory> {

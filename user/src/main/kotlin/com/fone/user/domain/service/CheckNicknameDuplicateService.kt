@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class CheckNicknameDuplicateService(
-    private val userRepository: UserRepository,
+    private val userRepository: UserRepository
 ) {
 
     @Transactional(readOnly = true)

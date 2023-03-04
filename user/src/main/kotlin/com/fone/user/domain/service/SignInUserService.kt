@@ -7,15 +7,15 @@ import com.fone.common.redis.RedisRepository
 import com.fone.user.domain.repository.UserRepository
 import com.fone.user.presentation.dto.SignInUserDto.SignInUserRequest
 import com.fone.user.presentation.dto.SignInUserDto.SignInUserResponse
-import java.util.concurrent.TimeUnit
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.concurrent.TimeUnit
 
 @Service
 class SignInUserService(
     private val userRepository: UserRepository,
     private val jwtUtils: JWTUtils,
-    private val redisRepository: RedisRepository,
+    private val redisRepository: RedisRepository
 ) {
 
     @Transactional(readOnly = true)

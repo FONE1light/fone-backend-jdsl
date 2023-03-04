@@ -7,7 +7,7 @@ interface UserRepository {
 
     suspend fun findByEmailAndSocialLoginType(
         email: String,
-        socialLoginType: SocialLoginType,
+        socialLoginType: SocialLoginType
     ): User?
 
     suspend fun findByNicknameOrEmail(nickname: String?, email: String?): User?

@@ -11,13 +11,13 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class RegisterReportService(
     private val reportRepository: ReportRepository,
-    private val userRepository: UserCommonRepository,
+    private val userRepository: UserCommonRepository
 ) {
 
     @Transactional
     suspend fun registerReport(
         request: RegisterReportRequest,
-        email: String,
+        email: String
     ): RegisterReportResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 

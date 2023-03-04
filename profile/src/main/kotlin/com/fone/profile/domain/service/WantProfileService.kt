@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 @Service
 class WantProfileService(
     private val userRepository: UserCommonRepository,
-    private val profileWantRepository: ProfileWantRepository,
+    private val profileWantRepository: ProfileWantRepository
 ) {
 
     suspend fun wantProfile(email: String, profileId: Long) {

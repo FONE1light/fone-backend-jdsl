@@ -13,7 +13,7 @@ enum class Gender {
             return listOf(
                 MAN,
                 WOMAN,
-                IRRELEVANT,
+                IRRELEVANT
             )
         }
     }

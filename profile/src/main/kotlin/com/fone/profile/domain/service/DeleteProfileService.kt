@@ -16,7 +16,7 @@ class DeleteProfileService(
     private val profileRepository: ProfileRepository,
     private val profileDomainRepository: ProfileDomainRepository,
     private val profileCategoryRepository: ProfileCategoryRepository,
-    private val userRepository: UserCommonRepository,
+    private val userRepository: UserCommonRepository
 ) {
 
     suspend fun deleteProfile(email: String, profileId: Long) {
@@ -31,11 +31,11 @@ class DeleteProfileService(
         profile.delete()
 
         coroutineScope {
-            val profile = async { profileRepository.save(profile) }
+            val p = async { profileRepository.save(profile) }
             val profileDomain = async { profileDomainRepository.deleteByProfileId(profileId) }
             val profileCategory = async { profileCategoryRepository.deleteByProfileId(profileId) }
 
-            profile.await()
+            p.await()
             profileDomain.await()
             profileCategory.await()
         }

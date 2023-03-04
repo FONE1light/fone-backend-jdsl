@@ -16,7 +16,7 @@ class DeleteJobOpeningService(
     private val jobOpeningRepository: JobOpeningRepository,
     private val jobOpeningDomainRepository: JobOpeningDomainRepository,
     private val jobOpeningCategoryRepository: JobOpeningCategoryRepository,
-    private val userRepository: UserCommonRepository,
+    private val userRepository: UserCommonRepository
 ) {
 
     suspend fun deleteJobOpening(email: String, jobOpeningId: Long) {

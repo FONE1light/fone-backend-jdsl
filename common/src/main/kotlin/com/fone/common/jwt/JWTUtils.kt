@@ -4,11 +4,11 @@ import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
-import java.security.Key
-import java.util.*
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
+import java.security.Key
+import java.util.*
 
 @Component
 class JWTUtils(
@@ -16,7 +16,7 @@ class JWTUtils(
     @Value("\${security.jwt.access-token-validity-in-seconds}")
     val accessTokenValidityInSeconds: Long,
     @Value("\${security.jwt.refresh-token-validity-in-seconds}")
-    val refreshTokenValidityInSeconds: Long,
+    val refreshTokenValidityInSeconds: Long
 ) : InitializingBean {
     private val accessTokenValidityInMilliseconds: Long
     val refreshTokenValidityInMilliseconds: Long

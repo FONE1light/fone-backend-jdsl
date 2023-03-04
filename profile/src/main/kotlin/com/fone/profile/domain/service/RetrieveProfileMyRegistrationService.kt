@@ -19,7 +19,7 @@ class RetrieveProfileMyRegistrationService(
     private val profileWantRepository: ProfileWantRepository,
     private val profileRepository: ProfileRepository,
     private val profileDomainRepository: ProfileDomainRepository,
-    private val profileCategoryRepository: ProfileCategoryRepository,
+    private val profileCategoryRepository: ProfileCategoryRepository
 ) {
 
     @Transactional(readOnly = true)
@@ -45,7 +45,7 @@ class RetrieveProfileMyRegistrationService(
                 userProfileWants.await(),
                 profileDomains.await(),
                 profileCategories.await(),
-                pageable,
+                pageable
             )
         }
     }

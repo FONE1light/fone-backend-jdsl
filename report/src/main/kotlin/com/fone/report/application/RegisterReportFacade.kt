@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class RegisterReportFacade(
-    private val registerReportService: RegisterReportService,
+    private val registerReportService: RegisterReportService
 ) {
 
     suspend fun registerReport(request: RegisterReportRequest, email: String) =
