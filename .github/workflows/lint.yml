@@ -3,7 +3,7 @@ name: Ktlint
 on: pull_request
 
 jobs:
-  build:
+  build-and-check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
