@@ -15,4 +15,4 @@ jobs:
       - name: Grant Execute Permission For Gradlew
         run: chmod +x gradlew
       - name: Ktlint & Detekt Check
-        run: ./gradlew check
+        run: ./gradlew check -x test
