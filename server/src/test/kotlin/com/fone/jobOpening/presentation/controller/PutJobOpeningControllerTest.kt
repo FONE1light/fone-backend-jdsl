@@ -4,4 +4,5 @@ import com.fone.common.CustomDescribeSpec
 import com.fone.common.IntegrationTest
 import org.springframework.test.web.reactive.server.WebTestClient
 
-@IntegrationTest class PutJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSpec() {}
+@IntegrationTest
+class PutJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSpec()
