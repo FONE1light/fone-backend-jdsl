@@ -21,7 +21,7 @@ class ModifyUserControllerTest(client: WebTestClient) : CustomDescribeSpec() {
                 Job.ACTOR,
                 listOf(CategoryType.ETC),
                 "test1515151",
-                "",
+                ""
             )
 
         describe("#modify") {

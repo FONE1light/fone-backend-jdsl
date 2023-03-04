@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class ScrapJobOpeningFacade(
-    private val scrapJobOpeningService: ScrapJobOpeningService,
+    private val scrapJobOpeningService: ScrapJobOpeningService
 ) {
 
     suspend fun scrapJobOpening(email: String, jobOpeningId: Long) =

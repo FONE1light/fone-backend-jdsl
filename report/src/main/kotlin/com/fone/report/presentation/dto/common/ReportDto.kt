@@ -9,7 +9,7 @@ data class ReportDto(
     val type: Type,
     val typeId: Long,
     val inconvenients: List<String>,
-    val details: String,
+    val details: String
 ) {
     constructor(
         report: Report
@@ -19,6 +19,6 @@ data class ReportDto(
         type = Type(report.type),
         typeId = report.typeId,
         inconvenients = report.inconvenients,
-        details = report.details,
+        details = report.details
     )
 }

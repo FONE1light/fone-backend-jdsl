@@ -6,11 +6,11 @@ import com.fone.user.presentation.dto.common.UserDto
 class RetrieveMyPageUserDto {
 
     data class RetrieveMyPageUserResponse(
-        val user: UserDto,
+        val user: UserDto
     ) {
 
         constructor(
-            user: User,
+            user: User
         ) : this(user = UserDto(user))
     }
 }

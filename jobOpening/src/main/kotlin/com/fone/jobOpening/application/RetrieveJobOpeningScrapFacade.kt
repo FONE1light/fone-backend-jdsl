@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class RetrieveJobOpeningScrapFacade(
-    private val retrieveJobOpeningScrapService: RetrieveJobOpeningScrapService,
+    private val retrieveJobOpeningScrapService: RetrieveJobOpeningScrapService
 ) {
 
     suspend fun retrieveJobOpeningScrap(pageable: Pageable, email: String, type: Type) =

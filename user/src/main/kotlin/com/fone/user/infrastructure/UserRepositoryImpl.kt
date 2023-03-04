@@ -49,7 +49,7 @@ class UserRepositoryImpl(
 
     override suspend fun save(newUser: User): User {
         return newUser.also {
-            queryFactory.withFactory { session, factory ->
+            queryFactory.withFactory { session, _ ->
                 if (it.id == null) {
                         session.persist(it)
                     } else {

@@ -9,7 +9,7 @@ import org.springframework.web.reactive.handler.SimpleUrlHandlerMapping
 import org.springframework.web.reactive.socket.server.support.WebSocketHandlerAdapter
 
 @Configuration
-class WebsocketConfig {
+class WebSocketConfig {
     @Bean
     @InternalCoroutinesApi
     fun handlerMapping(): HandlerMapping {

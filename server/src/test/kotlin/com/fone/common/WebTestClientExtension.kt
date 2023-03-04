@@ -1,16 +1,16 @@
 package com.fone.common
 
-import java.net.URI
 import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.util.UriBuilder
+import java.net.URI
 
 fun WebTestClient.doGet(
     url: String,
     token: String?,
-    queryParams: Map<String, Any>? = null,
+    queryParams: Map<String, Any>? = null
 ): WebTestClient.ResponseSpec {
     if (token == null) {
         return this.get().uri() { it.setUriBuilder(url, queryParams) }.exchange()
@@ -26,7 +26,7 @@ fun <T> WebTestClient.doPost(
     url: String,
     request: T,
     token: String? = null,
-    queryParams: Map<String, Any>? = null,
+    queryParams: Map<String, Any>? = null
 ): WebTestClient.ResponseSpec {
     if (request == null && token != null) {
         return this.post()

@@ -8,9 +8,14 @@ import com.fone.user.domain.enum.Job
 import com.fone.user.domain.enum.SocialLoginType
 import com.fone.user.presentation.dto.common.UserDto
 import io.swagger.annotations.ApiModelProperty
-import java.time.LocalDate
-import javax.validation.constraints.*
 import org.springframework.format.annotation.DateTimeFormat
+import java.time.LocalDate
+import javax.validation.constraints.AssertTrue
+import javax.validation.constraints.Email
+import javax.validation.constraints.NotEmpty
+import javax.validation.constraints.NotNull
+import javax.validation.constraints.Pattern
+import javax.validation.constraints.Size
 
 class SignUpUserDto {
 
@@ -34,10 +39,9 @@ class SignUpUserDto {
         @field:AssertTrue(message = "개인정보 취급방침 동의 선택은 필수 값 입니다.")
         val agreeToPersonalInformation: Boolean,
         @field:NotNull(message = "마케팅 정보수신 동의는 필수 값 입니다.") val isReceiveMarketing: Boolean,
-        @field:NotEmpty(message = "액세스 토큰은 필수 값 입니다.") val accessToken: String,
+        @field:NotEmpty(message = "액세스 토큰은 필수 값 입니다.") val accessToken: String
     ) {
         fun toEntity(): User {
-
             return User(
                 job = job,
                 interests = interests.map { it.toString() }.toList(),
@@ -52,17 +56,17 @@ class SignUpUserDto {
                 agreeToPersonalInformation = agreeToPersonalInformation,
                 isReceiveMarketing = isReceiveMarketing,
                 roles = listOf(Role.ROLE_USER).map { it.toString() }.toList(),
-                enabled = true,
+                enabled = true
             )
         }
     }
 
     data class SignUpUserResponse(
-        val user: UserDto,
+        val user: UserDto
     ) {
 
         constructor(
-            user: User,
+            user: User
         ) : this(user = UserDto(user))
     }
 }

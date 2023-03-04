@@ -6,12 +6,23 @@ import com.fone.common.entity.Gender
 import com.fone.common.entity.Type
 import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningRequest
 import java.time.LocalDate
-import javax.persistence.*
+import javax.persistence.Column
+import javax.persistence.Embedded
+import javax.persistence.Entity
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
+import javax.persistence.Id
+import javax.persistence.Table
 
 @Entity
 @Table(name = "job_openings")
 data class JobOpening(
-    @Id @Column @GeneratedValue(strategy = GenerationType.IDENTITY) var id: Long? = null,
+    @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Long? = null,
     @Column var title: String,
     @Column var deadline: LocalDate?,
     @Column var casting: String,
@@ -25,7 +36,7 @@ data class JobOpening(
     @Column var viewCount: Long,
     @Column var scrapCount: Long,
     @Column var isDeleted: Boolean = false,
-    @Embedded var work: Work,
+    @Embedded var work: Work
 ) : BaseEntity() {
     fun view() {
         viewCount += 1

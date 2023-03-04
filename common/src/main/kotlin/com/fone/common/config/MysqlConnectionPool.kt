@@ -6,8 +6,8 @@ import io.vertx.mysqlclient.MySQLPool
 import io.vertx.sqlclient.Pool
 import io.vertx.sqlclient.PoolOptions
 import io.vertx.sqlclient.SqlConnectOptions
-import java.net.URI
 import org.hibernate.reactive.pool.impl.DefaultSqlClientPool
+import java.net.URI
 
 class MysqlConnectionPool : DefaultSqlClientPool() {
     override fun createPool(
@@ -16,7 +16,6 @@ class MysqlConnectionPool : DefaultSqlClientPool() {
         poolOptions: PoolOptions,
         vertx: Vertx
     ): Pool {
-
         return MySQLPool.pool(
             vertx,
             MySQLConnectOptions()

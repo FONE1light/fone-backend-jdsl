@@ -3,7 +3,6 @@ package com.fone.common.config
 import com.fasterxml.classmate.TypeResolver
 import io.swagger.annotations.ApiModel
 import io.swagger.annotations.ApiModelProperty
-import java.util.*
 import lombok.RequiredArgsConstructor
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -14,11 +13,17 @@ import springfox.documentation.builders.PathSelectors
 import springfox.documentation.builders.RequestHandlerSelectors
 import springfox.documentation.builders.ResponseBuilder
 import springfox.documentation.schema.AlternateTypeRule
-import springfox.documentation.service.*
+import springfox.documentation.service.ApiInfo
+import springfox.documentation.service.ApiKey
+import springfox.documentation.service.AuthorizationScope
+import springfox.documentation.service.Response
+import springfox.documentation.service.SecurityReference
+import springfox.documentation.service.SecurityScheme
 import springfox.documentation.spi.DocumentationType
 import springfox.documentation.spi.service.contexts.SecurityContext
 import springfox.documentation.spring.web.plugins.Docket
 import springfox.documentation.swagger2.annotations.EnableSwagger2
+import java.util.*
 
 @Configuration
 @EnableSwagger2
@@ -40,8 +45,8 @@ class SwaggerConfig(
             .alternateTypeRules(
                 AlternateTypeRule(
                     typeResolver.resolve(Pageable::class.java),
-                    typeResolver.resolve(Page::class.java)
-                )
+                    typeResolver.resolve(PageModel::class.java),
+                ),
             )
             .consumes(getConsumeContentTypes())
             .produces(getProduceContentTypes())
@@ -104,12 +109,14 @@ class SwaggerConfig(
     }
 
     @ApiModel
-    class Page {
-        @ApiModelProperty(value = "페이지 번호(0..N)", example = "0") private val page: Int = 0
+    class PageModel {
+        @ApiModelProperty(value = "페이지 번호(0..N)", example = "0")
+        private val page: Int = 0
 
         @ApiModelProperty(value = "페이지 크기", allowableValues = "range[0, 100]", example = "0")
         private val size: Int = 0
 
-        @ApiModelProperty(value = "정렬(사용법: 컬럼명,ASC|DESC)") private val sort: List<String> = listOf()
+        @ApiModelProperty(value = "정렬(사용법: 컬럼명,ASC|DESC)")
+        private val sort: List<String> = listOf()
     }
 }

@@ -5,7 +5,7 @@ import com.fone.common.CustomDescribeSpec
 import com.fone.common.IntegrationTest
 import com.fone.common.doPost
 import com.fone.question.domain.enum.Type
-import com.fone.question.presentation.dto.RegisterQuestionDto.*
+import com.fone.question.presentation.dto.RegisterQuestionDto.RegisterQuestionRequest
 import org.springframework.test.web.reactive.server.WebTestClient
 
 @IntegrationTest
