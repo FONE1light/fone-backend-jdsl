@@ -147,6 +147,7 @@ class JobOpeningRepositoryImpl(
                     session.merge(it)
                 }.flatMap { session.flush() }.awaitSuspending()
             }
+            println("test..14321" + jobOpening)
         }
     }
 

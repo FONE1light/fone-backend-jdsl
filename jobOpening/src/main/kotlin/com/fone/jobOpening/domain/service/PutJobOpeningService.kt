@@ -30,27 +30,38 @@ class PutJobOpeningService(
         email: String,
         jobOpeningId: Long,
     ): RegisterJobOpeningResponse {
+        println("test..123")
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
         val jobOpening = jobOpeningRepository.findByTypeAndId(null, jobOpeningId) ?: throw NotFoundJobOpeningException()
         if (userId != jobOpening.userId) {
             throw InvalidJobOpeningUserIdException()
         }
 
+        println("test..1231")
         return coroutineScope {
             val jobOpeningDomains = async {
+                println("doamin test..1231 start")
                 jobOpeningDomainRepository.deleteByJobOpeningId(jobOpening.id!!)
                 val jobOpeningDomains = request.domains.map { JobOpeningDomain(jobOpening.id!!, it) }
                 jobOpeningDomainRepository.saveAll(jobOpeningDomains)
+                println("doamin test..1231 end")
             }
 
             val jobOpeningCategories = async {
+                println("category test..1231 start")
                 jobOpeningCategoryRepository.deleteByJobOpeningId(jobOpening.id!!)
-                request.categories.map { JobOpeningCategory(jobOpening.id!!, it) }
+                val jobOpeningCategories = request.categories.map { JobOpeningCategory(jobOpening.id!!, it) }
+                println("category test..1231 end")
             }
 
-            val jo = async {
+            val jobOpening = async {
+                println("save test.. start")
                 jobOpening.put(request)
+                println(jobOpeningId.toString() + "test11151.." + jobOpening.id)
                 jobOpeningRepository.save(jobOpening)
+
+                println("save test.. end")
+                jobOpening
             }
 
             val userJobOpeningScraps = async { jobOpeningScrapRepository.findByUserId(userId) }
@@ -59,7 +70,7 @@ class PutJobOpeningService(
             jobOpeningCategories.await()
 
             RegisterJobOpeningResponse(
-                jo.await(),
+                jobOpening.await(),
                 userJobOpeningScraps.await(),
                 request.domains,
                 request.categories
