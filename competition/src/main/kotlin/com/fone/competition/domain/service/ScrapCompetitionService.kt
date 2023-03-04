@@ -23,9 +23,7 @@ class ScrapCompetitionService(
         competitionScrapRepository.findByUserIdAndCompetitionId(userId, competitionId)?.let {
             competitionScrapRepository.delete(it)
 
-            val competition =
-                competitionRepository.findById(competitionId)
-                    ?: throw NotFoundCompetitionException()
+            val competition = competitionRepository.findById(competitionId) ?: throw NotFoundCompetitionException()
 
             competition.scrapCount -= 1
 
@@ -33,8 +31,7 @@ class ScrapCompetitionService(
             return
         }
 
-        val competition =
-            competitionRepository.findById(competitionId) ?: throw NotFoundCompetitionException()
+        val competition = competitionRepository.findById(competitionId) ?: throw NotFoundCompetitionException()
 
         competition.scrapCount += 1
 

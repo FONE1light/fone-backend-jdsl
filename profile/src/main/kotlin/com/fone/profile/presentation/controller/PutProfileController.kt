@@ -7,10 +7,14 @@ import com.fone.profile.presentation.dto.RegisterProfileDto.RegisterProfileRespo
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
+import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 import java.security.Principal
 import javax.validation.Valid
-import org.springframework.security.access.prepost.PreAuthorize
-import org.springframework.web.bind.annotation.*
 
 @Api(tags = ["04. Profile Info"], description = "프로필 서비스")
 @RestController
@@ -24,11 +28,12 @@ class PutProfileController(
     @ApiOperation(value = "프로필 수정 API")
     @ApiResponse(
         responseCode = "200",
-        description = "성공",
+        description = "성공"
     )
     suspend fun putProfile(
         principal: Principal,
-        @Valid @RequestBody request: RegisterProfileRequest,
+        @Valid @RequestBody
+        request: RegisterProfileRequest,
         @PathVariable profileId: Long,
     ): CommonResponse<RegisterProfileResponse> {
         val response = putProfileFacade.putProfile(request, principal.name, profileId)

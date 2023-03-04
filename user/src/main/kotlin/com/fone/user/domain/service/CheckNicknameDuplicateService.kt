@@ -13,7 +13,7 @@ class CheckNicknameDuplicateService(
 
     @Transactional(readOnly = true)
     suspend fun checkNicknameDuplicate(
-        request: CheckNicknameDuplicateRequest
+        request: CheckNicknameDuplicateRequest,
     ): CheckNicknameDuplicateResponse {
         with(request) {
             userRepository.findByNicknameOrEmail(nickname, null)?.let {

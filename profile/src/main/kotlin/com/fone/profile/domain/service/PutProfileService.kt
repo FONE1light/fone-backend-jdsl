@@ -31,8 +31,7 @@ class PutProfileService(
         profileId: Long,
     ): RegisterProfileResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
-        val profile =
-            profileRepository.findByTypeAndId(null, profileId) ?: throw NotFoundProfileException()
+        val profile = profileRepository.findByTypeAndId(null, profileId) ?: throw NotFoundProfileException()
         if (userId != profile.userId) {
             throw InvalidProfileUserIdException()
         }
@@ -50,7 +49,7 @@ class PutProfileService(
                 profileCategoryRepository.saveAll(profileCategories)
             }
 
-            val profile = async {
+            val p = async {
                 profile.put(request)
                 profileRepository.save(profile)
             }
@@ -61,10 +60,10 @@ class PutProfileService(
             profileCategories.await()
 
             RegisterProfileResponse(
-                profile.await(),
+                p.await(),
                 userProfileWants.await(),
                 request.domains,
-                request.categories,
+                request.categories
             )
         }
     }

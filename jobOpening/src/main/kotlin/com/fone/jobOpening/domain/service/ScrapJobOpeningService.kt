@@ -24,8 +24,7 @@ class ScrapJobOpeningService(
             jobOpeningScrapRepository.delete(it)
 
             val jobOpening =
-                jobOpeningRepository.findByTypeAndId(null, jobOpeningId)
-                    ?: throw NotFoundJobOpeningException()
+                jobOpeningRepository.findByTypeAndId(null, jobOpeningId) ?: throw NotFoundJobOpeningException()
 
             jobOpening.scrapCount -= 1
 
@@ -33,9 +32,7 @@ class ScrapJobOpeningService(
             return
         }
 
-        val jobOpening =
-            jobOpeningRepository.findByTypeAndId(null, jobOpeningId)
-                ?: throw NotFoundJobOpeningException()
+        val jobOpening = jobOpeningRepository.findByTypeAndId(null, jobOpeningId) ?: throw NotFoundJobOpeningException()
 
         jobOpening.scrapCount += 1
 

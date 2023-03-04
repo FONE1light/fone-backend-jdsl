@@ -8,9 +8,14 @@ import com.fone.user.domain.enum.Job
 import com.fone.user.domain.enum.SocialLoginType
 import com.fone.user.presentation.dto.common.UserDto
 import io.swagger.annotations.ApiModelProperty
-import java.time.LocalDate
-import javax.validation.constraints.*
 import org.springframework.format.annotation.DateTimeFormat
+import java.time.LocalDate
+import javax.validation.constraints.AssertTrue
+import javax.validation.constraints.Email
+import javax.validation.constraints.NotEmpty
+import javax.validation.constraints.NotNull
+import javax.validation.constraints.Pattern
+import javax.validation.constraints.Size
 
 class SignUpUserDto {
 
@@ -22,22 +27,27 @@ class SignUpUserDto {
         @field:NotNull(message = "성별은 필수 값 입니다.") val gender: Gender,
         val profileUrl: String?,
         @field:Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}\$")
-        @ApiModelProperty(value = "휴대폰 번호", example = "010-1234-1234", required = true)
+        @ApiModelProperty(
+            value = "휴대폰 번호",
+            example = "010-1234-1234",
+            required = true
+        )
         val phoneNumber: String,
         @field:NotEmpty(message = "이메일은 필수 값 입니다.")
         @field:Email(message = "유효하지 않는 이메일 입니다.")
-        @ApiModelProperty(value = "이메일", example = "test@test.com", required = true)
+        @ApiModelProperty(
+            value = "이메일",
+            example = "test@test.com",
+            required = true
+        )
         val email: String,
         @field:NotNull(message = "소셜 로그인 타입은 필수 값 입니다.") val socialLoginType: SocialLoginType,
-        @field:AssertTrue(message = "이용약관 동의 선택은 필수 값 입니다.")
-        val agreeToTermsOfServiceTermsOfUse: Boolean,
-        @field:AssertTrue(message = "개인정보 취급방침 동의 선택은 필수 값 입니다.")
-        val agreeToPersonalInformation: Boolean,
+        @field:AssertTrue(message = "이용약관 동의 선택은 필수 값 입니다.") val agreeToTermsOfServiceTermsOfUse: Boolean,
+        @field:AssertTrue(message = "개인정보 취급방침 동의 선택은 필수 값 입니다.") val agreeToPersonalInformation: Boolean,
         @field:NotNull(message = "마케팅 정보수신 동의는 필수 값 입니다.") val isReceiveMarketing: Boolean,
         @field:NotEmpty(message = "액세스 토큰은 필수 값 입니다.") val accessToken: String,
     ) {
         fun toEntity(): User {
-
             return User(
                 job = job,
                 interests = interests.map { it.toString() }.toList(),
@@ -52,7 +62,7 @@ class SignUpUserDto {
                 agreeToPersonalInformation = agreeToPersonalInformation,
                 isReceiveMarketing = isReceiveMarketing,
                 roles = listOf(Role.ROLE_USER).map { it.toString() }.toList(),
-                enabled = true,
+                enabled = true
             )
         }
     }

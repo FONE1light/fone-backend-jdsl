@@ -8,8 +8,8 @@ import com.fone.common.entity.Gender
 import com.fone.user.domain.enum.Job
 import com.fone.user.domain.enum.SocialLoginType
 import com.fone.user.presentation.dto.SignUpUserDto
-import java.time.LocalDate
 import org.springframework.test.web.reactive.server.WebTestClient
+import java.time.LocalDate
 
 @IntegrationTest
 class SignUpUserControllerTest(client: WebTestClient) : CustomDescribeSpec() {
@@ -31,7 +31,7 @@ class SignUpUserControllerTest(client: WebTestClient) : CustomDescribeSpec() {
                 true,
                 true,
                 true,
-                "test",
+                "test"
             )
 
         describe("#signUp") {

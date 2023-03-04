@@ -12,13 +12,13 @@ data class ReportDto(
     val details: String,
 ) {
     constructor(
-        report: Report
+        report: Report,
     ) : this(
         id = report.id!!,
         reportUserId = report.reportUserId,
         type = Type(report.type),
         typeId = report.typeId,
         inconvenients = report.inconvenients,
-        details = report.details,
+        details = report.details
     )
 }

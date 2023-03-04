@@ -3,7 +3,6 @@ package com.fone.common.config
 import com.fasterxml.classmate.TypeResolver
 import io.swagger.annotations.ApiModel
 import io.swagger.annotations.ApiModelProperty
-import java.util.*
 import lombok.RequiredArgsConstructor
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -14,11 +13,17 @@ import springfox.documentation.builders.PathSelectors
 import springfox.documentation.builders.RequestHandlerSelectors
 import springfox.documentation.builders.ResponseBuilder
 import springfox.documentation.schema.AlternateTypeRule
-import springfox.documentation.service.*
+import springfox.documentation.service.ApiInfo
+import springfox.documentation.service.ApiKey
+import springfox.documentation.service.AuthorizationScope
+import springfox.documentation.service.Response
+import springfox.documentation.service.SecurityReference
+import springfox.documentation.service.SecurityScheme
 import springfox.documentation.spi.DocumentationType
 import springfox.documentation.spi.service.contexts.SecurityContext
 import springfox.documentation.spring.web.plugins.Docket
 import springfox.documentation.swagger2.annotations.EnableSwagger2
+import java.util.Arrays
 
 @Configuration
 @EnableSwagger2
@@ -30,26 +35,19 @@ class SwaggerConfig(
     @Bean
     fun api(): Docket? {
         val commonResponse = setCommonResponse()
-        return Docket(DocumentationType.SWAGGER_2)
-            .useDefaultResponseMessages(false)
+        return Docket(DocumentationType.SWAGGER_2).useDefaultResponseMessages(false)
             .globalResponses(HttpMethod.GET, commonResponse)
             .globalResponses(HttpMethod.POST, commonResponse)
             .globalResponses(HttpMethod.PUT, commonResponse)
             .globalResponses(HttpMethod.PATCH, commonResponse)
-            .globalResponses(HttpMethod.DELETE, commonResponse)
-            .alternateTypeRules(
+            .globalResponses(HttpMethod.DELETE, commonResponse).alternateTypeRules(
                 AlternateTypeRule(
                     typeResolver.resolve(Pageable::class.java),
-                    typeResolver.resolve(Page::class.java)
+                    typeResolver.resolve(PageModel::class.java)
                 )
-            )
-            .consumes(getConsumeContentTypes())
-            .produces(getProduceContentTypes())
-            .apiInfo(apiInfo())
-            .select()
-            .apis(RequestHandlerSelectors.basePackage("com.fone"))
-            .paths(PathSelectors.ant("/**"))
-            .build()
+            ).consumes(getConsumeContentTypes()).produces(getProduceContentTypes())
+            .apiInfo(apiInfo()).select().apis(RequestHandlerSelectors.basePackage("com.fone"))
+            .paths(PathSelectors.ant("/**")).build()
             .securityContexts(Arrays.asList(securityContext()))
             .securitySchemes(Arrays.asList<SecurityScheme>(apiKey()))
     }
@@ -68,10 +66,8 @@ class SwaggerConfig(
     }
 
     private fun securityContext(): SecurityContext {
-        return SecurityContext.builder()
-            .securityReferences(defaultAuth())
-            .forPaths(PathSelectors.any())
-            .build()
+        return SecurityContext.builder().securityReferences(defaultAuth())
+            .forPaths(PathSelectors.any()).build()
     }
 
     private fun defaultAuth(): List<SecurityReference>? {
@@ -81,35 +77,33 @@ class SwaggerConfig(
         return Arrays.asList(SecurityReference("JWT", authorizationScopes))
     }
 
-    private fun getConsumeContentTypes(): Set<String>? {
+    private fun getConsumeContentTypes(): Set<String> {
         val consumes: MutableSet<String> = HashSet()
         consumes.add("application/json;charset=UTF-8")
         consumes.add("application/x-www-form-urlencoded")
         return consumes
     }
 
-    private fun getProduceContentTypes(): Set<String>? {
+    private fun getProduceContentTypes(): Set<String> {
         val produces: MutableSet<String> = HashSet()
         produces.add("application/json;charset=UTF-8")
         return produces
     }
 
     private fun apiInfo(): ApiInfo? {
-        return ApiInfoBuilder()
-            .title("Sig-Predict REST API Document")
-            .description("work in progress")
-            .termsOfServiceUrl("localhost")
-            .version("1.0")
-            .build()
+        return ApiInfoBuilder().title("Sig-Predict REST API Document")
+            .description("work in progress").termsOfServiceUrl("localhost").version("1.0").build()
     }
 
     @ApiModel
-    class Page {
-        @ApiModelProperty(value = "페이지 번호(0..N)", example = "0") private val page: Int = 0
+    class PageModel {
+        @ApiModelProperty(value = "페이지 번호(0..N)", example = "0")
+        private val page: Int = 0
 
         @ApiModelProperty(value = "페이지 크기", allowableValues = "range[0, 100]", example = "0")
         private val size: Int = 0
 
-        @ApiModelProperty(value = "정렬(사용법: 컬럼명,ASC|DESC)") private val sort: List<String> = listOf()
+        @ApiModelProperty(value = "정렬(사용법: 컬럼명,ASC|DESC)")
+        private val sort: List<String> = listOf()
     }
 }

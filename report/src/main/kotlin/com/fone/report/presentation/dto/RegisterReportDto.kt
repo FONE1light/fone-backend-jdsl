@@ -14,14 +14,13 @@ class RegisterReportDto {
         val details: String,
     ) {
         fun toEntity(userId: Long): Report {
-
             return Report(
                 reportUserId = reportUserId,
                 type = type.toString(),
                 typeId = typeId,
                 inconvenients = inconvenients,
                 details = details,
-                userId = userId,
+                userId = userId
             )
         }
     }

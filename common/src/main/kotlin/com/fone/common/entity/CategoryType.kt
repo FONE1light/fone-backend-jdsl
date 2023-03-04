@@ -9,7 +9,8 @@ enum class CategoryType(category: String) {
     OTT_DRAMA("OTT/TV 드라마"),
     YOUTUBE("유튜브"),
     VIRAL("홍보 / 바이럴"),
-    ETC("기타");
+    ETC("기타"),
+    ;
 
     companion object {
         operator fun invoke(category: String) = CategoryType.valueOf(category.uppercase())
@@ -24,7 +25,7 @@ enum class CategoryType(category: String) {
                 OTT_DRAMA,
                 YOUTUBE,
                 VIRAL,
-                ETC,
+                ETC
             )
         }
     }

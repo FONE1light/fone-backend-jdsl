@@ -4,19 +4,17 @@ import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
-import java.security.Key
-import java.util.*
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
+import java.security.Key
+import java.util.Date
 
 @Component
 class JWTUtils(
     @Value("\${security.jwt.secret}") private val secret: String,
-    @Value("\${security.jwt.access-token-validity-in-seconds}")
-    val accessTokenValidityInSeconds: Long,
-    @Value("\${security.jwt.refresh-token-validity-in-seconds}")
-    val refreshTokenValidityInSeconds: Long,
+    @Value("\${security.jwt.access-token-validity-in-seconds}") val accessTokenValidityInSeconds: Long,
+    @Value("\${security.jwt.refresh-token-validity-in-seconds}") val refreshTokenValidityInSeconds: Long,
 ) : InitializingBean {
     private val accessTokenValidityInMilliseconds: Long
     val refreshTokenValidityInMilliseconds: Long
@@ -64,27 +62,13 @@ class JWTUtils(
         val accessTokenExpirationTimeLong = accessTokenValidityInMilliseconds
         val refreshTokenExpirationTimeLong = refreshTokenValidityInMilliseconds
         val createdDate = Date()
-        val accessTokenExpirationDate =
-            Date(createdDate.time + accessTokenExpirationTimeLong * 1000)
-        val refreshTokenExpirationDate =
-            Date(createdDate.time + refreshTokenExpirationTimeLong * 1000)
+        val accessTokenExpirationDate = Date(createdDate.time + accessTokenExpirationTimeLong * 1000)
+        val refreshTokenExpirationDate = Date(createdDate.time + refreshTokenExpirationTimeLong * 1000)
 
-        val accessToken =
-            Jwts.builder()
-                .setClaims(claims)
-                .setSubject(email)
-                .setIssuedAt(createdDate)
-                .setExpiration(accessTokenExpirationDate)
-                .signWith(key)
-                .compact()
-        val refreshToken =
-            Jwts.builder()
-                .setClaims(claims)
-                .setSubject(email)
-                .setIssuedAt(createdDate)
-                .setExpiration(refreshTokenExpirationDate)
-                .signWith(key)
-                .compact()
+        val accessToken = Jwts.builder().setClaims(claims).setSubject(email).setIssuedAt(createdDate)
+            .setExpiration(accessTokenExpirationDate).signWith(key).compact()
+        val refreshToken = Jwts.builder().setClaims(claims).setSubject(email).setIssuedAt(createdDate)
+            .setExpiration(refreshTokenExpirationDate).signWith(key).compact()
 
         return Token(
             accessToken,

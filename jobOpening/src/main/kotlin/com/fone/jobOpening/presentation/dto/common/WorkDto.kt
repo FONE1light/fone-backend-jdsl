@@ -16,7 +16,7 @@ data class WorkDto(
     val email: String,
 ) {
     constructor(
-        work: Work
+        work: Work,
     ) : this(
         produce = work.produce,
         workTitle = work.workTitle,
@@ -28,11 +28,10 @@ data class WorkDto(
         pay = work.pay,
         details = work.details,
         manager = work.manager,
-        email = work.email,
+        email = work.email
     )
 
     fun toEntity(): Work {
-
         return Work(
             produce = produce,
             workTitle = workTitle,
@@ -44,7 +43,7 @@ data class WorkDto(
             pay = pay,
             details = details,
             manager = manager,
-            email = email,
+            email = email
         )
     }
 }

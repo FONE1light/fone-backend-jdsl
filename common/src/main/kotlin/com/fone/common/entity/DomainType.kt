@@ -1,26 +1,16 @@
 package com.fone.common.entity
 
 enum class DomainType(name: String) {
-    PLANNING("기획/제작"),
-    SCENARIO("시나리오"),
-    DIRECTOR("연출"),
-    FILMING("촬영"),
-    GAFFER("조명"),
-    RECORD("녹음"),
-    PAINTING("그림"),
-    ART("미술"),
-    MAKE_UP("분장"),
-    EDIT("편집"),
-    MUSIC("음악"),
-    PICTURE("사진"),
-    ETC("기타"),
-    ;
+    PLANNING("기획/제작"), SCENARIO("시나리오"), DIRECTOR("연출"), FILMING("촬영"), GAFFER("조명"), RECORD("녹음"), PAINTING(
+        "그림"
+    ),
+    ART("미술"), MAKE_UP("분장"), EDIT("편집"), MUSIC("음악"), PICTURE("사진"), ETC("기타"), ;
 
     companion object {
         operator fun invoke(domain: String) = DomainType.valueOf(domain.uppercase())
 
         fun getAllEnum(): List<DomainType> {
-
+            println(PAINTING.name)
             return listOf(
                 PLANNING,
                 SCENARIO,
@@ -34,7 +24,7 @@ enum class DomainType(name: String) {
                 EDIT,
                 MUSIC,
                 PICTURE,
-                ETC,
+                ETC
             )
         }
     }

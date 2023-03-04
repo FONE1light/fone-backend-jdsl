@@ -55,6 +55,6 @@ data class ProfileDto(
         viewCount = profile.viewCount,
         isWant = userProfileWantMap.get(profile.id!!) != null,
         age = DateTimeFormat.calculateAge(profile.birthday),
-        profileUrl = if (profileUrls.isEmpty()) "" else profileUrls[0],
+        profileUrl = if (profileUrls.isEmpty()) "" else profileUrls[0]
     )
 }

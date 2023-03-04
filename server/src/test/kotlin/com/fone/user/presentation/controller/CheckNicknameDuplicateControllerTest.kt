@@ -1,6 +1,9 @@
 package com.fone.user.presentation.controller
 
-import com.fone.common.*
+import com.fone.common.CommonCallApi
+import com.fone.common.CustomDescribeSpec
+import com.fone.common.IntegrationTest
+import com.fone.common.doGet
 import org.springframework.test.web.reactive.server.WebTestClient
 
 @IntegrationTest

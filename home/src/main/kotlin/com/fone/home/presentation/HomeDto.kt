@@ -4,7 +4,7 @@ data class HomeDto(
     val order: List<String>,
     val jobOpening: CollectionDto,
     val competition: CollectionDto,
-    val profile: CollectionDto
+    val profile: CollectionDto,
 )
 
 data class CollectionDto(

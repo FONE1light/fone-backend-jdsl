@@ -4,6 +4,7 @@ enum class Type {
     JOB_OPENING,
     PROFILE,
     CHATTING,
+
     ;
 
     companion object {

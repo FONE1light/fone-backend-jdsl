@@ -8,7 +8,9 @@ import com.fone.jobOpening.domain.repository.JobOpeningCategoryRepository
 import com.fone.jobOpening.domain.repository.JobOpeningDomainRepository
 import com.fone.jobOpening.domain.repository.JobOpeningRepository
 import com.fone.jobOpening.domain.repository.JobOpeningScrapRepository
-import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.*
+import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningResponse
+import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningsRequest
+import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningsResponse
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.springframework.data.domain.Pageable
@@ -41,8 +43,7 @@ class RetrieveJobOpeningService(
 
             val jobOpeningIds = jobOpenings.await().map { it.id!! }.toList()
             val jobOpeningDomains = jobOpeningDomainRepository.findByJobOpeningIds(jobOpeningIds)
-            val jobOpeningCategories =
-                jobOpeningCategoryRepository.findByJobOpeningIds(jobOpeningIds)
+            val jobOpeningCategories = jobOpeningCategoryRepository.findByJobOpeningIds(jobOpeningIds)
 
             RetrieveJobOpeningsResponse(
                 jobOpenings.await(),
@@ -65,8 +66,7 @@ class RetrieveJobOpeningService(
         return coroutineScope {
             val jobOpening = async {
                 val jobOpening =
-                    jobOpeningRepository.findByTypeAndId(type, jobOpeningId)
-                        ?: throw NotFoundJobOpeningException()
+                    jobOpeningRepository.findByTypeAndId(type, jobOpeningId) ?: throw NotFoundJobOpeningException()
                 jobOpening.view()
                 jobOpeningRepository.save(jobOpening)
             }
@@ -74,22 +74,22 @@ class RetrieveJobOpeningService(
             val userJobOpeningScraps = async { jobOpeningScrapRepository.findByUserId(userId) }
 
             val jobOpeningDomains = async {
-                val jobOpeningId = jobOpening.await().id!!
+                val id = jobOpening.await().id!!
 
-                jobOpeningDomainRepository.findByJobOpeningId(jobOpeningId)
+                jobOpeningDomainRepository.findByJobOpeningId(id)
             }
 
             val jobOpeningCategories = async {
-                val jobOpeningId = jobOpening.await().id!!
+                val id = jobOpening.await().id!!
 
-                jobOpeningCategoryRepository.findByJobOpeningId(jobOpeningId)
+                jobOpeningCategoryRepository.findByJobOpeningId(id)
             }
 
             RetrieveJobOpeningResponse(
                 jobOpening.await(),
                 userJobOpeningScraps.await(),
                 jobOpeningDomains.await(),
-                jobOpeningCategories.await(),
+                jobOpeningCategories.await()
             )
         }
     }

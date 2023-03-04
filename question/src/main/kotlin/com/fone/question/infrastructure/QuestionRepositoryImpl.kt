@@ -15,14 +15,12 @@ class QuestionRepositoryImpl(
 
     override suspend fun save(question: Question): Question {
         return question.also {
-            queryFactory.withFactory { session, factory ->
+            queryFactory.withFactory { session, _ ->
                 if (it.id == null) {
-                        session.persist(it)
-                    } else {
-                        session.merge(it)
-                    }
-                    .flatMap { session.flush() }
-                    .awaitSuspending()
+                    session.persist(it)
+                } else {
+                    session.merge(it)
+                }.flatMap { session.flush() }.awaitSuspending()
             }
         }
     }

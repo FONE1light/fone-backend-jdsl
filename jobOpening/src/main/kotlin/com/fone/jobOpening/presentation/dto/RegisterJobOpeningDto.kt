@@ -1,12 +1,16 @@
 package com.fone.jobOpening.presentation.dto
 
-import com.fone.common.entity.*
+import com.fone.common.entity.Career
+import com.fone.common.entity.CategoryType
+import com.fone.common.entity.DomainType
+import com.fone.common.entity.Gender
+import com.fone.common.entity.Type
 import com.fone.jobOpening.domain.entity.JobOpening
 import com.fone.jobOpening.domain.entity.JobOpeningScrap
 import com.fone.jobOpening.presentation.dto.common.JobOpeningDto
 import com.fone.jobOpening.presentation.dto.common.WorkDto
-import java.time.LocalDate
 import org.springframework.format.annotation.DateTimeFormat
+import java.time.LocalDate
 
 class RegisterJobOpeningDto {
 
@@ -25,7 +29,6 @@ class RegisterJobOpeningDto {
         val work: WorkDto,
     ) {
         fun toEntity(userId: Long): JobOpening {
-
             return JobOpening(
                 title = title,
                 deadline = deadline,
@@ -39,7 +42,7 @@ class RegisterJobOpeningDto {
                 userId = userId,
                 viewCount = 0,
                 scrapCount = 0,
-                work = work.toEntity(),
+                work = work.toEntity()
             )
         }
     }

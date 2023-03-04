@@ -38,7 +38,7 @@ class RetrieveCompetitionService(
                 competitions.await(),
                 userCompetitionScraps.await(),
                 competitionCount.await(),
-                pageable,
+                pageable
             )
         }
     }
@@ -52,9 +52,7 @@ class RetrieveCompetitionService(
 
         return coroutineScope {
             val competition = async {
-                val competition =
-                    competitionRepository.findById(competitionId)
-                        ?: throw NotFoundCompetitionException()
+                val competition = competitionRepository.findById(competitionId) ?: throw NotFoundCompetitionException()
                 competition.view()
                 competition
             }
@@ -63,7 +61,7 @@ class RetrieveCompetitionService(
 
             RetrieveCompetitionResponse(
                 competition.await(),
-                userCompetitionScraps.await(),
+                userCompetitionScraps.await()
             )
         }
     }

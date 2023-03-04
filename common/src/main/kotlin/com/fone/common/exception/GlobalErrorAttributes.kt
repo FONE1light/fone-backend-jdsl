@@ -10,7 +10,7 @@ class GlobalErrorAttributes : DefaultErrorAttributes() {
 
     override fun getErrorAttributes(
         request: ServerRequest?,
-        options: ErrorAttributeOptions?
+        options: ErrorAttributeOptions?,
     ): Map<String, Any?> {
         val map: MutableMap<String, Any?> = mutableMapOf()
         val throwable: Throwable = getError(request)
@@ -21,13 +21,12 @@ class GlobalErrorAttributes : DefaultErrorAttributes() {
             map["message"] = ex.reason
             map["errorCode"] = ex.status.reasonPhrase
             return map
-        } else {
-            map["result"] = "FAIL"
-            map["data"] = null
-            map["message"] = throwable.toString()
-            map["errorCode"] = null
-            return map
         }
+        map["result"] = "FAIL"
+        map["data"] = null
+        map["message"] = throwable.toString()
+        map["errorCode"] = null
+        return map
         return map
     }
 }

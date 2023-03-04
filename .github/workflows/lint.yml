@@ -1,9 +1,9 @@
-name: SpotlessLint
+name: Ktlint
 
 on: pull_request
 
 jobs:
-  build:
+  build-and-check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -14,5 +14,5 @@ jobs:
           distribution: 'adopt'
       - name: Grant Execute Permission For Gradlew
         run: chmod +x gradlew
-      - name: Spotless Check
-        run: ./gradlew spotlessCheck
+      - name: Ktlint & Detekt Check
+        run: ./gradlew check

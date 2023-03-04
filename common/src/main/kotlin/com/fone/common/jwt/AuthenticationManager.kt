@@ -1,6 +1,5 @@
 package com.fone.common.jwt
 
-import java.util.stream.Collectors
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import org.springframework.security.authentication.ReactiveAuthenticationManager
@@ -9,6 +8,7 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.stereotype.Component
 import reactor.core.publisher.Mono
+import java.util.stream.Collectors
 
 @Component
 class AuthenticationManager(
@@ -27,23 +27,17 @@ class AuthenticationManager(
 
         runBlocking {
             return@runBlocking async { userRepository.validTokenByEmail(email) }.await()
-        }
-            ?: return Mono.empty()
+        } ?: return Mono.empty()
 
-        return Mono.just(jwtUtils.validateToken(authToken))
-            .filter { valid -> valid }
-            .switchIfEmpty(Mono.empty())
-            .map {
-                val claims = jwtUtils.getAllClaimsFromToken(authToken)
-                val rolesMap = claims.get("roles", java.util.List::class.java)
-                UsernamePasswordAuthenticationToken(
-                    email,
-                    null,
-                    rolesMap
-                        .stream()
-                        .map { role -> SimpleGrantedAuthority(role as String) }
-                        .collect(Collectors.toList())
-                )
-            }
+        return Mono.just(jwtUtils.validateToken(authToken)).filter { valid -> valid }.switchIfEmpty(Mono.empty()).map {
+            val claims = jwtUtils.getAllClaimsFromToken(authToken)
+            val rolesMap = claims.get("roles", java.util.List::class.java)
+            UsernamePasswordAuthenticationToken(
+                email,
+                null,
+                rolesMap.stream().map { role -> SimpleGrantedAuthority(role as String) }
+                    .collect(Collectors.toList())
+            )
+        }
     }
 }

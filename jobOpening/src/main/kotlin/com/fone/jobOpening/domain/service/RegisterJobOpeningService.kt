@@ -39,8 +39,7 @@ class RegisterJobOpeningService(
 
                     val jobOpeningDomains = domains.map { JobOpeningDomain(jobOpening.id!!, it) }
 
-                    val jobOpeningCategories =
-                        categories.map { JobOpeningCategory(jobOpening.id!!, it) }
+                    val jobOpeningCategories = categories.map { JobOpeningCategory(jobOpening.id!!, it) }
                     jobOpeningDomainRepository.saveAll(jobOpeningDomains)
                     jobOpeningCategoryRepository.saveAll(jobOpeningCategories)
 
@@ -56,7 +55,7 @@ class RegisterJobOpeningService(
                     jobOpening.await(),
                     userJobOpeningScraps.await(),
                     domains,
-                    categories,
+                    categories
                 )
             }
         }

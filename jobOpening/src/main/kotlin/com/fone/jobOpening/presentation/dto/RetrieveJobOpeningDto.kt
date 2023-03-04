@@ -16,14 +16,14 @@ class RetrieveJobOpeningDto {
 
     data class RetrieveJobOpeningsRequest(
         @ApiModelProperty(value = "타입", example = "ACTOR", required = true) val type: Type,
-        @ApiModelProperty(value = "성별", required = false)
-        val genders: List<Gender> = Gender.getAllEnum(),
+        @ApiModelProperty(value = "성별", required = false) val genders: List<Gender> = Gender.getAllEnum(),
         @ApiModelProperty(value = "최대 나이", required = false, example = "200") val ageMax: Int = 200,
         @ApiModelProperty(value = "최소 나이", required = false, example = "0") val ageMin: Int = 0,
-        @ApiModelProperty(value = "카테고리", required = false)
-        val categories: List<CategoryType> = CategoryType.getAllEnum(),
-        @ApiModelProperty(value = "분야", required = false)
-        val domains: List<DomainType> = DomainType.getAllEnum(),
+        @ApiModelProperty(
+            value = "카테고리",
+            required = false
+        ) val categories: List<CategoryType> = CategoryType.getAllEnum(),
+        @ApiModelProperty(value = "분야", required = false) val domains: List<DomainType> = DomainType.getAllEnum(),
     )
 
     data class RetrieveJobOpeningsResponse(
@@ -37,21 +37,18 @@ class RetrieveJobOpeningDto {
             jobOpeningCategories: Map<Long, List<CategoryType>>,
             pageable: Pageable,
         ) : this(
-            jobOpenings =
-                PageImpl(
-                    jobOpeningList
-                        .map {
-                            JobOpeningDto(
-                                it,
-                                userJobOpeningScrapMap,
-                                jobOpeningDomains[it.id!!] ?: listOf(),
-                                jobOpeningCategories[it.id!!] ?: listOf(),
-                            )
-                        }
-                        .toList(),
-                    pageable,
-                    jobOpeningList.size.toLong()
-                )
+            jobOpenings = PageImpl(
+                jobOpeningList.map {
+                    JobOpeningDto(
+                        it,
+                        userJobOpeningScrapMap,
+                        jobOpeningDomains[it.id!!] ?: listOf(),
+                        jobOpeningCategories[it.id!!] ?: listOf()
+                    )
+                }.toList(),
+                pageable,
+                jobOpeningList.size.toLong()
+            )
         )
     }
 

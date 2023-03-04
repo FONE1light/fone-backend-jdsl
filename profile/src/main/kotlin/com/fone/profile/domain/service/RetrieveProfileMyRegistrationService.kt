@@ -25,7 +25,7 @@ class RetrieveProfileMyRegistrationService(
     @Transactional(readOnly = true)
     suspend fun retrieveProfileMyRegistration(
         pageable: Pageable,
-        email: String
+        email: String,
     ): RetrieveProfileMyRegistrationResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 
@@ -45,7 +45,7 @@ class RetrieveProfileMyRegistrationService(
                 userProfileWants.await(),
                 profileDomains.await(),
                 profileCategories.await(),
-                pageable,
+                pageable
             )
         }
     }

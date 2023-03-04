@@ -3,7 +3,8 @@ package com.fone.common.entity
 enum class Gender {
     MAN,
     WOMAN,
-    IRRELEVANT;
+    IRRELEVANT,
+    ;
 
     companion object {
 
@@ -13,7 +14,7 @@ enum class Gender {
             return listOf(
                 MAN,
                 WOMAN,
-                IRRELEVANT,
+                IRRELEVANT
             )
         }
     }

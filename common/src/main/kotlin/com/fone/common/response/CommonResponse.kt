@@ -14,7 +14,7 @@ data class CommonResponse<T>(
                 result = Result.SUCCESS,
                 data = data,
                 message = message,
-                errorCode = null,
+                errorCode = null
             )
         }
 
@@ -24,7 +24,7 @@ data class CommonResponse<T>(
                 result = Result.SUCCESS,
                 data = data,
                 message = "",
-                errorCode = null,
+                errorCode = null
             )
         }
 
@@ -34,7 +34,7 @@ data class CommonResponse<T>(
                 result = Result.SUCCESS,
                 data = null,
                 message = "",
-                errorCode = null,
+                errorCode = null
             )
         }
 
@@ -44,7 +44,7 @@ data class CommonResponse<T>(
                 result = Result.FAIL,
                 data = data,
                 message = message,
-                errorCode = null,
+                errorCode = null
             )
         }
 
@@ -53,7 +53,7 @@ data class CommonResponse<T>(
                 result = Result.FAIL,
                 data = data,
                 message = errorCode.errorMsg,
-                errorCode = errorCode.name,
+                errorCode = errorCode.name
             )
         }
 
@@ -62,14 +62,14 @@ data class CommonResponse<T>(
                 result = Result.FAIL,
                 data = null,
                 message = message,
-                errorCode = exceptionName,
+                errorCode = exceptionName
             )
         }
     }
 
     enum class Result {
         SUCCESS,
-        FAIL
+        FAIL,
     }
 }
 

@@ -1,13 +1,17 @@
 package com.fone.profile.presentation.dto
 
-import com.fone.common.entity.*
+import com.fone.common.entity.Career
+import com.fone.common.entity.CategoryType
+import com.fone.common.entity.DomainType
+import com.fone.common.entity.Gender
+import com.fone.common.entity.Type
 import com.fone.profile.domain.entity.Profile
 import com.fone.profile.domain.entity.ProfileWant
 import com.fone.profile.presentation.dto.common.ProfileDto
 import io.swagger.annotations.ApiModelProperty
+import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDate
 import javax.validation.constraints.Email
-import org.springframework.format.annotation.DateTimeFormat
 
 class RegisterProfileDto {
 
@@ -19,7 +23,11 @@ class RegisterProfileDto {
         val height: Int,
         val weight: Int,
         @field:Email(message = "유효하지 않는 이메일 입니다.")
-        @ApiModelProperty(value = "이메일", example = "test@test.com", required = true)
+        @ApiModelProperty(
+            value = "이메일",
+            example = "test@test.com",
+            required = true
+        )
         val email: String,
         val sns: String,
         val specialty: String,
@@ -34,7 +42,6 @@ class RegisterProfileDto {
     ) {
 
         fun toEntity(userId: Long): Profile {
-
             return Profile(
                 hookingComment = hookingComment,
                 birthday = birthday,
@@ -50,7 +57,7 @@ class RegisterProfileDto {
                 userId = userId,
                 viewCount = 0,
                 name = name,
-                profileUrl = profileUrl,
+                profileUrl = profileUrl
             )
         }
     }
@@ -65,14 +72,13 @@ class RegisterProfileDto {
             domains: List<DomainType>,
             categories: List<CategoryType>,
         ) : this(
-            profile =
-                ProfileDto(
-                    profile,
-                    userProfileWantMap,
-                    profile.profileImages.map { it.profileUrl }.toList(),
-                    domains,
-                    categories,
-                )
+            profile = ProfileDto(
+                profile,
+                userProfileWantMap,
+                profile.profileImages.map { it.profileUrl }.toList(),
+                domains,
+                categories
+            )
         )
     }
 }

@@ -30,7 +30,7 @@ class SignInUserDto {
             token: Token,
         ) : this(
             user = UserDto(user),
-            token = token,
+            token = token
         )
     }
 }

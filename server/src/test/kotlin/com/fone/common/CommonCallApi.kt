@@ -7,10 +7,10 @@ import com.fone.user.domain.enum.Job
 import com.fone.user.domain.enum.SocialLoginType
 import com.fone.user.presentation.dto.SignInUserDto
 import com.fone.user.presentation.dto.SignUpUserDto
+import org.springframework.test.web.reactive.server.WebTestClient
 import java.time.LocalDate
 import java.util.*
 import kotlin.collections.LinkedHashMap
-import org.springframework.test.web.reactive.server.WebTestClient
 
 object CommonCallApi {
     private const val signInBaseUrl = "/api/v1/users/sign-in"
@@ -34,14 +34,14 @@ object CommonCallApi {
                 true,
                 true,
                 true,
-                "test",
+                "test"
             )
 
         val signInUserSuccessRequest =
             SignInUserDto.SignInUserRequest(
                 SocialLoginType.APPLE,
                 email,
-                "test",
+                "test"
             )
 
         client
@@ -54,14 +54,16 @@ object CommonCallApi {
             .isEqualTo("SUCCESS")
 
         val token =
-            (client
-                .doPost(signInBaseUrl, signInUserSuccessRequest)
-                .expectStatus()
-                .isOk
-                .expectBody(CommonResponse::class.java)
-                .returnResult()
-                .responseBody
-                ?.data as LinkedHashMap<*, *>)["token"]
+            (
+                client
+                    .doPost(signInBaseUrl, signInUserSuccessRequest)
+                    .expectStatus()
+                    .isOk
+                    .expectBody(CommonResponse::class.java)
+                    .returnResult()
+                    .responseBody
+                    ?.data as LinkedHashMap<*, *>
+                )["token"]
 
         val accessToken = (token as LinkedHashMap<*, *>)["accessToken"]
 
@@ -86,7 +88,7 @@ object CommonCallApi {
                 true,
                 true,
                 true,
-                "test",
+                "test"
             )
 
         client

@@ -28,7 +28,7 @@ class UserRepositoryImpl(
             where(
                 and(
                     emailEq(email),
-                    socialLoginTypeEq(socialLoginType),
+                    socialLoginTypeEq(socialLoginType)
                 )
             )
         }
@@ -41,7 +41,7 @@ class UserRepositoryImpl(
             where(
                 or(
                     emailEq(email),
-                    nicknameEq(nickname),
+                    nicknameEq(nickname)
                 )
             )
         }
@@ -49,14 +49,12 @@ class UserRepositoryImpl(
 
     override suspend fun save(newUser: User): User {
         return newUser.also {
-            queryFactory.withFactory { session, factory ->
+            queryFactory.withFactory { session, _ ->
                 if (it.id == null) {
-                        session.persist(it)
-                    } else {
-                        session.merge(it)
-                    }
-                    .flatMap { session.flush() }
-                    .awaitSuspending()
+                    session.persist(it)
+                } else {
+                    session.merge(it)
+                }.flatMap { session.flush() }.awaitSuspending()
             }
         }
     }

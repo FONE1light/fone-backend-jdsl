@@ -1,7 +1,11 @@
 package com.fone.chatting.presentation
 
-import com.fone.chatting.domain.Rooms
-import com.fone.chatting.domain.actor.*
+import com.fone.chatting.domain.Room
+import com.fone.chatting.domain.actor.Completed
+import com.fone.chatting.domain.actor.Connected
+import com.fone.chatting.domain.actor.UserIncomingMessage
+import com.fone.chatting.domain.actor.routeActor
+import com.fone.chatting.domain.actor.userActor
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.reactive.asFlow
@@ -20,7 +24,7 @@ class WSHandler : WebSocketHandler {
         val roomId = params["id"]!!.toInt()
         val username = params["name"] ?: "anonymous"
 
-        val roomActor = Rooms.findOrCreate(roomId)
+        val roomActor = Room.findOrCreate(roomId)
         val userActor = userActor(roomActor)
 
         val routeActor = routeActor(session)

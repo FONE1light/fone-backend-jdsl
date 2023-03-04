@@ -7,9 +7,9 @@ import com.fone.common.redis.RedisRepository
 import com.fone.user.domain.repository.UserRepository
 import com.fone.user.presentation.dto.SignInUserDto.SignInUserRequest
 import com.fone.user.presentation.dto.SignInUserDto.SignInUserResponse
-import java.util.concurrent.TimeUnit
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.concurrent.TimeUnit
 
 @Service
 class SignInUserService(
@@ -22,8 +22,7 @@ class SignInUserService(
     suspend fun signInUser(request: SignInUserRequest): SignInUserResponse {
         with(request) {
             val user =
-                userRepository.findByEmailAndSocialLoginType(email, socialLoginType)
-                    ?: throw NotFoundUserException()
+                userRepository.findByEmailAndSocialLoginType(email, socialLoginType) ?: throw NotFoundUserException()
 
             val token = jwtUtils.generateUserToken(user.email, user.roles.map { Role(it) }.toList())
 

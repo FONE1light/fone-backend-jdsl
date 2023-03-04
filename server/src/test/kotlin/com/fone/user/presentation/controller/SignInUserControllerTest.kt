@@ -20,14 +20,14 @@ class SignInUserControllerTest(client: WebTestClient) : CustomDescribeSpec() {
             SignInUserRequest(
                 SocialLoginType.APPLE,
                 email,
-                "test",
+                "test"
             )
 
         val signInUserFailRequest =
             SignInUserRequest(
                 SocialLoginType.APPLE,
                 "test7@test.com",
-                "test",
+                "test"
             )
 
         describe("#signIn") {

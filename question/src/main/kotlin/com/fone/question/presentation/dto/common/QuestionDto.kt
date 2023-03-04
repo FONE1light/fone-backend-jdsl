@@ -13,13 +13,13 @@ data class QuestionDto(
 ) {
 
     constructor(
-        question: Question
+        question: Question,
     ) : this(
         id = question.id!!,
         email = question.email,
         type = question.type,
         title = question.title,
         description = question.description,
-        agreeToPersonalInformation = question.agreeToPersonalInformation,
+        agreeToPersonalInformation = question.agreeToPersonalInformation
     )
 }

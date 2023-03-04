@@ -35,7 +35,7 @@ class RetrieveCompetitionScrapService(
             RetrieveCompetitionScrapResponse(
                 competitions.await(),
                 userCompetitionScraps.await(),
-                pageable,
+                pageable
             )
         }
     }

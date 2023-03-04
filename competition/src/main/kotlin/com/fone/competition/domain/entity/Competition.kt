@@ -2,12 +2,22 @@ package com.fone.competition.domain.entity
 
 import com.fone.common.entity.BaseEntity
 import java.time.LocalDate
-import javax.persistence.*
+import javax.persistence.CascadeType
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
+import javax.persistence.Id
+import javax.persistence.OneToMany
+import javax.persistence.Table
 
 @Entity
 @Table(name = "competitions")
 data class Competition(
-    @Id @Column @GeneratedValue(strategy = GenerationType.IDENTITY) var id: Long? = null,
+    @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Long? = null,
     @Column var title: String,
     @Column(length = 300) var imageUrl: String,
     @Column var startDate: LocalDate?,
@@ -20,8 +30,10 @@ data class Competition(
     @Column var userId: Long,
     @Column var viewCount: Long,
     @Column var scrapCount: Long,
-    @OneToMany(mappedBy = "competition", cascade = [CascadeType.PERSIST])
-    var prizes: MutableList<Prize> = mutableListOf(),
+    @OneToMany(
+        mappedBy = "competition",
+        cascade = [CascadeType.PERSIST]
+    ) var prizes: MutableList<Prize> = mutableListOf(),
 ) : BaseEntity() {
     fun view() {
         viewCount += 1

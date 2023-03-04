@@ -49,7 +49,7 @@ class RetrieveProfileWantService(
                 userProfileWants.await(),
                 profileDomains.await(),
                 profileCategories.await(),
-                pageable,
+                pageable
             )
         }
     }

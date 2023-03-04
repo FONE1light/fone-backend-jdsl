@@ -22,22 +22,19 @@ class RetrieveProfileWantDto {
             profileCategories: Map<Long, List<CategoryType>>,
             pageable: Pageable,
         ) : this(
-            profiles =
-                PageImpl(
-                    profiles
-                        .map {
-                            ProfileDto(
-                                it,
-                                userProfileWantMap,
-                                it.profileImages.map { image -> image.profileUrl }.toList(),
-                                profileDomains[it.id!!] ?: listOf(),
-                                profileCategories[it.id!!] ?: listOf(),
-                            )
-                        }
-                        .toList(),
-                    pageable,
-                    profiles.size.toLong()
-                )
+            profiles = PageImpl(
+                profiles.map {
+                    ProfileDto(
+                        it,
+                        userProfileWantMap,
+                        it.profileImages.map { image -> image.profileUrl }.toList(),
+                        profileDomains[it.id!!] ?: listOf(),
+                        profileCategories[it.id!!] ?: listOf()
+                    )
+                }.toList(),
+                pageable,
+                profiles.size.toLong()
+            )
         )
     }
 }

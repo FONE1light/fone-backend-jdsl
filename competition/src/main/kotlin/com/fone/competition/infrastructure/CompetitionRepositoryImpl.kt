@@ -15,13 +15,13 @@ import com.linecorp.kotlinjdsl.spring.data.reactive.query.pageQuery
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.singleQuery
 import com.linecorp.kotlinjdsl.spring.reactive.querydsl.SpringDataReactiveCriteriaQueryDsl
 import io.smallrye.mutiny.coroutines.awaitSuspending
-import java.time.LocalDate
 import org.hibernate.reactive.mutiny.Mutiny
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Repository
+import java.time.LocalDate
 
 @Repository
 class CompetitionRepositoryImpl(
@@ -50,7 +50,7 @@ class CompetitionRepositoryImpl(
                     )
                 )
                 orderBy(
-                    orderSpec(pageable.sort),
+                    orderSpec(pageable.sort)
                 )
             }
 
@@ -102,10 +102,10 @@ class CompetitionRepositoryImpl(
         return competition.also {
             queryFactory.withFactory { session, factory ->
                 if (it.id == null) {
-                        session.persist(it)
-                    } else {
-                        session.merge(it)
-                    }
+                    session.persist(it)
+                } else {
+                    session.merge(it)
+                }
                     .flatMap { session.flush() }
                     .awaitSuspending()
             }
@@ -113,25 +113,25 @@ class CompetitionRepositoryImpl(
     }
 
     private fun SpringDataReactiveCriteriaQueryDsl<Competition?>.orderSpec(
-        sort: Sort
+        sort: Sort,
     ): List<OrderSpec> {
         val endDate =
             case(
-                    `when`(column(Competition::submitEndDate).lessThanOrEqualTo(LocalDate.now()))
-                        .then(literal(1)),
-                    `when`(column(Competition::submitEndDate).isNull())
-                        .then(
-                            case(
-                                `when`(
-                                        column(Competition::endDate)
-                                            .lessThanOrEqualTo(LocalDate.now())
-                                    )
-                                    .then(literal(1)),
-                                `else` = literal(0)
+                `when`(column(Competition::submitEndDate).lessThanOrEqualTo(LocalDate.now()))
+                    .then(literal(1)),
+                `when`(column(Competition::submitEndDate).isNull())
+                    .then(
+                        case(
+                            `when`(
+                                column(Competition::endDate)
+                                    .lessThanOrEqualTo(LocalDate.now())
                             )
-                        ),
-                    `else` = literal(0)
-                )
+                                .then(literal(1)),
+                            `else` = literal(0)
+                        )
+                    ),
+                `else` = literal(0)
+            )
                 .asc()
 
         val res =

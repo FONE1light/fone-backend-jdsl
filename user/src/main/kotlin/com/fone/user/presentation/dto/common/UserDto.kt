@@ -40,6 +40,6 @@ data class UserDto(
         agreeToTermsOfServiceTermsOfUse = user.agreeToTermsOfServiceTermsOfUse,
         agreeToPersonalInformation = user.agreeToPersonalInformation,
         isReceiveMarketing = user.isReceiveMarketing,
-        enabled = user.enabled,
+        enabled = user.enabled
     )
 }

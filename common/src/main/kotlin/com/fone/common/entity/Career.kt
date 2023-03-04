@@ -7,7 +7,8 @@ enum class Career(name: String) {
     LESS_THAN_6YEARS("4~6년"),
     LESS_THAN_10YEARS("7~10년"),
     MORE_THAN_10YEARS("10년~"),
-    IRRELEVANT("경력 무관");
+    IRRELEVANT("경력 무관"),
+    ;
 
     companion object {
         operator fun invoke(name: String) = Career.valueOf(name.uppercase())

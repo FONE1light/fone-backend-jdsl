@@ -18,7 +18,6 @@ class SecurityContextRepository(val authenticationManager: AuthenticationManager
     }
 
     override fun load(swe: ServerWebExchange): Mono<SecurityContext> {
-
         val request = swe.request
         val authHeader = request.headers.getFirst(HttpHeaders.AUTHORIZATION)
         var authToken: String? = null
