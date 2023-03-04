@@ -139,7 +139,7 @@ class JobOpeningRepositoryImpl(
     }
 
     override suspend fun save(jobOpening: JobOpening): JobOpening {
-        return jobOpening.also {
+        val test = jobOpening.also {
             queryFactory.withFactory { session, _ ->
                 if (it.id == null) {
                     session.persist(it)
@@ -147,8 +147,9 @@ class JobOpeningRepositoryImpl(
                     session.merge(it)
                 }.flatMap { session.flush() }.awaitSuspending()
             }
-            println("test..14321" + jobOpening)
         }
+
+        return test
     }
 
     private fun SpringDataReactiveCriteriaQueryDsl<JobOpening?>.jobOpeningIdEq(
