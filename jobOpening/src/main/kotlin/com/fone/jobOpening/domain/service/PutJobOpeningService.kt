@@ -22,18 +22,16 @@ class PutJobOpeningService(
     private val jobOpeningScrapRepository: JobOpeningScrapRepository,
     private val jobOpeningDomainRepository: JobOpeningDomainRepository,
     private val jobOpeningCategoryRepository: JobOpeningCategoryRepository,
-    private val userRepository: UserCommonRepository
+    private val userRepository: UserCommonRepository,
 ) {
 
     suspend fun putJobOpening(
         request: RegisterJobOpeningRequest,
         email: String,
-        jobOpeningId: Long
+        jobOpeningId: Long,
     ): RegisterJobOpeningResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
-        val jobOpening =
-            jobOpeningRepository.findByTypeAndId(null, jobOpeningId)
-                ?: throw NotFoundJobOpeningException()
+        val jobOpening = jobOpeningRepository.findByTypeAndId(null, jobOpeningId) ?: throw NotFoundJobOpeningException()
         if (userId != jobOpening.userId) {
             throw InvalidJobOpeningUserIdException()
         }
@@ -41,8 +39,7 @@ class PutJobOpeningService(
         return coroutineScope {
             val jobOpeningDomains = async {
                 jobOpeningDomainRepository.deleteByJobOpeningId(jobOpening.id!!)
-                val jobOpeningDomains =
-                    request.domains.map { JobOpeningDomain(jobOpening.id!!, it) }
+                val jobOpeningDomains = request.domains.map { JobOpeningDomain(jobOpening.id!!, it) }
                 jobOpeningDomainRepository.saveAll(jobOpeningDomains)
             }
 

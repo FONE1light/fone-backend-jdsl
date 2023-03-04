@@ -22,13 +22,13 @@ class RegisterProfileService(
     private val profileWantRepository: ProfileWantRepository,
     private val profileDomainRepository: ProfileDomainRepository,
     private val profileCategoryRepository: ProfileCategoryRepository,
-    private val userRepository: UserCommonRepository
+    private val userRepository: UserCommonRepository,
 ) {
 
     @Transactional
     suspend fun registerProfile(
         request: RegisterProfileRequest,
-        email: String
+        email: String,
     ): RegisterProfileResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 

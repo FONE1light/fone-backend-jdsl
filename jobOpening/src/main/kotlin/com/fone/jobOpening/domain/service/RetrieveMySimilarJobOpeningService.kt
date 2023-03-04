@@ -20,13 +20,13 @@ class RetrieveMySimilarJobOpeningService(
     private val jobOpeningScrapRepository: JobOpeningScrapRepository,
     private val jobOpeningDomainRepository: JobOpeningDomainRepository,
     private val jobOpeningCategoryRepository: JobOpeningCategoryRepository,
-    private val userRepository: UserCommonRepository
+    private val userRepository: UserCommonRepository,
 ) {
 
     @Transactional(readOnly = true)
     suspend fun retrieveMySimilarJobOpening(
         pageable: Pageable,
-        email: String
+        email: String,
     ): RetrieveMySimilarJobOpeningResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
         val userJob = userRepository.findJobByEmail(email) ?: throw NotFoundUserException()

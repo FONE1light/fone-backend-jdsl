@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class ScrapCompetitionFacade(
-    private val scrapCompetitionService: ScrapCompetitionService
+    private val scrapCompetitionService: ScrapCompetitionService,
 ) {
 
     suspend fun scrapCompetition(email: String, competitionId: Long) =

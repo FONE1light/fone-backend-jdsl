@@ -2,7 +2,8 @@ package com.fone.common.entity
 
 enum class Type {
     ACTOR,
-    STAFF
+    STAFF,
+
     ;
 
     companion object {

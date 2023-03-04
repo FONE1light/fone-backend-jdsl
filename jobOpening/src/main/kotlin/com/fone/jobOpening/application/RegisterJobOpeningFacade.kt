@@ -6,11 +6,11 @@ import org.springframework.stereotype.Service
 
 @Service
 class RegisterJobOpeningFacade(
-    val registerJobOpeningService: RegisterJobOpeningService
+    val registerJobOpeningService: RegisterJobOpeningService,
 ) {
 
     suspend fun registerJobOpening(
         request: RegisterJobOpeningRequest,
-        email: String
+        email: String,
     ) = registerJobOpeningService.registerJobOpening(request, email)
 }

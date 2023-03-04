@@ -8,13 +8,12 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class RetrieveUserService(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
 ) {
 
     @Transactional(readOnly = true)
     suspend fun retrieveUser(email: String): RetrieveMyPageUserResponse {
-        val user =
-            userRepository.findByNicknameOrEmail(null, email) ?: throw NotFoundUserException()
+        val user = userRepository.findByNicknameOrEmail(null, email) ?: throw NotFoundUserException()
 
         return RetrieveMyPageUserResponse(user)
     }

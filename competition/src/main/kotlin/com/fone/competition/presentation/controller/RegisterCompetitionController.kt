@@ -19,7 +19,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/api/v1/competitions")
 class RegisterCompetitionController(
-    private val registerCompetitionFacade: RegisterCompetitionFacade
+    private val registerCompetitionFacade: RegisterCompetitionFacade,
 ) {
 
     @PostMapping
@@ -32,7 +32,7 @@ class RegisterCompetitionController(
     suspend fun registerCompetition(
         principal: Principal,
         @Valid @RequestBody
-        request: RegisterCompetitionRequest
+        request: RegisterCompetitionRequest,
     ): CommonResponse<RegisterCompetitionResponse> {
         val response = registerCompetitionFacade.registerCompetition(request, principal.name)
         return CommonResponse.success(response)

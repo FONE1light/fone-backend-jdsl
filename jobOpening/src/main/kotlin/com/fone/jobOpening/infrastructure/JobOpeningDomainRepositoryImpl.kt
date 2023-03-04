@@ -14,16 +14,14 @@ import org.springframework.stereotype.Repository
 @Repository
 class JobOpeningDomainRepositoryImpl(
     private val sessionFactory: Mutiny.SessionFactory,
-    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory
+    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
 ) : JobOpeningDomainRepository {
 
     override suspend fun saveAll(jobOpeningDomain: List<JobOpeningDomain>): List<JobOpeningDomain> {
         return jobOpeningDomain.also {
-            sessionFactory
-                .withSession { session ->
-                    session.persistAll(*it.toTypedArray()).flatMap { session.flush() }
-                }
-                .awaitSuspending()
+            sessionFactory.withSession { session ->
+                session.persistAll(*it.toTypedArray()).flatMap { session.flush() }
+            }.awaitSuspending()
         }
     }
 
@@ -34,15 +32,13 @@ class JobOpeningDomainRepositoryImpl(
     }
 
     override suspend fun findByJobOpeningIds(
-        jobOpeningIds: List<Long>
+        jobOpeningIds: List<Long>,
     ): Map<Long, List<DomainType>> {
-        return queryFactory
-            .listQuery {
-                select(entity(JobOpeningDomain::class))
-                from(entity(JobOpeningDomain::class))
-                where(col(JobOpeningDomain::jobOpeningId).`in`(jobOpeningIds))
-            }
-            .groupBy({ it!!.jobOpeningId }, { it!!.type })
+        return queryFactory.listQuery {
+            select(entity(JobOpeningDomain::class))
+            from(entity(JobOpeningDomain::class))
+            where(col(JobOpeningDomain::jobOpeningId).`in`(jobOpeningIds))
+        }.groupBy({ it!!.jobOpeningId }, { it!!.type })
     }
 
     override suspend fun findByJobOpeningId(jobOpeningId: Long): List<DomainType> {

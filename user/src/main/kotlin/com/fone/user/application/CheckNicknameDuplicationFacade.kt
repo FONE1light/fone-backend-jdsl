@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class CheckNicknameDuplicationFacade(
-    private val checkNicknameDuplicateService: CheckNicknameDuplicateService
+    private val checkNicknameDuplicateService: CheckNicknameDuplicateService,
 ) {
     suspend fun check(request: CheckNicknameDuplicateRequest) =
         checkNicknameDuplicateService.checkNicknameDuplicate(request)

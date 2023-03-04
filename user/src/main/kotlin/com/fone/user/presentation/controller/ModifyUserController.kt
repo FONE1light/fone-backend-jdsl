@@ -19,7 +19,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/api/v1/users")
 class ModifyUserController(
-    private val modifyFacade: ModifyUserFacade
+    private val modifyFacade: ModifyUserFacade,
 ) {
 
     @PatchMapping
@@ -32,7 +32,7 @@ class ModifyUserController(
     suspend fun modifyUser(
         principal: Principal,
         @Valid @RequestBody
-        request: ModifyUserRequest
+        request: ModifyUserRequest,
     ): CommonResponse<ModifyUserResponse> {
         val response = modifyFacade.modifyUser(request, principal.name)
         return CommonResponse.success(response)

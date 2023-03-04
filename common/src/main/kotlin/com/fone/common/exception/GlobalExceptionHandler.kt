@@ -28,7 +28,7 @@ class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = [ServerWebInputException::class])
     fun methodArgumentNotValidException(
-        e: ServerWebInputException
+        e: ServerWebInputException,
     ): Mono<CommonResponse<Nothing?>> {
         val errorResponse = CommonResponse.fail(null, ErrorCode.COMMON_NULL_PARAMETER)
         return Mono.just(errorResponse)
@@ -39,17 +39,15 @@ class GlobalExceptionHandler {
     fun methodArgumentNotValidException(e: WebExchangeBindException): Mono<CommonResponse<String>> {
         val errors = mutableListOf<Error>()
         e.allErrors.forEach {
-            val error =
-                Error(
-                    field = (it as FieldError).field,
-                    message = it.defaultMessage,
-                    value = it.rejectedValue
-                )
+            val error = Error(
+                field = (it as FieldError).field,
+                message = it.defaultMessage,
+                value = it.rejectedValue
+            )
             errors.add(error)
         }
 
-        val errorResponse =
-            CommonResponse.fail(errors.toString(), ErrorCode.COMMON_INVALID_PARAMETER)
+        val errorResponse = CommonResponse.fail(errors.toString(), ErrorCode.COMMON_INVALID_PARAMETER)
 
         return Mono.just(errorResponse)
     }

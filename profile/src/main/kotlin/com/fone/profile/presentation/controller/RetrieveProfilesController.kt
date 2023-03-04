@@ -23,7 +23,7 @@ import java.security.Principal
 @RestController
 @RequestMapping("/api/v1/profiles")
 class RetrieveProfilesController(
-    private val retrieveProfilesFacade: RetrieveProfilesFacade
+    private val retrieveProfilesFacade: RetrieveProfilesFacade,
 ) {
 
     @GetMapping
@@ -36,7 +36,7 @@ class RetrieveProfilesController(
     suspend fun retrieveProfiles(
         principal: Principal,
         pageable: Pageable,
-        @ModelAttribute request: RetrieveProfilesRequest
+        @ModelAttribute request: RetrieveProfilesRequest,
     ): CommonResponse<RetrieveProfilesResponse> {
         val response = retrieveProfilesFacade.retrieveProfiles(pageable, principal.name, request)
 
@@ -53,7 +53,7 @@ class RetrieveProfilesController(
     suspend fun retrieveProfile(
         principal: Principal,
         @RequestParam type: Type,
-        @PathVariable profileId: Long
+        @PathVariable profileId: Long,
     ): CommonResponse<RetrieveProfileResponse> {
         val response = retrieveProfilesFacade.retrieveProfile(principal.name, type, profileId)
 

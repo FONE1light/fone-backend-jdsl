@@ -21,11 +21,11 @@ data class CompetitionScrap(
     @Column var userId: Long,
     @JsonIgnore
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    var competition: Competition? = null
+    var competition: Competition? = null,
 ) : BaseEntity() {
     constructor(
         reqUserId: Long,
-        reqCompetition: Competition
+        reqCompetition: Competition,
     ) : this(
         userId = reqUserId,
         competition = reqCompetition

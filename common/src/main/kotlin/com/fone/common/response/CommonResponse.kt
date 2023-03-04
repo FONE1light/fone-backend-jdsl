@@ -4,7 +4,7 @@ data class CommonResponse<T>(
     val result: Result,
     val data: T?,
     val message: String,
-    val errorCode: String?
+    val errorCode: String?,
 ) {
 
     companion object {
@@ -69,12 +69,12 @@ data class CommonResponse<T>(
 
     enum class Result {
         SUCCESS,
-        FAIL
+        FAIL,
     }
 }
 
 data class Error(
     val field: String? = null,
     val message: String? = null,
-    val value: Any? = null
+    val value: Any? = null,
 )

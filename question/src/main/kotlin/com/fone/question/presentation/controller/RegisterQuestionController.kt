@@ -17,7 +17,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/api/v1/questions")
 class RegisterQuestionController(
-    val registerQuestionFacade: RegisterQuestionFacade
+    val registerQuestionFacade: RegisterQuestionFacade,
 ) {
 
     @PostMapping
@@ -28,7 +28,7 @@ class RegisterQuestionController(
     )
     suspend fun registerQuestion(
         @Valid @RequestBody
-        request: RegisterQuestionRequest
+        request: RegisterQuestionRequest,
     ): CommonResponse<RegisterQuestionResponse> {
         val response = registerQuestionFacade.registerQuestion(request)
         return CommonResponse.success(response)

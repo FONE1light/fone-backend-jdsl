@@ -16,12 +16,12 @@ import org.springframework.stereotype.Repository
 @Repository
 class CompetitionScrapRepositoryImpl(
     private val sessionFactory: Mutiny.SessionFactory,
-    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory
+    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
 ) : CompetitionScrapRepository {
 
     override suspend fun findByUserIdAndCompetitionId(
         userId: Long,
-        competitionId: Long
+        competitionId: Long,
     ): CompetitionScrap? {
         return queryFactory.singleQueryOrNull {
             select(entity(CompetitionScrap::class))

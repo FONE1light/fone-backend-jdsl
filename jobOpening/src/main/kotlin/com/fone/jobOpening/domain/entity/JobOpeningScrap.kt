@@ -16,10 +16,10 @@ data class JobOpeningScrap(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
     @Column val userId: Long,
-    @Column val jobOpeningId: Long
+    @Column val jobOpeningId: Long,
 ) : BaseEntity() {
     constructor(
         reqUserId: Long,
-        reqJobOpeningId: Long
+        reqJobOpeningId: Long,
     ) : this(userId = reqUserId, jobOpeningId = reqJobOpeningId)
 }

@@ -16,7 +16,7 @@ import java.security.Principal
 @RestController
 @RequestMapping("/api/v1/profiles")
 class WantProfileController(
-    private val wantProfileFacade: WantProfileFacade
+    private val wantProfileFacade: WantProfileFacade,
 ) {
 
     @PostMapping("/{profileId}/want")
@@ -28,7 +28,7 @@ class WantProfileController(
     )
     suspend fun wantProfile(
         principal: Principal,
-        @PathVariable profileId: Long
+        @PathVariable profileId: Long,
     ): CommonResponse<Unit> {
         val response = wantProfileFacade.wantProfile(principal.name, profileId)
 

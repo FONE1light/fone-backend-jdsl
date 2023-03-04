@@ -20,7 +20,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/api/v1/profiles")
 class PutProfileController(
-    private val putProfileFacade: PutProfileFacade
+    private val putProfileFacade: PutProfileFacade,
 ) {
 
     @PutMapping("/{profileId}")
@@ -34,7 +34,7 @@ class PutProfileController(
         principal: Principal,
         @Valid @RequestBody
         request: RegisterProfileRequest,
-        @PathVariable profileId: Long
+        @PathVariable profileId: Long,
     ): CommonResponse<RegisterProfileResponse> {
         val response = putProfileFacade.putProfile(request, principal.name, profileId)
 

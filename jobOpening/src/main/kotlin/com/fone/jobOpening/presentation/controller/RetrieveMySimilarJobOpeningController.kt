@@ -17,7 +17,7 @@ import java.security.Principal
 @RestController
 @RequestMapping("/api/v1/job-openings/my-similar")
 class RetrieveMySimilarJobOpeningController(
-    private val retrieveMySimilarJobOpeningFacade: RetrieveMySimilarJobOpeningFacade
+    private val retrieveMySimilarJobOpeningFacade: RetrieveMySimilarJobOpeningFacade,
 ) {
 
     @GetMapping
@@ -29,10 +29,9 @@ class RetrieveMySimilarJobOpeningController(
     )
     suspend fun retrieveMySimilarJobOpening(
         pageable: Pageable,
-        principal: Principal
+        principal: Principal,
     ): CommonResponse<RetrieveMySimilarJobOpeningResponse> {
-        val response =
-            retrieveMySimilarJobOpeningFacade.retrieveMySimilarJobOpening(pageable, principal.name)
+        val response = retrieveMySimilarJobOpeningFacade.retrieveMySimilarJobOpening(pageable, principal.name)
 
         return CommonResponse.success(response)
     }

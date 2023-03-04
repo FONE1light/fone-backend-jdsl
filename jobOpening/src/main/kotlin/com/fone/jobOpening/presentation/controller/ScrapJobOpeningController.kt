@@ -16,7 +16,7 @@ import java.security.Principal
 @RestController
 @RequestMapping("/api/v1/job-openings")
 class ScrapJobOpeningController(
-    private val scrapJobOpeningFacade: ScrapJobOpeningFacade
+    private val scrapJobOpeningFacade: ScrapJobOpeningFacade,
 ) {
 
     @PostMapping("/{jobOpeningId}/scrap")
@@ -28,7 +28,7 @@ class ScrapJobOpeningController(
     )
     suspend fun scrapJobOpening(
         principal: Principal,
-        @PathVariable jobOpeningId: Long
+        @PathVariable jobOpeningId: Long,
     ): CommonResponse<Unit> {
         val response = scrapJobOpeningFacade.scrapJobOpening(principal.name, jobOpeningId)
 

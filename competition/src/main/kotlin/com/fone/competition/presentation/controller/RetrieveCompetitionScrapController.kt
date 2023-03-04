@@ -17,7 +17,7 @@ import java.security.Principal
 @RestController
 @RequestMapping("/api/v1/competitions")
 class RetrieveCompetitionScrapController(
-    private val retrieveCompetitionScrapFacade: RetrieveCompetitionScrapFacade
+    private val retrieveCompetitionScrapFacade: RetrieveCompetitionScrapFacade,
 ) {
 
     @GetMapping("/scraps")
@@ -29,7 +29,7 @@ class RetrieveCompetitionScrapController(
     )
     suspend fun retrieveCompetitionScraps(
         pageable: Pageable,
-        principal: Principal
+        principal: Principal,
     ): CommonResponse<RetrieveCompetitionScrapResponse> {
         val response =
             retrieveCompetitionScrapFacade.retrieveCompetitionScraps(pageable, principal.name)

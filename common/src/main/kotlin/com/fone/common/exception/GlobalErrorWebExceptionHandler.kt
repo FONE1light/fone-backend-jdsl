@@ -23,7 +23,7 @@ import reactor.core.publisher.Mono
 class GlobalErrorWebExceptionHandler(
     g: GlobalErrorAttributes?,
     applicationContext: ApplicationContext?,
-    serverCodecConfigurer: ServerCodecConfigurer
+    serverCodecConfigurer: ServerCodecConfigurer,
 ) : AbstractErrorWebExceptionHandler(g, WebProperties.Resources(), applicationContext) {
     init {
         super.setMessageWriters(serverCodecConfigurer.writers)
@@ -31,7 +31,7 @@ class GlobalErrorWebExceptionHandler(
     }
 
     override fun getRoutingFunction(
-        errorAttributes: ErrorAttributes
+        errorAttributes: ErrorAttributes,
     ): RouterFunction<ServerResponse> {
         return RouterFunctions.route(RequestPredicates.all()) { request: ServerRequest ->
             renderErrorResponse(request)
@@ -40,8 +40,7 @@ class GlobalErrorWebExceptionHandler(
 
     private fun renderErrorResponse(request: ServerRequest): Mono<ServerResponse?> {
         val errorPropertiesMap = getErrorAttributes(request, ErrorAttributeOptions.defaults())
-        return ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .contentType(MediaType.APPLICATION_JSON)
+        return ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR).contentType(MediaType.APPLICATION_JSON)
             .body(BodyInserters.fromValue(errorPropertiesMap))
     }
 }

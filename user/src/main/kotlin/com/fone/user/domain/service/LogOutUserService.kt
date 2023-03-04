@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class LogOutUserService(
-    private val redisRepository: RedisRepository
+    private val redisRepository: RedisRepository,
 ) {
 
     suspend fun logOutUser(email: String) {

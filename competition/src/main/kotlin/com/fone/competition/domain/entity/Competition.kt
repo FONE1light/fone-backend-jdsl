@@ -30,8 +30,10 @@ data class Competition(
     @Column var userId: Long,
     @Column var viewCount: Long,
     @Column var scrapCount: Long,
-    @OneToMany(mappedBy = "competition", cascade = [CascadeType.PERSIST])
-    var prizes: MutableList<Prize> = mutableListOf()
+    @OneToMany(
+        mappedBy = "competition",
+        cascade = [CascadeType.PERSIST]
+    ) var prizes: MutableList<Prize> = mutableListOf(),
 ) : BaseEntity() {
     fun view() {
         viewCount += 1

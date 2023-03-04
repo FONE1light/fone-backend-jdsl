@@ -15,12 +15,12 @@ import org.springframework.stereotype.Repository
 @Repository
 class UserRepositoryImpl(
     private val sessionFactory: Mutiny.SessionFactory,
-    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory
+    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
 ) : UserRepository {
 
     override suspend fun findByEmailAndSocialLoginType(
         email: String,
-        socialLoginType: SocialLoginType
+        socialLoginType: SocialLoginType,
     ): User? {
         return queryFactory.singleQueryOrNull {
             select(entity(User::class))
@@ -54,15 +54,13 @@ class UserRepositoryImpl(
                     session.persist(it)
                 } else {
                     session.merge(it)
-                }
-                    .flatMap { session.flush() }
-                    .awaitSuspending()
+                }.flatMap { session.flush() }.awaitSuspending()
             }
         }
     }
 
     private fun SpringDataReactiveCriteriaQueryDsl<User?>.socialLoginTypeEq(
-        socialLoginType: SocialLoginType?
+        socialLoginType: SocialLoginType?,
     ): EqualValueSpec<SocialLoginType>? {
         socialLoginType ?: return null
 
@@ -70,7 +68,7 @@ class UserRepositoryImpl(
     }
 
     private fun SpringDataReactiveCriteriaQueryDsl<User?>.emailEq(
-        email: String?
+        email: String?,
     ): EqualValueSpec<String>? {
         email ?: return null
 
@@ -78,7 +76,7 @@ class UserRepositoryImpl(
     }
 
     private fun SpringDataReactiveCriteriaQueryDsl<User?>.nicknameEq(
-        nickname: String?
+        nickname: String?,
     ): EqualValueSpec<String>? {
         nickname ?: return null
 

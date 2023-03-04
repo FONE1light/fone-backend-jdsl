@@ -16,7 +16,7 @@ import java.security.Principal
 @RestController
 @RequestMapping("/api/v1/competitions")
 class ScrapCompetitionController(
-    private val scrapCompetitionFacade: ScrapCompetitionFacade
+    private val scrapCompetitionFacade: ScrapCompetitionFacade,
 ) {
 
     @PostMapping("/{competitionId}/scrap")
@@ -28,7 +28,7 @@ class ScrapCompetitionController(
     )
     suspend fun scrapCompetition(
         principal: Principal,
-        @PathVariable competitionId: Long
+        @PathVariable competitionId: Long,
     ): CommonResponse<Unit> {
         val response = scrapCompetitionFacade.scrapCompetition(principal.name, competitionId)
         return CommonResponse.success(response)

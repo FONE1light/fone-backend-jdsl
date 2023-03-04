@@ -16,7 +16,7 @@ import java.security.Principal
 @RestController
 @RequestMapping("/api/v1/job-openings")
 class DeleteJobOpeningController(
-    private val deleteJobOpeningFacade: DeleteJobOpeningFacade
+    private val deleteJobOpeningFacade: DeleteJobOpeningFacade,
 ) {
 
     @DeleteMapping("/{jobOpeningId}")
@@ -28,7 +28,7 @@ class DeleteJobOpeningController(
     )
     suspend fun deleteJobOpening(
         principal: Principal,
-        @PathVariable jobOpeningId: Long
+        @PathVariable jobOpeningId: Long,
     ): CommonResponse<Unit> {
         val response = deleteJobOpeningFacade.deleteJobOpening(principal.name, jobOpeningId)
 

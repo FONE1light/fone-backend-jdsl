@@ -23,7 +23,11 @@ class RegisterProfileDto {
         val height: Int,
         val weight: Int,
         @field:Email(message = "유효하지 않는 이메일 입니다.")
-        @ApiModelProperty(value = "이메일", example = "test@test.com", required = true)
+        @ApiModelProperty(
+            value = "이메일",
+            example = "test@test.com",
+            required = true
+        )
         val email: String,
         val sns: String,
         val specialty: String,
@@ -34,7 +38,7 @@ class RegisterProfileDto {
         val domains: List<DomainType>,
         val userId: Long,
         val profileUrls: List<String>,
-        val profileUrl: String
+        val profileUrl: String,
     ) {
 
         fun toEntity(userId: Long): Profile {
@@ -59,17 +63,16 @@ class RegisterProfileDto {
     }
 
     data class RegisterProfileResponse(
-        val profile: ProfileDto
+        val profile: ProfileDto,
     ) {
 
         constructor(
             profile: Profile,
             userProfileWantMap: Map<Long, ProfileWant?>,
             domains: List<DomainType>,
-            categories: List<CategoryType>
+            categories: List<CategoryType>,
         ) : this(
-            profile =
-            ProfileDto(
+            profile = ProfileDto(
                 profile,
                 userProfileWantMap,
                 profile.profileImages.map { it.profileUrl }.toList(),

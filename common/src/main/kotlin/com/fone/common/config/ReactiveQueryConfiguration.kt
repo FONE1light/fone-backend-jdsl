@@ -9,14 +9,14 @@ import org.hibernate.reactive.provider.Settings
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean
-import java.util.*
+import java.util.Properties
 import javax.persistence.spi.PersistenceUnitInfo
 
 @Configuration
 class ReactiveQueryConfiguration {
     @Bean
     fun mutinySessionFactory(
-        localSessionFactoryBean: LocalContainerEntityManagerFactoryBean
+        localSessionFactoryBean: LocalContainerEntityManagerFactoryBean,
     ): Mutiny.SessionFactory {
         val reactivePersistenceInfo =
             ReactivePersistenceInfo(
@@ -33,7 +33,7 @@ class ReactiveQueryConfiguration {
 
     class ReactivePersistenceInfo(
         persistenceUnitInfo: PersistenceUnitInfo,
-        jpaPropertyMap: Map<String, Any>
+        jpaPropertyMap: Map<String, Any>,
     ) : PersistenceUnitInfo by persistenceUnitInfo {
 
         private val internalProps =
@@ -70,7 +70,7 @@ class ReactiveQueryConfiguration {
     @Bean
     fun queryFactory(
         sessionFactory: Mutiny.SessionFactory,
-        subqueryCreator: SubqueryCreator
+        subqueryCreator: SubqueryCreator,
     ): SpringDataHibernateMutinyReactiveQueryFactory {
         return SpringDataHibernateMutinyReactiveQueryFactory(
             sessionFactory = sessionFactory,

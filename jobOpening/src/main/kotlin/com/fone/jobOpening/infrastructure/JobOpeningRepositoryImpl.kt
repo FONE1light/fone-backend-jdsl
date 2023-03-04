@@ -30,7 +30,7 @@ import java.time.LocalDate
 @Repository
 class JobOpeningRepositoryImpl(
     private val sessionFactory: Mutiny.SessionFactory,
-    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory
+    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
 ) : JobOpeningRepository {
 
     override suspend fun findAllTop5ByType(pageable: Pageable, type: Type): Slice<JobOpening> {
@@ -43,21 +43,19 @@ class JobOpeningRepositoryImpl(
 
     override suspend fun findByFilters(
         pageable: Pageable,
-        request: RetrieveJobOpeningsRequest
+        request: RetrieveJobOpeningsRequest,
     ): Slice<JobOpening> {
-        val domainJobOpeningIds =
-            queryFactory.listQuery {
-                select(col(JobOpeningDomain::jobOpeningId))
-                from(entity(JobOpeningDomain::class))
-                where(col(JobOpeningDomain::type).`in`(request.domains))
-            }
+        val domainJobOpeningIds = queryFactory.listQuery {
+            select(col(JobOpeningDomain::jobOpeningId))
+            from(entity(JobOpeningDomain::class))
+            where(col(JobOpeningDomain::type).`in`(request.domains))
+        }
 
-        val categoryJobOpeningIds =
-            queryFactory.listQuery {
-                select(col(JobOpeningCategory::jobOpeningId))
-                from(entity(JobOpeningCategory::class))
-                where(col(JobOpeningCategory::type).`in`(request.categories))
-            }
+        val categoryJobOpeningIds = queryFactory.listQuery {
+            select(col(JobOpeningCategory::jobOpeningId))
+            from(entity(JobOpeningCategory::class))
+            where(col(JobOpeningCategory::type).`in`(request.categories))
+        }
 
         if (domainJobOpeningIds.isEmpty() || categoryJobOpeningIds.isEmpty()) {
             return PageImpl(
@@ -67,35 +65,31 @@ class JobOpeningRepositoryImpl(
             )
         }
 
-        val ids =
-            queryFactory
-                .pageQuery(pageable) {
-                    select(column(JobOpening::id))
-                    from(entity(JobOpening::class))
-                    where(
-                        and(
-                            col(JobOpening::type).equal(request.type),
-                            col(JobOpening::gender).`in`(request.genders),
-                            or(
-                                col(JobOpening::ageMax).greaterThanOrEqualTo(request.ageMin),
-                                col(JobOpening::ageMin).lessThanOrEqualTo(request.ageMax)
-                            ),
-                            col(JobOpening::id).`in`(domainJobOpeningIds),
-                            col(JobOpening::id).`in`(categoryJobOpeningIds)
-                        )
-                    )
-                }
-                .content
-
-        val jobOpenings =
-            queryFactory.listQuery {
-                select(entity(JobOpening::class))
-                from(entity(JobOpening::class))
-                where(col(JobOpening::id).`in`(ids))
-                orderBy(
-                    orderSpec(pageable.sort)
+        val ids = queryFactory.pageQuery(pageable) {
+            select(column(JobOpening::id))
+            from(entity(JobOpening::class))
+            where(
+                and(
+                    col(JobOpening::type).equal(request.type),
+                    col(JobOpening::gender).`in`(request.genders),
+                    or(
+                        col(JobOpening::ageMax).greaterThanOrEqualTo(request.ageMin),
+                        col(JobOpening::ageMin).lessThanOrEqualTo(request.ageMax)
+                    ),
+                    col(JobOpening::id).`in`(domainJobOpeningIds),
+                    col(JobOpening::id).`in`(categoryJobOpeningIds)
                 )
-            }
+            )
+        }.content
+
+        val jobOpenings = queryFactory.listQuery {
+            select(entity(JobOpening::class))
+            from(entity(JobOpening::class))
+            where(col(JobOpening::id).`in`(ids))
+            orderBy(
+                orderSpec(pageable.sort)
+            )
+        }
 
         return PageImpl(jobOpenings, pageable, jobOpenings.size.toLong())
     }
@@ -124,14 +118,13 @@ class JobOpeningRepositoryImpl(
     override suspend fun findScrapAllByUserId(
         pageable: Pageable,
         userId: Long,
-        type: Type
+        type: Type,
     ): Slice<JobOpening> {
-        val jobOpeningIds =
-            queryFactory.subquery {
-                select(column(JobOpeningScrap::id))
-                from(entity(JobOpeningScrap::class))
-                where(col(JobOpeningScrap::userId).equal(userId))
-            }
+        val jobOpeningIds = queryFactory.subquery {
+            select(column(JobOpeningScrap::id))
+            from(entity(JobOpeningScrap::class))
+            where(col(JobOpeningScrap::userId).equal(userId))
+        }
 
         return queryFactory.pageQuery(pageable) {
             select(entity(JobOpening::class))
@@ -152,27 +145,25 @@ class JobOpeningRepositoryImpl(
                     session.persist(it)
                 } else {
                     session.merge(it)
-                }
-                    .flatMap { session.flush() }
-                    .awaitSuspending()
+                }.flatMap { session.flush() }.awaitSuspending()
             }
         }
     }
 
     private fun SpringDataReactiveCriteriaQueryDsl<JobOpening?>.jobOpeningIdEq(
-        jobOpeningId: Long?
+        jobOpeningId: Long?,
     ) = col(JobOpening::id).equal(jobOpeningId)
 
     private fun SpringDataReactivePageableQueryDsl<JobOpening>.idIn(
-        jobOpeningIds: List<Long>
+        jobOpeningIds: List<Long>,
     ) = col(JobOpening::id).`in`(jobOpeningIds)
 
     private fun SpringDataReactivePageableQueryDsl<JobOpening>.userIdEq(
-        userId: Long
+        userId: Long,
     ) = col(JobOpening::userId).equal(userId)
 
     private fun SpringDataReactiveCriteriaQueryDsl<JobOpening?>.typeEqOrNull(
-        type: Type?
+        type: Type?,
     ): EqualValueSpec<Type>? {
         type ?: return null
 
@@ -180,7 +171,7 @@ class JobOpeningRepositoryImpl(
     }
 
     private fun SpringDataReactiveCriteriaQueryDsl<JobOpening>.typeEq(
-        type: Type?
+        type: Type?,
     ): EqualValueSpec<Type>? {
         type ?: return null
 
@@ -188,40 +179,34 @@ class JobOpeningRepositoryImpl(
     }
 
     private fun SpringDataReactivePageableQueryDsl<JobOpening>.typeEq(
-        type: Type?
+        type: Type?,
     ): EqualValueSpec<Type>? {
         type ?: return null
         return col(JobOpening::type).equal(type)
     }
 
     private fun SpringDataReactiveCriteriaQueryDsl<JobOpening?>.orderSpec(
-        sort: Sort
+        sort: Sort,
     ): List<OrderSpec> {
-        val endDate =
-            case(
-                `when`(column(JobOpening::deadline).lessThanOrEqualTo(LocalDate.now()))
-                    .then(literal(1)),
-                `else` = literal(0)
-            ).asc()
+        val endDate = case(
+            `when`(column(JobOpening::deadline).lessThanOrEqualTo(LocalDate.now())).then(literal(1)),
+            `else` = literal(0)
+        ).asc()
 
-        val res =
-            sort
-                .map {
-                    val columnSpec =
-                        when (it.property) {
-                            "viewCount" -> col(JobOpening::viewCount)
-                            "createdAt" -> col(JobOpening::createdAt)
-                            "scrapCount" -> col(JobOpening::scrapCount)
-                            else -> col(JobOpening::viewCount)
-                        }
+        val res = sort.map {
+            val columnSpec = when (it.property) {
+                "viewCount" -> col(JobOpening::viewCount)
+                "createdAt" -> col(JobOpening::createdAt)
+                "scrapCount" -> col(JobOpening::scrapCount)
+                else -> col(JobOpening::viewCount)
+            }
 
-                    if (it.isAscending) {
-                        columnSpec.asc()
-                    } else {
-                        columnSpec.desc()
-                    }
-                }
-                .toList()
+            if (it.isAscending) {
+                columnSpec.asc()
+            } else {
+                columnSpec.desc()
+            }
+        }.toList()
 
         return listOf(endDate) + res
     }

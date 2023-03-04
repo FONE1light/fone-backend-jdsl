@@ -28,14 +28,14 @@ data class ProfileDto(
     val viewCount: Long,
     val profileUrl: String,
     val isWant: Boolean = false,
-    val age: Int
+    val age: Int,
 ) {
     constructor(
         profile: Profile,
         userProfileWantMap: Map<Long, ProfileWant?>,
         profileUrls: List<String>,
         domains: List<DomainType>,
-        categories: List<CategoryType>
+        categories: List<CategoryType>,
     ) : this(
         id = profile.id!!,
         name = profile.name,

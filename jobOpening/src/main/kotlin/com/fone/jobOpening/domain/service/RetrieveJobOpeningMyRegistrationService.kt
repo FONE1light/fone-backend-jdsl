@@ -19,13 +19,13 @@ class RetrieveJobOpeningMyRegistrationService(
     private val jobOpeningRepository: JobOpeningRepository,
     private val jobOpeningScrapRepository: JobOpeningScrapRepository,
     private val jobOpeningDomainRepository: JobOpeningDomainRepository,
-    private val jobOpeningCategoryRepository: JobOpeningCategoryRepository
+    private val jobOpeningCategoryRepository: JobOpeningCategoryRepository,
 ) {
 
     @Transactional(readOnly = true)
     suspend fun retrieveJobOpeningMyRegistrations(
         pageable: Pageable,
-        email: String
+        email: String,
     ): RetrieveJobOpeningMyRegistrationResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 

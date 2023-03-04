@@ -75,7 +75,9 @@ subprojects {
 
     tasks {
         withType<Jar> {
-            archiveFileName.set(project.path.split(":").drop(1).joinToString(separator = "-", postfix = "-") + project.version + ".jar")
+            archiveFileName.set(
+                project.path.split(":").drop(1).joinToString(separator = "-", postfix = "-") + project.version + ".jar"
+            )
         }
 
         withType<BootJar> {

@@ -24,5 +24,5 @@ data class Report(
     @Column(length = 500)
     var inconvenients: List<String> = listOf(),
     @Column(length = 500) var details: String,
-    @Column var userId: Long
+    @Column var userId: Long,
 ) : BaseEntity()

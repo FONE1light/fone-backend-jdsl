@@ -5,9 +5,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class DeleteProfileFacade(
-    private val deleteProfileService: DeleteProfileService
+    private val deleteProfileService: DeleteProfileService,
 ) {
 
-    suspend fun deleteProfile(email: String, profileId: Long) =
-        deleteProfileService.deleteProfile(email, profileId)
+    suspend fun deleteProfile(email: String, profileId: Long) = deleteProfileService.deleteProfile(email, profileId)
 }

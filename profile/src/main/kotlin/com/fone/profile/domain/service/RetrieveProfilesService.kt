@@ -23,14 +23,14 @@ class RetrieveProfilesService(
     private val profileWantRepository: ProfileWantRepository,
     private val userRepository: UserCommonRepository,
     private val profileDomainRepository: ProfileDomainRepository,
-    private val profileCategoryRepository: ProfileCategoryRepository
+    private val profileCategoryRepository: ProfileCategoryRepository,
 ) {
 
     @Transactional(readOnly = true)
     suspend fun retrieveProfiles(
         pageable: Pageable,
         email: String,
-        request: RetrieveProfilesRequest
+        request: RetrieveProfilesRequest,
     ): RetrieveProfilesResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 
@@ -57,15 +57,13 @@ class RetrieveProfilesService(
     suspend fun retrieveProfile(
         email: String,
         type: Type,
-        profileId: Long
+        profileId: Long,
     ): RetrieveProfileResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 
         return coroutineScope {
             val profile = async {
-                val profile =
-                    profileRepository.findByTypeAndId(type, profileId)
-                        ?: throw NotFoundProfileException()
+                val profile = profileRepository.findByTypeAndId(type, profileId) ?: throw NotFoundProfileException()
                 profile.view()
                 profileRepository.save(profile)
             }

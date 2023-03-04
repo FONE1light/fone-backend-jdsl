@@ -41,7 +41,7 @@ data class Profile(
     @Column var isDeleted: Boolean = false,
     @Column var profileUrl: String,
     @OneToMany(mappedBy = "profile", cascade = [CascadeType.PERSIST])
-    var profileImages: MutableList<ProfileImage> = mutableListOf()
+    var profileImages: MutableList<ProfileImage> = mutableListOf(),
 ) : BaseEntity() {
 
     fun view() {

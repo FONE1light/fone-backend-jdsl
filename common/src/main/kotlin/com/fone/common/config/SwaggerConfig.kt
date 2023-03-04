@@ -23,13 +23,13 @@ import springfox.documentation.spi.DocumentationType
 import springfox.documentation.spi.service.contexts.SecurityContext
 import springfox.documentation.spring.web.plugins.Docket
 import springfox.documentation.swagger2.annotations.EnableSwagger2
-import java.util.*
+import java.util.Arrays
 
 @Configuration
 @EnableSwagger2
 @RequiredArgsConstructor
 class SwaggerConfig(
-    private val typeResolver: TypeResolver
+    private val typeResolver: TypeResolver,
 ) {
 
     @Bean
@@ -77,14 +77,14 @@ class SwaggerConfig(
         return Arrays.asList(SecurityReference("JWT", authorizationScopes))
     }
 
-    private fun getConsumeContentTypes(): Set<String>? {
+    private fun getConsumeContentTypes(): Set<String> {
         val consumes: MutableSet<String> = HashSet()
         consumes.add("application/json;charset=UTF-8")
         consumes.add("application/x-www-form-urlencoded")
         return consumes
     }
 
-    private fun getProduceContentTypes(): Set<String>? {
+    private fun getProduceContentTypes(): Set<String> {
         val produces: MutableSet<String> = HashSet()
         produces.add("application/json;charset=UTF-8")
         return produces

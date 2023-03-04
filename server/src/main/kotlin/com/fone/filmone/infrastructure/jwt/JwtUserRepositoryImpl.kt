@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class JwtUserRepositoryImpl(
-    private val userJpaRepository: UserRepository
+    private val userJpaRepository: UserRepository,
 ) : JwtUserRepository {
 
     override suspend fun validTokenByEmail(email: String): Boolean? {

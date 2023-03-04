@@ -4,7 +4,8 @@ enum class Job {
     ACTOR,
     STAFF,
     NORMAL,
-    HUNTER;
+    HUNTER,
+    ;
 
     companion object {
 

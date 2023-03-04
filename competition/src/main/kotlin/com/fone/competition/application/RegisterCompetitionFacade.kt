@@ -6,11 +6,11 @@ import org.springframework.stereotype.Service
 
 @Service
 class RegisterCompetitionFacade(
-    private val registerCompetitionService: RegisterCompetitionService
+    private val registerCompetitionService: RegisterCompetitionService,
 ) {
 
     suspend fun registerCompetition(
         request: RegisterCompetitionRequest,
-        email: String
+        email: String,
     ) = registerCompetitionService.registerCompetition(request, email)
 }

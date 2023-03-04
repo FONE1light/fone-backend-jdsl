@@ -15,15 +15,14 @@ import java.util.concurrent.TimeUnit
 class SignInUserService(
     private val userRepository: UserRepository,
     private val jwtUtils: JWTUtils,
-    private val redisRepository: RedisRepository
+    private val redisRepository: RedisRepository,
 ) {
 
     @Transactional(readOnly = true)
     suspend fun signInUser(request: SignInUserRequest): SignInUserResponse {
         with(request) {
             val user =
-                userRepository.findByEmailAndSocialLoginType(email, socialLoginType)
-                    ?: throw NotFoundUserException()
+                userRepository.findByEmailAndSocialLoginType(email, socialLoginType) ?: throw NotFoundUserException()
 
             val token = jwtUtils.generateUserToken(user.email, user.roles.map { Role(it) }.toList())
 

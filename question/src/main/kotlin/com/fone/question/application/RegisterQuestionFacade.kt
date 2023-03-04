@@ -6,8 +6,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class RegisterQuestionFacade(
-    private val registerQuestionService: RegisterQuestionService
+    private val registerQuestionService: RegisterQuestionService,
 ) {
-    suspend fun registerQuestion(request: RegisterQuestionRequest) =
-        registerQuestionService.registerQuestion(request)
+    suspend fun registerQuestion(request: RegisterQuestionRequest) = registerQuestionService.registerQuestion(request)
 }

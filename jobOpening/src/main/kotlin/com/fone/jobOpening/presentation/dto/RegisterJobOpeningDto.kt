@@ -26,7 +26,7 @@ class RegisterJobOpeningDto {
         val career: Career,
         val type: Type,
         val domains: List<DomainType>,
-        val work: WorkDto
+        val work: WorkDto,
     ) {
         fun toEntity(userId: Long): JobOpening {
             return JobOpening(
@@ -48,14 +48,14 @@ class RegisterJobOpeningDto {
     }
 
     data class RegisterJobOpeningResponse(
-        val jobOpening: JobOpeningDto
+        val jobOpening: JobOpeningDto,
     ) {
 
         constructor(
             jobOpening: JobOpening,
             userJobOpeningScrapMap: Map<Long, JobOpeningScrap?>,
             domains: List<DomainType>,
-            categories: List<CategoryType>
+            categories: List<CategoryType>,
         ) : this(
             jobOpening = JobOpeningDto(jobOpening, userJobOpeningScrapMap, domains, categories)
         )

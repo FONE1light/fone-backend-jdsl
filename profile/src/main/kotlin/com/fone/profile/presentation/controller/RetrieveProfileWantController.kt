@@ -19,7 +19,7 @@ import java.security.Principal
 @RestController
 @RequestMapping("/api/v1/profiles")
 class RetrieveProfileWantController(
-    private val retrieveProfileWantFacade: RetrieveProfileWantFacade
+    private val retrieveProfileWantFacade: RetrieveProfileWantFacade,
 ) {
 
     @GetMapping("/wants")
@@ -32,7 +32,7 @@ class RetrieveProfileWantController(
     suspend fun retrieveProfileWant(
         pageable: Pageable,
         principal: Principal,
-        @RequestParam type: Type
+        @RequestParam type: Type,
     ): CommonResponse<RetrieveProfileWantResponse> {
         val response = retrieveProfileWantFacade.retrieveProfileWant(pageable, principal.name, type)
 

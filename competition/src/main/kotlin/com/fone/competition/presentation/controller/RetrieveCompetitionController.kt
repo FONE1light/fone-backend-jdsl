@@ -19,7 +19,7 @@ import java.security.Principal
 @RestController
 @RequestMapping("/api/v1/competitions")
 class RetrieveCompetitionController(
-    private val retrieveCompetitionFacade: RetrieveCompetitionFacade
+    private val retrieveCompetitionFacade: RetrieveCompetitionFacade,
 ) {
 
     @GetMapping
@@ -31,7 +31,7 @@ class RetrieveCompetitionController(
     )
     suspend fun retrieveCompetitions(
         principal: Principal,
-        pageable: Pageable
+        pageable: Pageable,
     ): CommonResponse<RetrieveCompetitionsResponse> {
         val response = retrieveCompetitionFacade.retrieveCompetitions(principal.name, pageable)
         return CommonResponse.success(response)
@@ -46,7 +46,7 @@ class RetrieveCompetitionController(
     )
     suspend fun retrieveCompetition(
         principal: Principal,
-        @PathVariable competitionId: Long
+        @PathVariable competitionId: Long,
     ): CommonResponse<RetrieveCompetitionResponse> {
         val response = retrieveCompetitionFacade.retrieveCompetition(principal.name, competitionId)
         return CommonResponse.success(response)

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository
 @Repository
 class ProfileWantRepositoryImpl(
     private val sessionFactory: Mutiny.SessionFactory,
-    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory
+    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
 ) : ProfileWantRepository {
 
     override suspend fun findByUserIdAndProfileId(userId: Long, profileId: Long): ProfileWant? {
@@ -32,13 +32,11 @@ class ProfileWantRepositoryImpl(
     }
 
     override suspend fun findByUserId(userId: Long): Map<Long, ProfileWant?> {
-        return queryFactory
-            .listQuery {
-                select(entity(ProfileWant::class))
-                from(entity(ProfileWant::class))
-                where(col(ProfileWant::userId).equal(userId))
-            }
-            .associateBy { it!!.profileId }
+        return queryFactory.listQuery {
+            select(entity(ProfileWant::class))
+            from(entity(ProfileWant::class))
+            where(col(ProfileWant::userId).equal(userId))
+        }.associateBy { it!!.profileId }
     }
 
     override suspend fun delete(profileWant: ProfileWant): Int {
@@ -54,18 +52,16 @@ class ProfileWantRepositoryImpl(
                     session.persist(it)
                 } else {
                     session.merge(it)
-                }
-                    .flatMap { session.flush() }
-                    .awaitSuspending()
+                }.flatMap { session.flush() }.awaitSuspending()
             }
         }
     }
 
     private fun SpringDataReactiveCriteriaQueryDsl<ProfileWant?>.userIdEq(
-        userId: Long
+        userId: Long,
     ) = col(ProfileWant::userId).equal(userId)
 
     private fun SpringDataReactiveCriteriaQueryDsl<ProfileWant?>.profileIdEq(
-        profileId: Long
+        profileId: Long,
     ) = col(ProfileWant::profileId).equal(profileId)
 }

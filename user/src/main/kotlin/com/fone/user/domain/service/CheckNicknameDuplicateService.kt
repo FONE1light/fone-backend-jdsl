@@ -8,12 +8,12 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class CheckNicknameDuplicateService(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
 ) {
 
     @Transactional(readOnly = true)
     suspend fun checkNicknameDuplicate(
-        request: CheckNicknameDuplicateRequest
+        request: CheckNicknameDuplicateRequest,
     ): CheckNicknameDuplicateResponse {
         with(request) {
             userRepository.findByNicknameOrEmail(nickname, null)?.let {

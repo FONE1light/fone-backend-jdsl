@@ -19,7 +19,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/api/v1/reports")
 class RegisterReportController(
-    private val registerReportFacade: RegisterReportFacade
+    private val registerReportFacade: RegisterReportFacade,
 ) {
 
     @PostMapping
@@ -32,7 +32,7 @@ class RegisterReportController(
     suspend fun registerReport(
         principal: Principal,
         @Valid @RequestBody
-        request: RegisterReportRequest
+        request: RegisterReportRequest,
     ): CommonResponse<RegisterReportResponse> {
         val response = registerReportFacade.registerReport(request, principal.name)
         return CommonResponse.success(response)

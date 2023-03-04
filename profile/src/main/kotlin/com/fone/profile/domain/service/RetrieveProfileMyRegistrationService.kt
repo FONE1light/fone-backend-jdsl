@@ -19,13 +19,13 @@ class RetrieveProfileMyRegistrationService(
     private val profileWantRepository: ProfileWantRepository,
     private val profileRepository: ProfileRepository,
     private val profileDomainRepository: ProfileDomainRepository,
-    private val profileCategoryRepository: ProfileCategoryRepository
+    private val profileCategoryRepository: ProfileCategoryRepository,
 ) {
 
     @Transactional(readOnly = true)
     suspend fun retrieveProfileMyRegistration(
         pageable: Pageable,
-        email: String
+        email: String,
     ): RetrieveProfileMyRegistrationResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 

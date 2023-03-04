@@ -9,11 +9,11 @@ data class QuestionDto(
     val type: Type,
     val title: String,
     val description: String,
-    val agreeToPersonalInformation: Boolean
+    val agreeToPersonalInformation: Boolean,
 ) {
 
     constructor(
-        question: Question
+        question: Question,
     ) : this(
         id = question.id!!,
         email = question.email,

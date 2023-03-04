@@ -11,7 +11,7 @@ interface JobOpeningRepository {
 
     suspend fun findByFilters(
         pageable: Pageable,
-        type: RetrieveJobOpeningsRequest
+        type: RetrieveJobOpeningsRequest,
     ): Slice<JobOpening>
 
     suspend fun findByTypeAndId(type: Type?, jobOpeningId: Long?): JobOpening?
@@ -21,7 +21,7 @@ interface JobOpeningRepository {
     suspend fun findScrapAllByUserId(
         pageable: Pageable,
         userId: Long,
-        type: Type
+        type: Type,
     ): Slice<JobOpening>
 
     suspend fun save(jobOpening: JobOpening): JobOpening

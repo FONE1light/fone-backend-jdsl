@@ -23,14 +23,14 @@ class RetrieveJobOpeningService(
     private val jobOpeningScrapRepository: JobOpeningScrapRepository,
     private val jobOpeningDomainRepository: JobOpeningDomainRepository,
     private val jobOpeningCategoryRepository: JobOpeningCategoryRepository,
-    private val userRepository: UserCommonRepository
+    private val userRepository: UserCommonRepository,
 ) {
 
     @Transactional(readOnly = true)
     suspend fun retrieveJobOpenings(
         email: String,
         pageable: Pageable,
-        request: RetrieveJobOpeningsRequest
+        request: RetrieveJobOpeningsRequest,
     ): RetrieveJobOpeningsResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 
@@ -43,8 +43,7 @@ class RetrieveJobOpeningService(
 
             val jobOpeningIds = jobOpenings.await().map { it.id!! }.toList()
             val jobOpeningDomains = jobOpeningDomainRepository.findByJobOpeningIds(jobOpeningIds)
-            val jobOpeningCategories =
-                jobOpeningCategoryRepository.findByJobOpeningIds(jobOpeningIds)
+            val jobOpeningCategories = jobOpeningCategoryRepository.findByJobOpeningIds(jobOpeningIds)
 
             RetrieveJobOpeningsResponse(
                 jobOpenings.await(),
@@ -60,15 +59,14 @@ class RetrieveJobOpeningService(
     suspend fun retrieveJobOpening(
         email: String,
         type: Type,
-        jobOpeningId: Long
+        jobOpeningId: Long,
     ): RetrieveJobOpeningResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 
         return coroutineScope {
             val jobOpening = async {
                 val jobOpening =
-                    jobOpeningRepository.findByTypeAndId(type, jobOpeningId)
-                        ?: throw NotFoundJobOpeningException()
+                    jobOpeningRepository.findByTypeAndId(type, jobOpeningId) ?: throw NotFoundJobOpeningException()
                 jobOpening.view()
                 jobOpeningRepository.save(jobOpening)
             }

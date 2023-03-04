@@ -16,7 +16,7 @@ import java.security.Principal
 @RestController
 @RequestMapping("/api/v1/profiles")
 class DeleteProfileController(
-    private val deleteProfileFacade: DeleteProfileFacade
+    private val deleteProfileFacade: DeleteProfileFacade,
 ) {
 
     @DeleteMapping("/{profileId}")
@@ -28,7 +28,7 @@ class DeleteProfileController(
     )
     suspend fun deleteProfile(
         principal: Principal,
-        @PathVariable profileId: Long
+        @PathVariable profileId: Long,
     ): CommonResponse<Unit> {
         val response = deleteProfileFacade.deleteProfile(principal.name, profileId)
 

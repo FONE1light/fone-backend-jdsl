@@ -10,7 +10,7 @@ class GlobalErrorAttributes : DefaultErrorAttributes() {
 
     override fun getErrorAttributes(
         request: ServerRequest?,
-        options: ErrorAttributeOptions?
+        options: ErrorAttributeOptions?,
     ): Map<String, Any?> {
         val map: MutableMap<String, Any?> = mutableMapOf()
         val throwable: Throwable = getError(request)

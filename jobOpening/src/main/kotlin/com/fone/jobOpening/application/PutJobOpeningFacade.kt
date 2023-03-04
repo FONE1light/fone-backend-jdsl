@@ -6,12 +6,12 @@ import org.springframework.stereotype.Service
 
 @Service
 class PutJobOpeningFacade(
-    private val putJobOpeningService: PutJobOpeningService
+    private val putJobOpeningService: PutJobOpeningService,
 ) {
 
     suspend fun putJobOpening(
         request: RegisterJobOpeningRequest,
         email: String,
-        jobOpeningId: Long
+        jobOpeningId: Long,
     ) = putJobOpeningService.putJobOpening(request, email, jobOpeningId)
 }

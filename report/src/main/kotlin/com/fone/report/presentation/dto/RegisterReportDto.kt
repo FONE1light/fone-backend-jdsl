@@ -11,7 +11,7 @@ class RegisterReportDto {
         val type: Type,
         val typeId: Long,
         val inconvenients: List<String>,
-        val details: String
+        val details: String,
     ) {
         fun toEntity(userId: Long): Report {
             return Report(
@@ -26,7 +26,7 @@ class RegisterReportDto {
     }
 
     data class RegisterReportResponse(
-        val report: ReportDto
+        val report: ReportDto,
     ) {
         constructor(reqReport: Report) : this(report = ReportDto(reqReport))
     }

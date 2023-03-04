@@ -22,7 +22,7 @@ data class Prize(
     @Column var prizeMoney: String,
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "competition_id")
-    var competition: Competition? = null
+    var competition: Competition? = null,
 ) : BaseEntity() {
 
     override fun toString(): String {

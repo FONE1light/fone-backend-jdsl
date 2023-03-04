@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class RetrieveProfileWantFacade(
-    private val retrieveProfileWantService: RetrieveProfileWantService
+    private val retrieveProfileWantService: RetrieveProfileWantService,
 ) {
 
     suspend fun retrieveProfileWant(pageable: Pageable, email: String, type: Type) =

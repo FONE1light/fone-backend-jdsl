@@ -5,9 +5,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class WantProfileFacade(
-    private val wantProfileService: WantProfileService
+    private val wantProfileService: WantProfileService,
 ) {
 
-    suspend fun wantProfile(email: String, profileId: Long) =
-        wantProfileService.wantProfile(email, profileId)
+    suspend fun wantProfile(email: String, profileId: Long) = wantProfileService.wantProfile(email, profileId)
 }

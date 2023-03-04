@@ -16,12 +16,12 @@ data class ProfileWant(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
     @Column val userId: Long,
-    @Column val profileId: Long
+    @Column val profileId: Long,
 ) : BaseEntity() {
 
     constructor(
         reqUserId: Long,
-        reqProfileId: Long
+        reqProfileId: Long,
     ) : this(
         userId = reqUserId,
         profileId = reqProfileId

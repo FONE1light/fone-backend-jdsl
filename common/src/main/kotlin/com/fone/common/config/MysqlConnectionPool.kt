@@ -14,7 +14,7 @@ class MysqlConnectionPool : DefaultSqlClientPool() {
         uri: URI,
         connectOptions: SqlConnectOptions,
         poolOptions: PoolOptions,
-        vertx: Vertx
+        vertx: Vertx,
     ): Pool {
         return MySQLPool.pool(
             vertx,

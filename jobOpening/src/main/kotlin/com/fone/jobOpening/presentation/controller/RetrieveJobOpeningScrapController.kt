@@ -19,7 +19,7 @@ import java.security.Principal
 @RestController
 @RequestMapping("/api/v1/job-openings")
 class RetrieveJobOpeningScrapController(
-    private val retrieveJobOpeningScrapFacade: RetrieveJobOpeningScrapFacade
+    private val retrieveJobOpeningScrapFacade: RetrieveJobOpeningScrapFacade,
 ) {
 
     @GetMapping("/scraps")
@@ -32,14 +32,13 @@ class RetrieveJobOpeningScrapController(
     suspend fun retrieveJobOpeningScrap(
         pageable: Pageable,
         principal: Principal,
-        @RequestParam type: Type
+        @RequestParam type: Type,
     ): CommonResponse<RetrieveJobOpeningScrapResponse> {
-        val response =
-            retrieveJobOpeningScrapFacade.retrieveJobOpeningScrap(
-                pageable,
-                principal.name,
-                type
-            )
+        val response = retrieveJobOpeningScrapFacade.retrieveJobOpeningScrap(
+            pageable,
+            principal.name,
+            type
+        )
 
         return CommonResponse.success(response)
     }

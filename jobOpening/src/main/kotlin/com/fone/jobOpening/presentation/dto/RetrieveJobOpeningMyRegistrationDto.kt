@@ -12,7 +12,7 @@ import org.springframework.data.domain.Slice
 class RetrieveJobOpeningMyRegistrationDto {
 
     data class RetrieveJobOpeningMyRegistrationResponse(
-        val jobOpenings: Slice<JobOpeningDto>
+        val jobOpenings: Slice<JobOpeningDto>,
     ) {
 
         constructor(
@@ -20,20 +20,17 @@ class RetrieveJobOpeningMyRegistrationDto {
             userJobOpeningScrapMap: Map<Long, JobOpeningScrap?>,
             jobOpeningDomains: Map<Long, List<DomainType>>,
             jobOpeningCategories: Map<Long, List<CategoryType>>,
-            pageable: Pageable
+            pageable: Pageable,
         ) : this(
-            jobOpenings =
-            PageImpl(
-                jobOpenings
-                    .map {
-                        JobOpeningDto(
-                            it,
-                            userJobOpeningScrapMap,
-                            jobOpeningDomains[it.id!!] ?: listOf(),
-                            jobOpeningCategories[it.id!!] ?: listOf()
-                        )
-                    }
-                    .toList(),
+            jobOpenings = PageImpl(
+                jobOpenings.map {
+                    JobOpeningDto(
+                        it,
+                        userJobOpeningScrapMap,
+                        jobOpeningDomains[it.id!!] ?: listOf(),
+                        jobOpeningCategories[it.id!!] ?: listOf()
+                    )
+                }.toList(),
                 pageable,
                 jobOpenings.size.toLong()
             )

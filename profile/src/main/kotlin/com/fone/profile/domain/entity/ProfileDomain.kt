@@ -18,12 +18,12 @@ data class ProfileDomain(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
     @Column var profileId: Long,
-    @Enumerated(EnumType.STRING) var type: DomainType
+    @Enumerated(EnumType.STRING) var type: DomainType,
 ) {
 
     constructor(
         reqProfileId: Long,
-        domainType: DomainType
+        domainType: DomainType,
     ) : this(
         profileId = reqProfileId,
         type = domainType

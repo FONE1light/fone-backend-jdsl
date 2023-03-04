@@ -27,14 +27,14 @@ data class JobOpeningDto(
     val scrapCount: Long,
     val work: WorkDto,
     val isScrap: Boolean = false,
-    val dDay: String
+    val dDay: String,
 ) {
 
     constructor(
         jobOpening: JobOpening,
         userJobOpeningScrapMap: Map<Long, JobOpeningScrap?>,
         domains: List<DomainType>,
-        categories: List<CategoryType>
+        categories: List<CategoryType>,
     ) : this(
         id = jobOpening.id!!,
         title = jobOpening.title,

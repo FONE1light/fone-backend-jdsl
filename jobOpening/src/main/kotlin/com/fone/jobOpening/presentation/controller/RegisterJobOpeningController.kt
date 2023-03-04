@@ -19,7 +19,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/api/v1/job-openings")
 class RegisterJobOpeningController(
-    private val registerJobOpeningFacade: RegisterJobOpeningFacade
+    private val registerJobOpeningFacade: RegisterJobOpeningFacade,
 ) {
 
     @PostMapping
@@ -32,7 +32,7 @@ class RegisterJobOpeningController(
     suspend fun registerJobOpening(
         principal: Principal,
         @Valid @RequestBody
-        request: RegisterJobOpeningRequest
+        request: RegisterJobOpeningRequest,
     ): CommonResponse<RegisterJobOpeningResponse> {
         val response = registerJobOpeningFacade.registerJobOpening(request, principal.name)
         return CommonResponse.success(response)

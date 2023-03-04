@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit
 
 @Component
 class RedisRepository(
-    val redisTemplate: RedisTemplate<String, String>
+    val redisTemplate: RedisTemplate<String, String>,
 ) {
 
     val REFRESH_PREFIX: String = "RT:"

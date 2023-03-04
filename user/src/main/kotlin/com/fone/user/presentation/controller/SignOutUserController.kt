@@ -15,7 +15,7 @@ import java.security.Principal
 @RestController
 @RequestMapping("/api/v1/users")
 class SignOutUserController(
-    private val signOutUserFacade: SignOutUserFacade
+    private val signOutUserFacade: SignOutUserFacade,
 ) {
 
     @PatchMapping("/sign-out")

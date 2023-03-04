@@ -6,9 +6,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class ModifyUserFacade(
-    private val modifyUserService: ModifyUserService
+    private val modifyUserService: ModifyUserService,
 ) {
 
-    suspend fun modifyUser(request: ModifyUserRequest, email: String) =
-        modifyUserService.modifyUser(request, email)
+    suspend fun modifyUser(request: ModifyUserRequest, email: String) = modifyUserService.modifyUser(request, email)
 }

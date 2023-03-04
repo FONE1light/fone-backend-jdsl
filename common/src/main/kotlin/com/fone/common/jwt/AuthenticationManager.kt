@@ -13,7 +13,7 @@ import java.util.stream.Collectors
 @Component
 class AuthenticationManager(
     val jwtUtils: JWTUtils,
-    val userRepository: JwtUserRepository
+    val userRepository: JwtUserRepository,
 ) : ReactiveAuthenticationManager {
 
     override fun authenticate(authentication: Authentication): Mono<Authentication> {
@@ -27,23 +27,17 @@ class AuthenticationManager(
 
         runBlocking {
             return@runBlocking async { userRepository.validTokenByEmail(email) }.await()
-        }
-            ?: return Mono.empty()
+        } ?: return Mono.empty()
 
-        return Mono.just(jwtUtils.validateToken(authToken))
-            .filter { valid -> valid }
-            .switchIfEmpty(Mono.empty())
-            .map {
-                val claims = jwtUtils.getAllClaimsFromToken(authToken)
-                val rolesMap = claims.get("roles", java.util.List::class.java)
-                UsernamePasswordAuthenticationToken(
-                    email,
-                    null,
-                    rolesMap
-                        .stream()
-                        .map { role -> SimpleGrantedAuthority(role as String) }
-                        .collect(Collectors.toList())
-                )
-            }
+        return Mono.just(jwtUtils.validateToken(authToken)).filter { valid -> valid }.switchIfEmpty(Mono.empty()).map {
+            val claims = jwtUtils.getAllClaimsFromToken(authToken)
+            val rolesMap = claims.get("roles", java.util.List::class.java)
+            UsernamePasswordAuthenticationToken(
+                email,
+                null,
+                rolesMap.stream().map { role -> SimpleGrantedAuthority(role as String) }
+                    .collect(Collectors.toList())
+            )
+        }
     }
 }

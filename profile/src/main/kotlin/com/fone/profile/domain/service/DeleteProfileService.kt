@@ -16,13 +16,12 @@ class DeleteProfileService(
     private val profileRepository: ProfileRepository,
     private val profileDomainRepository: ProfileDomainRepository,
     private val profileCategoryRepository: ProfileCategoryRepository,
-    private val userRepository: UserCommonRepository
+    private val userRepository: UserCommonRepository,
 ) {
 
     suspend fun deleteProfile(email: String, profileId: Long) {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
-        val profile =
-            profileRepository.findByTypeAndId(null, profileId) ?: throw NotFoundProfileException()
+        val profile = profileRepository.findByTypeAndId(null, profileId) ?: throw NotFoundProfileException()
 
         if (profile.userId != userId) {
             throw InvalidProfileUserIdException()

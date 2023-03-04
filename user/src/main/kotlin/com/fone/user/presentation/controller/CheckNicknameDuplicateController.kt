@@ -17,7 +17,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/api/v1/users")
 class CheckNicknameDuplicateController(
-    private val checkNicknameDuplicateFacade: CheckNicknameDuplicationFacade
+    private val checkNicknameDuplicateFacade: CheckNicknameDuplicationFacade,
 ) {
 
     @GetMapping("/check-nickname-duplication")
@@ -28,7 +28,7 @@ class CheckNicknameDuplicateController(
     )
     suspend fun checkNicknameDuplicate(
         @Valid @ModelAttribute
-        request: CheckNicknameDuplicateRequest
+        request: CheckNicknameDuplicateRequest,
     ): CommonResponse<CheckNicknameDuplicateResponse> {
         val response = checkNicknameDuplicateFacade.check(request)
         return CommonResponse.success(response)

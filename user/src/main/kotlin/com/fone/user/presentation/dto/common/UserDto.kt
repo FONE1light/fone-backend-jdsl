@@ -21,11 +21,11 @@ data class UserDto(
     val agreeToTermsOfServiceTermsOfUse: Boolean,
     val agreeToPersonalInformation: Boolean,
     val isReceiveMarketing: Boolean,
-    val enabled: Boolean
+    val enabled: Boolean,
 ) {
 
     constructor(
-        user: User
+        user: User,
     ) : this(
         id = user.id!!,
         job = user.job,

@@ -26,7 +26,7 @@ import java.time.LocalDate
 @Repository
 class CompetitionRepositoryImpl(
     private val sessionFactory: Mutiny.SessionFactory,
-    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory
+    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
 ) : CompetitionRepository {
 
     override suspend fun findAll(pageable: Pageable): Slice<Competition> {
@@ -75,7 +75,7 @@ class CompetitionRepositoryImpl(
 
     override suspend fun findScrapAllById(
         pageable: Pageable,
-        userId: Long
+        userId: Long,
     ): Slice<Competition> {
         val ids =
             queryFactory
@@ -113,7 +113,7 @@ class CompetitionRepositoryImpl(
     }
 
     private fun SpringDataReactiveCriteriaQueryDsl<Competition?>.orderSpec(
-        sort: Sort
+        sort: Sort,
     ): List<OrderSpec> {
         val endDate =
             case(

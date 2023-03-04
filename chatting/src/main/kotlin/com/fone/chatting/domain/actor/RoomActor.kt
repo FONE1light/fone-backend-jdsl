@@ -31,7 +31,7 @@ fun roomActor(roomId: Int) =
         suspend fun broadCastAll(
             username: String,
             users: ConcurrentHashMap<String, SendChannel<UserActorMsg>>,
-            msg: Join
+            msg: Join,
         ) {
             if (users[username] != null) {
                 return

@@ -23,7 +23,7 @@ import java.security.Principal
 @RestController
 @RequestMapping("/api/v1/job-openings")
 class RetrieveJobOpeningController(
-    private val retrieveJobOpeningFacade: RetrieveJobOpeningFacade
+    private val retrieveJobOpeningFacade: RetrieveJobOpeningFacade,
 ) {
 
     @GetMapping
@@ -36,10 +36,9 @@ class RetrieveJobOpeningController(
     suspend fun retrieveJobOpenings(
         principal: Principal,
         @ModelAttribute request: RetrieveJobOpeningsRequest,
-        pageable: Pageable
+        pageable: Pageable,
     ): CommonResponse<RetrieveJobOpeningsResponse> {
-        val response =
-            retrieveJobOpeningFacade.retrieveJobOpenings(principal.name, pageable, request)
+        val response = retrieveJobOpeningFacade.retrieveJobOpenings(principal.name, pageable, request)
 
         return CommonResponse.success(response)
     }
@@ -54,10 +53,9 @@ class RetrieveJobOpeningController(
     suspend fun retrieveJobOpening(
         principal: Principal,
         @RequestParam type: Type,
-        @PathVariable jobOpeningId: Long
+        @PathVariable jobOpeningId: Long,
     ): CommonResponse<RetrieveJobOpeningResponse> {
-        val response =
-            retrieveJobOpeningFacade.retrieveJobOpening(principal.name, type, jobOpeningId)
+        val response = retrieveJobOpeningFacade.retrieveJobOpening(principal.name, type, jobOpeningId)
 
         return CommonResponse.success(response)
     }

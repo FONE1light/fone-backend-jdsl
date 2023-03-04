@@ -21,13 +21,13 @@ class RegisterJobOpeningService(
     private val jobOpeningScrapRepository: JobOpeningScrapRepository,
     private val jobOpeningDomainRepository: JobOpeningDomainRepository,
     private val jobOpeningCategoryRepository: JobOpeningCategoryRepository,
-    private val userRepository: UserCommonRepository
+    private val userRepository: UserCommonRepository,
 ) {
 
     @Transactional
     suspend fun registerJobOpening(
         request: RegisterJobOpeningRequest,
-        email: String
+        email: String,
     ): RegisterJobOpeningResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 
@@ -39,8 +39,7 @@ class RegisterJobOpeningService(
 
                     val jobOpeningDomains = domains.map { JobOpeningDomain(jobOpening.id!!, it) }
 
-                    val jobOpeningCategories =
-                        categories.map { JobOpeningCategory(jobOpening.id!!, it) }
+                    val jobOpeningCategories = categories.map { JobOpeningCategory(jobOpening.id!!, it) }
                     jobOpeningDomainRepository.saveAll(jobOpeningDomains)
                     jobOpeningCategoryRepository.saveAll(jobOpeningCategories)
 

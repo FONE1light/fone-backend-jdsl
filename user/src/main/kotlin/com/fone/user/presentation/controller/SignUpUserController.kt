@@ -17,7 +17,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/api/v1/users")
 class SignUpUserController(
-    private val signUpUserFacade: SignUpUserFacade
+    private val signUpUserFacade: SignUpUserFacade,
 ) {
 
     @PostMapping("/sign-up")
@@ -28,7 +28,7 @@ class SignUpUserController(
     )
     suspend fun signUp(
         @Valid @RequestBody
-        request: SignUpUserRequest
+        request: SignUpUserRequest,
     ): CommonResponse<SignUpUserResponse> {
         val response = signUpUserFacade.signUp(request)
         return CommonResponse.success(response)

@@ -22,5 +22,5 @@ data class Question(
     @Enumerated(EnumType.STRING) val type: Type,
     @Column val title: String,
     @Column(length = 500) val description: String,
-    @Column val agreeToPersonalInformation: Boolean
+    @Column val agreeToPersonalInformation: Boolean,
 ) : BaseEntity()

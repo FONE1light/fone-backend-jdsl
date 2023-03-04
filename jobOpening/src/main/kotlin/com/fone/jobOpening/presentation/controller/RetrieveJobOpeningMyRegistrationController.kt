@@ -17,7 +17,7 @@ import java.security.Principal
 @RestController
 @RequestMapping("/api/v1/job-openings")
 class RetrieveJobOpeningMyRegistrationController(
-    private val retrieveJobOpeningMyRegistrationFacade: RetrieveJobOpeningMyRegistrationFacade
+    private val retrieveJobOpeningMyRegistrationFacade: RetrieveJobOpeningMyRegistrationFacade,
 ) {
 
     @GetMapping("/my-registrations")
@@ -29,13 +29,12 @@ class RetrieveJobOpeningMyRegistrationController(
     )
     suspend fun retrieveJobOpeningMyRegistrations(
         pageable: Pageable,
-        principal: Principal
+        principal: Principal,
     ): CommonResponse<RetrieveJobOpeningMyRegistrationResponse> {
-        val response =
-            retrieveJobOpeningMyRegistrationFacade.retrieveJobOpeningMyRegistrations(
-                pageable,
-                principal.name
-            )
+        val response = retrieveJobOpeningMyRegistrationFacade.retrieveJobOpeningMyRegistrations(
+            pageable,
+            principal.name
+        )
 
         return CommonResponse.success(response)
     }

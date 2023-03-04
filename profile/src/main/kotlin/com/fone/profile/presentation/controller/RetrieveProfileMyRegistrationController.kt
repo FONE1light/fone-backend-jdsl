@@ -17,7 +17,7 @@ import java.security.Principal
 @RestController
 @RequestMapping("/api/v1/profiles")
 class RetrieveProfileMyRegistrationController(
-    private val retrieveProfileMyRegistrationFacade: RetrieveProfileMyRegistrationFacade
+    private val retrieveProfileMyRegistrationFacade: RetrieveProfileMyRegistrationFacade,
 ) {
 
     @GetMapping("/my-registrations")
@@ -29,13 +29,12 @@ class RetrieveProfileMyRegistrationController(
     )
     suspend fun retrieveProfileMyRegistration(
         principal: Principal,
-        pageable: Pageable
+        pageable: Pageable,
     ): CommonResponse<RetrieveProfileMyRegistrationResponse> {
-        val response =
-            retrieveProfileMyRegistrationFacade.retrieveProfileMyRegistration(
-                pageable,
-                principal.name
-            )
+        val response = retrieveProfileMyRegistrationFacade.retrieveProfileMyRegistration(
+            pageable,
+            principal.name
+        )
 
         return CommonResponse.success(response)
     }

@@ -14,7 +14,7 @@ import java.security.Principal
 @RestController
 @RequestMapping("/api/v1/users")
 class LogOutUserController(
-    private val logOutUserFacade: LogOutUserFacade
+    private val logOutUserFacade: LogOutUserFacade,
 ) {
 
     @PostMapping("/log-out")

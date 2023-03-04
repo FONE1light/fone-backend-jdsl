@@ -40,7 +40,7 @@ data class User(
     @Column val agreeToPersonalInformation: Boolean,
     @Column val isReceiveMarketing: Boolean,
     @Convert(converter = SeparatorConverter::class) var roles: List<String>,
-    @Column var enabled: Boolean
+    @Column var enabled: Boolean,
 ) : UserDetails, BaseEntity() {
     fun modifyUser(request: ModifyUserRequest) {
         this.nickname = request.nickname

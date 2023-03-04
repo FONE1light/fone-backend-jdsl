@@ -11,13 +11,13 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class RegisterCompetitionService(
     private val competitionRepository: CompetitionRepository,
-    private val userRepository: UserCommonRepository
+    private val userRepository: UserCommonRepository,
 ) {
 
     @Transactional
     suspend fun registerCompetition(
         request: RegisterCompetitionRequest,
-        email: String
+        email: String,
     ): RegisterCompetitionResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 

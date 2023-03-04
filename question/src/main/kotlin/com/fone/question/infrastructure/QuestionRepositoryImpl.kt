@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository
 @Repository
 class QuestionRepositoryImpl(
     private val sessionFactory: Mutiny.SessionFactory,
-    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory
+    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
 ) : QuestionRepository {
 
     override suspend fun save(question: Question): Question {
@@ -20,9 +20,7 @@ class QuestionRepositoryImpl(
                     session.persist(it)
                 } else {
                     session.merge(it)
-                }
-                    .flatMap { session.flush() }
-                    .awaitSuspending()
+                }.flatMap { session.flush() }.awaitSuspending()
             }
         }
     }

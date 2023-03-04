@@ -15,13 +15,13 @@ import org.springframework.transaction.annotation.Transactional
 class RetrieveCompetitionScrapService(
     private val competitionRepository: CompetitionRepository,
     private val competitionScrapRepository: CompetitionScrapRepository,
-    private val userRepository: UserCommonRepository
+    private val userRepository: UserCommonRepository,
 ) {
 
     @Transactional(readOnly = true)
     suspend fun retrieveCompetitionScraps(
         pageable: Pageable,
-        email: String
+        email: String,
     ): RetrieveCompetitionScrapResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 

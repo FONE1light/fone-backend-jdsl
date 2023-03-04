@@ -20,14 +20,14 @@ class RetrieveProfileWantService(
     private val profileRepository: ProfileRepository,
     private val profileDomainRepository: ProfileDomainRepository,
     private val profileCategoryRepository: ProfileCategoryRepository,
-    private val userRepository: UserCommonRepository
+    private val userRepository: UserCommonRepository,
 ) {
 
     @Transactional(readOnly = true)
     suspend fun retrieveProfileWant(
         pageable: Pageable,
         email: String,
-        type: Type
+        type: Type,
     ): RetrieveProfileWantResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 

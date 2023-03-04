@@ -20,7 +20,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/api/v1/job-openings")
 class PutJobOpeningController(
-    private val putJobOpeningFacade: PutJobOpeningFacade
+    private val putJobOpeningFacade: PutJobOpeningFacade,
 ) {
 
     @PutMapping("/{jobOpeningId}")
@@ -34,7 +34,7 @@ class PutJobOpeningController(
         principal: Principal,
         @Valid @RequestBody
         request: RegisterJobOpeningRequest,
-        @PathVariable jobOpeningId: Long
+        @PathVariable jobOpeningId: Long,
     ): CommonResponse<RegisterJobOpeningResponse> {
         val response = putJobOpeningFacade.putJobOpening(request, principal.name, jobOpeningId)
 

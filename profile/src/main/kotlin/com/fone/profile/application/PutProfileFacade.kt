@@ -6,12 +6,12 @@ import org.springframework.stereotype.Service
 
 @Service
 class PutProfileFacade(
-    private val putProfileService: PutProfileService
+    private val putProfileService: PutProfileService,
 ) {
 
     suspend fun putProfile(
         request: RegisterProfileRequest,
         email: String,
-        profileId: Long
+        profileId: Long,
     ) = putProfileService.putProfile(request, email, profileId)
 }

@@ -17,17 +17,17 @@ class SignInUserDto {
         @field:Email(message = "유효하지 않는 이메일 입니다.")
         @ApiModelProperty(value = "이메일", example = "test@test.com", required = true)
         val email: String,
-        @field:NotEmpty(message = "accessToken은 필수 값 입니다.") val accessToken: String
+        @field:NotEmpty(message = "accessToken은 필수 값 입니다.") val accessToken: String,
     )
 
     data class SignInUserResponse(
         val user: UserDto,
-        val token: Token
+        val token: Token,
     ) {
 
         constructor(
             user: User,
-            token: Token
+            token: Token,
         ) : this(
             user = UserDto(user),
             token = token

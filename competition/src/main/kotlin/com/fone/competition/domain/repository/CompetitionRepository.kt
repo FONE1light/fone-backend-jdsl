@@ -10,7 +10,7 @@ interface CompetitionRepository {
     suspend fun findById(competitionId: Long): Competition?
     suspend fun findScrapAllById(
         pageable: Pageable,
-        userId: Long
+        userId: Long,
     ): Slice<Competition>
 
     suspend fun save(competition: Competition): Competition

@@ -9,10 +9,10 @@ data class ReportDto(
     val type: Type,
     val typeId: Long,
     val inconvenients: List<String>,
-    val details: String
+    val details: String,
 ) {
     constructor(
-        report: Report
+        report: Report,
     ) : this(
         id = report.id!!,
         reportUserId = report.reportUserId,

@@ -21,11 +21,11 @@ data class CompetitionDto(
     val scrapCount: Long,
     val competitionPrizes: List<CompetitionPrizeDto>,
     val isScrap: Boolean = false,
-    val dDay: String
+    val dDay: String,
 ) {
     constructor(
         competition: Competition,
-        userCompetitionScrapMap: Map<Long, CompetitionScrap?>
+        userCompetitionScrapMap: Map<Long, CompetitionScrap?>,
     ) : this(
         id = competition.id!!,
         title = competition.title,
@@ -49,10 +49,10 @@ data class CompetitionPrizeDto(
     val id: Long,
     val ranking: String,
     val prizeMoney: String,
-    val competitionId: Long
+    val competitionId: Long,
 ) {
     constructor(
-        prize: Prize
+        prize: Prize,
     ) : this(
         id = prize.id!!,
         ranking = prize.ranking,

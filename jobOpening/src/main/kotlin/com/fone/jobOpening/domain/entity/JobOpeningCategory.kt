@@ -18,12 +18,12 @@ data class JobOpeningCategory(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
     @Column var jobOpeningId: Long,
-    @Enumerated(EnumType.STRING) var type: CategoryType
+    @Enumerated(EnumType.STRING) var type: CategoryType,
 ) {
 
     constructor(
         reqJobOpeningId: Long,
-        categoryType: CategoryType
+        categoryType: CategoryType,
     ) : this(
         jobOpeningId = reqJobOpeningId,
         type = categoryType

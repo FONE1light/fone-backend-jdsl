@@ -13,10 +13,10 @@ data class WorkDto(
     val pay: String,
     val details: String,
     val manager: String,
-    val email: String
+    val email: String,
 ) {
     constructor(
-        work: Work
+        work: Work,
     ) : this(
         produce = work.produce,
         workTitle = work.workTitle,

@@ -18,12 +18,12 @@ data class ProfileCategory(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
     @Column var profileId: Long,
-    @Enumerated(EnumType.STRING) var type: CategoryType
+    @Enumerated(EnumType.STRING) var type: CategoryType,
 ) {
 
     constructor(
         reqProfileId: Long,
-        categoryType: CategoryType
+        categoryType: CategoryType,
     ) : this(
         profileId = reqProfileId,
         type = categoryType

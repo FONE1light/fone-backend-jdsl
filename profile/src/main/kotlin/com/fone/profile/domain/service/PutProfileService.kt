@@ -22,17 +22,16 @@ class PutProfileService(
     private val profileWantRepository: ProfileWantRepository,
     private val profileDomainRepository: ProfileDomainRepository,
     private val profileCategoryRepository: ProfileCategoryRepository,
-    private val userRepository: UserCommonRepository
+    private val userRepository: UserCommonRepository,
 ) {
 
     suspend fun putProfile(
         request: RegisterProfileRequest,
         email: String,
-        profileId: Long
+        profileId: Long,
     ): RegisterProfileResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
-        val profile =
-            profileRepository.findByTypeAndId(null, profileId) ?: throw NotFoundProfileException()
+        val profile = profileRepository.findByTypeAndId(null, profileId) ?: throw NotFoundProfileException()
         if (userId != profile.userId) {
             throw InvalidProfileUserIdException()
         }

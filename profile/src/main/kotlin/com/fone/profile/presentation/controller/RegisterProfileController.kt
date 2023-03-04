@@ -19,7 +19,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/api/v1/profiles")
 class RegisterProfileController(
-    val registerProfileFacade: RegisterProfileFacade
+    val registerProfileFacade: RegisterProfileFacade,
 ) {
 
     @PostMapping
@@ -32,7 +32,7 @@ class RegisterProfileController(
     suspend fun registerProfile(
         principal: Principal,
         @Valid @RequestBody
-        request: RegisterProfileRequest
+        request: RegisterProfileRequest,
     ): CommonResponse<RegisterProfileResponse> {
         val response = registerProfileFacade.registerProfile(request, principal.name)
         return CommonResponse.success(response)

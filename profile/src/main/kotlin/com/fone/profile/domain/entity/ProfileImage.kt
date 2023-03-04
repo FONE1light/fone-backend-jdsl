@@ -21,7 +21,7 @@ data class ProfileImage(
     @Column(length = 300) var profileUrl: String,
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "profile_id")
-    var profile: Profile? = null
+    var profile: Profile? = null,
 ) : BaseEntity() {
 
     constructor(url: String) : this(profileUrl = url)

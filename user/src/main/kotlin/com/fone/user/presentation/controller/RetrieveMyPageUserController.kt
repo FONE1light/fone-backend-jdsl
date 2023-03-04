@@ -16,7 +16,7 @@ import java.security.Principal
 @RestController
 @RequestMapping("/api/v1/users")
 class RetrieveMyPageUserController(
-    private val retrieveMyPageUserFacade: RetrieveMyPageUserFacade
+    private val retrieveMyPageUserFacade: RetrieveMyPageUserFacade,
 ) {
 
     @GetMapping
@@ -27,7 +27,7 @@ class RetrieveMyPageUserController(
         description = "성공"
     )
     suspend fun retrieveMyPageUser(
-        principal: Principal
+        principal: Principal,
     ): CommonResponse<RetrieveMyPageUserResponse> {
         val response = retrieveMyPageUserFacade.retrieveMyPageUser(principal.name)
         return CommonResponse.success(response)
