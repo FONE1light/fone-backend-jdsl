@@ -10,17 +10,17 @@ import org.springframework.stereotype.Repository
 @Repository
 class ReportRepositoryImpl(
     private val sessionFactory: Mutiny.SessionFactory,
-    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
+    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory
 ) : ReportRepository {
 
     override suspend fun save(report: Report): Report {
         return report.also {
-            queryFactory.withFactory { session, factory ->
+            queryFactory.withFactory { session, _ ->
                 if (it.id == null) {
-                        session.persist(it)
-                    } else {
-                        session.merge(it)
-                    }
+                    session.persist(it)
+                } else {
+                    session.merge(it)
+                }
                     .flatMap { session.flush() }
                     .awaitSuspending()
             }

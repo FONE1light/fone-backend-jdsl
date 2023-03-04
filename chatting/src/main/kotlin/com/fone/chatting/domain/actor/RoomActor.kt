@@ -1,12 +1,12 @@
 package com.fone.chatting.domain.actor
 
-import java.util.concurrent.ConcurrentHashMap
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
 import org.slf4j.LoggerFactory
+import java.util.concurrent.ConcurrentHashMap
 
 sealed class RoomActorMsg
 
@@ -53,7 +53,6 @@ fun roomActor(roomId: Int) =
         }
 
         for (msg in channel) {
-
             when (msg) {
                 is Join -> {
                     broadCastAll(msg.username, users, msg)

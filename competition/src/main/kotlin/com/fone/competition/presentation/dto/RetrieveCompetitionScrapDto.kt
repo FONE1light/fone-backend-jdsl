@@ -10,19 +10,19 @@ import org.springframework.data.domain.Slice
 class RetrieveCompetitionScrapDto {
 
     data class RetrieveCompetitionScrapResponse(
-        val competitions: Slice<CompetitionDto>,
+        val competitions: Slice<CompetitionDto>
     ) {
         constructor(
             competitions: List<Competition>,
             userCompetitionScrapMap: Map<Long, CompetitionScrap?>,
-            pageable: Pageable,
+            pageable: Pageable
         ) : this(
             competitions =
-                PageImpl(
-                    competitions.map { CompetitionDto(it, userCompetitionScrapMap) }.toList(),
-                    pageable,
-                    competitions.size.toLong()
-                )
+            PageImpl(
+                competitions.map { CompetitionDto(it, userCompetitionScrapMap) }.toList(),
+                pageable,
+                competitions.size.toLong()
+            )
         )
     }
 }

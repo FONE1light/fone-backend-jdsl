@@ -11,30 +11,30 @@ class RetrieveCompetitionDto {
 
     data class RetrieveCompetitionsResponse(
         val competitions: Slice<CompetitionDto>,
-        val totalCount: Long,
+        val totalCount: Long
     ) {
         constructor(
             competitions: List<Competition>,
             userCompetitionScrapMap: Map<Long, CompetitionScrap?>,
             totalCount: Long,
-            pageable: Pageable,
+            pageable: Pageable
         ) : this(
             competitions =
-                PageImpl(
-                    competitions.map { CompetitionDto(it, userCompetitionScrapMap) }.toList(),
-                    pageable,
-                    competitions.size.toLong()
-                ),
-            totalCount = totalCount,
+            PageImpl(
+                competitions.map { CompetitionDto(it, userCompetitionScrapMap) }.toList(),
+                pageable,
+                competitions.size.toLong()
+            ),
+            totalCount = totalCount
         )
     }
 
     data class RetrieveCompetitionResponse(
-        val competition: CompetitionDto,
+        val competition: CompetitionDto
     ) {
         constructor(
             reqCompetition: Competition,
-            userCompetitionScrapMap: Map<Long, CompetitionScrap?>,
+            userCompetitionScrapMap: Map<Long, CompetitionScrap?>
         ) : this(competition = CompetitionDto(reqCompetition, userCompetitionScrapMap))
     }
 }

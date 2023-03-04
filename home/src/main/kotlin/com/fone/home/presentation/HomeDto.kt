@@ -10,5 +10,5 @@ data class HomeDto(
 data class CollectionDto(
     val title: String,
     val subTitle: String = "",
-    val data: Any?,
+    val data: Any?
 )

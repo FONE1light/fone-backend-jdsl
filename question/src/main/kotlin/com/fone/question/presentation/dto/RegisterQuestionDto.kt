@@ -20,17 +20,16 @@ class RegisterQuestionDto {
         @field:NotEmpty(message = "제목은 필수 값 입니다.") val title: String,
         @field:NotEmpty(message = "설명은 필수 값 입니다.") val description: String,
         @field:AssertTrue(message = "개인정보 수집 및 이용동의 선택은 필수 값 입니다.")
-        val agreeToPersonalInformation: Boolean,
+        val agreeToPersonalInformation: Boolean
     ) {
 
         fun toEntity(): Question {
-
             return Question(
                 email = email,
                 type = type,
                 title = title,
                 description = description,
-                agreeToPersonalInformation = agreeToPersonalInformation,
+                agreeToPersonalInformation = agreeToPersonalInformation
             )
         }
     }
@@ -38,7 +37,7 @@ class RegisterQuestionDto {
     data class RegisterQuestionResponse(val question: QuestionDto) {
 
         constructor(
-            question: Question,
+            question: Question
         ) : this(question = QuestionDto(question))
     }
 }

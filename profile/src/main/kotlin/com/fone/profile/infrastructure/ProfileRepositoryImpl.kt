@@ -18,23 +18,23 @@ import com.linecorp.kotlinjdsl.spring.data.reactive.query.pageQuery
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.singleQueryOrNull
 import com.linecorp.kotlinjdsl.spring.reactive.querydsl.SpringDataReactiveCriteriaQueryDsl
 import io.smallrye.mutiny.coroutines.awaitSuspending
-import javax.persistence.criteria.JoinType
 import org.hibernate.reactive.mutiny.Mutiny
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Repository
+import javax.persistence.criteria.JoinType
 
 @Repository
 class ProfileRepositoryImpl(
     private val sessionFactory: Mutiny.SessionFactory,
-    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
+    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory
 ) : ProfileRepository {
 
     override suspend fun findAllByFilters(
         pageable: Pageable,
-        request: RetrieveProfilesRequest,
+        request: RetrieveProfilesRequest
     ): Slice<Profile> {
         val categoryProfileIds =
             queryFactory.listQuery {
@@ -47,7 +47,7 @@ class ProfileRepositoryImpl(
             return PageImpl(
                 listOf(),
                 pageable,
-                0,
+                0
             )
         }
 
@@ -86,7 +86,7 @@ class ProfileRepositoryImpl(
         return PageImpl(
             profiles,
             pageable,
-            profiles.size.toLong(),
+            profiles.size.toLong()
         )
     }
 
@@ -119,14 +119,14 @@ class ProfileRepositoryImpl(
         return PageImpl(
             profiles,
             pageable,
-            profiles.size.toLong(),
+            profiles.size.toLong()
         )
     }
 
     override suspend fun findWantAllByUserId(
         pageable: Pageable,
         userId: Long,
-        type: Type,
+        type: Type
     ): Slice<Profile> {
         val ids =
             queryFactory
@@ -148,18 +148,18 @@ class ProfileRepositoryImpl(
         return PageImpl(
             profiles,
             pageable,
-            profiles.size.toLong(),
+            profiles.size.toLong()
         )
     }
 
     override suspend fun save(profile: Profile): Profile {
         return profile.also {
-            queryFactory.withFactory { session, factory ->
+            queryFactory.withFactory { session, _ ->
                 if (it.id == null) {
-                        session.persist(it)
-                    } else {
-                        session.merge(it)
-                    }
+                    session.persist(it)
+                } else {
+                    session.merge(it)
+                }
                     .flatMap { session.flush() }
                     .awaitSuspending()
             }
@@ -167,7 +167,7 @@ class ProfileRepositoryImpl(
     }
 
     private fun SpringDataReactiveCriteriaQueryDsl<Profile?>.idEq(
-        profileId: Long?,
+        profileId: Long?
     ): EqualValueSpec<Long?>? {
         profileId ?: return null
 
@@ -175,7 +175,7 @@ class ProfileRepositoryImpl(
     }
 
     private fun SpringDataReactiveCriteriaQueryDsl<Profile?>.typeEq(
-        type: Type?,
+        type: Type?
     ): EqualValueSpec<Type>? {
         type ?: return null
 

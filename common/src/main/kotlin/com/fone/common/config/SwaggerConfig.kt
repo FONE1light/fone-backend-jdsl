@@ -29,32 +29,25 @@ import java.util.*
 @EnableSwagger2
 @RequiredArgsConstructor
 class SwaggerConfig(
-    private val typeResolver: TypeResolver,
+    private val typeResolver: TypeResolver
 ) {
 
     @Bean
     fun api(): Docket? {
         val commonResponse = setCommonResponse()
-        return Docket(DocumentationType.SWAGGER_2)
-            .useDefaultResponseMessages(false)
+        return Docket(DocumentationType.SWAGGER_2).useDefaultResponseMessages(false)
             .globalResponses(HttpMethod.GET, commonResponse)
             .globalResponses(HttpMethod.POST, commonResponse)
             .globalResponses(HttpMethod.PUT, commonResponse)
             .globalResponses(HttpMethod.PATCH, commonResponse)
-            .globalResponses(HttpMethod.DELETE, commonResponse)
-            .alternateTypeRules(
+            .globalResponses(HttpMethod.DELETE, commonResponse).alternateTypeRules(
                 AlternateTypeRule(
                     typeResolver.resolve(Pageable::class.java),
-                    typeResolver.resolve(PageModel::class.java),
-                ),
-            )
-            .consumes(getConsumeContentTypes())
-            .produces(getProduceContentTypes())
-            .apiInfo(apiInfo())
-            .select()
-            .apis(RequestHandlerSelectors.basePackage("com.fone"))
-            .paths(PathSelectors.ant("/**"))
-            .build()
+                    typeResolver.resolve(PageModel::class.java)
+                )
+            ).consumes(getConsumeContentTypes()).produces(getProduceContentTypes())
+            .apiInfo(apiInfo()).select().apis(RequestHandlerSelectors.basePackage("com.fone"))
+            .paths(PathSelectors.ant("/**")).build()
             .securityContexts(Arrays.asList(securityContext()))
             .securitySchemes(Arrays.asList<SecurityScheme>(apiKey()))
     }
@@ -73,10 +66,8 @@ class SwaggerConfig(
     }
 
     private fun securityContext(): SecurityContext {
-        return SecurityContext.builder()
-            .securityReferences(defaultAuth())
-            .forPaths(PathSelectors.any())
-            .build()
+        return SecurityContext.builder().securityReferences(defaultAuth())
+            .forPaths(PathSelectors.any()).build()
     }
 
     private fun defaultAuth(): List<SecurityReference>? {
@@ -100,12 +91,8 @@ class SwaggerConfig(
     }
 
     private fun apiInfo(): ApiInfo? {
-        return ApiInfoBuilder()
-            .title("Sig-Predict REST API Document")
-            .description("work in progress")
-            .termsOfServiceUrl("localhost")
-            .version("1.0")
-            .build()
+        return ApiInfoBuilder().title("Sig-Predict REST API Document")
+            .description("work in progress").termsOfServiceUrl("localhost").version("1.0").build()
     }
 
     @ApiModel

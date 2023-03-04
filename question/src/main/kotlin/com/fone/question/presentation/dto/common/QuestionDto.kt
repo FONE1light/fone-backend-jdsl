@@ -9,7 +9,7 @@ data class QuestionDto(
     val type: Type,
     val title: String,
     val description: String,
-    val agreeToPersonalInformation: Boolean,
+    val agreeToPersonalInformation: Boolean
 ) {
 
     constructor(
@@ -20,6 +20,6 @@ data class QuestionDto(
         type = question.type,
         title = question.title,
         description = question.description,
-        agreeToPersonalInformation = question.agreeToPersonalInformation,
+        agreeToPersonalInformation = question.agreeToPersonalInformation
     )
 }
