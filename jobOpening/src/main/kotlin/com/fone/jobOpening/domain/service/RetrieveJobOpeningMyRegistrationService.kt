@@ -36,23 +36,17 @@ class RetrieveJobOpeningMyRegistrationService(
 
             val userJobOpeningScraps = async { jobOpeningScrapRepository.findByUserId(userId) }
 
-            val jobOpeningDomains = async {
-                val jobOpeningIds = jobOpenings.await().map { it.id!! }.toList()
-
-                jobOpeningDomainRepository.findByJobOpeningIds(jobOpeningIds)
-            }
-
-            val jobOpeningCategories = async {
-                val jobOpeningIds = jobOpenings.await().map { it.id!! }.toList()
-
-                jobOpeningCategoryRepository.findByJobOpeningIds(jobOpeningIds)
-            }
+            val jobOpeningIds = jobOpenings.await().map { it.id!! }.toList()
+            val jobOpeningDomains = jobOpeningDomainRepository
+                .findByJobOpeningIds(jobOpeningIds)
+            val jobOpeningCategories = jobOpeningCategoryRepository
+                .findByJobOpeningIds(jobOpeningIds)
 
             RetrieveJobOpeningMyRegistrationResponse(
                 jobOpenings.await(),
                 userJobOpeningScraps.await(),
-                jobOpeningDomains.await(),
-                jobOpeningCategories.await(),
+                jobOpeningDomains,
+                jobOpeningCategories,
                 pageable
             )
         }
