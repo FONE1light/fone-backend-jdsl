@@ -1,6 +1,6 @@
 package com.fone.user.presentation.controller
 
-import com.fone.common.CommonCallApi
+import com.fone.common.CommonUserCallApi
 import com.fone.common.CustomDescribeSpec
 import com.fone.common.IntegrationTest
 import com.fone.common.doPatch
@@ -15,7 +15,7 @@ class ModifyUserControllerTest(client: WebTestClient) : CustomDescribeSpec() {
     private val modifyUrl = "/api/v1/users"
 
     init {
-        val (accessToken, _) = CommonCallApi.getAccessToken(client)
+        val (accessToken, _) = CommonUserCallApi.getAccessToken(client)
         val modifyUserRequest =
             ModifyUserDto.ModifyUserRequest(
                 Job.ACTOR,

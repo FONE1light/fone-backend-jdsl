@@ -1,6 +1,6 @@
 package com.fone.user.presentation.controller
 
-import com.fone.common.CommonCallApi
+import com.fone.common.CommonUserCallApi
 import com.fone.common.CustomDescribeSpec
 import com.fone.common.IntegrationTest
 import com.fone.common.doGet
@@ -11,7 +11,7 @@ class RetrieveMyPageUserControllerTest(client: WebTestClient) : CustomDescribeSp
 
     private val retrieveMyPageUrl = "/api/v1/users"
     init {
-        val (accessToken, _) = CommonCallApi.getAccessToken(client)
+        val (accessToken, _) = CommonUserCallApi.getAccessToken(client)
 
         describe("#retrieveMyPage") {
             context("존재하는 유저의 정보로 마이페이지를 조회하면") {

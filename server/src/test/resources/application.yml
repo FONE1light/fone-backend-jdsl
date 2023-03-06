@@ -18,10 +18,10 @@ spring:
     properties:
       hibernate:
         default_batch_fetch_size: 1000
-        check_nullability: true
-        use_sql_comments: true
-        format_sql: true
-        show_sql: true
+        check_nullability: false
+        use_sql_comments: false
+        format_sql: false
+        show_sql: false
 
   redis:
     host: localhost

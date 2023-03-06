@@ -4,7 +4,7 @@ import java.sql.Date
 import java.time.LocalDate
 import java.time.Period
 import java.time.format.DateTimeFormatter
-import java.util.*
+import java.util.Calendar
 
 object DateTimeFormat {
     private val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -40,7 +40,6 @@ object DateTimeFormat {
     fun calculdateLocalDate(age: Int): LocalDate {
         val nowDate = LocalDate.now()
 
-        println("test.." + age + ".." + nowDate.minusYears(age.toLong()))
         return nowDate.minusYears(age.toLong())
     }
 }

@@ -16,7 +16,10 @@ fun WebTestClient.doGet(
         return this.get().uri { it.setUriBuilder(url, queryParams) }.exchange()
     }
 
-    return this.get().uri { it.setUriBuilder(url, queryParams) }.headers { it.setBearerAuth(token) }.exchange()
+    return this.get()
+        .uri { it.setUriBuilder(url, queryParams) }
+        .headers { it.setBearerAuth(token) }
+        .exchange()
 }
 
 fun <T> WebTestClient.doPost(
@@ -26,26 +29,49 @@ fun <T> WebTestClient.doPost(
     queryParams: Map<String, Any>? = null,
 ): WebTestClient.ResponseSpec {
     if (request == null && token != null) {
-        return this.post().uri { it.setUriBuilder(url, queryParams) }.contentType(MediaType.APPLICATION_JSON)
-            .headers { it.setBearerAuth(token) }.exchange()
+        return this.post()
+            .uri { it.setUriBuilder(url, queryParams) }
+            .contentType(MediaType.APPLICATION_JSON)
+            .headers { it.setBearerAuth(token) }
+            .exchange()
     }
 
     if (token == null) {
-        return this.post().uri { it.setUriBuilder(url, queryParams) }.contentType(MediaType.APPLICATION_JSON)
-            .body(BodyInserters.fromValue(request)).exchange()
+        return this.post()
+            .uri { it.setUriBuilder(url, queryParams) }
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(BodyInserters.fromValue(request))
+            .exchange()
     }
 
-    return this.post().uri { it.setUriBuilder(url, queryParams) }.contentType(MediaType.APPLICATION_JSON)
-        .body(BodyInserters.fromValue(request)).headers { it.setBearerAuth(token) }.exchange()
+    return this.post()
+        .uri { it.setUriBuilder(url, queryParams) }
+        .contentType(MediaType.APPLICATION_JSON)
+        .body(BodyInserters.fromValue(request))
+        .headers { it.setBearerAuth(token) }
+        .exchange()
 }
 
 fun <T> WebTestClient.doPut(
     url: String,
     request: T,
+    token: String? = null,
     queryParams: Map<String, Any>? = null,
 ): WebTestClient.ResponseSpec {
-    return this.put().uri { it.setUriBuilder(url, queryParams) }.contentType(MediaType.APPLICATION_JSON)
-        .body(BodyInserters.fromValue(request)).exchange()
+    if (token == null) {
+        return this.put()
+            .uri { it.setUriBuilder(url, queryParams) }
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(BodyInserters.fromValue(request))
+            .exchange()
+    }
+
+    return this.put()
+        .uri { it.setUriBuilder(url, queryParams) }
+        .contentType(MediaType.APPLICATION_JSON)
+        .body(BodyInserters.fromValue(request))
+        .headers { it.setBearerAuth(token) }
+        .exchange()
 }
 
 fun <T> WebTestClient.doPatch(
@@ -55,35 +81,55 @@ fun <T> WebTestClient.doPatch(
     queryParams: Map<String, Any>? = null,
 ): WebTestClient.ResponseSpec {
     if (request == null && token != null) {
-        return this.patch().uri { it.setUriBuilder(url, queryParams) }.contentType(MediaType.APPLICATION_JSON)
-            .headers { it.setBearerAuth(token) }.exchange()
+        return this.patch()
+            .uri { it.setUriBuilder(url, queryParams) }
+            .contentType(MediaType.APPLICATION_JSON)
+            .headers { it.setBearerAuth(token) }
+            .exchange()
     }
 
     if (token == null) {
-        return this.patch().uri { it.setUriBuilder(url, queryParams) }.contentType(MediaType.APPLICATION_JSON)
-            .body(BodyInserters.fromValue(request)).exchange()
+        return this.patch()
+            .uri { it.setUriBuilder(url, queryParams) }
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(BodyInserters.fromValue(request))
+            .exchange()
     }
 
-    return this.patch().uri { it.setUriBuilder(url, queryParams) }.contentType(MediaType.APPLICATION_JSON)
-        .body(BodyInserters.fromValue(request)).headers { it.setBearerAuth(token) }.exchange()
+    return this.patch()
+        .uri { it.setUriBuilder(url, queryParams) }
+        .contentType(MediaType.APPLICATION_JSON)
+        .body(BodyInserters.fromValue(request))
+        .headers { it.setBearerAuth(token) }
+        .exchange()
 }
 
 fun WebTestClient.doDelete(
     url: String,
+    token: String? = null,
     queryParams: Map<String, Any>? = null,
 ): WebTestClient.ResponseSpec {
-    return this.delete().uri { it.setUriBuilder(url, queryParams) }.exchange()
+    if (token == null) {
+        return this.delete().uri { it.setUriBuilder(url, queryParams) }.exchange()
+    }
+
+    return this.delete()
+        .uri { it.setUriBuilder(url, queryParams) }
+        .headers { it.setBearerAuth(token) }
+        .exchange()
 }
 
 private fun UriBuilder.setUriBuilder(url: String, queryParams: Map<String, Any>? = null): URI {
-    return this.path(url).run {
-        if (queryParams != null) {
-            this.queryParams(
-                LinkedMultiValueMap<String, String>().apply {
-                    setAll(queryParams.mapValues { it.value.toString() })
-                }
-            )
+    return this.path(url)
+        .run {
+            if (queryParams != null) {
+                this.queryParams(
+                    LinkedMultiValueMap<String, String>().apply {
+                        setAll(queryParams.mapValues { it.value.toString() })
+                    }
+                )
+            }
+            this
         }
-        this
-    }.build()
+        .build()
 }

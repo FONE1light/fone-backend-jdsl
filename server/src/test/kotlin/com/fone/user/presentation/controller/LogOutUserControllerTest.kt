@@ -1,6 +1,6 @@
 package com.fone.user.presentation.controller
 
-import com.fone.common.CommonCallApi
+import com.fone.common.CommonUserCallApi
 import com.fone.common.CustomDescribeSpec
 import com.fone.common.IntegrationTest
 import com.fone.common.doPost
@@ -12,7 +12,7 @@ class LogOutUserControllerTest(client: WebTestClient) : CustomDescribeSpec() {
     private val logOutUrl = "/api/v1/users/log-out"
 
     init {
-        val (accessToken, _) = CommonCallApi.getAccessToken(client)
+        val (accessToken, _) = CommonUserCallApi.getAccessToken(client)
 
         describe("#logOut") {
             context("등록된 유저가 로그아웃을 하면") {

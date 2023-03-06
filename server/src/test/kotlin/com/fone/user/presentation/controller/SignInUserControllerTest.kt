@@ -1,6 +1,6 @@
 package com.fone.user.presentation.controller
 
-import com.fone.common.CommonCallApi
+import com.fone.common.CommonUserCallApi
 import com.fone.common.CustomDescribeSpec
 import com.fone.common.IntegrationTest
 import com.fone.common.doPost
@@ -14,7 +14,7 @@ class SignInUserControllerTest(client: WebTestClient) : CustomDescribeSpec() {
     private val signInBaseUrl = "/api/v1/users/sign-in"
 
     init {
-        val (_, email) = CommonCallApi.signUp(client)
+        val (_, email) = CommonUserCallApi.signUp(client)
 
         val signInUserSuccessRequest =
             SignInUserRequest(

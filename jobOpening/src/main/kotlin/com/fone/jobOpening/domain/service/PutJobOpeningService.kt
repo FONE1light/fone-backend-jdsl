@@ -36,30 +36,25 @@ class PutJobOpeningService(
             throw InvalidJobOpeningUserIdException()
         }
 
+        jobOpeningDomainRepository.deleteByJobOpeningId(jobOpening.id!!)
+        val jobOpeningDomains = request.domains.map { JobOpeningDomain(jobOpening.id!!, it) }
+        jobOpeningDomainRepository.saveAll(jobOpeningDomains)
+
+        jobOpeningCategoryRepository.deleteByJobOpeningId(jobOpening.id!!)
+        val jobOpeningCategories = request.categories.map { JobOpeningCategory(jobOpening.id!!, it) }
+        jobOpeningCategoryRepository.saveAll(jobOpeningCategories)
+
         return coroutineScope {
-            val jobOpeningDomains = async {
-                jobOpeningDomainRepository.deleteByJobOpeningId(jobOpening.id!!)
-                val jobOpeningDomains = request.domains.map { JobOpeningDomain(jobOpening.id!!, it) }
-                jobOpeningDomainRepository.saveAll(jobOpeningDomains)
-            }
-
-            val jobOpeningCategories = async {
-                jobOpeningCategoryRepository.deleteByJobOpeningId(jobOpening.id!!)
-                request.categories.map { JobOpeningCategory(jobOpening.id!!, it) }
-            }
-
-            val jo = async {
+            val jobOpening = async {
                 jobOpening.put(request)
                 jobOpeningRepository.save(jobOpening)
+                jobOpening
             }
 
             val userJobOpeningScraps = async { jobOpeningScrapRepository.findByUserId(userId) }
 
-            jobOpeningDomains.await()
-            jobOpeningCategories.await()
-
             RegisterJobOpeningResponse(
-                jo.await(),
+                jobOpening.await(),
                 userJobOpeningScraps.await(),
                 request.domains,
                 request.categories
