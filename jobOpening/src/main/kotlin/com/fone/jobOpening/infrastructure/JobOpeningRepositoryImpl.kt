@@ -37,7 +37,12 @@ class JobOpeningRepositoryImpl(
         return queryFactory.pageQuery(pageable) {
             select(entity(JobOpening::class))
             from(entity(JobOpening::class))
-            where(and(typeEq(type)))
+            where(
+                and(
+                    typeEq(type),
+                    col(JobOpening::isDeleted).equal(false)
+                )
+            )
         }
     }
 
@@ -48,13 +53,21 @@ class JobOpeningRepositoryImpl(
         val domainJobOpeningIds = queryFactory.listQuery {
             select(col(JobOpeningDomain::jobOpeningId))
             from(entity(JobOpeningDomain::class))
-            where(col(JobOpeningDomain::type).`in`(request.domains))
+            where(
+                and(
+                    col(JobOpeningDomain::type).`in`(request.domains)
+                )
+            )
         }
 
         val categoryJobOpeningIds = queryFactory.listQuery {
             select(col(JobOpeningCategory::jobOpeningId))
             from(entity(JobOpeningCategory::class))
-            where(col(JobOpeningCategory::type).`in`(request.categories))
+            where(
+                and(
+                    col(JobOpeningCategory::type).`in`(request.categories)
+                )
+            )
         }
 
         if (domainJobOpeningIds.isEmpty() || categoryJobOpeningIds.isEmpty()) {
@@ -77,7 +90,8 @@ class JobOpeningRepositoryImpl(
                         col(JobOpening::ageMin).lessThanOrEqualTo(request.ageMax)
                     ),
                     col(JobOpening::id).`in`(domainJobOpeningIds),
-                    col(JobOpening::id).`in`(categoryJobOpeningIds)
+                    col(JobOpening::id).`in`(categoryJobOpeningIds),
+                    col(JobOpening::isDeleted).equal(false)
                 )
             )
         }.content
@@ -101,7 +115,8 @@ class JobOpeningRepositoryImpl(
             where(
                 and(
                     typeEqOrNull(type),
-                    jobOpeningIdEq(jobOpeningId)
+                    jobOpeningIdEq(jobOpeningId),
+                    col(JobOpening::isDeleted).equal(false)
                 )
             )
         }
@@ -111,7 +126,12 @@ class JobOpeningRepositoryImpl(
         return queryFactory.pageQuery(pageable) {
             select(entity(JobOpening::class))
             from(entity(JobOpening::class))
-            where(userIdEq(userId))
+            where(
+                and(
+                    userIdEq(userId),
+                    col(JobOpening::isDeleted).equal(false)
+                )
+            )
         }
     }
 
@@ -132,7 +152,8 @@ class JobOpeningRepositoryImpl(
             where(
                 and(
                     col(JobOpening::id).`in`(jobOpeningIds),
-                    typeEq(type)
+                    typeEq(type),
+                    col(JobOpening::isDeleted).equal(false)
                 )
             )
         }
