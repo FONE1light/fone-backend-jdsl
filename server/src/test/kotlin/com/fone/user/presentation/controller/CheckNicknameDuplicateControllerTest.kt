@@ -9,7 +9,6 @@ import org.springframework.test.web.reactive.server.WebTestClient
 @IntegrationTest
 class CheckNicknameDuplicateControllerTest(client: WebTestClient) : CustomDescribeSpec() {
 
-    private val signUpBaseUrl = "/api/v1/users/sign-up"
     private val checkNicknameDuplicateUrl = "/api/v1/users/check-nickname-duplication"
 
     init {
