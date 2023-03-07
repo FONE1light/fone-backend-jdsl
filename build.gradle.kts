@@ -3,6 +3,7 @@ import org.jlleitschuh.gradle.ktlint.KtlintExtension
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
+    id("jacoco")
     id("org.springframework.boot") version "2.7.5"
     id("io.spring.dependency-management") version "1.0.15.RELEASE"
     id("org.jlleitschuh.gradle.ktlint") version "11.3.1"
@@ -17,6 +18,10 @@ plugins {
     kotlin("plugin.jpa") version "1.7.0"
     kotlin("plugin.allopen") version "1.7.0"
     kotlin("plugin.noarg") version "1.7.0"
+}
+
+jacoco {
+    toolVersion = "0.8.8"
 }
 
 group = "com.fone.filmone"
@@ -64,6 +69,7 @@ subprojects {
         plugin("org.springframework.boot")
         plugin("io.spring.dependency-management")
         plugin("org.jetbrains.dokka")
+        plugin("jacoco")
         plugin("io.gitlab.arturbosch.detekt")
     }
 
@@ -87,6 +93,32 @@ subprojects {
         withType<Test> {
             useJUnitPlatform()
             systemProperty("file.encoding", "UTF-8")
+
+            // 테스트 실행 이후에 항상 JaCoCo 리포트를 생성합니다.
+            finalizedBy(jacocoTestReport)
+        }
+
+        jacocoTestReport {
+            reports {
+                xml.required.set(true)
+                csv.required.set(true)
+                html.required.set(true)
+            }
+            finalizedBy(jacocoTestCoverageVerification)
+        }
+
+        jacocoTestCoverageVerification {
+            violationRules {
+                rule {
+                    enabled = true
+                    element = "CLASS"
+                    limit {
+                        counter = "LINE"
+                        value = "COVEREDRATIO"
+                        minimum = "0".toBigDecimal()
+                    }
+                }
+            }
         }
     }
 
