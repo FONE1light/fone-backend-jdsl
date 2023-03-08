@@ -36,7 +36,6 @@ class RegisterProfileDto {
         val categories: List<CategoryType>,
         val type: Type,
         val domains: List<DomainType>,
-        val userId: Long,
         val profileUrls: List<String>,
         val profileUrl: String,
     ) {
