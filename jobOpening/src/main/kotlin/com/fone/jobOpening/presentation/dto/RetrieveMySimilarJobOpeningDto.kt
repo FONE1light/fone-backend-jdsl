@@ -15,7 +15,7 @@ class RetrieveMySimilarJobOpeningDto {
         val jobOpenings: Slice<JobOpeningDto>,
     ) {
         constructor(
-            jobOpenings: Slice<JobOpening>,
+            jobOpenings: List<JobOpening>,
             userJobOpeningScrapMap: Map<Long, JobOpeningScrap?>,
             jobOpeningDomains: Map<Long, List<DomainType>>,
             jobOpeningCategories: Map<Long, List<CategoryType>>,

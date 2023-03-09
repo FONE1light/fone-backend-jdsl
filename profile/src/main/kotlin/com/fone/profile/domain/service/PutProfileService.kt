@@ -35,32 +35,24 @@ class PutProfileService(
         if (userId != profile.userId) {
             throw InvalidProfileUserIdException()
         }
+        profile.put(request)
+        profileRepository.save(profile)
 
         return coroutineScope {
-            val profileDomains = async {
-                profileDomainRepository.deleteByProfileId(profile.id!!)
-                val profileDomains = request.domains.map { ProfileDomain(profile.id!!, it) }
-                profileDomainRepository.saveAll(profileDomains)
+            val userProfileWants = async {
+                profileWantRepository.findByUserId(userId)
             }
 
-            val profileCategories = async {
-                profileCategoryRepository.deleteByProfileId(profile.id!!)
-                val profileCategories = request.categories.map { ProfileCategory(profile.id!!, it) }
-                profileCategoryRepository.saveAll(profileCategories)
-            }
+            profileDomainRepository.deleteByProfileId(profile.id!!)
+            val profileDomains = request.domains.map { ProfileDomain(profile.id!!, it) }
+            profileDomainRepository.saveAll(profileDomains)
 
-            val p = async {
-                profile.put(request)
-                profileRepository.save(profile)
-            }
-
-            val userProfileWants = async { profileWantRepository.findByUserId(userId) }
-
-            profileDomains.await()
-            profileCategories.await()
+            profileCategoryRepository.deleteByProfileId(profile.id!!)
+            val profileCategories = request.categories.map { ProfileCategory(profile.id!!, it) }
+            profileCategoryRepository.saveAll(profileCategories)
 
             RegisterProfileResponse(
-                p.await(),
+                profile,
                 userProfileWants.await(),
                 request.domains,
                 request.categories

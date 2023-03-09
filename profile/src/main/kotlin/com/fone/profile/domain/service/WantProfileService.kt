@@ -1,8 +1,10 @@
 package com.fone.profile.domain.service
 
+import com.fone.common.exception.NotFoundProfileException
 import com.fone.common.exception.NotFoundUserException
 import com.fone.common.repository.UserCommonRepository
 import com.fone.profile.domain.entity.ProfileWant
+import com.fone.profile.domain.repository.ProfileRepository
 import com.fone.profile.domain.repository.ProfileWantRepository
 import org.springframework.stereotype.Service
 
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service
 class WantProfileService(
     private val userRepository: UserCommonRepository,
     private val profileWantRepository: ProfileWantRepository,
+    private val profileRepository: ProfileRepository,
 ) {
 
     suspend fun wantProfile(email: String, profileId: Long) {
@@ -20,7 +23,8 @@ class WantProfileService(
             return
         }
 
-        val profileWant = ProfileWant(userId, profileId)
-        profileWantRepository.save(profileWant)
+        profileRepository.findByTypeAndId(null, profileId) ?: throw NotFoundProfileException()
+
+        profileWantRepository.save(ProfileWant(userId, profileId))
     }
 }
