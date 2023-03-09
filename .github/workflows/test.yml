@@ -18,7 +18,7 @@ jobs:
       - name: Grant Execute Permission For Gradlew
         run: chmod +x gradlew
       - name: Test With Gradle
-        run: ./gradlew clean check jacocoTestReport
+        run: ./gradlew :server:test clean check jacocoTestReport
       - name: Add coverage to PR
         uses: madrapps/jacoco-report@v1.3
         with:
