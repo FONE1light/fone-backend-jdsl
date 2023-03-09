@@ -37,18 +37,6 @@ class PutProfileService(
         }
 
         return coroutineScope {
-            val profileDomains = async {
-                profileDomainRepository.deleteByProfileId(profile.id!!)
-                val profileDomains = request.domains.map { ProfileDomain(profile.id!!, it) }
-                profileDomainRepository.saveAll(profileDomains)
-            }
-
-            val profileCategories = async {
-                profileCategoryRepository.deleteByProfileId(profile.id!!)
-                val profileCategories = request.categories.map { ProfileCategory(profile.id!!, it) }
-                profileCategoryRepository.saveAll(profileCategories)
-            }
-
             val p = async {
                 profile.put(request)
                 profileRepository.save(profile)
@@ -56,8 +44,13 @@ class PutProfileService(
 
             val userProfileWants = async { profileWantRepository.findByUserId(userId) }
 
-            profileDomains.await()
-            profileCategories.await()
+            profileDomainRepository.deleteByProfileId(profile.id!!)
+            val profileDomains = request.domains.map { ProfileDomain(profile.id!!, it) }
+            profileDomainRepository.saveAll(profileDomains)
+
+            profileCategoryRepository.deleteByProfileId(profile.id!!)
+            val profileCategories = request.categories.map { ProfileCategory(profile.id!!, it) }
+            profileCategoryRepository.saveAll(profileCategories)
 
             RegisterProfileResponse(
                 p.await(),
