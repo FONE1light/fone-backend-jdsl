@@ -1,7 +1,8 @@
-package com.fone.user.application
+package com.fone.user.presentation.application
 
 import com.fone.common.entity.CategoryType
 import com.fone.common.entity.Gender
+import com.fone.user.application.SignUpUserFacade
 import com.fone.user.domain.enum.Job
 import com.fone.user.domain.enum.SocialLoginType
 import com.fone.user.domain.service.SignUpUserService
