@@ -7,7 +7,6 @@ plugins {
 dependencies {
     implementation(project(path = ":common", configuration = "default"))
     implementation(project(":home"))
-    implementation(project(":competition"))
     implementation(project(":report"))
     implementation(project(":idl"))
 

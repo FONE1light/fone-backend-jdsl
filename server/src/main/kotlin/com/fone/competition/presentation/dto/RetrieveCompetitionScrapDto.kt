@@ -1,0 +1,26 @@
+package com.fone.competition.presentation.dto
+
+import com.fone.competition.presentation.dto.common.CompetitionDto
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Slice
+
+class RetrieveCompetitionScrapDto {
+
+    data class RetrieveCompetitionScrapResponse(
+        val competitions: Slice<CompetitionDto>,
+    ) {
+        constructor(
+            competitions: List<com.fone.competition.domain.entity.Competition>,
+            userCompetitionScrapMap: Map<Long, com.fone.competition.domain.entity.CompetitionScrap?>,
+            pageable: Pageable,
+        ) : this(
+            competitions =
+            PageImpl(
+                competitions.map { CompetitionDto(it, userCompetitionScrapMap) }.toList(),
+                pageable,
+                competitions.size.toLong()
+            )
+        )
+    }
+}
