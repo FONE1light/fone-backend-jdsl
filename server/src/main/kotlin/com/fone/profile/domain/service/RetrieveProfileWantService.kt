@@ -1,0 +1,50 @@
+package com.fone.profile.domain.service
+
+import com.fone.common.entity.Type
+import com.fone.common.exception.NotFoundUserException
+import com.fone.common.repository.UserCommonRepository
+import com.fone.profile.presentation.dto.RetrieveProfileWantDto.RetrieveProfileWantResponse
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import org.springframework.data.domain.Pageable
+import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
+
+@Service
+class RetrieveProfileWantService(
+    private val profileWantRepository: com.fone.profile.domain.repository.ProfileWantRepository,
+    private val profileRepository: com.fone.profile.domain.repository.ProfileRepository,
+    private val profileDomainRepository: com.fone.profile.domain.repository.ProfileDomainRepository,
+    private val profileCategoryRepository: com.fone.profile.domain.repository.ProfileCategoryRepository,
+    private val userRepository: UserCommonRepository,
+) {
+
+    @Transactional(readOnly = true)
+    suspend fun retrieveProfileWant(
+        pageable: Pageable,
+        email: String,
+        type: Type,
+    ): RetrieveProfileWantResponse {
+        val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
+
+        return coroutineScope {
+            val profiles = async {
+                profileRepository.findWantAllByUserId(pageable, userId, type).content
+            }
+
+            val userProfileWants = async { profileWantRepository.findByUserId(userId) }
+
+            val profileIds = profiles.await().map { it.id!! }.toList()
+            val profileDomains = profileDomainRepository.findByProfileIds(profileIds)
+            val profileCategories = profileCategoryRepository.findByProfileIds(profileIds)
+
+            RetrieveProfileWantResponse(
+                profiles.await(),
+                userProfileWants.await(),
+                profileDomains,
+                profileCategories,
+                pageable
+            )
+        }
+    }
+}

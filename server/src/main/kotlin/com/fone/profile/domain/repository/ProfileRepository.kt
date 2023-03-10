@@ -1,0 +1,24 @@
+package com.fone.profile.domain.repository
+
+import com.fone.common.entity.Type
+import com.fone.profile.presentation.dto.RetrieveProfilesDto.RetrieveProfilesRequest
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Slice
+
+interface ProfileRepository {
+    suspend fun findAllByFilters(
+        pageable: Pageable,
+        request: RetrieveProfilesRequest,
+    ): Slice<com.fone.profile.domain.entity.Profile>
+
+    suspend fun findByTypeAndId(type: Type?, profileId: Long?): com.fone.profile.domain.entity.Profile?
+
+    suspend fun findAllByUserId(pageable: Pageable, userId: Long): Slice<com.fone.profile.domain.entity.Profile>
+    suspend fun save(profile: com.fone.profile.domain.entity.Profile): com.fone.profile.domain.entity.Profile
+
+    suspend fun findWantAllByUserId(
+        pageable: Pageable,
+        userId: Long,
+        type: Type,
+    ): Slice<com.fone.profile.domain.entity.Profile>
+}
