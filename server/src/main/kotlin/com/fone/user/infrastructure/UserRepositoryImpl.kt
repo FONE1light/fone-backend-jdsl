@@ -1,6 +1,5 @@
 package com.fone.user.infrastructure
 
-import com.fone.user.domain.entity.User
 import com.fone.user.domain.enum.SocialLoginType
 import com.fone.user.domain.repository.UserRepository
 import com.linecorp.kotlinjdsl.query.spec.predicate.EqualValueSpec
@@ -21,10 +20,10 @@ class UserRepositoryImpl(
     override suspend fun findByEmailAndSocialLoginType(
         email: String,
         socialLoginType: SocialLoginType,
-    ): User? {
+    ): com.fone.user.domain.entity.User? {
         return queryFactory.singleQueryOrNull {
-            select(entity(User::class))
-            from(entity(User::class))
+            select(entity(com.fone.user.domain.entity.User::class))
+            from(entity(com.fone.user.domain.entity.User::class))
             where(
                 and(
                     emailEq(email),
@@ -34,10 +33,10 @@ class UserRepositoryImpl(
         }
     }
 
-    override suspend fun findByNicknameOrEmail(nickname: String?, email: String?): User? {
+    override suspend fun findByNicknameOrEmail(nickname: String?, email: String?): com.fone.user.domain.entity.User? {
         return queryFactory.singleQueryOrNull {
-            select(entity(User::class))
-            from(entity(User::class))
+            select(entity(com.fone.user.domain.entity.User::class))
+            from(entity(com.fone.user.domain.entity.User::class))
             where(
                 or(
                     emailEq(email),
@@ -47,7 +46,7 @@ class UserRepositoryImpl(
         }
     }
 
-    override suspend fun save(newUser: User): User {
+    override suspend fun save(newUser: com.fone.user.domain.entity.User): com.fone.user.domain.entity.User {
         return newUser.also {
             queryFactory.withFactory { session, _ ->
                 if (it.id == null) {
@@ -59,27 +58,27 @@ class UserRepositoryImpl(
         }
     }
 
-    private fun SpringDataReactiveCriteriaQueryDsl<User?>.socialLoginTypeEq(
+    private fun SpringDataReactiveCriteriaQueryDsl<com.fone.user.domain.entity.User?>.socialLoginTypeEq(
         socialLoginType: SocialLoginType?,
     ): EqualValueSpec<SocialLoginType>? {
         socialLoginType ?: return null
 
-        return col(User::socialLoginType).equal(socialLoginType)
+        return col(com.fone.user.domain.entity.User::socialLoginType).equal(socialLoginType)
     }
 
-    private fun SpringDataReactiveCriteriaQueryDsl<User?>.emailEq(
+    private fun SpringDataReactiveCriteriaQueryDsl<com.fone.user.domain.entity.User?>.emailEq(
         email: String?,
     ): EqualValueSpec<String>? {
         email ?: return null
 
-        return col(User::email).equal(email)
+        return col(com.fone.user.domain.entity.User::email).equal(email)
     }
 
-    private fun SpringDataReactiveCriteriaQueryDsl<User?>.nicknameEq(
+    private fun SpringDataReactiveCriteriaQueryDsl<com.fone.user.domain.entity.User?>.nicknameEq(
         nickname: String?,
     ): EqualValueSpec<String>? {
         nickname ?: return null
 
-        return col(User::nickname).equal(nickname)
+        return col(com.fone.user.domain.entity.User::nickname).equal(nickname)
     }
 }

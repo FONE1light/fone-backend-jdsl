@@ -1,9 +1,8 @@
 package com.fone.user.presentation.controller
 
 import com.fone.common.response.CommonResponse
-import com.fone.user.application.SignUpUserFacade
-import com.fone.user.presentation.dto.SignUpUserDto.SignUpUserRequest
-import com.fone.user.presentation.dto.SignUpUserDto.SignUpUserResponse
+import com.fone.user.presentation.dto.SignInUserDto.SignInUserRequest
+import com.fone.user.presentation.dto.SignInUserDto.SignInUserResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -16,21 +15,21 @@ import javax.validation.Valid
 @Api(tags = ["01. User Info"], description = "유저 서비스")
 @RestController
 @RequestMapping("/api/v1/users")
-class SignUpUserController(
-    private val signUpUserFacade: SignUpUserFacade,
+class SignInUserController(
+    private val signInUserFacade: com.fone.user.application.SignInUserFacade,
 ) {
 
-    @PostMapping("/sign-up")
-    @ApiOperation(value = "회원가입 API")
+    @PostMapping("/sign-in")
+    @ApiOperation(value = "로그인 API")
     @ApiResponse(
         responseCode = "200",
         description = "성공"
     )
-    suspend fun signUp(
+    suspend fun signInUser(
         @Valid @RequestBody
-        request: SignUpUserRequest,
-    ): CommonResponse<SignUpUserResponse> {
-        val response = signUpUserFacade.signUp(request)
+        request: SignInUserRequest,
+    ): CommonResponse<SignInUserResponse> {
+        val response = signInUserFacade.signIn(request)
         return CommonResponse.success(response)
     }
 }

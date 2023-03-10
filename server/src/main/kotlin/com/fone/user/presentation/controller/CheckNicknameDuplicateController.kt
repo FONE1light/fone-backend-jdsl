@@ -1,7 +1,6 @@
 package com.fone.user.presentation.controller
 
 import com.fone.common.response.CommonResponse
-import com.fone.user.application.CheckNicknameDuplicationFacade
 import com.fone.user.presentation.dto.CheckNicknameDuplicateDto.CheckNicknameDuplicateRequest
 import com.fone.user.presentation.dto.CheckNicknameDuplicateDto.CheckNicknameDuplicateResponse
 import io.swagger.annotations.Api
@@ -17,7 +16,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/api/v1/users")
 class CheckNicknameDuplicateController(
-    private val checkNicknameDuplicateFacade: CheckNicknameDuplicationFacade,
+    private val checkNicknameDuplicateFacade: com.fone.user.application.CheckNicknameDuplicationFacade,
 ) {
 
     @GetMapping("/check-nickname-duplication")

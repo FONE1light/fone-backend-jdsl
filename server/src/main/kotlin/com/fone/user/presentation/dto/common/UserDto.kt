@@ -2,7 +2,6 @@ package com.fone.user.presentation.dto.common
 
 import com.fone.common.entity.CategoryType
 import com.fone.common.entity.Gender
-import com.fone.user.domain.entity.User
 import com.fone.user.domain.enum.Job
 import com.fone.user.domain.enum.SocialLoginType
 import java.time.LocalDate
@@ -25,7 +24,7 @@ data class UserDto(
 ) {
 
     constructor(
-        user: User,
+        user: com.fone.user.domain.entity.User,
     ) : this(
         id = user.id!!,
         job = user.job,

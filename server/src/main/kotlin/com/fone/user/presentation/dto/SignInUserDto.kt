@@ -1,7 +1,6 @@
 package com.fone.user.presentation.dto
 
 import com.fone.common.jwt.Token
-import com.fone.user.domain.entity.User
 import com.fone.user.domain.enum.SocialLoginType
 import com.fone.user.presentation.dto.common.UserDto
 import io.swagger.annotations.ApiModelProperty
@@ -26,7 +25,7 @@ class SignInUserDto {
     ) {
 
         constructor(
-            user: User,
+            user: com.fone.user.domain.entity.User,
             token: Token,
         ) : this(
             user = UserDto(user),
