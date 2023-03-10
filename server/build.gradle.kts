@@ -7,12 +7,6 @@ plugins {
 dependencies {
     implementation(project(path = ":common", configuration = "default"))
     implementation(project(":home"))
-    implementation(project(":user"))
-    implementation(project(":jobOpening"))
-    implementation(project(":question"))
-    implementation(project(":profile"))
-    implementation(project(":competition"))
-    implementation(project(":report"))
     implementation(project(":idl"))
 
     // Armeria
