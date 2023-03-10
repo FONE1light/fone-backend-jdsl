@@ -1,6 +1,7 @@
 package com.fone.profile.presentation.controller
 
 import com.fone.common.response.CommonResponse
+import com.fone.profile.application.PutProfileFacade
 import com.fone.profile.presentation.dto.RegisterProfileDto.RegisterProfileRequest
 import com.fone.profile.presentation.dto.RegisterProfileDto.RegisterProfileResponse
 import io.swagger.annotations.Api
@@ -19,7 +20,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/api/v1/profiles")
 class PutProfileController(
-    private val putProfileFacade: com.fone.profile.application.PutProfileFacade,
+    private val putProfileFacade: PutProfileFacade,
 ) {
 
     @PutMapping("/{profileId}")

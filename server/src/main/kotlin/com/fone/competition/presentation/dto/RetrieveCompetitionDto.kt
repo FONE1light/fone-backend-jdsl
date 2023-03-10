@@ -1,5 +1,7 @@
 package com.fone.competition.presentation.dto
 
+import com.fone.competition.domain.entity.Competition
+import com.fone.competition.domain.entity.CompetitionScrap
 import com.fone.competition.presentation.dto.common.CompetitionDto
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
@@ -12,8 +14,8 @@ class RetrieveCompetitionDto {
         val totalCount: Long,
     ) {
         constructor(
-            competitions: List<com.fone.competition.domain.entity.Competition>,
-            userCompetitionScrapMap: Map<Long, com.fone.competition.domain.entity.CompetitionScrap?>,
+            competitions: List<Competition>,
+            userCompetitionScrapMap: Map<Long, CompetitionScrap?>,
             totalCount: Long,
             pageable: Pageable,
         ) : this(
@@ -30,8 +32,8 @@ class RetrieveCompetitionDto {
         val competition: CompetitionDto,
     ) {
         constructor(
-            reqCompetition: com.fone.competition.domain.entity.Competition,
-            userCompetitionScrapMap: Map<Long, com.fone.competition.domain.entity.CompetitionScrap?>,
+            reqCompetition: Competition,
+            userCompetitionScrapMap: Map<Long, CompetitionScrap?>,
         ) : this(competition = CompetitionDto(reqCompetition, userCompetitionScrapMap))
     }
 }

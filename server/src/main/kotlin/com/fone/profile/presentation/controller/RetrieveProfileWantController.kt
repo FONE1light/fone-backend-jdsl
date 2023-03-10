@@ -2,6 +2,7 @@ package com.fone.profile.presentation.controller
 
 import com.fone.common.entity.Type
 import com.fone.common.response.CommonResponse
+import com.fone.profile.application.RetrieveProfileWantFacade
 import com.fone.profile.presentation.dto.RetrieveProfileWantDto.RetrieveProfileWantResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
@@ -18,7 +19,7 @@ import java.security.Principal
 @RestController
 @RequestMapping("/api/v1/profiles")
 class RetrieveProfileWantController(
-    private val retrieveProfileWantFacade: com.fone.profile.application.RetrieveProfileWantFacade,
+    private val retrieveProfileWantFacade: RetrieveProfileWantFacade,
 ) {
 
     @GetMapping("/wants")

@@ -5,6 +5,8 @@ import com.fone.common.entity.CategoryType
 import com.fone.common.entity.DomainType
 import com.fone.common.entity.Gender
 import com.fone.common.utils.DateTimeFormat
+import com.fone.profile.domain.entity.Profile
+import com.fone.profile.domain.entity.ProfileWant
 import java.time.LocalDate
 
 data class ProfileDto(
@@ -29,8 +31,8 @@ data class ProfileDto(
     val age: Int,
 ) {
     constructor(
-        profile: com.fone.profile.domain.entity.Profile,
-        userProfileWantMap: Map<Long, com.fone.profile.domain.entity.ProfileWant?>,
+        profile: Profile,
+        userProfileWantMap: Map<Long, ProfileWant?>,
         profileUrls: List<String>,
         domains: List<DomainType>,
         categories: List<CategoryType>,

@@ -3,14 +3,16 @@ package com.fone.competition.domain.service
 import com.fone.common.exception.NotFoundCompetitionException
 import com.fone.common.exception.NotFoundUserException
 import com.fone.common.repository.UserCommonRepository
+import com.fone.competition.domain.repository.CompetitionRepository
+import com.fone.competition.domain.repository.CompetitionScrapRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class ScrapCompetitionService(
     private val userRepository: UserCommonRepository,
-    private val competitionRepository: com.fone.competition.domain.repository.CompetitionRepository,
-    private val competitionScrapRepository: com.fone.competition.domain.repository.CompetitionScrapRepository,
+    private val competitionRepository: CompetitionRepository,
+    private val competitionScrapRepository: CompetitionScrapRepository,
 ) {
 
     @Transactional

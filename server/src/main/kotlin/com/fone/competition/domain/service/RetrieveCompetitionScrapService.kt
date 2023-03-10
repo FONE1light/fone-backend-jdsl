@@ -2,6 +2,8 @@ package com.fone.competition.domain.service
 
 import com.fone.common.exception.NotFoundUserException
 import com.fone.common.repository.UserCommonRepository
+import com.fone.competition.domain.repository.CompetitionRepository
+import com.fone.competition.domain.repository.CompetitionScrapRepository
 import com.fone.competition.presentation.dto.RetrieveCompetitionScrapDto.RetrieveCompetitionScrapResponse
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -11,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class RetrieveCompetitionScrapService(
-    private val competitionRepository: com.fone.competition.domain.repository.CompetitionRepository,
-    private val competitionScrapRepository: com.fone.competition.domain.repository.CompetitionScrapRepository,
+    private val competitionRepository: CompetitionRepository,
+    private val competitionScrapRepository: CompetitionScrapRepository,
     private val userRepository: UserCommonRepository,
 ) {
 

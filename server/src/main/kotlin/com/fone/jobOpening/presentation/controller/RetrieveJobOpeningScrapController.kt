@@ -2,6 +2,7 @@ package com.fone.jobOpening.presentation.controller
 
 import com.fone.common.entity.Type
 import com.fone.common.response.CommonResponse
+import com.fone.jobOpening.application.RetrieveJobOpeningScrapFacade
 import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningScrapDto.RetrieveJobOpeningScrapResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
@@ -18,7 +19,7 @@ import java.security.Principal
 @RestController
 @RequestMapping("/api/v1/job-openings")
 class RetrieveJobOpeningScrapController(
-    private val retrieveJobOpeningScrapFacade: com.fone.jobOpening.application.RetrieveJobOpeningScrapFacade,
+    private val retrieveJobOpeningScrapFacade: RetrieveJobOpeningScrapFacade,
 ) {
 
     @GetMapping("/scraps")

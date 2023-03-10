@@ -4,6 +4,10 @@ import com.fone.common.entity.Type
 import com.fone.common.exception.NotFoundProfileException
 import com.fone.common.exception.NotFoundUserException
 import com.fone.common.repository.UserCommonRepository
+import com.fone.profile.domain.repository.ProfileCategoryRepository
+import com.fone.profile.domain.repository.ProfileDomainRepository
+import com.fone.profile.domain.repository.ProfileRepository
+import com.fone.profile.domain.repository.ProfileWantRepository
 import com.fone.profile.presentation.dto.RetrieveProfilesDto.RetrieveProfileResponse
 import com.fone.profile.presentation.dto.RetrieveProfilesDto.RetrieveProfilesRequest
 import com.fone.profile.presentation.dto.RetrieveProfilesDto.RetrieveProfilesResponse
@@ -15,11 +19,11 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class RetrieveProfilesService(
-    private val profileRepository: com.fone.profile.domain.repository.ProfileRepository,
-    private val profileWantRepository: com.fone.profile.domain.repository.ProfileWantRepository,
+    private val profileRepository: ProfileRepository,
+    private val profileWantRepository: ProfileWantRepository,
     private val userRepository: UserCommonRepository,
-    private val profileDomainRepository: com.fone.profile.domain.repository.ProfileDomainRepository,
-    private val profileCategoryRepository: com.fone.profile.domain.repository.ProfileCategoryRepository,
+    private val profileDomainRepository: ProfileDomainRepository,
+    private val profileCategoryRepository: ProfileCategoryRepository,
 ) {
 
     @Transactional(readOnly = true)

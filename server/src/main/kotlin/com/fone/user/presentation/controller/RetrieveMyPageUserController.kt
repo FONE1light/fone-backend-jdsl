@@ -1,6 +1,7 @@
 package com.fone.user.presentation.controller
 
 import com.fone.common.response.CommonResponse
+import com.fone.user.application.RetrieveMyPageUserFacade
 import com.fone.user.presentation.dto.RetrieveMyPageUserDto.RetrieveMyPageUserResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
@@ -15,7 +16,7 @@ import java.security.Principal
 @RestController
 @RequestMapping("/api/v1/users")
 class RetrieveMyPageUserController(
-    private val retrieveMyPageUserFacade: com.fone.user.application.RetrieveMyPageUserFacade,
+    private val retrieveMyPageUserFacade: RetrieveMyPageUserFacade,
 ) {
 
     @GetMapping

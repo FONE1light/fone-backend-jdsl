@@ -1,10 +1,11 @@
 package com.fone.profile.domain.repository
 
 import com.fone.common.entity.DomainType
+import com.fone.profile.domain.entity.ProfileDomain
 
 interface ProfileDomainRepository {
 
-    suspend fun saveAll(profileDomain: List<com.fone.profile.domain.entity.ProfileDomain>): List<com.fone.profile.domain.entity.ProfileDomain>
+    suspend fun saveAll(profileDomain: List<ProfileDomain>): List<ProfileDomain>
 
     suspend fun deleteByProfileId(profileId: Long): Int
 

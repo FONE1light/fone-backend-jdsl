@@ -1,10 +1,11 @@
 package com.fone.profile.domain.repository
 
 import com.fone.common.entity.CategoryType
+import com.fone.profile.domain.entity.ProfileCategory
 
 interface ProfileCategoryRepository {
 
-    suspend fun saveAll(profileCategory: List<com.fone.profile.domain.entity.ProfileCategory>): List<com.fone.profile.domain.entity.ProfileCategory>
+    suspend fun saveAll(profileCategory: List<ProfileCategory>): List<ProfileCategory>
 
     suspend fun deleteByProfileId(profileId: Long): Int
 

@@ -1,6 +1,7 @@
 package com.fone.jobOpening.presentation.controller
 
 import com.fone.common.response.CommonResponse
+import com.fone.jobOpening.application.RetrieveJobOpeningMyRegistrationFacade
 import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningMyRegistrationDto.RetrieveJobOpeningMyRegistrationResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
@@ -16,7 +17,7 @@ import java.security.Principal
 @RestController
 @RequestMapping("/api/v1/job-openings")
 class RetrieveJobOpeningMyRegistrationController(
-    private val retrieveJobOpeningMyRegistrationFacade: com.fone.jobOpening.application.RetrieveJobOpeningMyRegistrationFacade,
+    private val retrieveJobOpeningMyRegistrationFacade: RetrieveJobOpeningMyRegistrationFacade,
 ) {
 
     @GetMapping("/my-registrations")

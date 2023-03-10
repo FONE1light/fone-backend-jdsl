@@ -1,6 +1,7 @@
 package com.fone.competition.presentation.controller
 
 import com.fone.common.response.CommonResponse
+import com.fone.competition.application.ScrapCompetitionFacade
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -15,7 +16,7 @@ import java.security.Principal
 @RestController
 @RequestMapping("/api/v1/competitions")
 class ScrapCompetitionController(
-    private val scrapCompetitionFacade: com.fone.competition.application.ScrapCompetitionFacade,
+    private val scrapCompetitionFacade: ScrapCompetitionFacade,
 ) {
 
     @PostMapping("/{competitionId}/scrap")

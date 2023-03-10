@@ -2,6 +2,10 @@ package com.fone.profile.infrastructure
 
 import com.fone.common.entity.Type
 import com.fone.common.utils.DateTimeFormat
+import com.fone.profile.domain.entity.Profile
+import com.fone.profile.domain.entity.ProfileCategory
+import com.fone.profile.domain.entity.ProfileWant
+import com.fone.profile.domain.repository.ProfileRepository
 import com.fone.profile.presentation.dto.RetrieveProfilesDto.RetrieveProfilesRequest
 import com.linecorp.kotlinjdsl.query.spec.OrderSpec
 import com.linecorp.kotlinjdsl.query.spec.predicate.EqualValueSpec
@@ -26,16 +30,16 @@ import javax.persistence.criteria.JoinType
 class ProfileRepositoryImpl(
     private val sessionFactory: Mutiny.SessionFactory,
     private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
-) : com.fone.profile.domain.repository.ProfileRepository {
+) : ProfileRepository {
 
     override suspend fun findAllByFilters(
         pageable: Pageable,
         request: RetrieveProfilesRequest,
-    ): Slice<com.fone.profile.domain.entity.Profile> {
+    ): Slice<Profile> {
         val categoryProfileIds = queryFactory.listQuery {
-            select(col(com.fone.profile.domain.entity.ProfileCategory::profileId))
-            from(entity(com.fone.profile.domain.entity.ProfileCategory::class))
-            where(col(com.fone.profile.domain.entity.ProfileCategory::type).`in`(request.categories))
+            select(col(ProfileCategory::profileId))
+            from(entity(ProfileCategory::class))
+            where(col(ProfileCategory::type).`in`(request.categories))
         }
 
         if (categoryProfileIds.isEmpty()) {
@@ -47,28 +51,28 @@ class ProfileRepositoryImpl(
         }
 
         val ids = queryFactory.pageQuery(pageable) {
-            select(column(com.fone.profile.domain.entity.Profile::id))
-            from(entity(com.fone.profile.domain.entity.Profile::class))
+            select(column(Profile::id))
+            from(entity(Profile::class))
             where(
                 and(
-                    col(com.fone.profile.domain.entity.Profile::type).equal(request.type),
-                    col(com.fone.profile.domain.entity.Profile::gender).`in`(request.genders),
-                    col(com.fone.profile.domain.entity.Profile::birthday).lessThanOrEqualTo(
+                    col(Profile::type).equal(request.type),
+                    col(Profile::gender).`in`(request.genders),
+                    col(Profile::birthday).lessThanOrEqualTo(
                         DateTimeFormat.calculdateLocalDate(request.ageMin)
                     ),
-                    col(com.fone.profile.domain.entity.Profile::birthday).greaterThanOrEqualTo(
+                    col(Profile::birthday).greaterThanOrEqualTo(
                         DateTimeFormat.calculdateLocalDate(request.ageMax)
                     ),
-                    col(com.fone.profile.domain.entity.Profile::id).`in`(categoryProfileIds)
+                    col(Profile::id).`in`(categoryProfileIds)
                 )
             )
         }.content
 
         val profiles = queryFactory.listQuery {
-            select(entity(com.fone.profile.domain.entity.Profile::class))
-            from(entity(com.fone.profile.domain.entity.Profile::class))
-            fetch(com.fone.profile.domain.entity.Profile::profileImages, joinType = JoinType.LEFT)
-            where(and(col(com.fone.profile.domain.entity.Profile::id).`in`(ids)))
+            select(entity(Profile::class))
+            from(entity(Profile::class))
+            fetch(Profile::profileImages, joinType = JoinType.LEFT)
+            where(and(col(Profile::id).`in`(ids)))
             orderBy(orderSpec(pageable.sort))
         }
 
@@ -79,11 +83,11 @@ class ProfileRepositoryImpl(
         )
     }
 
-    override suspend fun findByTypeAndId(type: Type?, profileId: Long?): com.fone.profile.domain.entity.Profile? {
+    override suspend fun findByTypeAndId(type: Type?, profileId: Long?): Profile? {
         return queryFactory.singleQueryOrNull {
-            select(entity(com.fone.profile.domain.entity.Profile::class))
-            from(entity(com.fone.profile.domain.entity.Profile::class))
-            fetch(com.fone.profile.domain.entity.Profile::profileImages, joinType = JoinType.LEFT)
+            select(entity(Profile::class))
+            from(entity(Profile::class))
+            fetch(Profile::profileImages, joinType = JoinType.LEFT)
             where(and(typeEq(type), idEq(profileId)))
         }
     }
@@ -91,20 +95,20 @@ class ProfileRepositoryImpl(
     override suspend fun findAllByUserId(
         pageable: Pageable,
         userId: Long,
-    ): Slice<com.fone.profile.domain.entity.Profile> {
+    ): Slice<Profile> {
         val ids = queryFactory.pageQuery(pageable) {
-            select(column(com.fone.profile.domain.entity.Profile::id))
-            from(entity(com.fone.profile.domain.entity.Profile::class))
+            select(column(Profile::id))
+            from(entity(Profile::class))
         }.content
 
         val profiles = queryFactory.listQuery {
-            select(entity(com.fone.profile.domain.entity.Profile::class))
-            from(entity(com.fone.profile.domain.entity.Profile::class))
-            fetch(com.fone.profile.domain.entity.Profile::profileImages, joinType = JoinType.LEFT)
+            select(entity(Profile::class))
+            from(entity(Profile::class))
+            fetch(Profile::profileImages, joinType = JoinType.LEFT)
             where(
                 and(
-                    col(com.fone.profile.domain.entity.Profile::userId).equal(userId),
-                    col(com.fone.profile.domain.entity.Profile::id).`in`(ids)
+                    col(Profile::userId).equal(userId),
+                    col(Profile::id).`in`(ids)
                 )
             )
         }
@@ -120,18 +124,18 @@ class ProfileRepositoryImpl(
         pageable: Pageable,
         userId: Long,
         type: Type,
-    ): Slice<com.fone.profile.domain.entity.Profile> {
+    ): Slice<Profile> {
         val ids = queryFactory.pageQuery(pageable) {
-            select(column(com.fone.profile.domain.entity.ProfileWant::profileId))
-            from(entity(com.fone.profile.domain.entity.ProfileWant::class))
-            where(col(com.fone.profile.domain.entity.ProfileWant::userId).equal(userId))
+            select(column(ProfileWant::profileId))
+            from(entity(ProfileWant::class))
+            where(col(ProfileWant::userId).equal(userId))
         }.content
 
         val profiles = queryFactory.listQuery {
-            select(entity(com.fone.profile.domain.entity.Profile::class))
-            from(entity(com.fone.profile.domain.entity.Profile::class))
-            fetch(com.fone.profile.domain.entity.Profile::profileImages, joinType = JoinType.LEFT)
-            where(and(col(com.fone.profile.domain.entity.Profile::id).`in`(ids)))
+            select(entity(Profile::class))
+            from(entity(Profile::class))
+            fetch(Profile::profileImages, joinType = JoinType.LEFT)
+            where(and(col(Profile::id).`in`(ids)))
         }
 
         return PageImpl(
@@ -141,7 +145,7 @@ class ProfileRepositoryImpl(
         )
     }
 
-    override suspend fun save(profile: com.fone.profile.domain.entity.Profile): com.fone.profile.domain.entity.Profile {
+    override suspend fun save(profile: Profile): Profile {
         return profile.also {
             queryFactory.withFactory { session, _ ->
                 if (it.id == null) {
@@ -153,30 +157,30 @@ class ProfileRepositoryImpl(
         }
     }
 
-    private fun SpringDataReactiveCriteriaQueryDsl<com.fone.profile.domain.entity.Profile?>.idEq(
+    private fun SpringDataReactiveCriteriaQueryDsl<Profile?>.idEq(
         profileId: Long?,
     ): EqualValueSpec<Long?>? {
         profileId ?: return null
 
-        return col(com.fone.profile.domain.entity.Profile::id).equal(profileId)
+        return col(Profile::id).equal(profileId)
     }
 
-    private fun SpringDataReactiveCriteriaQueryDsl<com.fone.profile.domain.entity.Profile?>.typeEq(
+    private fun SpringDataReactiveCriteriaQueryDsl<Profile?>.typeEq(
         type: Type?,
     ): EqualValueSpec<Type>? {
         type ?: return null
 
-        return col(com.fone.profile.domain.entity.Profile::type).equal(type)
+        return col(Profile::type).equal(type)
     }
 
-    private fun SpringDataReactiveCriteriaQueryDsl<com.fone.profile.domain.entity.Profile?>.orderSpec(
+    private fun SpringDataReactiveCriteriaQueryDsl<Profile?>.orderSpec(
         sort: Sort,
     ): List<OrderSpec> {
         val res = sort.map {
             val columnSpec = when (it.property) {
-                "viewCount" -> col(com.fone.profile.domain.entity.Profile::viewCount)
-                "createdAt" -> col(com.fone.profile.domain.entity.Profile::createdAt)
-                else -> col(com.fone.profile.domain.entity.Profile::viewCount)
+                "viewCount" -> col(Profile::viewCount)
+                "createdAt" -> col(Profile::createdAt)
+                else -> col(Profile::viewCount)
             }
 
             if (it.isAscending) {

@@ -1,11 +1,12 @@
 package com.fone.profile.application
 
+import com.fone.profile.domain.service.PutProfileService
 import com.fone.profile.presentation.dto.RegisterProfileDto.RegisterProfileRequest
 import org.springframework.stereotype.Service
 
 @Service
 class PutProfileFacade(
-    private val putProfileService: com.fone.profile.domain.service.PutProfileService,
+    private val putProfileService: PutProfileService,
 ) {
 
     suspend fun putProfile(

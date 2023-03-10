@@ -1,6 +1,7 @@
 package com.fone.user.presentation.dto
 
 import com.fone.common.entity.CategoryType
+import com.fone.user.domain.entity.User
 import com.fone.user.domain.enum.Job
 import com.fone.user.presentation.dto.common.UserDto
 import javax.validation.constraints.NotEmpty
@@ -21,7 +22,7 @@ class ModifyUserDto {
     ) {
 
         constructor(
-            user: com.fone.user.domain.entity.User,
+            user: User,
         ) : this(user = UserDto(user))
     }
 }

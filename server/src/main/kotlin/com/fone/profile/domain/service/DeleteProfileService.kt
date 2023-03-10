@@ -4,15 +4,18 @@ import com.fone.common.exception.InvalidProfileUserIdException
 import com.fone.common.exception.NotFoundProfileException
 import com.fone.common.exception.NotFoundUserException
 import com.fone.common.repository.UserCommonRepository
+import com.fone.profile.domain.repository.ProfileCategoryRepository
+import com.fone.profile.domain.repository.ProfileDomainRepository
+import com.fone.profile.domain.repository.ProfileRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.springframework.stereotype.Service
 
 @Service
 class DeleteProfileService(
-    private val profileRepository: com.fone.profile.domain.repository.ProfileRepository,
-    private val profileDomainRepository: com.fone.profile.domain.repository.ProfileDomainRepository,
-    private val profileCategoryRepository: com.fone.profile.domain.repository.ProfileCategoryRepository,
+    private val profileRepository: ProfileRepository,
+    private val profileDomainRepository: ProfileDomainRepository,
+    private val profileCategoryRepository: ProfileCategoryRepository,
     private val userRepository: UserCommonRepository,
 ) {
 

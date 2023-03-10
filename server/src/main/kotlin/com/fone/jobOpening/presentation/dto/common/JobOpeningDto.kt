@@ -6,6 +6,8 @@ import com.fone.common.entity.DomainType
 import com.fone.common.entity.Gender
 import com.fone.common.entity.Type
 import com.fone.common.utils.DateTimeFormat
+import com.fone.jobOpening.domain.entity.JobOpening
+import com.fone.jobOpening.domain.entity.JobOpeningScrap
 import java.time.LocalDate
 
 data class JobOpeningDto(
@@ -29,8 +31,8 @@ data class JobOpeningDto(
 ) {
 
     constructor(
-        jobOpening: com.fone.jobOpening.domain.entity.JobOpening,
-        userJobOpeningScrapMap: Map<Long, com.fone.jobOpening.domain.entity.JobOpeningScrap?>,
+        jobOpening: JobOpening,
+        userJobOpeningScrapMap: Map<Long, JobOpeningScrap?>,
         domains: List<DomainType>,
         categories: List<CategoryType>,
     ) : this(

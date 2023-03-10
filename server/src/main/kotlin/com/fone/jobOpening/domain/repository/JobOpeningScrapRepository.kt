@@ -1,15 +1,17 @@
 package com.fone.jobOpening.domain.repository
 
+import com.fone.jobOpening.domain.entity.JobOpeningScrap
+
 interface JobOpeningScrapRepository {
 
     suspend fun findByUserIdAndJobOpeningId(
         userId: Long,
         jobOpeningId: Long,
-    ): com.fone.jobOpening.domain.entity.JobOpeningScrap?
+    ): JobOpeningScrap?
 
-    suspend fun findByUserId(userId: Long): Map<Long, com.fone.jobOpening.domain.entity.JobOpeningScrap?>
+    suspend fun findByUserId(userId: Long): Map<Long, JobOpeningScrap?>
 
-    suspend fun delete(it: com.fone.jobOpening.domain.entity.JobOpeningScrap): Int
+    suspend fun delete(it: JobOpeningScrap): Int
 
-    suspend fun save(jobOpeningScrap: com.fone.jobOpening.domain.entity.JobOpeningScrap): com.fone.jobOpening.domain.entity.JobOpeningScrap
+    suspend fun save(jobOpeningScrap: JobOpeningScrap): JobOpeningScrap
 }

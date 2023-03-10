@@ -1,6 +1,9 @@
 package com.fone.competition.presentation.dto.common
 
 import com.fone.common.utils.DateTimeFormat
+import com.fone.competition.domain.entity.Competition
+import com.fone.competition.domain.entity.CompetitionScrap
+import com.fone.competition.domain.entity.Prize
 import java.time.LocalDate
 
 data class CompetitionDto(
@@ -21,8 +24,8 @@ data class CompetitionDto(
     val dDay: String,
 ) {
     constructor(
-        competition: com.fone.competition.domain.entity.Competition,
-        userCompetitionScrapMap: Map<Long, com.fone.competition.domain.entity.CompetitionScrap?>,
+        competition: Competition,
+        userCompetitionScrapMap: Map<Long, CompetitionScrap?>,
     ) : this(
         id = competition.id!!,
         title = competition.title,
@@ -49,7 +52,7 @@ data class CompetitionPrizeDto(
     val competitionId: Long,
 ) {
     constructor(
-        prize: com.fone.competition.domain.entity.Prize,
+        prize: Prize,
     ) : this(
         id = prize.id!!,
         ranking = prize.ranking,

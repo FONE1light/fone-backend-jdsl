@@ -2,6 +2,7 @@ package com.fone.jobOpening.presentation.controller
 
 import com.fone.common.entity.Type
 import com.fone.common.response.CommonResponse
+import com.fone.jobOpening.application.RetrieveJobOpeningFacade
 import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningResponse
 import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningsRequest
 import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningsResponse
@@ -22,7 +23,7 @@ import java.security.Principal
 @RestController
 @RequestMapping("/api/v1/job-openings")
 class RetrieveJobOpeningController(
-    private val retrieveJobOpeningFacade: com.fone.jobOpening.application.RetrieveJobOpeningFacade,
+    private val retrieveJobOpeningFacade: RetrieveJobOpeningFacade,
 ) {
 
     @GetMapping

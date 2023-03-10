@@ -1,6 +1,7 @@
 package com.fone.user.presentation.controller
 
 import com.fone.common.response.CommonResponse
+import com.fone.user.application.SignUpUserFacade
 import com.fone.user.presentation.dto.SignUpUserDto.SignUpUserRequest
 import com.fone.user.presentation.dto.SignUpUserDto.SignUpUserResponse
 import io.swagger.annotations.Api
@@ -16,7 +17,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/api/v1/users")
 class SignUpUserController(
-    private val signUpUserFacade: com.fone.user.application.SignUpUserFacade,
+    private val signUpUserFacade: SignUpUserFacade,
 ) {
 
     @PostMapping("/sign-up")

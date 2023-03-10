@@ -1,6 +1,7 @@
 package com.fone.user.presentation.controller
 
 import com.fone.common.response.CommonResponse
+import com.fone.user.application.ModifyUserFacade
 import com.fone.user.presentation.dto.ModifyUserDto.ModifyUserRequest
 import com.fone.user.presentation.dto.ModifyUserDto.ModifyUserResponse
 import io.swagger.annotations.Api
@@ -18,7 +19,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/api/v1/users")
 class ModifyUserController(
-    private val modifyFacade: com.fone.user.application.ModifyUserFacade,
+    private val modifyFacade: ModifyUserFacade,
 ) {
 
     @PatchMapping

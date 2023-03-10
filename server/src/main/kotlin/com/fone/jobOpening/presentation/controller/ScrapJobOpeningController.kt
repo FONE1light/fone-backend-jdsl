@@ -1,6 +1,7 @@
 package com.fone.jobOpening.presentation.controller
 
 import com.fone.common.response.CommonResponse
+import com.fone.jobOpening.application.ScrapJobOpeningFacade
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -15,7 +16,7 @@ import java.security.Principal
 @RestController
 @RequestMapping("/api/v1/job-openings")
 class ScrapJobOpeningController(
-    private val scrapJobOpeningFacade: com.fone.jobOpening.application.ScrapJobOpeningFacade,
+    private val scrapJobOpeningFacade: ScrapJobOpeningFacade,
 ) {
 
     @PostMapping("/{jobOpeningId}/scrap")

@@ -1,6 +1,7 @@
 package com.fone.jobOpening.presentation.controller
 
 import com.fone.common.response.CommonResponse
+import com.fone.jobOpening.application.PutJobOpeningFacade
 import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningRequest
 import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningResponse
 import io.swagger.annotations.Api
@@ -19,7 +20,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/api/v1/job-openings")
 class PutJobOpeningController(
-    private val putJobOpeningFacade: com.fone.jobOpening.application.PutJobOpeningFacade,
+    private val putJobOpeningFacade: PutJobOpeningFacade,
 ) {
 
     @PutMapping("/{jobOpeningId}")

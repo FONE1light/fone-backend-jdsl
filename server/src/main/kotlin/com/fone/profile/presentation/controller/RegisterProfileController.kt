@@ -1,6 +1,7 @@
 package com.fone.profile.presentation.controller
 
 import com.fone.common.response.CommonResponse
+import com.fone.profile.application.RegisterProfileFacade
 import com.fone.profile.presentation.dto.RegisterProfileDto.RegisterProfileRequest
 import com.fone.profile.presentation.dto.RegisterProfileDto.RegisterProfileResponse
 import io.swagger.annotations.Api
@@ -18,7 +19,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/api/v1/profiles")
 class RegisterProfileController(
-    val registerProfileFacade: com.fone.profile.application.RegisterProfileFacade,
+    val registerProfileFacade: RegisterProfileFacade,
 ) {
 
     @PostMapping

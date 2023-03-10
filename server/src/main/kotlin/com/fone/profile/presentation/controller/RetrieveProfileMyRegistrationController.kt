@@ -1,6 +1,7 @@
 package com.fone.profile.presentation.controller
 
 import com.fone.common.response.CommonResponse
+import com.fone.profile.application.RetrieveProfileMyRegistrationFacade
 import com.fone.profile.presentation.dto.RetrieveProfileMyRegistrationDto.RetrieveProfileMyRegistrationResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
@@ -16,7 +17,7 @@ import java.security.Principal
 @RestController
 @RequestMapping("/api/v1/profiles")
 class RetrieveProfileMyRegistrationController(
-    private val retrieveProfileMyRegistrationFacade: com.fone.profile.application.RetrieveProfileMyRegistrationFacade,
+    private val retrieveProfileMyRegistrationFacade: RetrieveProfileMyRegistrationFacade,
 ) {
 
     @GetMapping("/my-registrations")

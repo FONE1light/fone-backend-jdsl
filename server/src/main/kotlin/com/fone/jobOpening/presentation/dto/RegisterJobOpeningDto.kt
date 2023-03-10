@@ -5,6 +5,8 @@ import com.fone.common.entity.CategoryType
 import com.fone.common.entity.DomainType
 import com.fone.common.entity.Gender
 import com.fone.common.entity.Type
+import com.fone.jobOpening.domain.entity.JobOpening
+import com.fone.jobOpening.domain.entity.JobOpeningScrap
 import com.fone.jobOpening.presentation.dto.common.JobOpeningDto
 import com.fone.jobOpening.presentation.dto.common.WorkDto
 import org.springframework.format.annotation.DateTimeFormat
@@ -26,8 +28,8 @@ class RegisterJobOpeningDto {
         val domains: List<DomainType>,
         val work: WorkDto,
     ) {
-        fun toEntity(userId: Long): com.fone.jobOpening.domain.entity.JobOpening {
-            return com.fone.jobOpening.domain.entity.JobOpening(
+        fun toEntity(userId: Long): JobOpening {
+            return JobOpening(
                 title = title,
                 deadline = deadline,
                 casting = casting,
@@ -50,8 +52,8 @@ class RegisterJobOpeningDto {
     ) {
 
         constructor(
-            jobOpening: com.fone.jobOpening.domain.entity.JobOpening,
-            userJobOpeningScrapMap: Map<Long, com.fone.jobOpening.domain.entity.JobOpeningScrap?>,
+            jobOpening: JobOpening,
+            userJobOpeningScrapMap: Map<Long, JobOpeningScrap?>,
             domains: List<DomainType>,
             categories: List<CategoryType>,
         ) : this(

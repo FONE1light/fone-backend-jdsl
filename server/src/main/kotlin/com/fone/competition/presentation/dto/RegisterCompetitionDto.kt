@@ -1,5 +1,7 @@
 package com.fone.competition.presentation.dto
 
+import com.fone.competition.domain.entity.Competition
+import com.fone.competition.domain.entity.Prize
 import com.fone.competition.presentation.dto.common.CompetitionDto
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDate
@@ -18,8 +20,8 @@ class RegisterCompetitionDto {
         val details: String,
         val prizes: List<PrizeRequest>,
     ) {
-        fun toEntity(userId: Long): com.fone.competition.domain.entity.Competition {
-            return com.fone.competition.domain.entity.Competition(
+        fun toEntity(userId: Long): Competition {
+            return Competition(
                 title = title,
                 imageUrl = imageUrl,
                 startDate = startDate,
@@ -41,8 +43,8 @@ class RegisterCompetitionDto {
         val prizeMoney: String,
         val competitionId: Long,
     ) {
-        fun toEntity(): com.fone.competition.domain.entity.Prize {
-            return com.fone.competition.domain.entity.Prize(
+        fun toEntity(): Prize {
+            return Prize(
                 ranking = ranking,
                 prizeMoney = prizeMoney
             )
@@ -53,7 +55,7 @@ class RegisterCompetitionDto {
         val competition: CompetitionDto,
     ) {
         constructor(
-            reqCompetition: com.fone.competition.domain.entity.Competition,
+            reqCompetition: Competition,
         ) : this(competition = CompetitionDto(reqCompetition, mapOf()))
     }
 }

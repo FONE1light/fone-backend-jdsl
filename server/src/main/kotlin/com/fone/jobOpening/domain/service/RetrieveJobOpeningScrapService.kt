@@ -3,6 +3,10 @@ package com.fone.jobOpening.domain.service
 import com.fone.common.entity.Type
 import com.fone.common.exception.NotFoundUserException
 import com.fone.common.repository.UserCommonRepository
+import com.fone.jobOpening.domain.repository.JobOpeningCategoryRepository
+import com.fone.jobOpening.domain.repository.JobOpeningDomainRepository
+import com.fone.jobOpening.domain.repository.JobOpeningRepository
+import com.fone.jobOpening.domain.repository.JobOpeningScrapRepository
 import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningScrapDto.RetrieveJobOpeningScrapResponse
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -12,10 +16,10 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class RetrieveJobOpeningScrapService(
-    private val jobOpeningScrapRepository: com.fone.jobOpening.domain.repository.JobOpeningScrapRepository,
-    private val jobOpeningRepository: com.fone.jobOpening.domain.repository.JobOpeningRepository,
-    private val jobOpeningDomainRepository: com.fone.jobOpening.domain.repository.JobOpeningDomainRepository,
-    private val jobOpeningCategoryRepository: com.fone.jobOpening.domain.repository.JobOpeningCategoryRepository,
+    private val jobOpeningScrapRepository: JobOpeningScrapRepository,
+    private val jobOpeningRepository: JobOpeningRepository,
+    private val jobOpeningDomainRepository: JobOpeningDomainRepository,
+    private val jobOpeningCategoryRepository: JobOpeningCategoryRepository,
     private val userRepository: UserCommonRepository,
 ) {
 

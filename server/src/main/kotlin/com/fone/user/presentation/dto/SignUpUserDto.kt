@@ -3,6 +3,7 @@ package com.fone.user.presentation.dto
 import com.fone.common.entity.CategoryType
 import com.fone.common.entity.Gender
 import com.fone.common.jwt.Role
+import com.fone.user.domain.entity.User
 import com.fone.user.domain.enum.Job
 import com.fone.user.domain.enum.SocialLoginType
 import com.fone.user.presentation.dto.common.UserDto
@@ -46,8 +47,8 @@ class SignUpUserDto {
         @field:NotNull(message = "마케팅 정보수신 동의는 필수 값 입니다.") val isReceiveMarketing: Boolean,
         @field:NotEmpty(message = "액세스 토큰은 필수 값 입니다.") val accessToken: String,
     ) {
-        fun toEntity(): com.fone.user.domain.entity.User {
-            return com.fone.user.domain.entity.User(
+        fun toEntity(): User {
+            return User(
                 job = job,
                 interests = interests.map { it.toString() }.toList(),
                 nickname = nickname,
@@ -71,7 +72,7 @@ class SignUpUserDto {
     ) {
 
         constructor(
-            user: com.fone.user.domain.entity.User,
+            user: User,
         ) : this(user = UserDto(user))
     }
 }

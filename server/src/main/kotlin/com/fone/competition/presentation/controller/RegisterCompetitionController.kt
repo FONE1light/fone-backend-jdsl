@@ -1,6 +1,7 @@
 package com.fone.competition.presentation.controller
 
 import com.fone.common.response.CommonResponse
+import com.fone.competition.application.RegisterCompetitionFacade
 import com.fone.competition.presentation.dto.RegisterCompetitionDto.RegisterCompetitionRequest
 import com.fone.competition.presentation.dto.RegisterCompetitionDto.RegisterCompetitionResponse
 import io.swagger.annotations.Api
@@ -18,7 +19,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/api/v1/competitions")
 class RegisterCompetitionController(
-    private val registerCompetitionFacade: com.fone.competition.application.RegisterCompetitionFacade,
+    private val registerCompetitionFacade: RegisterCompetitionFacade,
 ) {
 
     @PostMapping

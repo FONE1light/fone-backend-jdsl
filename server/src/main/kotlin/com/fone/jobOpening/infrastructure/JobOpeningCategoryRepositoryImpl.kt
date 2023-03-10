@@ -1,6 +1,8 @@
 package com.fone.jobOpening.infrastructure
 
 import com.fone.common.entity.CategoryType
+import com.fone.jobOpening.domain.entity.JobOpeningCategory
+import com.fone.jobOpening.domain.repository.JobOpeningCategoryRepository
 import com.linecorp.kotlinjdsl.querydsl.expression.col
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.SpringDataHibernateMutinyReactiveQueryFactory
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.deleteQuery
@@ -13,11 +15,11 @@ import org.springframework.stereotype.Repository
 class JobOpeningCategoryRepositoryImpl(
     private val sessionFactory: Mutiny.SessionFactory,
     private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
-) : com.fone.jobOpening.domain.repository.JobOpeningCategoryRepository {
+) : JobOpeningCategoryRepository {
 
     override suspend fun saveAll(
-        jobOpeningCategories: List<com.fone.jobOpening.domain.entity.JobOpeningCategory>,
-    ): List<com.fone.jobOpening.domain.entity.JobOpeningCategory> {
+        jobOpeningCategories: List<JobOpeningCategory>,
+    ): List<JobOpeningCategory> {
         return jobOpeningCategories.also {
             sessionFactory.withSession { session ->
                 session.persistAll(*it.toTypedArray()).flatMap { session.flush() }
@@ -26,8 +28,8 @@ class JobOpeningCategoryRepositoryImpl(
     }
 
     override suspend fun deleteByJobOpeningId(jobOpeningId: Long): Int {
-        return queryFactory.deleteQuery<com.fone.jobOpening.domain.entity.JobOpeningCategory> {
-            where(col(com.fone.jobOpening.domain.entity.JobOpeningCategory::jobOpeningId).equal(jobOpeningId))
+        return queryFactory.deleteQuery<JobOpeningCategory> {
+            where(col(JobOpeningCategory::jobOpeningId).equal(jobOpeningId))
         }
     }
 
@@ -35,17 +37,17 @@ class JobOpeningCategoryRepositoryImpl(
         jobOpeningIds: List<Long>,
     ): Map<Long, List<CategoryType>> {
         return queryFactory.listQuery {
-            select(entity(com.fone.jobOpening.domain.entity.JobOpeningCategory::class))
-            from(entity(com.fone.jobOpening.domain.entity.JobOpeningCategory::class))
-            where(col(com.fone.jobOpening.domain.entity.JobOpeningCategory::jobOpeningId).`in`(jobOpeningIds))
+            select(entity(JobOpeningCategory::class))
+            from(entity(JobOpeningCategory::class))
+            where(col(JobOpeningCategory::jobOpeningId).`in`(jobOpeningIds))
         }.groupBy({ it!!.jobOpeningId }, { it!!.type })
     }
 
     override suspend fun findByJobOpeningId(jobOpeningId: Long): List<CategoryType> {
         return queryFactory.listQuery {
-            select(col(com.fone.jobOpening.domain.entity.JobOpeningCategory::type))
-            from(entity(com.fone.jobOpening.domain.entity.JobOpeningCategory::class))
-            where(col(com.fone.jobOpening.domain.entity.JobOpeningCategory::jobOpeningId).equal(jobOpeningId))
+            select(col(JobOpeningCategory::type))
+            from(entity(JobOpeningCategory::class))
+            where(col(JobOpeningCategory::jobOpeningId).equal(jobOpeningId))
         }
     }
 }

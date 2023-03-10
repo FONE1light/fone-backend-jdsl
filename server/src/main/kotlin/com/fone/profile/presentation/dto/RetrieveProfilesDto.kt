@@ -4,6 +4,8 @@ import com.fone.common.entity.CategoryType
 import com.fone.common.entity.DomainType
 import com.fone.common.entity.Gender
 import com.fone.common.entity.Type
+import com.fone.profile.domain.entity.Profile
+import com.fone.profile.domain.entity.ProfileWant
 import com.fone.profile.presentation.dto.common.ProfileDto
 import io.swagger.annotations.ApiModelProperty
 import org.springframework.data.domain.PageImpl
@@ -27,8 +29,8 @@ class RetrieveProfilesDto {
         val profiles: Slice<ProfileDto>,
     ) {
         constructor(
-            profiles: List<com.fone.profile.domain.entity.Profile>,
-            userProfileWantMap: Map<Long, com.fone.profile.domain.entity.ProfileWant?>,
+            profiles: List<Profile>,
+            userProfileWantMap: Map<Long, ProfileWant?>,
             profileDomains: Map<Long, List<DomainType>>,
             profileCategories: Map<Long, List<CategoryType>>,
             pageable: Pageable,
@@ -53,8 +55,8 @@ class RetrieveProfilesDto {
         val profile: ProfileDto,
     ) {
         constructor(
-            profile: com.fone.profile.domain.entity.Profile,
-            userProfileWantMap: Map<Long, com.fone.profile.domain.entity.ProfileWant?>,
+            profile: Profile,
+            userProfileWantMap: Map<Long, ProfileWant?>,
             profileDomains: List<DomainType>,
             profileCategories: List<CategoryType>,
         ) : this(

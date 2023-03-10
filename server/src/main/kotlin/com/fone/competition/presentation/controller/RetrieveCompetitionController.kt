@@ -1,6 +1,7 @@
 package com.fone.competition.presentation.controller
 
 import com.fone.common.response.CommonResponse
+import com.fone.competition.application.RetrieveCompetitionFacade
 import com.fone.competition.presentation.dto.RetrieveCompetitionDto.RetrieveCompetitionResponse
 import com.fone.competition.presentation.dto.RetrieveCompetitionDto.RetrieveCompetitionsResponse
 import io.swagger.annotations.Api
@@ -18,7 +19,7 @@ import java.security.Principal
 @RestController
 @RequestMapping("/api/v1/competitions")
 class RetrieveCompetitionController(
-    private val retrieveCompetitionFacade: com.fone.competition.application.RetrieveCompetitionFacade,
+    private val retrieveCompetitionFacade: RetrieveCompetitionFacade,
 ) {
 
     @GetMapping

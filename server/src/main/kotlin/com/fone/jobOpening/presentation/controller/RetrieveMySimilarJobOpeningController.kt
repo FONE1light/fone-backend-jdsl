@@ -1,6 +1,7 @@
 package com.fone.jobOpening.presentation.controller
 
 import com.fone.common.response.CommonResponse
+import com.fone.jobOpening.application.RetrieveMySimilarJobOpeningFacade
 import com.fone.jobOpening.presentation.dto.RetrieveMySimilarJobOpeningDto.RetrieveMySimilarJobOpeningResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
@@ -16,7 +17,7 @@ import java.security.Principal
 @RestController
 @RequestMapping("/api/v1/job-openings/my-similar")
 class RetrieveMySimilarJobOpeningController(
-    private val retrieveMySimilarJobOpeningFacade: com.fone.jobOpening.application.RetrieveMySimilarJobOpeningFacade,
+    private val retrieveMySimilarJobOpeningFacade: RetrieveMySimilarJobOpeningFacade,
 ) {
 
     @GetMapping

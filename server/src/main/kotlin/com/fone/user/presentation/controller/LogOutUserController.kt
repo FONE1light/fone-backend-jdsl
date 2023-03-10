@@ -1,6 +1,7 @@
 package com.fone.user.presentation.controller
 
 import com.fone.common.response.CommonResponse
+import com.fone.user.application.LogOutUserFacade
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -13,7 +14,7 @@ import java.security.Principal
 @RestController
 @RequestMapping("/api/v1/users")
 class LogOutUserController(
-    private val logOutUserFacade: com.fone.user.application.LogOutUserFacade,
+    private val logOutUserFacade: LogOutUserFacade,
 ) {
 
     @PostMapping("/log-out")

@@ -1,6 +1,8 @@
 package com.fone.profile.infrastructure
 
 import com.fone.common.entity.CategoryType
+import com.fone.profile.domain.entity.ProfileCategory
+import com.fone.profile.domain.repository.ProfileCategoryRepository
 import com.linecorp.kotlinjdsl.querydsl.expression.col
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.SpringDataHibernateMutinyReactiveQueryFactory
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.deleteQuery
@@ -13,9 +15,9 @@ import org.springframework.stereotype.Repository
 class ProfileCategoryRepositoryImpl(
     private val sessionFactory: Mutiny.SessionFactory,
     private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
-) : com.fone.profile.domain.repository.ProfileCategoryRepository {
+) : ProfileCategoryRepository {
 
-    override suspend fun saveAll(profileCategory: List<com.fone.profile.domain.entity.ProfileCategory>): List<com.fone.profile.domain.entity.ProfileCategory> {
+    override suspend fun saveAll(profileCategory: List<ProfileCategory>): List<ProfileCategory> {
         return profileCategory.also {
             sessionFactory.withSession { session ->
                 session.persistAll(*it.toTypedArray()).flatMap { session.flush() }
@@ -24,24 +26,24 @@ class ProfileCategoryRepositoryImpl(
     }
 
     override suspend fun deleteByProfileId(profileId: Long): Int {
-        return queryFactory.deleteQuery<com.fone.profile.domain.entity.ProfileCategory> {
-            where(col(com.fone.profile.domain.entity.ProfileCategory::profileId).equal(profileId))
+        return queryFactory.deleteQuery<ProfileCategory> {
+            where(col(ProfileCategory::profileId).equal(profileId))
         }
     }
 
     override suspend fun findByProfileIds(profileIds: List<Long>): Map<Long, List<CategoryType>> {
         return queryFactory.listQuery {
-            select(entity(com.fone.profile.domain.entity.ProfileCategory::class))
-            from(entity(com.fone.profile.domain.entity.ProfileCategory::class))
-            where(col(com.fone.profile.domain.entity.ProfileCategory::profileId).`in`(profileIds))
+            select(entity(ProfileCategory::class))
+            from(entity(ProfileCategory::class))
+            where(col(ProfileCategory::profileId).`in`(profileIds))
         }.groupBy({ it!!.profileId }, { it!!.type })
     }
 
     override suspend fun findByProfileId(profileId: Long): List<CategoryType> {
         return queryFactory.listQuery {
-            select(col(com.fone.profile.domain.entity.ProfileCategory::type))
-            from(entity(com.fone.profile.domain.entity.ProfileCategory::class))
-            where(col(com.fone.profile.domain.entity.ProfileCategory::profileId).equal(profileId))
+            select(col(ProfileCategory::type))
+            from(entity(ProfileCategory::class))
+            where(col(ProfileCategory::profileId).equal(profileId))
         }
     }
 }

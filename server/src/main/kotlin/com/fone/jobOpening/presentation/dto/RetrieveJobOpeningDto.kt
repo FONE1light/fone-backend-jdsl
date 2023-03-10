@@ -4,6 +4,8 @@ import com.fone.common.entity.CategoryType
 import com.fone.common.entity.DomainType
 import com.fone.common.entity.Gender
 import com.fone.common.entity.Type
+import com.fone.jobOpening.domain.entity.JobOpening
+import com.fone.jobOpening.domain.entity.JobOpeningScrap
 import com.fone.jobOpening.presentation.dto.common.JobOpeningDto
 import io.swagger.annotations.ApiModelProperty
 import org.springframework.data.domain.PageImpl
@@ -29,8 +31,8 @@ class RetrieveJobOpeningDto {
     ) {
 
         constructor(
-            jobOpeningList: List<com.fone.jobOpening.domain.entity.JobOpening>,
-            userJobOpeningScrapMap: Map<Long, com.fone.jobOpening.domain.entity.JobOpeningScrap?>,
+            jobOpeningList: List<JobOpening>,
+            userJobOpeningScrapMap: Map<Long, JobOpeningScrap?>,
             jobOpeningDomains: Map<Long, List<DomainType>>,
             jobOpeningCategories: Map<Long, List<CategoryType>>,
             pageable: Pageable,
@@ -55,8 +57,8 @@ class RetrieveJobOpeningDto {
     ) {
 
         constructor(
-            reqJobOpening: com.fone.jobOpening.domain.entity.JobOpening,
-            userJobOpeningScrapMap: Map<Long, com.fone.jobOpening.domain.entity.JobOpeningScrap?>,
+            reqJobOpening: JobOpening,
+            userJobOpeningScrapMap: Map<Long, JobOpeningScrap?>,
             domains: List<DomainType>,
             categories: List<CategoryType>,
         ) : this(

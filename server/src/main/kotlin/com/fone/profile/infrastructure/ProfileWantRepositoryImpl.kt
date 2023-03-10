@@ -1,5 +1,7 @@
 package com.fone.profile.infrastructure
 
+import com.fone.profile.domain.entity.ProfileWant
+import com.fone.profile.domain.repository.ProfileWantRepository
 import com.linecorp.kotlinjdsl.querydsl.expression.col
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.SpringDataHibernateMutinyReactiveQueryFactory
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.deleteQuery
@@ -14,15 +16,15 @@ import org.springframework.stereotype.Repository
 class ProfileWantRepositoryImpl(
     private val sessionFactory: Mutiny.SessionFactory,
     private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
-) : com.fone.profile.domain.repository.ProfileWantRepository {
+) : ProfileWantRepository {
 
     override suspend fun findByUserIdAndProfileId(
         userId: Long,
         profileId: Long,
-    ): com.fone.profile.domain.entity.ProfileWant? {
+    ): ProfileWant? {
         return queryFactory.singleQueryOrNull {
-            select(entity(com.fone.profile.domain.entity.ProfileWant::class))
-            from(entity(com.fone.profile.domain.entity.ProfileWant::class))
+            select(entity(ProfileWant::class))
+            from(entity(ProfileWant::class))
             where(
                 and(
                     userIdEq(userId),
@@ -32,21 +34,21 @@ class ProfileWantRepositoryImpl(
         }
     }
 
-    override suspend fun findByUserId(userId: Long): Map<Long, com.fone.profile.domain.entity.ProfileWant?> {
+    override suspend fun findByUserId(userId: Long): Map<Long, ProfileWant?> {
         return queryFactory.listQuery {
-            select(entity(com.fone.profile.domain.entity.ProfileWant::class))
-            from(entity(com.fone.profile.domain.entity.ProfileWant::class))
-            where(col(com.fone.profile.domain.entity.ProfileWant::userId).equal(userId))
+            select(entity(ProfileWant::class))
+            from(entity(ProfileWant::class))
+            where(col(ProfileWant::userId).equal(userId))
         }.associateBy { it!!.profileId }
     }
 
-    override suspend fun delete(profileWant: com.fone.profile.domain.entity.ProfileWant): Int {
-        return queryFactory.deleteQuery<com.fone.profile.domain.entity.ProfileWant> {
-            where(col(com.fone.profile.domain.entity.ProfileWant::id).equal(profileWant.id))
+    override suspend fun delete(profileWant: ProfileWant): Int {
+        return queryFactory.deleteQuery<ProfileWant> {
+            where(col(ProfileWant::id).equal(profileWant.id))
         }
     }
 
-    override suspend fun save(profileWant: com.fone.profile.domain.entity.ProfileWant): com.fone.profile.domain.entity.ProfileWant {
+    override suspend fun save(profileWant: ProfileWant): ProfileWant {
         return profileWant.also {
             queryFactory.withFactory { session, _ ->
                 if (it.id == null) {
@@ -58,11 +60,11 @@ class ProfileWantRepositoryImpl(
         }
     }
 
-    private fun SpringDataReactiveCriteriaQueryDsl<com.fone.profile.domain.entity.ProfileWant?>.userIdEq(
+    private fun SpringDataReactiveCriteriaQueryDsl<ProfileWant?>.userIdEq(
         userId: Long,
-    ) = col(com.fone.profile.domain.entity.ProfileWant::userId).equal(userId)
+    ) = col(ProfileWant::userId).equal(userId)
 
-    private fun SpringDataReactiveCriteriaQueryDsl<com.fone.profile.domain.entity.ProfileWant?>.profileIdEq(
+    private fun SpringDataReactiveCriteriaQueryDsl<ProfileWant?>.profileIdEq(
         profileId: Long,
-    ) = col(com.fone.profile.domain.entity.ProfileWant::profileId).equal(profileId)
+    ) = col(ProfileWant::profileId).equal(profileId)
 }

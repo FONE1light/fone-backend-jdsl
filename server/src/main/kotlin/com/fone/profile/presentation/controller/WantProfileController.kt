@@ -1,6 +1,7 @@
 package com.fone.profile.presentation.controller
 
 import com.fone.common.response.CommonResponse
+import com.fone.profile.application.WantProfileFacade
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -15,7 +16,7 @@ import java.security.Principal
 @RestController
 @RequestMapping("/api/v1/profiles")
 class WantProfileController(
-    private val wantProfileFacade: com.fone.profile.application.WantProfileFacade,
+    private val wantProfileFacade: WantProfileFacade,
 ) {
 
     @PostMapping("/{profileId}/want")

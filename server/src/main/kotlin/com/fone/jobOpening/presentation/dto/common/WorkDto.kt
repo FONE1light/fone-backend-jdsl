@@ -1,5 +1,7 @@
 package com.fone.jobOpening.presentation.dto.common
 
+import com.fone.jobOpening.domain.entity.Work
+
 data class WorkDto(
     val produce: String,
     val workTitle: String,
@@ -14,7 +16,7 @@ data class WorkDto(
     val email: String,
 ) {
     constructor(
-        work: com.fone.jobOpening.domain.entity.Work,
+        work: Work,
     ) : this(
         produce = work.produce,
         workTitle = work.workTitle,
@@ -29,8 +31,8 @@ data class WorkDto(
         email = work.email
     )
 
-    fun toEntity(): com.fone.jobOpening.domain.entity.Work {
-        return com.fone.jobOpening.domain.entity.Work(
+    fun toEntity(): Work {
+        return Work(
             produce = produce,
             workTitle = workTitle,
             director = director,

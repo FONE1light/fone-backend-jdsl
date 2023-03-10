@@ -1,10 +1,11 @@
 package com.fone.jobOpening.domain.repository
 
 import com.fone.common.entity.DomainType
+import com.fone.jobOpening.domain.entity.JobOpeningDomain
 
 interface JobOpeningDomainRepository {
 
-    suspend fun saveAll(jobOpeningDomain: List<com.fone.jobOpening.domain.entity.JobOpeningDomain>): List<com.fone.jobOpening.domain.entity.JobOpeningDomain>
+    suspend fun saveAll(jobOpeningDomain: List<JobOpeningDomain>): List<JobOpeningDomain>
 
     suspend fun deleteByJobOpeningId(jobOpeningId: Long): Int
 

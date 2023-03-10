@@ -5,6 +5,8 @@ import com.fone.common.entity.CategoryType
 import com.fone.common.entity.DomainType
 import com.fone.common.entity.Gender
 import com.fone.common.entity.Type
+import com.fone.profile.domain.entity.Profile
+import com.fone.profile.domain.entity.ProfileWant
 import com.fone.profile.presentation.dto.common.ProfileDto
 import io.swagger.annotations.ApiModelProperty
 import org.springframework.format.annotation.DateTimeFormat
@@ -38,8 +40,8 @@ class RegisterProfileDto {
         val profileUrl: String,
     ) {
 
-        fun toEntity(userId: Long): com.fone.profile.domain.entity.Profile {
-            return com.fone.profile.domain.entity.Profile(
+        fun toEntity(userId: Long): Profile {
+            return Profile(
                 hookingComment = hookingComment,
                 birthday = birthday,
                 gender = gender,
@@ -64,8 +66,8 @@ class RegisterProfileDto {
     ) {
 
         constructor(
-            profile: com.fone.profile.domain.entity.Profile,
-            userProfileWantMap: Map<Long, com.fone.profile.domain.entity.ProfileWant?>,
+            profile: Profile,
+            userProfileWantMap: Map<Long, ProfileWant?>,
             domains: List<DomainType>,
             categories: List<CategoryType>,
         ) : this(

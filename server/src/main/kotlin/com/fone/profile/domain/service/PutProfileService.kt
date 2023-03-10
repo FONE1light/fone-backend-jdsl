@@ -4,6 +4,12 @@ import com.fone.common.exception.InvalidProfileUserIdException
 import com.fone.common.exception.NotFoundProfileException
 import com.fone.common.exception.NotFoundUserException
 import com.fone.common.repository.UserCommonRepository
+import com.fone.profile.domain.entity.ProfileCategory
+import com.fone.profile.domain.entity.ProfileDomain
+import com.fone.profile.domain.repository.ProfileCategoryRepository
+import com.fone.profile.domain.repository.ProfileDomainRepository
+import com.fone.profile.domain.repository.ProfileRepository
+import com.fone.profile.domain.repository.ProfileWantRepository
 import com.fone.profile.presentation.dto.RegisterProfileDto.RegisterProfileRequest
 import com.fone.profile.presentation.dto.RegisterProfileDto.RegisterProfileResponse
 import kotlinx.coroutines.async
@@ -12,10 +18,10 @@ import org.springframework.stereotype.Service
 
 @Service
 class PutProfileService(
-    private val profileRepository: com.fone.profile.domain.repository.ProfileRepository,
-    private val profileWantRepository: com.fone.profile.domain.repository.ProfileWantRepository,
-    private val profileDomainRepository: com.fone.profile.domain.repository.ProfileDomainRepository,
-    private val profileCategoryRepository: com.fone.profile.domain.repository.ProfileCategoryRepository,
+    private val profileRepository: ProfileRepository,
+    private val profileWantRepository: ProfileWantRepository,
+    private val profileDomainRepository: ProfileDomainRepository,
+    private val profileCategoryRepository: ProfileCategoryRepository,
     private val userRepository: UserCommonRepository,
 ) {
 
@@ -39,7 +45,7 @@ class PutProfileService(
 
             profileDomainRepository.deleteByProfileId(profile.id!!)
             val profileDomains = request.domains.map {
-                com.fone.profile.domain.entity.ProfileDomain(
+                ProfileDomain(
                     profile.id!!,
                     it
                 )
@@ -48,7 +54,7 @@ class PutProfileService(
 
             profileCategoryRepository.deleteByProfileId(profile.id!!)
             val profileCategories = request.categories.map {
-                com.fone.profile.domain.entity.ProfileCategory(
+                ProfileCategory(
                     profile.id!!,
                     it
                 )

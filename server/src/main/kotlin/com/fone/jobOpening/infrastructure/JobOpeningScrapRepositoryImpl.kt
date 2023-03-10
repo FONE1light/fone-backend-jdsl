@@ -1,5 +1,7 @@
 package com.fone.jobOpening.infrastructure
 
+import com.fone.jobOpening.domain.entity.JobOpeningScrap
+import com.fone.jobOpening.domain.repository.JobOpeningScrapRepository
 import com.linecorp.kotlinjdsl.querydsl.CriteriaDeleteQueryDsl
 import com.linecorp.kotlinjdsl.querydsl.expression.col
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.SpringDataHibernateMutinyReactiveQueryFactory
@@ -15,15 +17,15 @@ import org.springframework.stereotype.Repository
 class JobOpeningScrapRepositoryImpl(
     private val sessionFactory: Mutiny.SessionFactory,
     private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
-) : com.fone.jobOpening.domain.repository.JobOpeningScrapRepository {
+) : JobOpeningScrapRepository {
 
     override suspend fun findByUserIdAndJobOpeningId(
         userId: Long,
         jobOpeningId: Long,
-    ): com.fone.jobOpening.domain.entity.JobOpeningScrap? {
+    ): JobOpeningScrap? {
         return queryFactory.singleQueryOrNull {
-            select(entity(com.fone.jobOpening.domain.entity.JobOpeningScrap::class))
-            from(entity(com.fone.jobOpening.domain.entity.JobOpeningScrap::class))
+            select(entity(JobOpeningScrap::class))
+            from(entity(JobOpeningScrap::class))
             where(
                 and(
                     userIdEq(userId),
@@ -33,21 +35,21 @@ class JobOpeningScrapRepositoryImpl(
         }
     }
 
-    override suspend fun findByUserId(userId: Long): Map<Long, com.fone.jobOpening.domain.entity.JobOpeningScrap?> {
+    override suspend fun findByUserId(userId: Long): Map<Long, JobOpeningScrap?> {
         return queryFactory.listQuery {
-            select(entity(com.fone.jobOpening.domain.entity.JobOpeningScrap::class))
-            from(entity(com.fone.jobOpening.domain.entity.JobOpeningScrap::class))
-            where(col(com.fone.jobOpening.domain.entity.JobOpeningScrap::userId).equal(userId))
+            select(entity(JobOpeningScrap::class))
+            from(entity(JobOpeningScrap::class))
+            where(col(JobOpeningScrap::userId).equal(userId))
         }.associateBy { it!!.jobOpeningId }
     }
 
-    override suspend fun delete(jobOpeningScrap: com.fone.jobOpening.domain.entity.JobOpeningScrap): Int {
-        return queryFactory.deleteQuery<com.fone.jobOpening.domain.entity.JobOpeningScrap> {
+    override suspend fun delete(jobOpeningScrap: JobOpeningScrap): Int {
+        return queryFactory.deleteQuery<JobOpeningScrap> {
             where(jobOpeningScrapId(jobOpeningScrap))
         }
     }
 
-    override suspend fun save(jobOpeningScrap: com.fone.jobOpening.domain.entity.JobOpeningScrap): com.fone.jobOpening.domain.entity.JobOpeningScrap {
+    override suspend fun save(jobOpeningScrap: JobOpeningScrap): JobOpeningScrap {
         return jobOpeningScrap.also {
             queryFactory.withFactory { session, _ ->
                 if (it.id == null) {
@@ -59,16 +61,15 @@ class JobOpeningScrapRepositoryImpl(
         }
     }
 
-    private fun SpringDataReactiveCriteriaQueryDsl<com.fone.jobOpening.domain.entity.JobOpeningScrap?>.jobOpeningIdEq(
+    private fun SpringDataReactiveCriteriaQueryDsl<JobOpeningScrap?>.jobOpeningIdEq(
         jobOpeningId: Long,
-    ) = col(com.fone.jobOpening.domain.entity.JobOpeningScrap::jobOpeningId).equal(jobOpeningId)
+    ) = col(JobOpeningScrap::jobOpeningId).equal(jobOpeningId)
 
-    private fun SpringDataReactiveCriteriaQueryDsl<com.fone.jobOpening.domain.entity.JobOpeningScrap?>.userIdEq(
+    private fun SpringDataReactiveCriteriaQueryDsl<JobOpeningScrap?>.userIdEq(
         userId: Long,
-    ) = col(com.fone.jobOpening.domain.entity.JobOpeningScrap::userId).equal(userId)
+    ) = col(JobOpeningScrap::userId).equal(userId)
 
     private fun CriteriaDeleteQueryDsl.jobOpeningScrapId(
-        jobOpeningScrap: com.fone.jobOpening.domain.entity.JobOpeningScrap,
-    ) =
-        col(com.fone.jobOpening.domain.entity.JobOpeningScrap::id).equal(jobOpeningScrap.id)
+        jobOpeningScrap: JobOpeningScrap,
+    ) = col(JobOpeningScrap::id).equal(jobOpeningScrap.id)
 }

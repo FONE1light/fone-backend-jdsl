@@ -1,10 +1,12 @@
 package com.fone.profile.domain.repository
 
+import com.fone.profile.domain.entity.ProfileWant
+
 interface ProfileWantRepository {
 
-    suspend fun findByUserIdAndProfileId(userId: Long, profileId: Long): com.fone.profile.domain.entity.ProfileWant?
-    suspend fun findByUserId(userId: Long): Map<Long, com.fone.profile.domain.entity.ProfileWant?>
-    suspend fun delete(profileWant: com.fone.profile.domain.entity.ProfileWant): Int
+    suspend fun findByUserIdAndProfileId(userId: Long, profileId: Long): ProfileWant?
+    suspend fun findByUserId(userId: Long): Map<Long, ProfileWant?>
+    suspend fun delete(profileWant: ProfileWant): Int
 
-    suspend fun save(profileWant: com.fone.profile.domain.entity.ProfileWant): com.fone.profile.domain.entity.ProfileWant
+    suspend fun save(profileWant: ProfileWant): ProfileWant
 }

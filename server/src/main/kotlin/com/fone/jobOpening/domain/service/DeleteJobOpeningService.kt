@@ -4,15 +4,18 @@ import com.fone.common.exception.InvalidJobOpeningUserIdException
 import com.fone.common.exception.NotFoundJobOpeningException
 import com.fone.common.exception.NotFoundUserException
 import com.fone.common.repository.UserCommonRepository
+import com.fone.jobOpening.domain.repository.JobOpeningCategoryRepository
+import com.fone.jobOpening.domain.repository.JobOpeningDomainRepository
+import com.fone.jobOpening.domain.repository.JobOpeningRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import org.springframework.stereotype.Service
 
 @Service
 class DeleteJobOpeningService(
-    private val jobOpeningRepository: com.fone.jobOpening.domain.repository.JobOpeningRepository,
-    private val jobOpeningDomainRepository: com.fone.jobOpening.domain.repository.JobOpeningDomainRepository,
-    private val jobOpeningCategoryRepository: com.fone.jobOpening.domain.repository.JobOpeningCategoryRepository,
+    private val jobOpeningRepository: JobOpeningRepository,
+    private val jobOpeningDomainRepository: JobOpeningDomainRepository,
+    private val jobOpeningCategoryRepository: JobOpeningCategoryRepository,
     private val userRepository: UserCommonRepository,
 ) {
 

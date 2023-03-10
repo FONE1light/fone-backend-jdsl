@@ -1,5 +1,6 @@
 package com.fone.user.presentation.dto
 
+import com.fone.user.domain.entity.User
 import com.fone.user.presentation.dto.common.UserDto
 
 class RetrieveMyPageUserDto {
@@ -9,7 +10,7 @@ class RetrieveMyPageUserDto {
     ) {
 
         constructor(
-            user: com.fone.user.domain.entity.User,
+            user: User,
         ) : this(user = UserDto(user))
     }
 }
