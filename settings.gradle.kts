@@ -5,7 +5,6 @@ include(":server")
 include(":home")
 include(":common")
 include(":chatting")
-include(":report")
 
 pluginManagement {
     plugins {
