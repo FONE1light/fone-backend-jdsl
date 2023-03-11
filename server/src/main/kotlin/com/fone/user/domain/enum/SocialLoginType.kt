@@ -5,6 +5,6 @@ enum class SocialLoginType {
     ;
 
     companion object {
-        operator fun invoke(type: String) = SocialLoginType.valueOf(type.uppercase())
+        operator fun invoke(socialLoginType: String) = SocialLoginType.valueOf(socialLoginType.uppercase())
     }
 }
