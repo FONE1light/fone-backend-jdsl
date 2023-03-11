@@ -34,7 +34,10 @@ class UserRepositoryImpl(
         }
     }
 
-    override suspend fun findByNicknameOrEmail(nickname: String?, email: String?): User? {
+    override suspend fun findByNicknameOrEmail(
+        nickname: String?,
+        email: String?,
+    ): User? {
         return queryFactory.singleQueryOrNull {
             select(entity(User::class))
             from(entity(User::class))

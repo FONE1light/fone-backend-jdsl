@@ -9,6 +9,6 @@ enum class Job {
 
     companion object {
 
-        operator fun invoke(priority: String) = valueOf(priority.uppercase())
+        operator fun invoke(job: String) = valueOf(job.uppercase())
     }
 }

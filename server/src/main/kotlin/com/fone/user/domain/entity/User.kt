@@ -27,20 +27,20 @@ data class User(
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
-    @Enumerated(EnumType.STRING) var job: Job,
+    @Enumerated(EnumType.STRING) var job: Job = Job.ACTOR,
     @Convert(converter = SeparatorConverter::class) var interests: List<String> = listOf(),
-    @Column var nickname: String,
-    @Column var birthday: LocalDate?,
-    @Enumerated(EnumType.STRING) val gender: Gender,
-    @Column(length = 300) var profileUrl: String,
-    @Column var phoneNumber: String,
-    @Column var email: String,
-    @Enumerated(EnumType.STRING) val socialLoginType: SocialLoginType,
-    @Column val agreeToTermsOfServiceTermsOfUse: Boolean,
-    @Column val agreeToPersonalInformation: Boolean,
-    @Column val isReceiveMarketing: Boolean,
-    @Convert(converter = SeparatorConverter::class) var roles: List<String>,
-    @Column var enabled: Boolean,
+    @Column var nickname: String = "",
+    @Column var birthday: LocalDate? = null,
+    @Enumerated(EnumType.STRING) val gender: Gender = Gender.MAN,
+    @Column(length = 300) var profileUrl: String = "",
+    @Column var phoneNumber: String = "",
+    @Column var email: String = "",
+    @Enumerated(EnumType.STRING) val socialLoginType: SocialLoginType = SocialLoginType.APPLE,
+    @Column val agreeToTermsOfServiceTermsOfUse: Boolean = false,
+    @Column val agreeToPersonalInformation: Boolean = false,
+    @Column val isReceiveMarketing: Boolean = false,
+    @Convert(converter = SeparatorConverter::class) var roles: List<String> = listOf(),
+    @Column var enabled: Boolean = false,
 ) : UserDetails, BaseEntity() {
     fun modifyUser(request: ModifyUserRequest) {
         this.nickname = request.nickname
@@ -61,7 +61,7 @@ data class User(
     }
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-        return roles.map { SimpleGrantedAuthority(it.toString()) }.toMutableList()
+        return roles.map { SimpleGrantedAuthority(it) }.toMutableList()
     }
 
     override fun getPassword(): String {
