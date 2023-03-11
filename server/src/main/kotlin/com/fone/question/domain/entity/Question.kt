@@ -18,9 +18,9 @@ data class Question(
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
-    @Column val email: String,
-    @Enumerated(EnumType.STRING) val type: Type,
-    @Column val title: String,
-    @Column(length = 500) val description: String,
-    @Column val agreeToPersonalInformation: Boolean,
+    @Column var email: String = "",
+    @Enumerated(EnumType.STRING) var type: Type = Type.USE_QUESTION,
+    @Column var title: String = "",
+    @Column(length = 500) var description: String = "",
+    @Column var agreeToPersonalInformation: Boolean = false,
 ) : BaseEntity()
