@@ -13,6 +13,7 @@ import com.linecorp.kotlinjdsl.spring.data.reactive.query.SpringDataHibernateMut
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.listQuery
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.pageQuery
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.singleQuery
+import com.linecorp.kotlinjdsl.spring.data.reactive.query.singleQueryOrNull
 import com.linecorp.kotlinjdsl.spring.reactive.querydsl.SpringDataReactiveCriteriaQueryDsl
 import io.smallrye.mutiny.coroutines.awaitSuspending
 import org.hibernate.reactive.mutiny.Mutiny
@@ -69,7 +70,7 @@ class CompetitionRepositoryImpl(
     }
 
     override suspend fun findById(competitionId: Long): Competition? {
-        return queryFactory.singleQuery {
+        return queryFactory.singleQueryOrNull {
             select(entity(Competition::class))
             from(entity(Competition::class))
             fetch(Competition::prizes)

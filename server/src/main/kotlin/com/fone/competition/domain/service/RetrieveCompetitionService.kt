@@ -54,7 +54,7 @@ class RetrieveCompetitionService(
             val competition = async {
                 val competition = competitionRepository.findById(competitionId) ?: throw NotFoundCompetitionException()
                 competition.view()
-                competition
+                competitionRepository.save(competition)
             }
 
             val userCompetitionScraps = async { competitionScrapRepository.findByUserId(userId) }
