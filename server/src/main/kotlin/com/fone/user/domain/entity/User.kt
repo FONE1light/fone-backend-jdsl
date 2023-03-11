@@ -61,7 +61,7 @@ data class User(
     }
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-        return roles.map { SimpleGrantedAuthority(it.toString()) }.toMutableList()
+        return roles.map { SimpleGrantedAuthority(it) }.toMutableList()
     }
 
     override fun getPassword(): String {
