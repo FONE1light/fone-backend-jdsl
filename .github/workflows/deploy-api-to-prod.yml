@@ -42,9 +42,9 @@ jobs:
           host: ${{ secrets.HOST_NAME }}
           username: ubuntu
           password: ${{ secrets.LIGHTSAIL_PASSWORD }}
-          port : 22
+          port: 22
           script: |
             docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
             docker pull sinkyoungdeok/fone-api
-            docker-compose down 
-            docker-compose up -d
+            docker-compose build fone-api
+            docker-compose up -d fone-api
