@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import javax.validation.Valid
 
-@Api(tags = ["01. User Info"], description = "유저 서비스 test")
+@Api(tags = ["01. User Info"], description = "유저 서비스")
 @RestController
 @RequestMapping("/api/v1/users")
 class CheckNicknameDuplicateController(
