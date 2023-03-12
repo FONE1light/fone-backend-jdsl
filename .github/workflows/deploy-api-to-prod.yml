@@ -1,14 +1,19 @@
 name: Deploy API To Prod
 
 on:
-  push:
+  pull_request:
     branches:
       - main
-    paths-ignore:
-      - 'chatting/**'
-      - '.github/workflows/deploy-chatting-to-prod.yml'
-      - '.github/auto-assign.yml'
-      - '.github/workflows/auto-assign.yml'
+
+#on:
+#  push:
+#    branches:
+#      - main
+#    paths-ignore:
+#      - 'chatting/**'
+#      - '.github/workflows/deploy-chatting-to-prod.yml'
+#      - '.github/auto-assign.yml'
+#      - '.github/workflows/auto-assign.yml'
 
 jobs:
   build-and-push:
@@ -42,9 +47,9 @@ jobs:
           host: ${{ secrets.HOST_NAME }}
           username: ubuntu
           password: ${{ secrets.LIGHTSAIL_PASSWORD }}
-          port : 22
+          port: 22
           script: |
             docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
             docker pull sinkyoungdeok/fone-api
-            docker-compose down 
-            docker-compose up -d
+            docker-compose build fone-api
+            docker-compose up -d fone-api
