@@ -16,7 +16,7 @@ data class ReportDto(
     ) : this(
         id = report.id!!,
         reportUserId = report.reportUserId,
-        type = Type(report.type),
+        type = report.type,
         typeId = report.typeId,
         inconvenients = report.inconvenients,
         details = report.details

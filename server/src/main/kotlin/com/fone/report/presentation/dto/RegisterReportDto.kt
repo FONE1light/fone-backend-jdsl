@@ -16,7 +16,7 @@ class RegisterReportDto {
         fun toEntity(userId: Long): Report {
             return Report(
                 reportUserId = reportUserId,
-                type = type.toString(),
+                type = type,
                 typeId = typeId,
                 inconvenients = inconvenients,
                 details = details,
