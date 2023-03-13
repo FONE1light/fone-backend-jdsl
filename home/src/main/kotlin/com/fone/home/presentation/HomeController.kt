@@ -12,7 +12,7 @@ import org.springframework.web.reactive.function.client.WebClient
 import reactor.netty.http.client.HttpClient
 import java.time.Duration
 
-@Api(tags = ["07. Home Info"], description = "홈 화면 서비스")
+@Api(tags = ["07. Home Info"], description = "홈 화면 Aggregator 서비스")
 @RestController
 @RequestMapping("/api/v1/homes")
 class HomeController {
