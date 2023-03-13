@@ -46,4 +46,5 @@ jobs:
           script: |
             docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
             docker pull sinkyoungdeok/fone-api
-            docker service update --image sinkyoungdeok/fone-api:latest fone_fone-api
+            docker-compose build fone-api
+            docker-compose up -d fone-api
