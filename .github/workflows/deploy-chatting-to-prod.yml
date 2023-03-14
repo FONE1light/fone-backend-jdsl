@@ -44,5 +44,5 @@ jobs:
           script: |
             docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
             docker pull sinkyoungdeok/fone-chatting
-            docker-compose down fone-chatting
+            docker-compose build fone-chatting
             docker-compose up -d fone-chatting
