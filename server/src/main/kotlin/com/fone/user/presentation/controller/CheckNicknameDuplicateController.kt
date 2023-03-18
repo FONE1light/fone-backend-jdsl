@@ -6,6 +6,8 @@ import com.fone.user.presentation.dto.CheckNicknameDuplicateDto.CheckNicknameDup
 import com.fone.user.presentation.dto.CheckNicknameDuplicateDto.CheckNicknameDuplicateResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
@@ -24,7 +26,8 @@ class CheckNicknameDuplicateController(
     @ApiOperation(value = "닉네임 중복체크 API")
     @ApiResponse(
         responseCode = "200",
-        description = "성공"
+        description = "성공",
+        content = [Content(schema = Schema(implementation = CheckNicknameDuplicateResponse::class))]
     )
     suspend fun checkNicknameDuplicate(
         @Valid @ModelAttribute

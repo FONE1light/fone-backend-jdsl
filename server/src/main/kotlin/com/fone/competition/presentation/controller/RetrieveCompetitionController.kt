@@ -6,6 +6,8 @@ import com.fone.competition.presentation.dto.RetrieveCompetitionDto.RetrieveComp
 import com.fone.competition.presentation.dto.RetrieveCompetitionDto.RetrieveCompetitionsResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.data.domain.Pageable
 import org.springframework.security.access.prepost.PreAuthorize
@@ -27,7 +29,8 @@ class RetrieveCompetitionController(
     @ApiOperation(value = "공모전 리스트 조회 API")
     @ApiResponse(
         responseCode = "200",
-        description = "성공"
+        description = "성공",
+        content = [Content(schema = Schema(implementation = RetrieveCompetitionsResponse::class))]
     )
     suspend fun retrieveCompetitions(
         principal: Principal,
@@ -42,7 +45,8 @@ class RetrieveCompetitionController(
     @ApiOperation(value = "공모전 디테일 조회 API")
     @ApiResponse(
         responseCode = "200",
-        description = "성공"
+        description = "성공",
+        content = [Content(schema = Schema(implementation = RetrieveCompetitionResponse::class))]
     )
     suspend fun retrieveCompetition(
         principal: Principal,

@@ -6,6 +6,8 @@ import com.fone.profile.presentation.dto.RegisterProfileDto.RegisterProfileReque
 import com.fone.profile.presentation.dto.RegisterProfileDto.RegisterProfileResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.PathVariable
@@ -28,7 +30,8 @@ class PutProfileController(
     @ApiOperation(value = "프로필 수정 API")
     @ApiResponse(
         responseCode = "200",
-        description = "성공"
+        description = "성공",
+        content = [Content(schema = Schema(implementation = RegisterProfileResponse::class))]
     )
     suspend fun putProfile(
         principal: Principal,

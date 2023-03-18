@@ -8,6 +8,8 @@ import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpe
 import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningsResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.data.domain.Pageable
 import org.springframework.security.access.prepost.PreAuthorize
@@ -31,7 +33,8 @@ class RetrieveJobOpeningController(
     @ApiOperation(value = "구인구직 리스트 조회 API")
     @ApiResponse(
         responseCode = "200",
-        description = "성공"
+        description = "성공",
+        content = [Content(schema = Schema(implementation = RetrieveJobOpeningsResponse::class))]
     )
     suspend fun retrieveJobOpenings(
         principal: Principal,
@@ -48,7 +51,8 @@ class RetrieveJobOpeningController(
     @ApiOperation(value = "구인구직 디테일 조회 API")
     @ApiResponse(
         responseCode = "200",
-        description = "성공"
+        description = "성공",
+        content = [Content(schema = Schema(implementation = RetrieveJobOpeningResponse::class))]
     )
     suspend fun retrieveJobOpening(
         principal: Principal,

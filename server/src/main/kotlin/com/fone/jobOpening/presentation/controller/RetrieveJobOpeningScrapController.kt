@@ -6,6 +6,8 @@ import com.fone.jobOpening.application.RetrieveJobOpeningScrapFacade
 import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningScrapDto.RetrieveJobOpeningScrapResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.data.domain.Pageable
 import org.springframework.security.access.prepost.PreAuthorize
@@ -27,7 +29,8 @@ class RetrieveJobOpeningScrapController(
     @ApiOperation(value = "내가 스크랩한 구인구직 조회 API")
     @ApiResponse(
         responseCode = "200",
-        description = "성공"
+        description = "성공",
+        content = [Content(schema = Schema(implementation = RetrieveJobOpeningScrapResponse::class))]
     )
     suspend fun retrieveJobOpeningScrap(
         pageable: Pageable,

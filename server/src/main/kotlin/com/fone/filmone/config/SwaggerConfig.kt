@@ -1,6 +1,28 @@
-package com.fone.common.config
+package com.fone.filmone.config
 
 import com.fasterxml.classmate.TypeResolver
+import com.fone.competition.presentation.dto.RegisterCompetitionDto.RegisterCompetitionResponse
+import com.fone.competition.presentation.dto.RetrieveCompetitionDto.RetrieveCompetitionResponse
+import com.fone.competition.presentation.dto.RetrieveCompetitionDto.RetrieveCompetitionsResponse
+import com.fone.competition.presentation.dto.RetrieveCompetitionScrapDto.RetrieveCompetitionScrapResponse
+import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningResponse
+import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningResponse
+import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningsResponse
+import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningMyRegistrationDto.RetrieveJobOpeningMyRegistrationResponse
+import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningScrapDto.RetrieveJobOpeningScrapResponse
+import com.fone.jobOpening.presentation.dto.RetrieveMySimilarJobOpeningDto.RetrieveMySimilarJobOpeningResponse
+import com.fone.profile.presentation.dto.RegisterProfileDto.RegisterProfileResponse
+import com.fone.profile.presentation.dto.RetrieveProfileMyRegistrationDto.RetrieveProfileMyRegistrationResponse
+import com.fone.profile.presentation.dto.RetrieveProfileWantDto.RetrieveProfileWantResponse
+import com.fone.profile.presentation.dto.RetrieveProfilesDto.RetrieveProfileResponse
+import com.fone.profile.presentation.dto.RetrieveProfilesDto.RetrieveProfilesResponse
+import com.fone.question.presentation.dto.RegisterQuestionDto.RegisterQuestionResponse
+import com.fone.report.presentation.dto.RegisterReportDto.RegisterReportResponse
+import com.fone.user.presentation.dto.CheckNicknameDuplicateDto.CheckNicknameDuplicateResponse
+import com.fone.user.presentation.dto.ModifyUserDto.ModifyUserResponse
+import com.fone.user.presentation.dto.RetrieveMyPageUserDto.RetrieveMyPageUserResponse
+import com.fone.user.presentation.dto.SignInUserDto.SignInUserResponse
+import com.fone.user.presentation.dto.SignUpUserDto.SignUpUserResponse
 import io.swagger.annotations.ApiModel
 import io.swagger.annotations.ApiModelProperty
 import lombok.RequiredArgsConstructor
@@ -36,6 +58,41 @@ class SwaggerConfig(
     fun api(): Docket? {
         val commonResponse = setCommonResponse()
         return Docket(DocumentationType.SWAGGER_2).useDefaultResponseMessages(false)
+            .additionalModels(
+                // competition
+                typeResolver.resolve(RegisterCompetitionResponse::class.java),
+                typeResolver.resolve(RetrieveCompetitionsResponse::class.java),
+                typeResolver.resolve(RetrieveCompetitionResponse::class.java),
+                typeResolver.resolve(RetrieveCompetitionScrapResponse::class.java),
+
+                // jobOpening
+                typeResolver.resolve(RegisterJobOpeningResponse::class.java),
+                typeResolver.resolve(RetrieveJobOpeningsResponse::class.java),
+                typeResolver.resolve(RetrieveJobOpeningResponse::class.java),
+                typeResolver.resolve(RetrieveJobOpeningMyRegistrationResponse::class.java),
+                typeResolver.resolve(RetrieveJobOpeningScrapResponse::class.java),
+                typeResolver.resolve(RetrieveMySimilarJobOpeningResponse::class.java),
+
+                // profile
+                typeResolver.resolve(RegisterProfileResponse::class.java),
+                typeResolver.resolve(RetrieveProfileMyRegistrationResponse::class.java),
+                typeResolver.resolve(RetrieveProfilesResponse::class.java),
+                typeResolver.resolve(RetrieveProfileResponse::class.java),
+                typeResolver.resolve(RetrieveProfileWantResponse::class.java),
+
+                // question
+                typeResolver.resolve(RegisterQuestionResponse::class.java),
+
+                // report
+                typeResolver.resolve(RegisterReportResponse::class.java),
+
+                // user
+                typeResolver.resolve(CheckNicknameDuplicateResponse::class.java),
+                typeResolver.resolve(ModifyUserResponse::class.java),
+                typeResolver.resolve(RetrieveMyPageUserResponse::class.java),
+                typeResolver.resolve(SignInUserResponse::class.java),
+                typeResolver.resolve(SignUpUserResponse::class.java)
+            )
             .globalResponses(HttpMethod.GET, commonResponse)
             .globalResponses(HttpMethod.POST, commonResponse)
             .globalResponses(HttpMethod.PUT, commonResponse)

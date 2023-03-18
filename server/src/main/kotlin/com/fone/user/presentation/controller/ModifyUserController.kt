@@ -6,6 +6,8 @@ import com.fone.user.presentation.dto.ModifyUserDto.ModifyUserRequest
 import com.fone.user.presentation.dto.ModifyUserDto.ModifyUserResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.PatchMapping
@@ -27,7 +29,8 @@ class ModifyUserController(
     @ApiOperation(value = "유저 수정 API")
     @ApiResponse(
         responseCode = "200",
-        description = "성공"
+        description = "성공",
+        content = [Content(schema = Schema(implementation = ModifyUserResponse::class))]
     )
     suspend fun modifyUser(
         principal: Principal,

@@ -5,6 +5,8 @@ import com.fone.user.application.RetrieveMyPageUserFacade
 import com.fone.user.presentation.dto.RetrieveMyPageUserDto.RetrieveMyPageUserResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
@@ -24,7 +26,8 @@ class RetrieveMyPageUserController(
     @ApiOperation(value = "마이페이지 조회 API")
     @ApiResponse(
         responseCode = "200",
-        description = "성공"
+        description = "성공",
+        content = [Content(schema = Schema(implementation = RetrieveMyPageUserResponse::class))]
     )
     suspend fun retrieveMyPageUser(
         principal: Principal,

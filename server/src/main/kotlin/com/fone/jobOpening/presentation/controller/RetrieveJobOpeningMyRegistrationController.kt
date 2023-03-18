@@ -5,6 +5,8 @@ import com.fone.jobOpening.application.RetrieveJobOpeningMyRegistrationFacade
 import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningMyRegistrationDto.RetrieveJobOpeningMyRegistrationResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.data.domain.Pageable
 import org.springframework.security.access.prepost.PreAuthorize
@@ -25,7 +27,8 @@ class RetrieveJobOpeningMyRegistrationController(
     @ApiOperation(value = "내가 등록한 구인구직 조회 API")
     @ApiResponse(
         responseCode = "200",
-        description = "성공"
+        description = "성공",
+        content = [Content(schema = Schema(implementation = RetrieveJobOpeningMyRegistrationResponse::class))]
     )
     suspend fun retrieveJobOpeningMyRegistrations(
         pageable: Pageable,

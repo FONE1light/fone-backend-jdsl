@@ -8,6 +8,8 @@ import com.fone.profile.presentation.dto.RetrieveProfilesDto.RetrieveProfilesReq
 import com.fone.profile.presentation.dto.RetrieveProfilesDto.RetrieveProfilesResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.data.domain.Pageable
 import org.springframework.security.access.prepost.PreAuthorize
@@ -31,7 +33,8 @@ class RetrieveProfilesController(
     @ApiOperation(value = "프로필 리스트 조회 API")
     @ApiResponse(
         responseCode = "200",
-        description = "성공"
+        description = "성공",
+        content = [Content(schema = Schema(implementation = RetrieveProfilesResponse::class))]
     )
     suspend fun retrieveProfiles(
         principal: Principal,
@@ -48,7 +51,8 @@ class RetrieveProfilesController(
     @ApiOperation(value = "프로필 디테일 조회 API")
     @ApiResponse(
         responseCode = "200",
-        description = "성공"
+        description = "성공",
+        content = [Content(schema = Schema(implementation = RetrieveProfileResponse::class))]
     )
     suspend fun retrieveProfile(
         principal: Principal,
