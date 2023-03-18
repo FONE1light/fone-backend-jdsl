@@ -15,7 +15,7 @@ class RegisterCompetitionControllerTest(client: WebTestClient) : CustomDescribeS
     private val registerUrl = "/api/v1/competitions"
 
     init {
-        val (accessToken, email) = CommonUserCallApi.getAccessToken(client)
+        val (accessToken, _) = CommonUserCallApi.getAccessToken(client)
         val registerCompetitionRequest = RegisterCompetitionRequest(
             title = "테스트 제목",
             imageUrl = "test url",

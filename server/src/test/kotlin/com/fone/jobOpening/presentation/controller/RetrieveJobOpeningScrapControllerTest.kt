@@ -15,7 +15,7 @@ class RetrieveJobOpeningScrapControllerTest(client: WebTestClient) : CustomDescr
     private val scrapUrl = "/api/v1/job-openings"
 
     init {
-        val (accessToken, email) = CommonUserCallApi.getAccessToken(client)
+        val (accessToken, _) = CommonUserCallApi.getAccessToken(client)
         val jobOpeningId = CommonJobOpeningCallApi.register(client, accessToken)
 
         client.doPost("$scrapUrl/$jobOpeningId/scrap", null, accessToken).expectStatus().isOk.expectBody()

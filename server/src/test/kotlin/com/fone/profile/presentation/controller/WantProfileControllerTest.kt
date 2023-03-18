@@ -13,7 +13,7 @@ class WantProfileControllerTest(client: WebTestClient) : CustomDescribeSpec() {
     private val wantUrl = "/api/v1/profiles"
 
     init {
-        val (accessToken, email) = CommonUserCallApi.getAccessToken(client)
+        val (accessToken, _) = CommonUserCallApi.getAccessToken(client)
         val profileId = CommonProfileCallApi.register(client, accessToken)
 
         describe("#want profile") {

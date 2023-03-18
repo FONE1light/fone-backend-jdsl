@@ -14,7 +14,7 @@ class RegisterReportControllerTest(client: WebTestClient) : CustomDescribeSpec()
     private val registerUrl = "/api/v1/reports"
 
     init {
-        val (accessToken, email) = CommonUserCallApi.getAccessToken(client)
+        val (accessToken, _) = CommonUserCallApi.getAccessToken(client)
         val registerReportRequest = RegisterReportRequest(
             reportUserId = 1,
             type = Type.CHATTING,

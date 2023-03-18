@@ -19,7 +19,7 @@ class RegisterProfileControllerTest(client: WebTestClient) : CustomDescribeSpec(
     private val registerUrl = "/api/v1/profiles"
 
     init {
-        val (accessToken, email) = CommonUserCallApi.getAccessToken(client)
+        val (accessToken, _) = CommonUserCallApi.getAccessToken(client)
         val registerProfileActorRequest = RegisterProfileRequest(
             name = "테스트 이름",
             hookingComment = "테스트 후킹 멘트",

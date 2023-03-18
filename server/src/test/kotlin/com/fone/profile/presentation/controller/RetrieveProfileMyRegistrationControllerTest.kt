@@ -12,7 +12,7 @@ class RetrieveProfileMyRegistrationControllerTest(client: WebTestClient) : Custo
     private val retrieveMyRegistrationUrl = "/api/v1/profiles/my-registrations"
 
     init {
-        val (accessToken, email) = CommonUserCallApi.getAccessToken(client)
+        val (accessToken, _) = CommonUserCallApi.getAccessToken(client)
 
         describe("#retrieve profile my registration") {
             context("내가 등록한 프로필을 조회하면") {
