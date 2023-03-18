@@ -1,7 +1,6 @@
 package com.fone.jobOpening.presentation.controller
 
 import com.fone.common.response.CommonResponse
-import com.fone.competition.presentation.dto.RegisterCompetitionDto
 import com.fone.jobOpening.application.PutJobOpeningFacade
 import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningRequest
 import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningResponse

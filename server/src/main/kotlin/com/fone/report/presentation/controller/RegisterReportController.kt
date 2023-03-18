@@ -1,7 +1,6 @@
 package com.fone.report.presentation.controller
 
 import com.fone.common.response.CommonResponse
-import com.fone.question.presentation.dto.RegisterQuestionDto
 import com.fone.report.application.RegisterReportFacade
 import com.fone.report.presentation.dto.RegisterReportDto.RegisterReportRequest
 import com.fone.report.presentation.dto.RegisterReportDto.RegisterReportResponse
