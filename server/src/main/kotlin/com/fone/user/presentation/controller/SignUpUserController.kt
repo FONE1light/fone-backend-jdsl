@@ -6,6 +6,8 @@ import com.fone.user.presentation.dto.SignUpUserDto.SignUpUserRequest
 import com.fone.user.presentation.dto.SignUpUserDto.SignUpUserResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -24,7 +26,8 @@ class SignUpUserController(
     @ApiOperation(value = "회원가입 API")
     @ApiResponse(
         responseCode = "200",
-        description = "성공"
+        description = "성공",
+        content = [Content(schema = Schema(implementation = SignUpUserResponse::class))]
     )
     suspend fun signUp(
         @Valid @RequestBody

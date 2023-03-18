@@ -6,6 +6,8 @@ import com.fone.question.presentation.dto.RegisterQuestionDto.RegisterQuestionRe
 import com.fone.question.presentation.dto.RegisterQuestionDto.RegisterQuestionResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -24,7 +26,8 @@ class RegisterQuestionController(
     @ApiOperation(value = "문의등록 API")
     @ApiResponse(
         responseCode = "200",
-        description = "성공"
+        description = "성공",
+        content = [Content(schema = Schema(implementation = RegisterQuestionResponse::class))]
     )
     suspend fun registerQuestion(
         @Valid @RequestBody

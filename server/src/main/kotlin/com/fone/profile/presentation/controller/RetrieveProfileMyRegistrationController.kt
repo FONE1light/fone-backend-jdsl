@@ -5,6 +5,8 @@ import com.fone.profile.application.RetrieveProfileMyRegistrationFacade
 import com.fone.profile.presentation.dto.RetrieveProfileMyRegistrationDto.RetrieveProfileMyRegistrationResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.data.domain.Pageable
 import org.springframework.security.access.prepost.PreAuthorize
@@ -25,7 +27,8 @@ class RetrieveProfileMyRegistrationController(
     @ApiOperation(value = "내가 등록한 프로필 조회 API")
     @ApiResponse(
         responseCode = "200",
-        description = "성공"
+        description = "성공",
+        content = [Content(schema = Schema(implementation = RetrieveProfileMyRegistrationResponse::class))]
     )
     suspend fun retrieveProfileMyRegistration(
         principal: Principal,

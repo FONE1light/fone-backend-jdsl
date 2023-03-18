@@ -6,6 +6,8 @@ import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpe
 import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.PostMapping
@@ -27,7 +29,8 @@ class RegisterJobOpeningController(
     @ApiOperation(value = "구인구직 등록 API")
     @ApiResponse(
         responseCode = "200",
-        description = "성공"
+        description = "성공",
+        content = [Content(schema = Schema(implementation = RegisterJobOpeningResponse::class))]
     )
     suspend fun registerJobOpening(
         principal: Principal,

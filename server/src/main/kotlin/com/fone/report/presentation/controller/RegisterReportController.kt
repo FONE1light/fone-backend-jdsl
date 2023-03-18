@@ -1,11 +1,14 @@
 package com.fone.report.presentation.controller
 
 import com.fone.common.response.CommonResponse
+import com.fone.question.presentation.dto.RegisterQuestionDto
 import com.fone.report.application.RegisterReportFacade
 import com.fone.report.presentation.dto.RegisterReportDto.RegisterReportRequest
 import com.fone.report.presentation.dto.RegisterReportDto.RegisterReportResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.PostMapping
@@ -27,7 +30,8 @@ class RegisterReportController(
     @ApiOperation(value = "신고 등록 API")
     @ApiResponse(
         responseCode = "200",
-        description = "성공"
+        description = "성공",
+        content = [Content(schema = Schema(implementation = RegisterReportResponse::class))]
     )
     suspend fun registerReport(
         principal: Principal,

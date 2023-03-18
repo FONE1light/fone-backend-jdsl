@@ -6,6 +6,8 @@ import com.fone.competition.presentation.dto.RegisterCompetitionDto.RegisterComp
 import com.fone.competition.presentation.dto.RegisterCompetitionDto.RegisterCompetitionResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.PostMapping
@@ -27,7 +29,8 @@ class RegisterCompetitionController(
     @ApiOperation(value = "공모전 등록 API")
     @ApiResponse(
         responseCode = "200",
-        description = "성공"
+        description = "성공",
+        content = [Content(schema = Schema(implementation = RegisterCompetitionResponse::class))]
     )
     suspend fun registerCompetition(
         principal: Principal,
