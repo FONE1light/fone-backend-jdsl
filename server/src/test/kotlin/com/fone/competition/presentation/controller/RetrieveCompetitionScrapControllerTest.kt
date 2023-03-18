@@ -15,7 +15,7 @@ class RetrieveCompetitionScrapControllerTest(client: WebTestClient) : CustomDesc
     private val scrapUrl = "/api/v1/competitions"
 
     init {
-        val (accessToken, email) = CommonUserCallApi.getAccessToken(client)
+        val (accessToken, _) = CommonUserCallApi.getAccessToken(client)
         val competitionId = CommonCompetitionCallApi.register(client, accessToken)
 
         client.doPost("$scrapUrl/$competitionId/scrap", null, accessToken).expectStatus().isOk.expectBody()

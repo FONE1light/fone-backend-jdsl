@@ -13,7 +13,7 @@ class RetrieveJobOpeningMyRegistrationControllerTest(client: WebTestClient) : Cu
     private val retrieveMyRegistrationsUrl = "/api/v1/job-openings/my-registrations"
 
     init {
-        val (accessToken, email) = CommonUserCallApi.getAccessToken(client)
+        val (accessToken, _) = CommonUserCallApi.getAccessToken(client)
         CommonJobOpeningCallApi.register(client, accessToken)
 
         describe("#retrieve jobOpenings myRegistrations") {

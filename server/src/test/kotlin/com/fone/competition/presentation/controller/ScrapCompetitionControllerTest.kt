@@ -13,7 +13,7 @@ class ScrapCompetitionControllerTest(client: WebTestClient) : CustomDescribeSpec
     private val scrapUrl = "/api/v1/competitions"
 
     init {
-        val (accessToken, email) = CommonUserCallApi.getAccessToken(client)
+        val (accessToken, _) = CommonUserCallApi.getAccessToken(client)
         val competitionId = CommonCompetitionCallApi.register(client, accessToken)
 
         describe("#scrap competition") {

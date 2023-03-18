@@ -20,7 +20,7 @@ class RegisterJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
     private val registerUrl = "/api/v1/job-openings"
 
     init {
-        val (accessToken, email) = CommonUserCallApi.getAccessToken(client)
+        val (accessToken, _) = CommonUserCallApi.getAccessToken(client)
         val registerJobOpeningActorRequest = RegisterJobOpeningRequest(
             "테스트 제목",
             listOf(CategoryType.ETC),

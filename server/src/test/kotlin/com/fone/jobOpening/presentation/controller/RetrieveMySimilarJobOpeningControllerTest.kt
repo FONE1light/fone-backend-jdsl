@@ -13,8 +13,8 @@ class RetrieveMySimilarJobOpeningControllerTest(client: WebTestClient) : CustomD
     private val retrieveMySimilarUrl = "/api/v1/job-openings/my-similar"
 
     init {
-        val (accessToken, email) = CommonUserCallApi.getAccessToken(client)
-        val jobOpeningId = CommonJobOpeningCallApi.register(client, accessToken)
+        val (accessToken, _) = CommonUserCallApi.getAccessToken(client)
+        CommonJobOpeningCallApi.register(client, accessToken)
 
         describe("#retrieve my similar jobOpenings") {
             context("나와 비슷한 사람들이 보고 있는 구인구직 리스트를 조회하면") {

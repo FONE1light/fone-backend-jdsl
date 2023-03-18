@@ -13,7 +13,7 @@ class RetrieveJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
     private val retrieveUrl = "/api/v1/job-openings"
 
     init {
-        val (accessToken, email) = CommonUserCallApi.getAccessToken(client)
+        val (accessToken, _) = CommonUserCallApi.getAccessToken(client)
         val jobOpeningId = CommonJobOpeningCallApi.register(client, accessToken)
 
         describe("#retrieve jobOpenings") {
