@@ -1,13 +1,22 @@
 version: "3.7"
 services:
-  fone-api:
+  fone-api-1:
     depends_on:
       - fone-db
     image: sinkyoungdeok/fone-api
     ports:
-      - "8080:8080"
+      - "8081:8081"
     environment:
-      - USE_PROFILE=prod
+      - USE_PROFILE=prod1
+    restart: always
+  fone-api-2:
+    depends_on:
+      - fone-db
+    image: sinkyoungdeok/fone-api
+    ports:
+      - "8082:8082"
+    environment:
+      - USE_PROFILE=prod2
     restart: always
   fone-chatting:
     image: sinkyoungdeok/fone-chatting
