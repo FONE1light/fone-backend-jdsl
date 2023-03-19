@@ -1,8 +1,6 @@
 package com.fone.common
 
-import com.github.dockerjava.api.model.ExposedPort
 import com.github.dockerjava.api.model.PortBinding
-import com.github.dockerjava.api.model.Ports
 import org.springframework.context.ApplicationContextInitializer
 import org.springframework.context.ConfigurableApplicationContext
 import org.testcontainers.containers.GenericContainer
@@ -32,19 +30,21 @@ class IntegrationTestContextInitializer :
                 withUrlParam("useTimezone", "true")
                 withUrlParam("serverTimezone", "Asia/Seoul")
                 withCreateContainerCmdModifier {
-                    it.withPortBindings(
-                        PortBinding(Ports.Binding.bindPort(33006), ExposedPort(3306))
-                    ).withHostName("app-host")
+                    it.withPortBindings(PortBinding.parse("33006:3306"))
                 }
                 start()
             }
 
         val REDIS_CONTAINER =
-            GenericContainer(DockerImageName.parse("redis:5.0.3-alpine")).withExposedPorts(6379)
+            GenericContainer(
+                DockerImageName.parse("redis:5.0.3-alpine")
+            ).withCreateContainerCmdModifier {
+                it.withPortBindings(PortBinding.parse("6380:6379"))
+            }
 
         REDIS_CONTAINER.start()
 
-        System.setProperty("spring.redis.host", REDIS_CONTAINER.getHost())
+        System.setProperty("spring.redis.host", REDIS_CONTAINER.host)
         System.setProperty("spring.redis.port", REDIS_CONTAINER.getMappedPort(6379).toString())
     }
 }
