@@ -148,7 +148,7 @@ class SwaggerConfig(
     }
 
     private fun apiInfo(): ApiInfo? {
-        return ApiInfoBuilder().title("Sig-Predict REST API Document")
+        return ApiInfoBuilder().title("REST API Document")
             .description("work in progress").termsOfServiceUrl("localhost").version("1.0").build()
     }
 
