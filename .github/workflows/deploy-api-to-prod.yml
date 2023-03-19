@@ -22,12 +22,17 @@ jobs:
           distribution: 'adopt'
       - name: Grant Execute Permission For Gradlew
         run: chmod +x gradlew
-      - name: Make Prod Yml
+      - name: Make Prod1 Yml
         run: |
           cd ./server/src/main/resources
-          touch ./application-prod.yml
-          echo "${{ secrets.PROPERTIES_PROD }}" > ./application-prod.yml
+          touch ./application-prod1.yml
+          echo "${{ secrets.PROPERTIES_PROD1 }}" > ./application-prod1.yml
         shell: bash
+      - name: Make Prod2 Yml
+        run: |
+          cd ./server/src/main/resources
+          touch ./application-prod2.yml
+          echo "${{ secrets.PROPERTIES_PROD2 }}" > ./application-prod2.yml
       - name: Build With Gradle
         run: ./gradlew :server:bootJar -x test
       - name: Docker Build And Push
@@ -46,5 +51,41 @@ jobs:
           script: |
             docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
             docker pull sinkyoungdeok/fone-api
-            docker-compose build fone-api
-            docker-compose up -d fone-api
+
+            echo "> 구동중인 Profile 확인"
+            CURRENT_PROFILE=$(curl -s http://localhost:8082/profile)
+            echo "> $CURRENT_PROFILE"
+
+            echo "> profile setting"
+            if [ $CURRENT_PROFILE == prod1 ]
+            then
+              IDLE_PROFILE=prod2
+              IDLE_PORT=8082
+            elif [ $CURRENT_PROFILE == prod2 ]
+            then
+              IDLE_PROFILE=prod1
+              IDLE_PORT=8081
+            else
+              echo "> 일치하는 Profile이 없음."
+              IDLE_PROFILE=prod1
+              IDLE_PORT=8081
+            fi
+
+            echo "> 배포"
+            if [ $IDLE_PROFILE == prod1 ]
+            then
+              docker-compose build fone-api-1
+              docker-compose up -d fone-api-1
+            else
+              docker-compose build fone-api-2
+              docker-compose up -d fone-api-2
+            fi
+
+            sleep 60
+
+            echo "> Change Nginx Proxy Port"
+            echo "set \$service_url http://127.0.0.1:${IDLE_PORT};" |sudo tee /etc/nginx/conf.d/service-url.inc
+
+
+            echo "> Nginx Reload"
+            sudo service nginx reload

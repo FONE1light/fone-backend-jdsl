@@ -4,14 +4,14 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://fone-db:3306/fone?&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/fone?&characterEncoding=UTF-8
     username: root
     password: fone-flim-be
     hikari:
       pool-name: test_pool
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
       use-new-id-generator-mappings: true
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
@@ -24,7 +24,7 @@ spring:
         show_sql: true
 
   redis:
-    host: fone-redis
+    host: localhost
     port: 6379
 
 security:
