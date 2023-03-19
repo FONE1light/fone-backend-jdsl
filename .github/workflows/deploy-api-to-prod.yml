@@ -53,15 +53,15 @@ jobs:
             docker pull sinkyoungdeok/fone-api
 
             echo "> 구동중인 Profile 확인"
-            CURRENT_PROFILE=$(curl -s http://localhost:8082/profile)
+            CURRENT_PROFILE=$(curl -s http://localhost/profile)
             echo "> $CURRENT_PROFILE"
 
             echo "> profile setting"
-            if [ $CURRENT_PROFILE == prod1 ]
+            if [ "$CURRENT_PROFILE" == "prod1" ]
             then
               IDLE_PROFILE=prod2
               IDLE_PORT=8082
-            elif [ $CURRENT_PROFILE == prod2 ]
+            elif [ "$CURRENT_PROFILE" == "prod2" ]
             then
               IDLE_PROFILE=prod1
               IDLE_PORT=8081
@@ -72,7 +72,7 @@ jobs:
             fi
 
             echo "> 배포"
-            if [ $IDLE_PROFILE == prod1 ]
+            if [ "$IDLE_PROFILE" == "prod1" ]
             then
               docker-compose build fone-api-1
               docker-compose up -d fone-api-1
