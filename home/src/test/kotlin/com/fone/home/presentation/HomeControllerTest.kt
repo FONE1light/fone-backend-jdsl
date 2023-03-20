@@ -8,12 +8,11 @@ import io.mockk.mockk
 import io.mockk.mockkStatic
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.reactor.awaitSingle
-import org.slf4j.LoggerFactory
+import mu.KLogging
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Mono
 
 internal class HomeControllerTest : FunSpec() {
-    private val logger = LoggerFactory.getLogger(HomeControllerTest::class.java)
     private var count = 1
     private val mockResponse = LinkedHashMap(
         mapOf(
@@ -35,9 +34,9 @@ internal class HomeControllerTest : FunSpec() {
                         every { bodyToMono(CommonResponse::class.java) } returns mockk {
                             coEvery { awaitSingle() } coAnswers {
                                 val mockCount = count++
-                                logger.debug("mock IO call #$mockCount starting")
+                                logger.debug { "mock IO call #$mockCount starting" }
                                 delay(1000)
-                                logger.debug("mock IO call #$mockCount ended")
+                                logger.debug { "mock IO call #$mockCount ended" }
                                 mockk<CommonResponse<LinkedHashMap<String, String>>> {
                                     every { data } returns mockResponse
                                 }
@@ -49,14 +48,11 @@ internal class HomeControllerTest : FunSpec() {
         }
     }
 
-    private val homeController = HomeController(webClient = webclientMock)
-    private val homeControllerRefactored = HomeControllerRefactor(webClient = webclientMock)
     init {
-        test("suspend 5번 호출됨") {
-            homeController.RetrieveHome("")
-        }
         test("실제 메소드에서 suspend 두번으로 나눔") {
-            homeControllerRefactored.RetrieveHome("")
+            HomeController(webClient = webclientMock).retrieveHome("")
         }
     }
+
+    companion object : KLogging()
 }
