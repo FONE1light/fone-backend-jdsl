@@ -1,7 +1,6 @@
 package com.fone.home.presentation
 
 import com.fone.common.response.CommonResponse
-import io.swagger.annotations.Api
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -10,18 +9,16 @@ import kotlinx.coroutines.withContext
 import org.springframework.http.client.reactive.ReactorClientHttpConnector
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestHeader
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.netty.http.client.HttpClient
 import java.time.Duration
 
-
 class HomeControllerRefactor(
-    val client : HttpClient = HttpClient.create().responseTimeout(Duration.ofSeconds(1)),
+    val client: HttpClient = HttpClient.create().responseTimeout(Duration.ofSeconds(1)),
     val webClient: WebClient =
-        WebClient.builder().clientConnector(ReactorClientHttpConnector(client)).baseUrl("http://localhost:8080").build()
-){
+        WebClient.builder().clientConnector(ReactorClientHttpConnector(client)).baseUrl("http://localhost:8080")
+            .build(),
+) {
     @GetMapping
     suspend fun RetrieveHome(
         @RequestHeader(value = "Authorization", required = false) token: String,
@@ -29,7 +26,9 @@ class HomeControllerRefactor(
         val userResponse = webClient.get().uri("/api/v1/users").header("Authorization", token).retrieve()
             .bodyToMono(CommonResponse::class.java)
 
-        val (userJob, userNickName) = (userResponse.awaitSingle().data as LinkedHashMap<*, *>).run { listOf(this["job"], this["nickName"]) }
+        val (userJob, userNickName) = (userResponse.awaitSingle().data as LinkedHashMap<*, *>).run {
+            listOf(this["job"], this["nickName"])
+        }
 
         val jobOpeningResponse = webClient.get().uri(
             "/api/v1/job-openings/my-similar?page=0&size=5&sort=viewCount,DESC&type=$userJob"
@@ -41,7 +40,9 @@ class HomeControllerRefactor(
 
         val profileResponse = webClient.get().uri("/api/v1/profiles?page=0&size=5&sort=createdAt,DESC&type=ACTOR")
             .header("Authorization", token).retrieve().bodyToMono(CommonResponse::class.java)
-        val (jobOpeningResponseResolved, competitionResponseResolved, profileResponseResolved) = withContext(Dispatchers.IO) {
+        val (jobOpeningResponseResolved, competitionResponseResolved, profileResponseResolved) = withContext(
+            Dispatchers.IO
+        ) {
             awaitAll(
                 async { jobOpeningResponse.awaitSingle() },
                 async { competitionResponse.awaitSingle() },

@@ -16,10 +16,11 @@ import java.time.Duration
 @RestController
 @RequestMapping("/api/v1/homes")
 class HomeController(
-    val client : HttpClient = HttpClient.create().responseTimeout(Duration.ofSeconds(1)),
+    val client: HttpClient = HttpClient.create().responseTimeout(Duration.ofSeconds(1)),
     val webClient: WebClient =
-        WebClient.builder().clientConnector(ReactorClientHttpConnector(client)).baseUrl("http://localhost:8080").build()
-){
+        WebClient.builder().clientConnector(ReactorClientHttpConnector(client)).baseUrl("http://localhost:8080")
+            .build(),
+) {
     @GetMapping
     suspend fun RetrieveHome(
         @RequestHeader(value = "Authorization", required = false) token: String,
