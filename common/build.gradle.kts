@@ -5,12 +5,7 @@ dependencies {
     // Swagger
     implementation("io.springfox:springfox-boot-starter:3.0.0")
 
-    // Lombok
-    implementation("org.projectlombok:lombok")
-    annotationProcessor("org.projectlombok:lombok")
-
     // Mysql DB Reactive
-    implementation("io.agroal:agroal-pool:2.0")
     implementation("mysql:mysql-connector-java")
     implementation("io.vertx:vertx-mysql-client:4.3.7")
 
