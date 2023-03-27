@@ -34,7 +34,11 @@ class RetrieveMySimilarJobOpeningService(
         return coroutineScope {
             val userJobOpeningScraps = async { jobOpeningScrapRepository.findByUserId(userId) }
 
-            val jobType = if (userJob == "ACTOR") "ACTOR" else "STAFF"
+            val jobType = when (userJob.uppercase()) {
+                "ACTOR", "HUNTER" -> "ACTOR"
+                "STAFF", "NORMAL" -> "STAFF"
+                else -> throw IllegalArgumentException("유효하지 않은 USER job이 존재합니다.")
+            }
             val jobOpenings = jobOpeningRepository.findAllTop5ByType(pageable, Type(jobType)).content
             val jobOpeningIds = jobOpenings.map { it.id!! }.toList()
             val jobOpeningDomains = jobOpeningDomainRepository.findByJobOpeningIds(jobOpeningIds)
