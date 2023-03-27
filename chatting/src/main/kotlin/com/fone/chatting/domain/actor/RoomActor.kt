@@ -5,7 +5,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
-import org.slf4j.LoggerFactory
+import mu.KotlinLogging
 import java.util.concurrent.ConcurrentHashMap
 
 sealed class RoomActorMsg
@@ -16,11 +16,11 @@ data class Terminated(val username: String) : RoomActorMsg()
 
 data class IncomingMessage(val username: String, val message: String) : RoomActorMsg()
 
+private val log = KotlinLogging.logger("roomActorLogger")
+
 @ObsoleteCoroutinesApi
 fun roomActor(roomId: Int) =
     CoroutineScope(Dispatchers.Default).actor<RoomActorMsg> {
-        val log = LoggerFactory.getLogger("roomActorLogger")
-
         val users = ConcurrentHashMap<String, SendChannel<UserActorMsg>>()
 
         suspend fun broadCast(outgoingMessage: UserOutgoingMessage) =
@@ -56,10 +56,11 @@ fun roomActor(roomId: Int) =
             when (msg) {
                 is Join -> {
                     broadCastAll(msg.username, users, msg)
-                    log.info(
+                    log.info {
                         "${msg.username} joined room $roomId, current user list: ${users.keys}"
-                    )
+                    }
                 }
+
                 is IncomingMessage -> {
                     val outgoingMessage =
                         UserOutgoingMessage(
@@ -69,11 +70,12 @@ fun roomActor(roomId: Int) =
                         )
                     userOutgoingMessages.add(outgoingMessage)
                     broadCast(outgoingMessage)
-                    log.info("${msg.username} sent message: ${msg.message}")
+                    log.info { "${msg.username} sent message: ${msg.message}" }
                 }
+
                 is Terminated -> {
                     users.remove(msg.username)
-                    log.info("${msg.username} left room $roomId, current user list: ${users.keys}")
+                    log.info { "${msg.username} left room $roomId, current user list: ${users.keys}" }
                 }
             }
         }
