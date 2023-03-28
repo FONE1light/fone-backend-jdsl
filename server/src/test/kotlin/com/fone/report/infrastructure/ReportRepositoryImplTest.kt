@@ -30,19 +30,22 @@ class ReportRepositoryImplTest(
         }
     }
     describe("transactions") {
-        it("annotation") {
+        it("context sharing") {
             val initialCount = transactionTestingService.getReportCount()
             try {
                 transactionTestingService.createReportsAndFailWithAnnotation()
             } catch (e: RuntimeException) {
+                println(transactionTestingService.getReportCount())
                 transactionTestingService.getReportCount() shouldBe initialCount
             }
+            println(transactionTestingService.getReportCount())
         }
         it("scope") {
             val initialCount = transactionTestingService.getReportCount()
             try {
                 transactionTestingService.createReportsAndFailWithTransactionalScope()
             } catch (e: RuntimeException) {
+                println(transactionTestingService.getReportCount())
                 transactionTestingService.getReportCount() shouldBe initialCount
             }
         }

@@ -14,8 +14,8 @@ import org.springframework.stereotype.Repository
 @Repository
 @Primary
 class TestReportRepositoryImpl(
-    private val sessionFactory: Mutiny.SessionFactory,
-    private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
+    val sessionFactory: Mutiny.SessionFactory,
+    val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
 ) : ReportRepository {
     suspend fun getCount(): Long = queryFactory.singleQuery {
         select(count(column(Report::id)))
