@@ -6,6 +6,9 @@ dependencies {
 
     // Kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
+    // Kotlin 로깅
+    implementation("io.github.microutils:kotlin-logging:2.1.21")
 }
 
 tasks.jar { enabled = false }
