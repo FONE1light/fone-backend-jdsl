@@ -30,7 +30,7 @@ class ReportRepositoryImplTest(
         }
     }
     describe("transactions") {
-        it("context sharing") {
+        it("annotation") {
             val initialCount = transactionTestingService.getReportCount()
             try {
                 transactionTestingService.createReportsAndFailWithAnnotation()

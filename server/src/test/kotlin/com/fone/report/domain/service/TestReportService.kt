@@ -4,6 +4,7 @@ import com.fone.report.domain.entity.Report
 import com.fone.report.domain.repository.TestReportRepositoryImpl
 import com.fone.report.domain.repository.save
 import org.springframework.stereotype.Service
+import javax.transaction.Transactional
 import kotlin.random.Random
 
 @Service
@@ -13,13 +14,12 @@ class TestReportService(
 
     suspend fun getReportCount(): Long = reportRepository.getCount()
 
+    @Transactional
     suspend fun createReportsAndFailWithAnnotation() {
-        reportRepository.queryFactory.transactionWithFactory { _ ->
-            reportRepository.save(Report(Random.nextLong()))
-            reportRepository.save(Report(Random.nextLong()))
-            reportRepository.save(Report(Random.nextLong()))
-            throw RuntimeException("FAIL!")
-        }
+        reportRepository.save(Report(Random.nextLong()))
+        reportRepository.save(Report(Random.nextLong()))
+        reportRepository.save(Report(Random.nextLong()))
+        throw RuntimeException("FAIL!")
     }
 
     suspend fun createReportsAndFailWithTransactionalScope() = reportRepository.startTransaction { session, _ ->
