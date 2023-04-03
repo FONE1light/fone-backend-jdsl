@@ -14,7 +14,7 @@ import kotlin.coroutines.intrinsics.suspendCoroutineUninterceptedOrReturn
 class TransactionalConfig(
     private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
 ) {
-    @Around("@annotation(javax.transaction.Transactional)")
+    @Around("@annotation(javax.transaction.Transactional)") // Spring 3부터 jakarta
     fun javaxTransaction(joinPoint: ProceedingJoinPoint): Any? {
         return createTransaction(joinPoint)
     }
