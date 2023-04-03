@@ -2,12 +2,14 @@ package com.fone.report.infrastructure
 
 import com.fone.common.IntegrationTest
 import com.fone.report.domain.entity.Report
+import com.fone.report.domain.service.TestReportService
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 
 @IntegrationTest
 class ReportRepositoryImplTest(
     private val reportRepositoryImpl: ReportRepositoryImpl,
+    private val transactionTestingService: TestReportService,
 ) : DescribeSpec({
 
     describe("save") {
@@ -25,6 +27,27 @@ class ReportRepositoryImplTest(
             val result = reportRepositoryImpl.save(report)
 
             result shouldBe report
+        }
+    }
+    describe("transactions") {
+        it("annotation") {
+            val initialCount = transactionTestingService.getReportCount()
+            try {
+                transactionTestingService.createReportsAndFailWithAnnotation()
+            } catch (e: RuntimeException) {
+                println(transactionTestingService.getReportCount())
+                transactionTestingService.getReportCount() shouldBe initialCount
+            }
+            println(transactionTestingService.getReportCount())
+        }
+        it("scope") {
+            val initialCount = transactionTestingService.getReportCount()
+            try {
+                transactionTestingService.createReportsAndFailWithTransactionalScope()
+            } catch (e: RuntimeException) {
+                println(transactionTestingService.getReportCount())
+                transactionTestingService.getReportCount() shouldBe initialCount
+            }
         }
     }
 })
