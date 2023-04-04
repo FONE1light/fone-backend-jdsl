@@ -1,11 +1,15 @@
 package com.fone.user.infrastructure
 
 import com.fone.common.IntegrationTest
+import com.fone.common.TestGenerator
 import com.fone.user.domain.entity.User
 import com.fone.user.domain.enum.Job
 import com.fone.user.domain.enum.SocialLoginType
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.string.shouldContain
+import javax.persistence.PersistenceException
 
 @IntegrationTest
 class UserRepositoryImplTest(
@@ -13,7 +17,11 @@ class UserRepositoryImplTest(
 ) : DescribeSpec({
 
     describe("findByEmailAndSocialLoginType") {
-        val user = User(email = "test12345@gmail.com", socialLoginType = SocialLoginType.KAKAO)
+        val user = User(
+            email = "test12345@gmail.com",
+            socialLoginType = SocialLoginType.KAKAO,
+            phoneNumber = TestGenerator.getRandomPhoneNumber()
+        )
         val users = listOf(
             user
         )
@@ -52,7 +60,11 @@ class UserRepositoryImplTest(
     }
 
     describe("findByNicknameOrEmail") {
-        val user = User(email = "test123452@gmail.com", nickname = "test nickname")
+        val user = User(
+            email = "test123452@gmail.com",
+            nickname = "test nickname",
+            phoneNumber = TestGenerator.getRandomPhoneNumber()
+        )
         val users = listOf(
             user
         )
@@ -89,7 +101,7 @@ class UserRepositoryImplTest(
 
     describe("save") {
         it("수정 테스트 성공") {
-            val user = User()
+            val user = User(phoneNumber = TestGenerator.getRandomPhoneNumber())
             userRepositoryImpl.save(user)
             user.job = Job.NORMAL
             val result = userRepositoryImpl.save(user)
@@ -98,10 +110,18 @@ class UserRepositoryImplTest(
         }
 
         it("저장 테스트 성공") {
-            val user = User(email = "ttt@ttt.com")
+            val user = User(email = "ttt@ttt.com", phoneNumber = TestGenerator.getRandomPhoneNumber())
             val result = userRepositoryImpl.save(user)
 
             result shouldBe user
+        }
+
+        it("동일한 전화번호는 실패한다") {
+            val phoneNo = TestGenerator.getRandomPhoneNumber()
+            userRepositoryImpl.save(User(phoneNumber = phoneNo))
+            shouldThrow<PersistenceException> {
+                userRepositoryImpl.save(User(phoneNumber = phoneNo))
+            }.message shouldContain "Duplicate entry '$phoneNo'"
         }
     }
 })
