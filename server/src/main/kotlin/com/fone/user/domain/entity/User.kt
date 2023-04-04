@@ -33,7 +33,7 @@ data class User(
     @Column var birthday: LocalDate? = null,
     @Enumerated(EnumType.STRING) val gender: Gender = Gender.MAN,
     @Column(length = 300) var profileUrl: String = "",
-    @Column var phoneNumber: String = "",
+    @Column(unique = true) var phoneNumber: String = "",
     @Column var email: String = "",
     @Enumerated(EnumType.STRING) val socialLoginType: SocialLoginType = SocialLoginType.APPLE,
     @Column val agreeToTermsOfServiceTermsOfUse: Boolean = false,
