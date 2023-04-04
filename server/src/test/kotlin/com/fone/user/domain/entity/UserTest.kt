@@ -1,5 +1,6 @@
 package com.fone.user.domain.entity
 
+import com.fone.common.TestGenerator
 import com.fone.common.entity.Gender
 import com.fone.common.jwt.Role
 import com.fone.user.domain.enum.Job
@@ -21,7 +22,7 @@ class UserTest : DescribeSpec({
                     birthday = null,
                     gender = Gender.IRRELEVANT,
                     profileUrl = "",
-                    phoneNumber = "",
+                    phoneNumber = TestGenerator.getRandomPhoneNumber(),
                     email = "",
                     socialLoginType = SocialLoginType.APPLE,
                     agreeToTermsOfServiceTermsOfUse = false,
@@ -46,7 +47,7 @@ class UserTest : DescribeSpec({
                 birthday = null,
                 gender = Gender.IRRELEVANT,
                 profileUrl = "",
-                phoneNumber = "",
+                phoneNumber = TestGenerator.getRandomPhoneNumber(),
                 email = "",
                 socialLoginType = SocialLoginType.APPLE,
                 agreeToTermsOfServiceTermsOfUse = false,
@@ -69,7 +70,7 @@ class UserTest : DescribeSpec({
                 birthday = null,
                 gender = Gender.IRRELEVANT,
                 profileUrl = "",
-                phoneNumber = "",
+                phoneNumber = TestGenerator.getRandomPhoneNumber(),
                 email = "test@test.com",
                 socialLoginType = SocialLoginType.APPLE,
                 agreeToTermsOfServiceTermsOfUse = false,
@@ -92,7 +93,7 @@ class UserTest : DescribeSpec({
                 birthday = null,
                 gender = Gender.IRRELEVANT,
                 profileUrl = "",
-                phoneNumber = "",
+                phoneNumber = TestGenerator.getRandomPhoneNumber(),
                 email = "test@test.com",
                 socialLoginType = SocialLoginType.APPLE,
                 agreeToTermsOfServiceTermsOfUse = false,
@@ -115,7 +116,7 @@ class UserTest : DescribeSpec({
                 birthday = null,
                 gender = Gender.IRRELEVANT,
                 profileUrl = "",
-                phoneNumber = "",
+                phoneNumber = TestGenerator.getRandomPhoneNumber(),
                 email = "test@test.com",
                 socialLoginType = SocialLoginType.APPLE,
                 agreeToTermsOfServiceTermsOfUse = false,
@@ -138,7 +139,7 @@ class UserTest : DescribeSpec({
                 birthday = null,
                 gender = Gender.IRRELEVANT,
                 profileUrl = "",
-                phoneNumber = "",
+                phoneNumber = TestGenerator.getRandomPhoneNumber(),
                 email = "test@test.com",
                 socialLoginType = SocialLoginType.APPLE,
                 agreeToTermsOfServiceTermsOfUse = false,
@@ -162,7 +163,7 @@ class UserTest : DescribeSpec({
                 birthday = null,
                 gender = Gender.IRRELEVANT,
                 profileUrl = "",
-                phoneNumber = "",
+                phoneNumber = TestGenerator.getRandomPhoneNumber(),
                 email = "test@test.com",
                 socialLoginType = SocialLoginType.APPLE,
                 agreeToTermsOfServiceTermsOfUse = false,

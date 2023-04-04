@@ -9,8 +9,7 @@ import com.fone.user.presentation.dto.SignInUserDto
 import com.fone.user.presentation.dto.SignUpUserDto
 import org.springframework.test.web.reactive.server.WebTestClient
 import java.time.LocalDate
-import java.util.*
-import kotlin.collections.LinkedHashMap
+import java.util.UUID
 
 object CommonUserCallApi {
     private const val signInBaseUrl = "/api/v1/users/sign-in"
@@ -28,7 +27,7 @@ object CommonUserCallApi {
                 LocalDate.now(),
                 Gender.IRRELEVANT,
                 null,
-                "010-1234-1234",
+                TestGenerator.getRandomPhoneNumber(),
                 email,
                 SocialLoginType.APPLE,
                 true,
@@ -82,7 +81,7 @@ object CommonUserCallApi {
                 LocalDate.now(),
                 Gender.IRRELEVANT,
                 null,
-                "010-1234-1234",
+                TestGenerator.getRandomPhoneNumber(),
                 email,
                 SocialLoginType.APPLE,
                 true,
