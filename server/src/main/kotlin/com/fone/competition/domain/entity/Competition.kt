@@ -13,7 +13,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "competitions")
-data class Competition(
+class Competition(
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +33,7 @@ data class Competition(
     @OneToMany(
         mappedBy = "competition",
         cascade = [CascadeType.PERSIST]
-    ) var prizes: MutableList<Prize> = mutableListOf(),
+    ) var prizes: MutableSet<Prize> = mutableSetOf(),
 ) : BaseEntity() {
     fun view() {
         viewCount += 1
@@ -47,5 +47,20 @@ data class Competition(
     fun addPrize(prize: Prize) {
         this.prizes.add(prize)
         prize.addCompetition(this)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Competition
+
+        if (id != other.id) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return id?.hashCode() ?: 0
     }
 }

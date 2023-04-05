@@ -14,6 +14,7 @@ import com.linecorp.kotlinjdsl.spring.data.reactive.query.listQuery
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.pageQuery
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.singleQuery
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.singleQueryOrNull
+import com.linecorp.kotlinjdsl.spring.reactive.listQuery
 import com.linecorp.kotlinjdsl.spring.reactive.querydsl.SpringDataReactiveCriteriaQueryDsl
 import io.smallrye.mutiny.coroutines.awaitSuspending
 import org.hibernate.reactive.mutiny.Mutiny
@@ -36,29 +37,30 @@ class CompetitionRepositoryImpl(
             from(entity(Competition::class))
         }.content
 
-        val competitions = queryFactory.listQuery {
-            select(entity(Competition::class))
-            from(entity(Competition::class))
-            fetch(
-                Competition::class,
-                Prize::class,
-                on(
-                    Competition::prizes
-                )
-            )
-            where(
-                and(
-                    col(Competition::id).`in`(ids),
-                    col(Competition::showStartDate).lessThanOrEqualTo(
-                        LocalDate.now()
+        val competitions = queryFactory.withFactory { factory ->
+            factory.listQuery {
+                select(entity(Competition::class))
+                from(entity(Competition::class))
+                fetch(
+                    Competition::class,
+                    Prize::class,
+                    on(
+                        Competition::prizes
                     )
                 )
-            )
-            orderBy(
-                orderSpec(pageable.sort)
-            )
+                where(
+                    and(
+                        col(Competition::id).`in`(ids),
+                        col(Competition::showStartDate).lessThanOrEqualTo(
+                            LocalDate.now()
+                        )
+                    )
+                )
+                orderBy(
+                    orderSpec(pageable.sort)
+                )
+            }
         }
-
         return PageImpl(competitions, pageable, competitions.size.toLong())
     }
 
