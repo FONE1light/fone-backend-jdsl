@@ -6,7 +6,7 @@ import com.fone.common.doPost
 import com.fone.common.entity.CategoryType
 import com.fone.common.entity.Gender
 import com.fone.user.domain.enum.Job
-import com.fone.user.domain.enum.SocialLoginType
+import com.fone.user.domain.enum.LoginType
 import com.fone.user.presentation.dto.SignUpUserDto
 import org.springframework.test.web.reactive.server.WebTestClient
 import java.time.LocalDate
@@ -27,11 +27,13 @@ class SignUpUserControllerTest(client: WebTestClient) : CustomDescribeSpec() {
                 null,
                 "010-1234-1234",
                 "test5@test.com",
-                SocialLoginType.APPLE,
+                "test5@test.com",
+                LoginType.APPLE,
                 true,
                 true,
                 true,
-                "test"
+                "test",
+                null
             )
 
         describe("#signUp") {

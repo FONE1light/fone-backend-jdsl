@@ -37,3 +37,7 @@ security:
     secret: foneBackendSecretfoneBackendSecretfoneBackendSecret
     access-token-validity-in-seconds: 7200
     refresh-token-validity-in-seconds: 1209600
+  oauth:
+    naver:
+      client-id: aU9oh1xxoC6uAMW48qCP
+      client-secret: secret_placeholder

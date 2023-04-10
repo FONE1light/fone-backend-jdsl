@@ -4,7 +4,7 @@ import com.fone.common.TestGenerator
 import com.fone.common.entity.Gender
 import com.fone.common.jwt.Role
 import com.fone.user.domain.enum.Job
-import com.fone.user.domain.enum.SocialLoginType
+import com.fone.user.domain.enum.LoginType
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -24,7 +24,7 @@ class UserTest : DescribeSpec({
                     profileUrl = "",
                     phoneNumber = TestGenerator.getRandomPhoneNumber(),
                     email = "",
-                    socialLoginType = SocialLoginType.APPLE,
+                    loginType = LoginType.APPLE,
                     agreeToTermsOfServiceTermsOfUse = false,
                     agreeToPersonalInformation = false,
                     isReceiveMarketing = false,
@@ -49,7 +49,7 @@ class UserTest : DescribeSpec({
                 profileUrl = "",
                 phoneNumber = TestGenerator.getRandomPhoneNumber(),
                 email = "",
-                socialLoginType = SocialLoginType.APPLE,
+                loginType = LoginType.APPLE,
                 agreeToTermsOfServiceTermsOfUse = false,
                 agreeToPersonalInformation = false,
                 isReceiveMarketing = false,
@@ -57,7 +57,7 @@ class UserTest : DescribeSpec({
                 enabled = true
             )
 
-            user.password shouldBe ""
+            user.password shouldBe null
         }
     }
 
@@ -72,7 +72,7 @@ class UserTest : DescribeSpec({
                 profileUrl = "",
                 phoneNumber = TestGenerator.getRandomPhoneNumber(),
                 email = "test@test.com",
-                socialLoginType = SocialLoginType.APPLE,
+                loginType = LoginType.APPLE,
                 agreeToTermsOfServiceTermsOfUse = false,
                 agreeToPersonalInformation = false,
                 isReceiveMarketing = false,
@@ -95,7 +95,7 @@ class UserTest : DescribeSpec({
                 profileUrl = "",
                 phoneNumber = TestGenerator.getRandomPhoneNumber(),
                 email = "test@test.com",
-                socialLoginType = SocialLoginType.APPLE,
+                loginType = LoginType.APPLE,
                 agreeToTermsOfServiceTermsOfUse = false,
                 agreeToPersonalInformation = false,
                 isReceiveMarketing = false,
@@ -118,7 +118,7 @@ class UserTest : DescribeSpec({
                 profileUrl = "",
                 phoneNumber = TestGenerator.getRandomPhoneNumber(),
                 email = "test@test.com",
-                socialLoginType = SocialLoginType.APPLE,
+                loginType = LoginType.APPLE,
                 agreeToTermsOfServiceTermsOfUse = false,
                 agreeToPersonalInformation = false,
                 isReceiveMarketing = false,
@@ -141,7 +141,7 @@ class UserTest : DescribeSpec({
                 profileUrl = "",
                 phoneNumber = TestGenerator.getRandomPhoneNumber(),
                 email = "test@test.com",
-                socialLoginType = SocialLoginType.APPLE,
+                loginType = LoginType.APPLE,
                 agreeToTermsOfServiceTermsOfUse = false,
                 agreeToPersonalInformation = false,
                 isReceiveMarketing = false,
@@ -165,7 +165,7 @@ class UserTest : DescribeSpec({
                 profileUrl = "",
                 phoneNumber = TestGenerator.getRandomPhoneNumber(),
                 email = "test@test.com",
-                socialLoginType = SocialLoginType.APPLE,
+                loginType = LoginType.APPLE,
                 agreeToTermsOfServiceTermsOfUse = false,
                 agreeToPersonalInformation = false,
                 isReceiveMarketing = false,

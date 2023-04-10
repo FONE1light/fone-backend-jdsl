@@ -67,8 +67,8 @@ class JWTUtils(
         val accessTokenExpirationTimeLong = accessTokenValidityInMilliseconds
         val refreshTokenExpirationTimeLong = refreshTokenValidityInMilliseconds
         val createdDate = Date()
-        val accessTokenExpirationDate = Date(createdDate.time + accessTokenExpirationTimeLong * 1000)
-        val refreshTokenExpirationDate = Date(createdDate.time + refreshTokenExpirationTimeLong * 1000)
+        val accessTokenExpirationDate = Date(createdDate.time + accessTokenExpirationTimeLong)
+        val refreshTokenExpirationDate = Date(createdDate.time + refreshTokenExpirationTimeLong)
 
         val accessToken = Jwts.builder().setClaims(claims).setSubject(email).setIssuedAt(createdDate)
             .setExpiration(accessTokenExpirationDate).signWith(key).compact()

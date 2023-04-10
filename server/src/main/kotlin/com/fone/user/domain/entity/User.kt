@@ -4,7 +4,7 @@ import com.fone.common.converter.SeparatorConverter
 import com.fone.common.entity.BaseEntity
 import com.fone.common.entity.Gender
 import com.fone.user.domain.enum.Job
-import com.fone.user.domain.enum.SocialLoginType
+import com.fone.user.domain.enum.LoginType
 import com.fone.user.presentation.dto.ModifyUserDto.ModifyUserRequest
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -22,6 +22,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "users")
+@Suppress("ACCIDENTAL_OVERRIDE", "CONFLICTING_INHERITED_JVM_DECLARATIONS")
 data class User(
     @Id
     @Column
@@ -35,12 +36,15 @@ data class User(
     @Column(length = 300) var profileUrl: String = "",
     @Column(unique = true) var phoneNumber: String? = "",
     @Column var email: String = "",
-    @Enumerated(EnumType.STRING) val socialLoginType: SocialLoginType = SocialLoginType.APPLE,
+    @Column val identifier: String? = null,
+    @Enumerated(EnumType.STRING) val loginType: LoginType = LoginType.APPLE,
     @Column val agreeToTermsOfServiceTermsOfUse: Boolean = false,
     @Column val agreeToPersonalInformation: Boolean = false,
     @Column val isReceiveMarketing: Boolean = false,
     @Convert(converter = SeparatorConverter::class) var roles: List<String> = listOf(),
     @Column var enabled: Boolean = false,
+    @JvmField @Column
+    val password: String? = null,
 ) : UserDetails, BaseEntity() {
     fun modifyUser(request: ModifyUserRequest) {
         this.nickname = request.nickname
@@ -64,8 +68,8 @@ data class User(
         return roles.map { SimpleGrantedAuthority(it) }.toMutableList()
     }
 
-    override fun getPassword(): String {
-        return ""
+    override fun getPassword(): String? {
+        return password
     }
 
     override fun getUsername(): String {

@@ -4,7 +4,7 @@ import com.fone.common.CommonUserCallApi
 import com.fone.common.CustomDescribeSpec
 import com.fone.common.IntegrationTest
 import com.fone.common.doPost
-import com.fone.user.domain.enum.SocialLoginType
+import com.fone.user.domain.enum.LoginType
 import com.fone.user.presentation.dto.SignInUserDto.SignInUserRequest
 import org.springframework.test.web.reactive.server.WebTestClient
 
@@ -18,14 +18,14 @@ class SignInUserControllerTest(client: WebTestClient) : CustomDescribeSpec() {
 
         val signInUserSuccessRequest =
             SignInUserRequest(
-                SocialLoginType.APPLE,
+                LoginType.APPLE,
                 email,
                 "test"
             )
 
         val signInUserFailRequest =
             SignInUserRequest(
-                SocialLoginType.APPLE,
+                LoginType.APPLE,
                 "test7@test.com",
                 "test"
             )

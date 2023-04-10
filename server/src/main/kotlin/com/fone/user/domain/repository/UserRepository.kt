@@ -1,13 +1,15 @@
 package com.fone.user.domain.repository
 
-import com.fone.user.domain.enum.SocialLoginType
+import com.fone.user.domain.enum.LoginType
 
 interface UserRepository {
 
-    suspend fun findByEmailAndSocialLoginType(
+    suspend fun findByEmailAndLoginType(
         email: String,
-        socialLoginType: SocialLoginType,
+        loginType: LoginType,
     ): com.fone.user.domain.entity.User?
+
+    suspend fun findByIdentifier(identifier: String): com.fone.user.domain.entity.User?
 
     suspend fun findByNicknameOrEmail(nickname: String?, email: String?): com.fone.user.domain.entity.User?
 

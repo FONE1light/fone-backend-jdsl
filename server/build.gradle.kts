@@ -9,6 +9,10 @@ dependencies {
     implementation(project(":home"))
     implementation(project(":idl"))
 
+    // JWS validation
+    implementation("com.auth0:java-jwt:4.4.0")
+    implementation("com.auth0:jwks-rsa:0.22.0")
+
     // Armeria
     implementation("com.linecorp.armeria:armeria-grpc")
     implementation("com.linecorp.armeria:armeria-spring-boot2-webflux-starter")

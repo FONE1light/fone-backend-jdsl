@@ -3,12 +3,14 @@ package com.fone.user.presentation.dto
 import com.fone.common.entity.CategoryType
 import com.fone.common.entity.Gender
 import com.fone.common.jwt.Role
+import com.fone.common.password.PasswordService
 import com.fone.user.domain.entity.User
 import com.fone.user.domain.enum.Job
-import com.fone.user.domain.enum.SocialLoginType
+import com.fone.user.domain.enum.LoginType
 import com.fone.user.presentation.dto.common.UserDto
 import io.swagger.annotations.ApiModelProperty
 import org.springframework.format.annotation.DateTimeFormat
+import org.springframework.web.server.ServerWebInputException
 import java.time.LocalDate
 import javax.validation.constraints.AssertTrue
 import javax.validation.constraints.Email
@@ -41,13 +43,23 @@ class SignUpUserDto {
             required = true
         )
         val email: String,
-        @field:NotNull(message = "소셜 로그인 타입은 필수 값 입니다.") val socialLoginType: SocialLoginType,
+        val identifier: String? = null,
+        @field:NotNull(message = "로그인 타입은 필수 값 입니다.") val loginType: LoginType,
         @field:AssertTrue(message = "이용약관 동의 선택은 필수 값 입니다.") val agreeToTermsOfServiceTermsOfUse: Boolean,
         @field:AssertTrue(message = "개인정보 취급방침 동의 선택은 필수 값 입니다.") val agreeToPersonalInformation: Boolean,
         @field:NotNull(message = "마케팅 정보수신 동의는 필수 값 입니다.") val isReceiveMarketing: Boolean,
-        @field:NotEmpty(message = "액세스 토큰은 필수 값 입니다.") val accessToken: String,
+        @ApiModelProperty(value = "소셜 인증 토큰") val accessToken: String?,
+        @field:Pattern(
+            regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,16}$",
+            message = "영소문자, 영대문자, 숫자가 포함된 8~16자 비밀번호"
+        ) val password: String?,
     ) {
         fun toEntity(): User {
+            passwordAssertion()
+            val identifier = when (loginType) {
+                LoginType.APPLE -> identifier
+                else -> email
+            } ?: throw ServerWebInputException("애플의 경우 identifier가 명시되어 있어야함")
             return User(
                 job = job,
                 interests = interests.map { it.toString() }.toList(),
@@ -57,13 +69,26 @@ class SignUpUserDto {
                 profileUrl = profileUrl ?: "",
                 phoneNumber = phoneNumber,
                 email = email,
-                socialLoginType = socialLoginType,
+                identifier = identifier,
+                loginType = loginType,
                 agreeToTermsOfServiceTermsOfUse = agreeToTermsOfServiceTermsOfUse,
                 agreeToPersonalInformation = agreeToPersonalInformation,
                 isReceiveMarketing = isReceiveMarketing,
                 roles = listOf(Role.ROLE_USER).map { it.toString() }.toList(),
-                enabled = true
+                enabled = true,
+                password = password?.apply { PasswordService.hashPassword(password) }
             )
+        }
+        private fun passwordAssertion() {
+            when (loginType) {
+                LoginType.PASSWORD -> {
+                    if (password == null) throw ServerWebInputException("Password 로그인의 경우 Password 있어야함")
+                }
+
+                else -> {
+                    if (password != null) throw ServerWebInputException("소셜 로그인의 경우 Password 있어서는 안됨")
+                }
+            }
         }
     }
 

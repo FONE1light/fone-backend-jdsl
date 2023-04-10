@@ -4,7 +4,7 @@ import com.fone.common.entity.CategoryType
 import com.fone.common.entity.Gender
 import com.fone.common.response.CommonResponse
 import com.fone.user.domain.enum.Job
-import com.fone.user.domain.enum.SocialLoginType
+import com.fone.user.domain.enum.LoginType
 import com.fone.user.presentation.dto.SignInUserDto
 import com.fone.user.presentation.dto.SignUpUserDto
 import org.springframework.test.web.reactive.server.WebTestClient
@@ -29,16 +29,18 @@ object CommonUserCallApi {
                 null,
                 TestGenerator.getRandomPhoneNumber(),
                 email,
-                SocialLoginType.APPLE,
+                email,
+                LoginType.APPLE,
                 true,
                 true,
                 true,
-                "test"
+                "test",
+                null
             )
 
         val signInUserSuccessRequest =
             SignInUserDto.SignInUserRequest(
-                SocialLoginType.APPLE,
+                LoginType.APPLE,
                 email,
                 "test"
             )
@@ -83,11 +85,13 @@ object CommonUserCallApi {
                 null,
                 TestGenerator.getRandomPhoneNumber(),
                 email,
-                SocialLoginType.APPLE,
+                email,
+                LoginType.APPLE,
                 true,
                 true,
                 true,
-                "test"
+                "test",
+                null
             )
 
         client

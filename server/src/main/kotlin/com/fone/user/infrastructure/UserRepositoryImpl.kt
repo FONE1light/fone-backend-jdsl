@@ -1,7 +1,7 @@
 package com.fone.user.infrastructure
 
 import com.fone.user.domain.entity.User
-import com.fone.user.domain.enum.SocialLoginType
+import com.fone.user.domain.enum.LoginType
 import com.fone.user.domain.repository.UserRepository
 import com.linecorp.kotlinjdsl.query.spec.predicate.EqualValueSpec
 import com.linecorp.kotlinjdsl.querydsl.expression.col
@@ -9,18 +9,16 @@ import com.linecorp.kotlinjdsl.spring.data.reactive.query.SpringDataHibernateMut
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.singleQueryOrNull
 import com.linecorp.kotlinjdsl.spring.reactive.querydsl.SpringDataReactiveCriteriaQueryDsl
 import io.smallrye.mutiny.coroutines.awaitSuspending
-import org.hibernate.reactive.mutiny.Mutiny
 import org.springframework.stereotype.Repository
 
 @Repository
 class UserRepositoryImpl(
-    private val sessionFactory: Mutiny.SessionFactory,
     private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
 ) : UserRepository {
 
-    override suspend fun findByEmailAndSocialLoginType(
+    override suspend fun findByEmailAndLoginType(
         email: String,
-        socialLoginType: SocialLoginType,
+        loginType: LoginType,
     ): User? {
         return queryFactory.singleQueryOrNull {
             select(entity(User::class))
@@ -28,8 +26,20 @@ class UserRepositoryImpl(
             where(
                 and(
                     emailEq(email),
-                    socialLoginTypeEq(socialLoginType)
+                    loginTypeEq(loginType)
                 )
+            )
+        }
+    }
+
+    override suspend fun findByIdentifier(
+        identifier: String,
+    ): User? {
+        return queryFactory.singleQueryOrNull {
+            select(entity(User::class))
+            from(entity(User::class))
+            where(
+                col(User::identifier).equal(identifier)
             )
         }
     }
@@ -62,19 +72,18 @@ class UserRepositoryImpl(
         }
     }
 
-    private fun SpringDataReactiveCriteriaQueryDsl<User?>.socialLoginTypeEq(
-        socialLoginType: SocialLoginType?,
-    ): EqualValueSpec<SocialLoginType>? {
-        socialLoginType ?: return null
+    private fun SpringDataReactiveCriteriaQueryDsl<User?>.loginTypeEq(
+        loginType: LoginType?,
+    ): EqualValueSpec<LoginType>? {
+        loginType ?: return null
 
-        return col(User::socialLoginType).equal(socialLoginType)
+        return col(User::loginType).equal(loginType)
     }
 
     private fun SpringDataReactiveCriteriaQueryDsl<User?>.emailEq(
         email: String?,
     ): EqualValueSpec<String>? {
         email ?: return null
-
         return col(User::email).equal(email)
     }
 
