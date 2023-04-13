@@ -14,7 +14,7 @@ class RegisterQuestionControllerTest(client: WebTestClient) : CustomDescribeSpec
     private val registerUrl = "/api/v1/questions"
 
     init {
-        val (accessToken, email) = CommonUserCallApi.getAccessToken(client)
+        val (_, email) = CommonUserCallApi.getAccessToken(client)
         val registerQuestionRequest =
             RegisterQuestionRequest(email, Type.ALLIANCE, "테스트 제목", "테스트 설명", true)
 
@@ -22,7 +22,7 @@ class RegisterQuestionControllerTest(client: WebTestClient) : CustomDescribeSpec
             context("유효한 정보로 문의등록을 하면") {
                 it("성공한다") {
                     client
-                        .doPost(registerUrl, registerQuestionRequest, accessToken)
+                        .doPost(registerUrl, registerQuestionRequest)
                         .expectStatus()
                         .isOk
                         .expectBody()
