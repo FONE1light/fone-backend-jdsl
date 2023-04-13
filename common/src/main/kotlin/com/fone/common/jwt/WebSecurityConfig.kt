@@ -37,7 +37,7 @@ class WebSecurityConfig(
                 "/api/v1/users/sign-in",
                 "/api/v1/users/sign-up",
                 "/api/v1/users/check-nickname-duplication",
-                "/api/v1/question",
+                "/api/v1/questions",
                 "/profile"
             ).permitAll().anyExchange().authenticated().and().build()
     }
