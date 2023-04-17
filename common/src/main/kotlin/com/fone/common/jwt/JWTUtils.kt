@@ -30,6 +30,11 @@ class JWTUtils(
         key = Keys.hmacShaKeyFor(keyBytes)
     }
 
+    fun reissue(email: String, accessToken: String): Token {
+        val claims = getAllClaimsFromToken(accessToken)
+        return doGenerateToken(claims, email)
+    }
+
     fun generateUserToken(email: String, roles: List<Role>): Token {
         val claims: MutableMap<String, Any?> = HashMap()
         claims["roles"] = roles
