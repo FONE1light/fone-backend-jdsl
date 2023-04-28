@@ -34,7 +34,7 @@ data class UserDto(
         birthday = user.birthday,
         gender = user.gender,
         profileUrl = user.profileUrl,
-        phoneNumber = user.phoneNumber,
+        phoneNumber = user.phoneNumber ?: "",
         email = user.email,
         socialLoginType = user.socialLoginType,
         agreeToTermsOfServiceTermsOfUse = user.agreeToTermsOfServiceTermsOfUse,
