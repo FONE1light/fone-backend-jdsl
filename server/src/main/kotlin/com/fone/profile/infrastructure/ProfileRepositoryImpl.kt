@@ -135,7 +135,7 @@ class ProfileRepositoryImpl(
             select(entity(Profile::class))
             from(entity(Profile::class))
             fetch(Profile::profileImages, joinType = JoinType.LEFT)
-            where(and(col(Profile::id).`in`(ids)))
+            where(col(Profile::id).`in`(ids).and(col(Profile::type).equal(type)))
         }
 
         return PageImpl(
