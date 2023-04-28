@@ -6,7 +6,11 @@ import com.fone.common.CustomDescribeSpec
 import com.fone.common.IntegrationTest
 import com.fone.common.doGet
 import com.fone.common.doPost
+import com.fone.common.response.CommonResponse
+import com.fone.profile.presentation.dto.RetrieveProfileWantDto
+import io.kotest.matchers.shouldBe
 import org.springframework.test.web.reactive.server.WebTestClient
+import org.springframework.test.web.reactive.server.expectBody
 
 @IntegrationTest
 class RetrieveProfileWantControllerTest(client: WebTestClient) : CustomDescribeSpec() {
@@ -38,6 +42,28 @@ class RetrieveProfileWantControllerTest(client: WebTestClient) : CustomDescribeS
                         .consumeWith { println(it) }
                         .jsonPath("$.result")
                         .isEqualTo("SUCCESS")
+                }
+            }
+            context("찜 목록에 ACTOR 1, STAFF 0") {
+                it("ACTOR 조회하면 찜이 1개.") {
+                    val response = client
+                        .doGet(retrieveWantsUrl, accessToken, mapOf("type" to "ACTOR"))
+                        .expectStatus()
+                        .isOk
+                        .expectBody<CommonResponse<RetrieveProfileWantDto.RetrieveProfileWantResponse>>()
+                        .returnResult()
+                        .responseBody
+                    response!!.data!!.profiles.totalElements shouldBe 1
+                }
+                it("Staff 조회하면 찜이 없다.") {
+                    val response = client
+                        .doGet(retrieveWantsUrl, accessToken, mapOf("type" to "STAFF"))
+                        .expectStatus()
+                        .isOk
+                        .expectBody<CommonResponse<RetrieveProfileWantDto.RetrieveProfileWantResponse>>()
+                        .returnResult()
+                        .responseBody
+                    response!!.data!!.profiles.totalElements shouldBe 0
                 }
             }
         }
