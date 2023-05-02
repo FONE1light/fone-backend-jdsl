@@ -14,19 +14,21 @@ class GlobalErrorAttributes : DefaultErrorAttributes() {
     ): Map<String, Any?> {
         val map: MutableMap<String, Any?> = mutableMapOf()
         val throwable: Throwable = getError(request)
-        if (throwable is GlobalException) {
+        return if (throwable is GlobalException) {
             val ex: GlobalException = getError(request) as GlobalException
-            map["result"] = "FAIL"
-            map["data"] = null
-            map["message"] = ex.reason
-            map["errorCode"] = ex.status.reasonPhrase
-            return map
+            map.apply {
+                this["result"] = "FAIL"
+                this["data"] = null
+                this["message"] = ex.reason
+                this["errorCode"] = ex.status.reasonPhrase
+            }
+        } else {
+            map.apply {
+                this["result"] = "FAIL"
+                this["data"] = null
+                this["message"] = throwable.toString()
+                this["errorCode"] = null
+            }
         }
-        map["result"] = "FAIL"
-        map["data"] = null
-        map["message"] = throwable.toString()
-        map["errorCode"] = null
-        return map
-        return map
     }
 }
