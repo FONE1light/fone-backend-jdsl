@@ -10,6 +10,6 @@ class RetrieveJobOpeningScrapFacade(
     private val retrieveJobOpeningScrapService: RetrieveJobOpeningScrapService,
 ) {
 
-    suspend fun retrieveJobOpeningScrap(pageable: Pageable, email: String, type: Type) =
+    suspend fun retrieveJobOpeningScrap(pageable: Pageable, email: String, type: Type?) =
         retrieveJobOpeningScrapService.retrieveJobOpeningScrap(pageable, email, type)
 }

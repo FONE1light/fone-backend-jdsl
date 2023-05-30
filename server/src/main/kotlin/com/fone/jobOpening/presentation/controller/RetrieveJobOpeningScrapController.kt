@@ -35,7 +35,7 @@ class RetrieveJobOpeningScrapController(
     suspend fun retrieveJobOpeningScrap(
         pageable: Pageable,
         principal: Principal,
-        @RequestParam type: Type,
+        @RequestParam(required = false) type: Type?,
     ): CommonResponse<RetrieveJobOpeningScrapResponse> {
         val response = retrieveJobOpeningScrapFacade.retrieveJobOpeningScrap(
             pageable,

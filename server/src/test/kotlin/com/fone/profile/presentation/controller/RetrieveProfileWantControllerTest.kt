@@ -44,6 +44,19 @@ class RetrieveProfileWantControllerTest(client: WebTestClient) : CustomDescribeS
                         .isEqualTo("SUCCESS")
                 }
             }
+            context("프로필 찜하기 타입 지정 없이 조회하면") {
+                it("모든 타입 조회한다") {
+                    client
+                        .doGet(retrieveWantsUrl, accessToken)
+                        .expectStatus()
+                        .isOk
+                        .expectBody()
+                        .consumeWith { println(it) }
+                        .jsonPath("$.result")
+                        .isEqualTo("SUCCESS")
+                }
+            }
+
             context("찜 목록에 ACTOR 1, STAFF 0") {
                 it("ACTOR 조회하면 찜이 1개.") {
                     val response = client

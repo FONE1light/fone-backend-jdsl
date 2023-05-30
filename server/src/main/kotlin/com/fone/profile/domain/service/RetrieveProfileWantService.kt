@@ -27,7 +27,7 @@ class RetrieveProfileWantService(
     suspend fun retrieveProfileWant(
         pageable: Pageable,
         email: String,
-        type: Type,
+        type: Type?,
     ): RetrieveProfileWantResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 

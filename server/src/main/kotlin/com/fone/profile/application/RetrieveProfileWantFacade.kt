@@ -10,6 +10,6 @@ class RetrieveProfileWantFacade(
     private val retrieveProfileWantService: RetrieveProfileWantService,
 ) {
 
-    suspend fun retrieveProfileWant(pageable: Pageable, email: String, type: Type) =
+    suspend fun retrieveProfileWant(pageable: Pageable, email: String, type: Type?) =
         retrieveProfileWantService.retrieveProfileWant(pageable, email, type)
 }

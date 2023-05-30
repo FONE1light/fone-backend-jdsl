@@ -27,7 +27,7 @@ class RetrieveJobOpeningScrapService(
     suspend fun retrieveJobOpeningScrap(
         pageable: Pageable,
         email: String,
-        type: Type,
+        type: Type?,
     ): RetrieveJobOpeningScrapResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 

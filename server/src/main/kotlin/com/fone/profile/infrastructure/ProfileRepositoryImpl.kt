@@ -123,7 +123,7 @@ class ProfileRepositoryImpl(
     override suspend fun findWantAllByUserId(
         pageable: Pageable,
         userId: Long,
-        type: Type,
+        type: Type?,
     ): Slice<Profile> {
         val ids = queryFactory.pageQuery(pageable) {
             select(column(ProfileWant::profileId))
@@ -135,7 +135,10 @@ class ProfileRepositoryImpl(
             select(entity(Profile::class))
             from(entity(Profile::class))
             fetch(Profile::profileImages, joinType = JoinType.LEFT)
-            where(col(Profile::id).`in`(ids).and(col(Profile::type).equal(type)))
+            whereAnd(
+                col(Profile::id).`in`(ids),
+                type?.run { col(Profile::type).equal(type) }
+            )
         }
 
         return PageImpl(

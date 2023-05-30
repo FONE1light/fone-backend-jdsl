@@ -29,6 +29,13 @@ class RetrieveJobOpeningScrapControllerTest(client: WebTestClient) : CustomDescr
                         .isEqualTo("SUCCESS")
                 }
             }
+            context("타입 없이 구인구직 스크랩을 조회하면") {
+                it("모든 타입 조회한다") {
+                    client.doGet(retrieveScrapsUrl, accessToken)
+                        .expectStatus().isOk.expectBody().consumeWith { println(it) }.jsonPath("$.result")
+                        .isEqualTo("SUCCESS")
+                }
+            }
         }
     }
 }

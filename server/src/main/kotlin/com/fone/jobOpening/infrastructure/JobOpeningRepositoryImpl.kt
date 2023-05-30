@@ -8,6 +8,7 @@ import com.fone.jobOpening.domain.entity.JobOpeningScrap
 import com.fone.jobOpening.domain.repository.JobOpeningRepository
 import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningsRequest
 import com.linecorp.kotlinjdsl.query.spec.OrderSpec
+import com.linecorp.kotlinjdsl.query.spec.expression.SubqueryExpressionSpec
 import com.linecorp.kotlinjdsl.query.spec.predicate.EqualValueSpec
 import com.linecorp.kotlinjdsl.querydsl.expression.col
 import com.linecorp.kotlinjdsl.querydsl.expression.column
@@ -147,13 +148,13 @@ class JobOpeningRepositoryImpl(
     override suspend fun findScrapAllByUserId(
         pageable: Pageable,
         userId: Long,
-        type: Type,
+        type: Type?,
     ): Slice<JobOpening> {
         val jobOpeningIds = queryFactory.subquery {
-            select(column(JobOpeningScrap::id))
+            select(column(JobOpeningScrap::jobOpeningId))
             from(entity(JobOpeningScrap::class))
             where(col(JobOpeningScrap::userId).equal(userId))
-        }
+        } as SubqueryExpressionSpec<Long?>
 
         return queryFactory.pageQuery(pageable) {
             select(entity(JobOpening::class))

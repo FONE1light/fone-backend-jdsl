@@ -35,7 +35,7 @@ class RetrieveProfileWantController(
     suspend fun retrieveProfileWant(
         pageable: Pageable,
         principal: Principal,
-        @RequestParam type: Type,
+        @RequestParam(required = false) type: Type?,
     ): CommonResponse<RetrieveProfileWantResponse> {
         val response = retrieveProfileWantFacade.retrieveProfileWant(pageable, principal.name, type)
 
