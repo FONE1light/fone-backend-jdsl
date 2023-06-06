@@ -35,7 +35,7 @@ class RetrieveProfilesService(
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 
         return coroutineScope {
-            val profiles = async { profileRepository.findAllByFilters(pageable, request).content }
+            val profiles = async { profileRepository.findAllByFilters(pageable, request) }
 
             val userProfileWants = async { profileWantRepository.findByUserId(userId) }
 
@@ -47,8 +47,7 @@ class RetrieveProfilesService(
                 profiles.await(),
                 userProfileWants.await(),
                 profileDomains,
-                profileCategories,
-                pageable
+                profileCategories
             )
         }
     }

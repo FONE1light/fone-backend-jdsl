@@ -32,7 +32,7 @@ class RetrieveProfileMyRegistrationService(
         return coroutineScope {
             val userProfileWants = async { profileWantRepository.findByUserId(userId) }
 
-            val profiles = profileRepository.findAllByUserId(pageable, userId).content
+            val profiles = profileRepository.findAllByUserId(pageable, userId)
             val profileIds = profiles.map { it.id!! }.toList()
             val profileDomains = profileDomainRepository.findByProfileIds(profileIds)
             val profileCategories = profileCategoryRepository.findByProfileIds(profileIds)
@@ -41,8 +41,7 @@ class RetrieveProfileMyRegistrationService(
                 profiles,
                 userProfileWants.await(),
                 profileDomains,
-                profileCategories,
-                pageable
+                profileCategories
             )
         }
     }

@@ -36,7 +36,7 @@ class RetrieveJobOpeningService(
 
         return coroutineScope {
             val jobOpenings = async {
-                jobOpeningRepository.findByFilters(pageable, request).content
+                jobOpeningRepository.findByFilters(pageable, request)
             }
 
             val userJobOpeningScraps = async { jobOpeningScrapRepository.findByUserId(userId) }
@@ -49,8 +49,7 @@ class RetrieveJobOpeningService(
                 jobOpenings.await(),
                 userJobOpeningScraps.await(),
                 jobOpeningDomains,
-                jobOpeningCategories,
-                pageable
+                jobOpeningCategories
             )
         }
     }

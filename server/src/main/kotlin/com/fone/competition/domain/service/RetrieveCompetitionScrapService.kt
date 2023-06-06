@@ -27,15 +27,14 @@ class RetrieveCompetitionScrapService(
 
         return coroutineScope {
             val competitions = async {
-                competitionRepository.findScrapAllById(pageable, userId).content
+                competitionRepository.findScrapAllById(pageable, userId)
             }
 
             val userCompetitionScraps = async { competitionScrapRepository.findByUserId(userId) }
 
             RetrieveCompetitionScrapResponse(
                 competitions.await(),
-                userCompetitionScraps.await(),
-                pageable
+                userCompetitionScraps.await()
             )
         }
     }
