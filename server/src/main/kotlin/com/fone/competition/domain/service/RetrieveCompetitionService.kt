@@ -28,7 +28,7 @@ class RetrieveCompetitionService(
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 
         return coroutineScope {
-            val competitions = async { competitionRepository.findAll(pageable).content }
+            val competitions = async { competitionRepository.findAll(pageable) }
 
             val userCompetitionScraps = async { competitionScrapRepository.findByUserId(userId) }
 
@@ -37,8 +37,7 @@ class RetrieveCompetitionService(
             RetrieveCompetitionsResponse(
                 competitions.await(),
                 userCompetitionScraps.await(),
-                competitionCount.await(),
-                pageable
+                competitionCount.await()
             )
         }
     }

@@ -39,7 +39,7 @@ class RetrieveMySimilarJobOpeningService(
                 "STAFF", "NORMAL" -> "STAFF"
                 else -> throw IllegalArgumentException("유효하지 않은 USER job이 존재합니다.")
             }
-            val jobOpenings = jobOpeningRepository.findAllTop5ByType(pageable, Type(jobType)).content
+            val jobOpenings = jobOpeningRepository.findAllTop5ByType(pageable, Type(jobType))
             val jobOpeningIds = jobOpenings.map { it.id!! }.toList()
             val jobOpeningDomains = jobOpeningDomainRepository.findByJobOpeningIds(jobOpeningIds)
             val jobOpeningCategories = jobOpeningCategoryRepository.findByJobOpeningIds(jobOpeningIds)
@@ -48,8 +48,7 @@ class RetrieveMySimilarJobOpeningService(
                 jobOpenings,
                 userJobOpeningScraps.await(),
                 jobOpeningDomains,
-                jobOpeningCategories,
-                pageable
+                jobOpeningCategories
             )
         }
     }
