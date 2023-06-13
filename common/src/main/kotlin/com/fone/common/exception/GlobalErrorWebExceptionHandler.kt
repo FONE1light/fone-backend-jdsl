@@ -6,6 +6,7 @@ import org.springframework.boot.web.error.ErrorAttributeOptions
 import org.springframework.boot.web.reactive.error.ErrorAttributes
 import org.springframework.context.ApplicationContext
 import org.springframework.core.annotation.Order
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.codec.ServerCodecConfigurer
 import org.springframework.stereotype.Component
@@ -37,7 +38,18 @@ class GlobalErrorWebExceptionHandler(
         }
     }
 
-    private fun renderErrorResponse(request: ServerRequest): Mono<ServerResponse?> {
+    private fun renderErrorResponse(request: ServerRequest): Mono<ServerResponse> {
+        return when (getError(request)) {
+            is GlobalException -> renderGlobalException(request)
+            else -> {
+                val errorPropertiesMap = getErrorAttributes(request, ErrorAttributeOptions.defaults())
+                ServerResponse.status(HttpStatus.INTERNAL_SERVER_ERROR).contentType(MediaType.APPLICATION_JSON)
+                    .body(BodyInserters.fromValue(errorPropertiesMap))
+            }
+        }
+    }
+
+    private fun renderGlobalException(request: ServerRequest): Mono<ServerResponse> {
         val error = getError(request) as GlobalException
         val errorPropertiesMap = getErrorAttributes(request, ErrorAttributeOptions.defaults())
         return ServerResponse.status(error.status).contentType(MediaType.APPLICATION_JSON)

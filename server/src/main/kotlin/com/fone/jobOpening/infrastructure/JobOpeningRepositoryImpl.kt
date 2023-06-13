@@ -143,7 +143,7 @@ class JobOpeningRepositoryImpl(
     override suspend fun findScrapAllByUserId(
         pageable: Pageable,
         userId: Long,
-        type: Type,
+        type: Type?,
     ): Page<JobOpening> {
         val jobOpeningIds = queryFactory.subquery {
             select(column(JobOpeningScrap::id))
