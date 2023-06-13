@@ -116,14 +116,19 @@ class ProfileRepositoryImpl(
     override suspend fun findWantAllByUserId(
         pageable: Pageable,
         userId: Long,
-        type: Type,
+        type: Type?,
     ): Page<Profile> {
         return queryFactory.withFactory { factory ->
             val ids = factory.pageQuery(pageable) {
                 select(column(ProfileWant::profileId))
                 from(entity(ProfileWant::class))
                 join(entity(Profile::class), col(Profile::id).equal(col(ProfileWant::profileId)))
-                where(col(ProfileWant::userId).equal(userId).and(col(Profile::type).equal(type)))
+                where(
+                    and(
+                        col(ProfileWant::userId).equal(userId),
+                        if (type != null) col(Profile::type).equal(type) else null
+                    )
+                )
             }
 
             val profiles = factory.listQuery {

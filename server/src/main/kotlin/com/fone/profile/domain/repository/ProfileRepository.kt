@@ -20,6 +20,6 @@ interface ProfileRepository {
     suspend fun findWantAllByUserId(
         pageable: Pageable,
         userId: Long,
-        type: Type,
+        type: Type?,
     ): Page<Profile>
 }

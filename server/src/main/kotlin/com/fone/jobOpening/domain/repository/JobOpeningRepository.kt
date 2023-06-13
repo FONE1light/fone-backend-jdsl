@@ -21,7 +21,7 @@ interface JobOpeningRepository {
     suspend fun findScrapAllByUserId(
         pageable: Pageable,
         userId: Long,
-        type: Type,
+        type: Type?,
     ): Page<JobOpening>
 
     suspend fun save(jobOpening: JobOpening): JobOpening
