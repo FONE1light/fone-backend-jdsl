@@ -138,7 +138,7 @@ class SwaggerConfig(
     private fun getProduceContentTypes(): Set<String> = setOf("application/json;charset=UTF-8")
 
     private fun apiInfo(): ApiInfo {
-        return ApiInfoBuilder().title("REST API Document")
+        return ApiInfoBuilder().title("REST API Document.")
             .description("work in progress").termsOfServiceUrl("localhost").version("1.0").build()
     }
 
