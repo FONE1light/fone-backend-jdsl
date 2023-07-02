@@ -31,9 +31,7 @@ class HomeController {
         val userResponse = webClient.get().uri("/api/v1/users").header("Authorization", token).retrieve()
             .bodyToMono(CommonResponse::class.java)
 
-        val (userJob, userNickName) = (userResponse.awaitSingle().data as LinkedHashMap<*, *>).run {
-            listOf(this["job"], this["nickName"])
-        }
+        val userJob = (userResponse.awaitSingle().data as LinkedHashMap<*, *>)["job"].toString()
 
         val jobOpeningResponse = webClient.get().uri(
             "/api/v1/job-openings/my-similar?page=0&size=5&sort=viewCount,DESC&type=$userJob"
@@ -50,7 +48,8 @@ class HomeController {
             order = mutableListOf("jobOpening", "competition", "profile").shuffled(),
             jobOpening = CollectionDto(
                 title = "나와 비슷한 사람들이 보고있는 공고",
-                subTitle = userNickName.toString() + "님 안녕하세요. 관심사 기반으로 꼭 맞는 공고를 추천 합니다.",
+                subTitle = (userResponse.awaitSingle().data as LinkedHashMap<*, *>)["nickname"].toString() + "님 " +
+                    "안녕하세요. 관심사 기반으로 꼭 맞는 공고를 추천 합니다.",
                 data = (jobOpeningResponse.awaitSingle().data as LinkedHashMap<*, *>)["jobOpenings"]
             ),
             competition = CollectionDto(
