@@ -34,22 +34,19 @@ class RetrieveProfilesService(
     ): RetrieveProfilesResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 
-        return coroutineScope {
-            val profiles = async { profileRepository.findAllByFilters(pageable, request) }
+        val profiles = profileRepository.findAllByFilters(pageable, request)
+        val userProfileWants = profileWantRepository.findByUserId(userId)
 
-            val userProfileWants = async { profileWantRepository.findByUserId(userId) }
+        val profileIds = profiles.map { it.id!! }.toList()
+        val profileDomains = profileDomainRepository.findByProfileIds(profileIds)
+        val profileCategories = profileCategoryRepository.findByProfileIds(profileIds)
 
-            val profileIds = profiles.await().map { it.id!! }.toList()
-            val profileDomains = profileDomainRepository.findByProfileIds(profileIds)
-            val profileCategories = profileCategoryRepository.findByProfileIds(profileIds)
-
-            RetrieveProfilesResponse(
-                profiles.await(),
-                userProfileWants.await(),
-                profileDomains,
-                profileCategories
-            )
-        }
+        return RetrieveProfilesResponse(
+            profiles,
+            userProfileWants,
+            profileDomains,
+            profileCategories
+        )
     }
 
     @Transactional
