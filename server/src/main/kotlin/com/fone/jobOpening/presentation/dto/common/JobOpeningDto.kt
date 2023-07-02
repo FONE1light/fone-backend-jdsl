@@ -27,8 +27,9 @@ data class JobOpeningDto(
     val scrapCount: Long,
     val work: WorkDto,
     val isScrap: Boolean = false,
-    val dDay: String,
 ) {
+    val dDay: String
+        get() = DateTimeFormat.calculateDays(deadline)
 
     constructor(
         jobOpening: JobOpening,
@@ -51,7 +52,6 @@ data class JobOpeningDto(
         viewCount = jobOpening.viewCount,
         scrapCount = jobOpening.scrapCount,
         work = WorkDto(jobOpening.work),
-        isScrap = userJobOpeningScrapMap.get(jobOpening.id!!) != null,
-        dDay = DateTimeFormat.calculateDays(jobOpening.deadline)
+        isScrap = userJobOpeningScrapMap.get(jobOpening.id!!) != null
     )
 }
