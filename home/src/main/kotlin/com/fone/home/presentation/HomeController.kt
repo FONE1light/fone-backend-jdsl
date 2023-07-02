@@ -2,11 +2,7 @@ package com.fone.home.presentation
 
 import com.fone.common.response.CommonResponse
 import io.swagger.annotations.Api
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.reactor.awaitSingle
-import kotlinx.coroutines.withContext
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.client.reactive.ReactorClientHttpConnector
 import org.springframework.web.bind.annotation.GetMapping
@@ -50,30 +46,20 @@ class HomeController {
         val profileResponse = webClient.get().uri("/api/v1/profiles?page=0&size=5&sort=createdAt,DESC&type=ACTOR")
             .header("Authorization", token).retrieve().bodyToMono(CommonResponse::class.java)
 
-        val (jobOpeningResponseResolved, competitionResponseResolved, profileResponseResolved) = withContext(
-            Dispatchers.IO
-        ) {
-            awaitAll(
-                async { jobOpeningResponse.awaitSingle() },
-                async { competitionResponse.awaitSingle() },
-                async { profileResponse.awaitSingle() }
-            )
-        }
-
         val response = HomeDto(
             order = mutableListOf("jobOpening", "competition", "profile").shuffled(),
             jobOpening = CollectionDto(
                 title = "나와 비슷한 사람들이 보고있는 공고",
                 subTitle = userNickName.toString() + "님 안녕하세요. 관심사 기반으로 꼭 맞는 공고를 추천 합니다.",
-                data = (jobOpeningResponseResolved.data as LinkedHashMap<*, *>)["jobOpenings"]
+                data = (jobOpeningResponse.awaitSingle().data as LinkedHashMap<*, *>)["jobOpenings"]
             ),
             competition = CollectionDto(
                 title = "인기 공모전",
-                data = (competitionResponseResolved.data as LinkedHashMap<*, *>)["competitions"]
+                data = (competitionResponse.awaitSingle().data as LinkedHashMap<*, *>)["competitions"]
             ),
             profile = CollectionDto(
                 title = "배우 프로필 보기",
-                data = (profileResponseResolved.data as LinkedHashMap<*, *>)["profiles"]
+                data = (profileResponse.awaitSingle().data as LinkedHashMap<*, *>)["profiles"]
             )
         )
         return CommonResponse.success(response)
