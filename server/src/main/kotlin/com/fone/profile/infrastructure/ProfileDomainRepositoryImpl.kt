@@ -17,8 +17,8 @@ class ProfileDomainRepositoryImpl(
     private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
 ) : ProfileDomainRepository {
 
-    override suspend fun saveAll(profileDomain: List<ProfileDomain>): List<ProfileDomain> {
-        return profileDomain.also {
+    override suspend fun saveAll(profileDomain: List<ProfileDomain>?): List<ProfileDomain>? {
+        return profileDomain?.also {
             sessionFactory.withSession { session ->
                 session.persistAll(*it.toTypedArray()).flatMap { session.flush() }
             }.awaitSuspending()

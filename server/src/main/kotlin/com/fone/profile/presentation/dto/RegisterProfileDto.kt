@@ -35,7 +35,7 @@ class RegisterProfileDto {
         val career: Career,
         val categories: List<CategoryType>,
         val type: Type,
-        val domains: List<DomainType>,
+        val domains: List<DomainType>?,
         val profileUrls: List<String>,
         val profileUrl: String,
     ) {
@@ -68,7 +68,7 @@ class RegisterProfileDto {
         constructor(
             profile: Profile,
             userProfileWantMap: Map<Long, ProfileWant?>,
-            domains: List<DomainType>,
+            domains: List<DomainType>?,
             categories: List<CategoryType>,
         ) : this(
             profile = ProfileDto(

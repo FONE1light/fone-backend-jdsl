@@ -46,7 +46,7 @@ class RegisterProfileService(
 
                     profileRepository.save(profile)
 
-                    val profileDomains = domains.map {
+                    val profileDomains = domains?.map {
                         ProfileDomain(
                             profile.id!!,
                             it
