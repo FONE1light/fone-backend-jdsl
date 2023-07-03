@@ -44,7 +44,7 @@ class PutProfileService(
             }
 
             profileDomainRepository.deleteByProfileId(profile.id!!)
-            val profileDomains = request.domains.map {
+            val profileDomains = request.domains?.map {
                 ProfileDomain(
                     profile.id!!,
                     it

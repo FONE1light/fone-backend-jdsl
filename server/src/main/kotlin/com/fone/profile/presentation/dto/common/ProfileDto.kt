@@ -23,7 +23,7 @@ data class ProfileDto(
     val details: String,
     val career: Career,
     val categories: List<CategoryType>,
-    val domains: List<DomainType>,
+    val domains: List<DomainType>?,
     val profileUrls: List<String>,
     val viewCount: Long,
     val profileUrl: String,
@@ -34,7 +34,7 @@ data class ProfileDto(
         profile: Profile,
         userProfileWantMap: Map<Long, ProfileWant?>,
         profileUrls: List<String>,
-        domains: List<DomainType>,
+        domains: List<DomainType>?,
         categories: List<CategoryType>,
     ) : this(
         id = profile.id!!,
