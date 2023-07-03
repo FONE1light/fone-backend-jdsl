@@ -35,7 +35,7 @@ class RegisterJobOpeningService(
                     val jobOpening = toEntity(userId)
                     jobOpeningRepository.save(jobOpening)
 
-                    val jobOpeningDomains = domains.map {
+                    val jobOpeningDomains = domains?.map {
                         com.fone.jobOpening.domain.entity.JobOpeningDomain(
                             jobOpening.id!!,
                             it

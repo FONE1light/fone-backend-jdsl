@@ -35,7 +35,7 @@ class PutJobOpeningService(
         }
 
         jobOpeningDomainRepository.deleteByJobOpeningId(jobOpening.id!!)
-        val jobOpeningDomains = request.domains.map {
+        val jobOpeningDomains = request.domains?.map {
             com.fone.jobOpening.domain.entity.JobOpeningDomain(
                 jobOpening.id!!,
                 it
