@@ -17,8 +17,8 @@ class JobOpeningDomainRepositoryImpl(
     private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
 ) : JobOpeningDomainRepository {
 
-    override suspend fun saveAll(jobOpeningDomain: List<JobOpeningDomain>): List<JobOpeningDomain> {
-        return jobOpeningDomain.also {
+    override suspend fun saveAll(jobOpeningDomain: List<JobOpeningDomain>?): List<JobOpeningDomain>? {
+        return jobOpeningDomain?.also {
             sessionFactory.withSession { session ->
                 session.persistAll(*it.toTypedArray()).flatMap { session.flush() }
             }.awaitSuspending()

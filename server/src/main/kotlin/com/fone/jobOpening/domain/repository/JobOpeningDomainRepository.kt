@@ -5,7 +5,7 @@ import com.fone.jobOpening.domain.entity.JobOpeningDomain
 
 interface JobOpeningDomainRepository {
 
-    suspend fun saveAll(jobOpeningDomain: List<JobOpeningDomain>): List<JobOpeningDomain>
+    suspend fun saveAll(jobOpeningDomain: List<JobOpeningDomain>?): List<JobOpeningDomain>?
 
     suspend fun deleteByJobOpeningId(jobOpeningId: Long): Int
 
