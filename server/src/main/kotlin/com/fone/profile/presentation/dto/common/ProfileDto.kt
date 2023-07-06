@@ -4,6 +4,7 @@ import com.fone.common.entity.Career
 import com.fone.common.entity.CategoryType
 import com.fone.common.entity.DomainType
 import com.fone.common.entity.Gender
+import com.fone.common.entity.Type
 import com.fone.common.utils.DateTimeFormat
 import com.fone.profile.domain.entity.Profile
 import com.fone.profile.domain.entity.ProfileWant
@@ -21,6 +22,7 @@ data class ProfileDto(
     val sns: String,
     val specialty: String,
     val details: String,
+    val type: Type,
     val career: Career,
     val categories: List<CategoryType>,
     val domains: List<DomainType>?,
@@ -46,6 +48,7 @@ data class ProfileDto(
         weight = profile.weight,
         email = profile.email,
         sns = profile.sns,
+        type = profile.type,
         specialty = profile.specialty,
         details = profile.details,
         career = profile.career,
