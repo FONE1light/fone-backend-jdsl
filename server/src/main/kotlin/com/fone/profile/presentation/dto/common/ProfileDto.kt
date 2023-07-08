@@ -9,6 +9,7 @@ import com.fone.common.utils.DateTimeFormat
 import com.fone.profile.domain.entity.Profile
 import com.fone.profile.domain.entity.ProfileWant
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 data class ProfileDto(
     val id: Long,
@@ -31,6 +32,7 @@ data class ProfileDto(
     val profileUrl: String,
     val isWant: Boolean = false,
     val age: Int,
+    val createdAt: LocalDateTime,
 ) {
     constructor(
         profile: Profile,
@@ -58,6 +60,7 @@ data class ProfileDto(
         viewCount = profile.viewCount,
         isWant = userProfileWantMap.get(profile.id!!) != null,
         age = DateTimeFormat.calculateAge(profile.birthday),
-        profileUrl = if (profileUrls.isEmpty()) "" else profileUrls[0]
+        profileUrl = if (profileUrls.isEmpty()) "" else profileUrls[0],
+        createdAt = profile.createdAt
     )
 }
