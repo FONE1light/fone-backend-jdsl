@@ -56,6 +56,7 @@ class RetrieveProfilesService(
         profileId: Long,
     ): RetrieveProfileResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
+        val userNickname = userRepository.findNicknameByEmail(email) ?: throw NotFoundUserException()
 
         return coroutineScope {
             val profile = async {
@@ -76,7 +77,8 @@ class RetrieveProfilesService(
                 profile.await(),
                 userProfileWants.await(),
                 profileDomains.await(),
-                profileCategories.await()
+                profileCategories.await(),
+                userNickname
             )
         }
     }

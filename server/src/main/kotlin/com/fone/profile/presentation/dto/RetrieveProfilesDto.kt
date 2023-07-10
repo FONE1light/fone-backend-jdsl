@@ -52,13 +52,15 @@ class RetrieveProfilesDto {
             userProfileWantMap: Map<Long, ProfileWant?>,
             profileDomains: List<DomainType>,
             profileCategories: List<CategoryType>,
+            userNickname: String,
         ) : this(
             profile = ProfileDto(
                 profile,
                 userProfileWantMap,
                 profile.profileImages.map { it.profileUrl }.toList(),
                 profileDomains,
-                profileCategories
+                profileCategories,
+                userNickname
             )
         )
     }
