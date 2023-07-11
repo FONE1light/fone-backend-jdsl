@@ -50,8 +50,8 @@ class SignUpUserDto {
         @field:NotNull(message = "마케팅 정보수신 동의는 필수 값 입니다.") val isReceiveMarketing: Boolean,
         @ApiModelProperty(value = "소셜 인증 토큰") val accessToken: String?,
         @field:Pattern(
-            regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,16}$",
-            message = "영소문자, 영대문자, 숫자가 포함된 8~16자 비밀번호"
+            regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{10,16}$",
+            message = "영문자, 숫자, 특수문자가 포함된 10~16자 비밀번호"
         ) val password: String?,
     ) {
         fun toEntity(): User {
@@ -62,7 +62,7 @@ class SignUpUserDto {
             } ?: throw ServerWebInputException("애플의 경우 identifier가 명시되어 있어야함")
             return User(
                 job = job,
-                interests = interests.map { it.toString() }.toList(),
+                interests = interests.map { it.toString() },
                 nickname = nickname,
                 birthday = birthday,
                 gender = gender,
@@ -74,9 +74,9 @@ class SignUpUserDto {
                 agreeToTermsOfServiceTermsOfUse = agreeToTermsOfServiceTermsOfUse,
                 agreeToPersonalInformation = agreeToPersonalInformation,
                 isReceiveMarketing = isReceiveMarketing,
-                roles = listOf(Role.ROLE_USER).map { it.toString() }.toList(),
+                roles = listOf(Role.ROLE_USER).map { it.toString() },
                 enabled = true,
-                password = password?.apply { PasswordService.hashPassword(password) }
+                password = password?.run(PasswordService::hashPassword)
             )
         }
         private fun passwordAssertion() {

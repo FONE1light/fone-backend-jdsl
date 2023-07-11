@@ -2,6 +2,7 @@ package com.fone.user.domain.service
 
 import com.fone.common.exception.DuplicateUserException
 import com.fone.common.exception.UnauthorizedException
+import com.fone.user.domain.enum.LoginType
 import com.fone.user.domain.repository.UserRepository
 import com.fone.user.presentation.dto.SignUpUserDto.SignUpUserRequest
 import com.fone.user.presentation.dto.SignUpUserDto.SignUpUserResponse
@@ -18,9 +19,7 @@ class SignUpUserService(
     @Transactional
     suspend fun signUpUser(request: SignUpUserRequest): SignUpUserResponse {
         with(request) {
-            if (!oauthValidationService.isValidTokenSignUp(request.loginType, accessToken!!, email, identifier)) {
-                throw UnauthorizedException(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다.")
-            }
+            validate()
             userRepository.findByNicknameOrEmail(nickname, email)?.let {
                 throw DuplicateUserException()
             }
@@ -28,6 +27,21 @@ class SignUpUserService(
             val newUser = toEntity()
             userRepository.save(newUser)
             return SignUpUserResponse(newUser)
+        }
+    }
+
+    suspend fun SignUpUserRequest.validate() {
+        val isValid = when (this.loginType) {
+            LoginType.KAKAO, LoginType.APPLE, LoginType.NAVER, LoginType.GOOGLE -> {
+                oauthValidationService.isValidTokenSignIn(loginType, accessToken!!, email)
+            }
+
+            LoginType.PASSWORD -> {
+                this.password != null
+            }
+        }
+        if (!isValid) {
+            throw UnauthorizedException(HttpStatus.UNAUTHORIZED, "유효하지 않은 회원가입 시도입니다.")
         }
     }
 }

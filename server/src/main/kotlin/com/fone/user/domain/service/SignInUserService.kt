@@ -27,9 +27,6 @@ class SignInUserService(
     @Transactional(readOnly = true)
     suspend fun signInUser(request: SignInUserRequest): SignInUserResponse {
         with(request) {
-            if (!oauthValidationService.isValidTokenSignIn(request.loginType, accessToken!!, email)) {
-                throw UnauthorizedException(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다.")
-            }
             val user =
                 userRepository.findByEmailAndLoginType(email, loginType) ?: throw NotFoundUserException()
             validate(user)
@@ -58,7 +55,7 @@ class SignInUserService(
             }
         }
         if (!isValid) {
-            throw UnauthorizedException(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다.")
+            throw UnauthorizedException(HttpStatus.UNAUTHORIZED, "유효하지 않은 인증시도입니다.")
         }
     }
 }
