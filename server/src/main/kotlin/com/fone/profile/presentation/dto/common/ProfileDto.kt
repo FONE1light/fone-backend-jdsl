@@ -33,6 +33,7 @@ data class ProfileDto(
     val isWant: Boolean = false,
     val age: Int,
     val createdAt: LocalDateTime,
+    val userNickname: String?,
 ) {
     constructor(
         profile: Profile,
@@ -40,6 +41,7 @@ data class ProfileDto(
         profileUrls: List<String>,
         domains: List<DomainType>?,
         categories: List<CategoryType>,
+        userNickname: String? = null,
     ) : this(
         id = profile.id!!,
         name = profile.name,
@@ -61,6 +63,7 @@ data class ProfileDto(
         isWant = userProfileWantMap.get(profile.id!!) != null,
         age = DateTimeFormat.calculateAge(profile.birthday),
         profileUrl = if (profileUrls.isEmpty()) "" else profileUrls[0],
-        createdAt = profile.createdAt
+        createdAt = profile.createdAt,
+        userNickname = userNickname
     )
 }

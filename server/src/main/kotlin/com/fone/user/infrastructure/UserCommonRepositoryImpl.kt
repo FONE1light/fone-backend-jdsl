@@ -20,4 +20,10 @@ class UserCommonRepositoryImpl(
 
         return user.job.toString()
     }
+
+    override suspend fun findNicknameByEmail(email: String): String? {
+        val user = userRepository.findByNicknameOrEmail(null, email) ?: return null
+
+        return user.nickname
+    }
 }
