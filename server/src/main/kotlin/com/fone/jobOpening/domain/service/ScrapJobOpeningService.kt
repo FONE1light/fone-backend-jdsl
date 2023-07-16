@@ -5,7 +5,8 @@ import com.fone.common.exception.NotFoundUserException
 import com.fone.common.repository.UserCommonRepository
 import com.fone.jobOpening.domain.repository.JobOpeningRepository
 import com.fone.jobOpening.domain.repository.JobOpeningScrapRepository
-import com.fone.jobOpening.presentation.dto.ScrapJobOpeningDto
+import com.fone.jobOpening.presentation.dto.ScrapJobOpeningDto.ScrapJobOpeningResponse
+import com.fone.jobOpening.presentation.dto.ScrapJobOpeningDto.ScrapJobResult
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -17,7 +18,7 @@ class ScrapJobOpeningService(
 ) {
 
     @Transactional
-    suspend fun scrapJobOpening(email: String, jobOpeningId: Long): ScrapJobOpeningDto.ScrapJobResult {
+    suspend fun scrapJobOpening(email: String, jobOpeningId: Long): ScrapJobOpeningResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 
         jobOpeningScrapRepository.findByUserIdAndJobOpeningId(userId, jobOpeningId)?.let {
@@ -29,7 +30,7 @@ class ScrapJobOpeningService(
             jobOpening.scrapCount -= 1
 
             jobOpeningRepository.save(jobOpening)
-            return ScrapJobOpeningDto.ScrapJobResult.DISCARDED
+            return ScrapJobOpeningResponse(ScrapJobResult.DISCARDED)
         }
 
         val jobOpening = jobOpeningRepository.findByTypeAndId(null, jobOpeningId) ?: throw NotFoundJobOpeningException()
@@ -43,6 +44,6 @@ class ScrapJobOpeningService(
             )
         )
         jobOpeningRepository.save(jobOpening)
-        return ScrapJobOpeningDto.ScrapJobResult.SCRAPPED
+        return ScrapJobOpeningResponse(ScrapJobResult.SCRAPPED)
     }
 }
