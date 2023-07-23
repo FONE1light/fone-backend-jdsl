@@ -12,15 +12,15 @@ import java.time.LocalDate
 import java.util.UUID
 
 object CommonUserCallApi {
-    private const val signInBaseUrl = "/api/v1/users/sign-in"
-    private const val signUpBaseUrl = "/api/v1/users/sign-up"
+    private const val signInBaseUrl = "/api/v1/users/social/sign-in"
+    private const val signUpBaseUrl = "/api/v1/users/social/sign-up"
 
     fun getAccessToken(client: WebTestClient): Pair<String, String> {
         val nickname = UUID.randomUUID().toString()
         val email = "$nickname@test.com"
 
         val signUpUserRequest =
-            SignUpUserDto.SignUpUserRequest(
+            SignUpUserDto.SocialSignUpUserRequest(
                 Job.ACTOR,
                 listOf(CategoryType.ETC),
                 nickname,
@@ -34,15 +34,13 @@ object CommonUserCallApi {
                 true,
                 true,
                 true,
-                "test",
-                null
+                "token:$email"
             )
 
         val signInUserSuccessRequest =
-            SignInUserDto.SignInUserRequest(
+            SignInUserDto.SocialSignInUserRequest(
                 LoginType.APPLE,
-                email,
-                "test"
+                "token:$email"
             )
 
         client
@@ -76,7 +74,7 @@ object CommonUserCallApi {
         val email = "$nickname@test.com"
 
         val signUpUserRequest =
-            SignUpUserDto.SignUpUserRequest(
+            SignUpUserDto.SocialSignUpUserRequest(
                 Job.ACTOR,
                 listOf(CategoryType.ETC),
                 nickname,
@@ -90,8 +88,7 @@ object CommonUserCallApi {
                 true,
                 true,
                 true,
-                "test",
-                null
+                "test"
             )
 
         client

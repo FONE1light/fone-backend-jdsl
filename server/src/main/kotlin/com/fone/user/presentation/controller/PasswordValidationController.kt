@@ -1,8 +1,9 @@
 package com.fone.user.presentation.controller
 
 import com.fone.common.response.CommonResponse
-import com.fone.user.application.OauthValidationFacade
-import com.fone.user.presentation.dto.OauthEmailDto
+import com.fone.user.application.PasswordValidationFacade
+import com.fone.user.presentation.dto.PasswordValidationDto.PasswordValidationRequest
+import com.fone.user.presentation.dto.PasswordValidationDto.PasswordValidationResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.media.Content
@@ -17,22 +18,22 @@ import javax.validation.Valid
 @Api(tags = ["01. User Info"], description = "유저 서비스")
 @RestController
 @RequestMapping("/api/v1/users")
-class OauthEmailController(
-    private val oauthValidationFacade: OauthValidationFacade,
+class PasswordValidationController(
+    private val passwordValidationFacade: PasswordValidationFacade,
 ) {
 
-    @PostMapping("/email")
-    @ApiOperation(value = "소셜 로그인 이메일 API")
+    @PostMapping("/password/validate")
+    @ApiOperation(value = "로그인 API")
     @ApiResponse(
         responseCode = "200",
         description = "성공",
-        content = [Content(schema = Schema(implementation = OauthEmailDto.OauthEmailResponse::class))]
+        content = [Content(schema = Schema(implementation = PasswordValidationResponse::class))]
     )
-    suspend fun fetchSocialEmail(
+    suspend fun validateSignInRequest(
         @Valid @RequestBody
-        request: OauthEmailDto.OauthEmailRequest,
-    ): CommonResponse<OauthEmailDto.OauthEmailResponse> {
-        val response = oauthValidationFacade.getEmail(request)
+        request: PasswordValidationRequest,
+    ): CommonResponse<PasswordValidationResponse> {
+        val response = passwordValidationFacade.validate(request)
         return CommonResponse.success(response)
     }
 }

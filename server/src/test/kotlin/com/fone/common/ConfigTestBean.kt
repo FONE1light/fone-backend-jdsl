@@ -1,6 +1,7 @@
 package com.fone.common
 
 import com.fone.user.domain.service.OauthValidationService
+import com.fone.user.presentation.dto.SignInUserDto
 import io.mockk.coEvery
 import io.mockk.mockk
 import org.springframework.context.annotation.Bean
@@ -15,5 +16,9 @@ class ConfigTestBean {
     fun mockOauthValidationService() = mockk<OauthValidationService> {
         coEvery { isValidTokenSignIn(any(), any(), any()) } returns true
         coEvery { isValidTokenSignUp(any(), any(), any(), any()) } returns true
+        coEvery { getEmail(any()) } answers {
+            val request = it.invocation.args.first() as SignInUserDto.SocialSignInUserRequest
+            request.accessToken.split(":").last()
+        }
     }
 }

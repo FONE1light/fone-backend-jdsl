@@ -21,7 +21,7 @@ import javax.validation.constraints.Size
 
 class SignUpUserDto {
 
-    data class SignUpUserRequest(
+    data class SocialSignUpUserRequest(
         @field:NotNull(message = "직업은 필수 값 입니다.") val job: Job,
         @field:Size(min = 1, message = "관심사는 1개 이상 선택 되어야 합니다") val interests: List<CategoryType>,
         @field:NotEmpty(message = "닉네임은 필수 값 입니다.") val nickname: String,
@@ -44,18 +44,15 @@ class SignUpUserDto {
         )
         val email: String,
         val identifier: String? = null,
-        @field:NotNull(message = "로그인 타입은 필수 값 입니다.") val loginType: LoginType,
+        @field:NotNull(message = "로그인 타입은 필수 값 입니다.")
+        val loginType: LoginType,
         @field:AssertTrue(message = "이용약관 동의 선택은 필수 값 입니다.") val agreeToTermsOfServiceTermsOfUse: Boolean,
         @field:AssertTrue(message = "개인정보 취급방침 동의 선택은 필수 값 입니다.") val agreeToPersonalInformation: Boolean,
         @field:NotNull(message = "마케팅 정보수신 동의는 필수 값 입니다.") val isReceiveMarketing: Boolean,
-        @ApiModelProperty(value = "소셜 인증 토큰") val accessToken: String?,
-        @field:Pattern(
-            regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{10,16}$",
-            message = "영문자, 숫자, 특수문자가 포함된 10~16자 비밀번호"
-        ) val password: String?,
+        @ApiModelProperty(value = "소셜 인증 토큰") val accessToken: String,
     ) {
         fun toEntity(): User {
-            passwordAssertion()
+            loginTypeAssertion()
             val identifier = when (loginType) {
                 LoginType.APPLE -> identifier
                 else -> email
@@ -75,20 +72,66 @@ class SignUpUserDto {
                 agreeToPersonalInformation = agreeToPersonalInformation,
                 isReceiveMarketing = isReceiveMarketing,
                 roles = listOf(Role.ROLE_USER).map { it.toString() },
-                enabled = true,
-                password = password?.run(PasswordService::hashPassword)
+                enabled = true
             )
         }
-        private fun passwordAssertion() {
-            when (loginType) {
-                LoginType.PASSWORD -> {
-                    if (password == null) throw ServerWebInputException("Password 로그인의 경우 Password 있어야함")
-                }
-
-                else -> {
-                    if (password != null) throw ServerWebInputException("소셜 로그인의 경우 Password 있어서는 안됨")
-                }
+        private fun loginTypeAssertion() {
+            if (LoginType.PASSWORD == loginType) {
+                throw ServerWebInputException("Password 로그인의 경우 Password 있어야함")
             }
+        }
+    }
+
+    data class PasswordSignUpUserRequest(
+        @field:NotNull(message = "직업은 필수 값 입니다.") val job: Job,
+        @field:Size(min = 1, message = "관심사는 1개 이상 선택 되어야 합니다") val interests: List<CategoryType>,
+        @field:NotEmpty(message = "닉네임은 필수 값 입니다.") val nickname: String,
+        @DateTimeFormat(pattern = "yyyy-MM-dd") val birthday: LocalDate,
+        @field:NotNull(message = "성별은 필수 값 입니다.") val gender: Gender,
+        val profileUrl: String?,
+        @field:Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}\$")
+        @ApiModelProperty(
+            value = "휴대폰 번호",
+            example = "010-1234-1234",
+            required = true
+        )
+        val phoneNumber: String,
+        @field:NotEmpty(message = "이메일은 필수 값 입니다.")
+        @field:Email(message = "유효하지 않는 이메일 입니다.")
+        @ApiModelProperty(
+            value = "이메일",
+            example = "test@test.com",
+            required = true
+        )
+        val email: String,
+        val identifier: String? = null,
+        @field:AssertTrue(message = "이용약관 동의 선택은 필수 값 입니다.") val agreeToTermsOfServiceTermsOfUse: Boolean,
+        @field:AssertTrue(message = "개인정보 취급방침 동의 선택은 필수 값 입니다.") val agreeToPersonalInformation: Boolean,
+        @field:NotNull(message = "마케팅 정보수신 동의는 필수 값 입니다.") val isReceiveMarketing: Boolean,
+        @field:Pattern(
+            regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,16}$",
+            message = "영문자, 숫자, 특수문자가 포함된 8~16자 비밀번호"
+        ) val password: String,
+    ) {
+        fun toEntity(): User {
+            return User(
+                job = job,
+                interests = interests.map { it.toString() },
+                nickname = nickname,
+                birthday = birthday,
+                gender = gender,
+                profileUrl = profileUrl ?: "",
+                phoneNumber = phoneNumber,
+                email = email,
+                identifier = identifier,
+                loginType = LoginType.PASSWORD,
+                agreeToTermsOfServiceTermsOfUse = agreeToTermsOfServiceTermsOfUse,
+                agreeToPersonalInformation = agreeToPersonalInformation,
+                isReceiveMarketing = isReceiveMarketing,
+                roles = listOf(Role.ROLE_USER).map { it.toString() },
+                enabled = true,
+                password = password.run(PasswordService::hashPassword)
+            )
         }
     }
 

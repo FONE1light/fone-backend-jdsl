@@ -9,11 +9,13 @@ import com.fone.common.redis.RedisRepository
 import com.fone.user.domain.entity.User
 import com.fone.user.domain.enum.LoginType
 import com.fone.user.domain.repository.UserRepository
-import com.fone.user.presentation.dto.SignInUserDto.SignInUserRequest
+import com.fone.user.presentation.dto.SignInUserDto.PasswordSignInUserRequest
 import com.fone.user.presentation.dto.SignInUserDto.SignInUserResponse
+import com.fone.user.presentation.dto.SignInUserDto.SocialSignInUserRequest
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.server.ServerWebInputException
 import java.util.concurrent.TimeUnit
 
 @Service
@@ -25,37 +27,53 @@ class SignInUserService(
 ) {
 
     @Transactional(readOnly = true)
-    suspend fun signInUser(request: SignInUserRequest): SignInUserResponse {
+    suspend fun signInUser(request: PasswordSignInUserRequest): SignInUserResponse {
         with(request) {
             val user =
-                userRepository.findByEmailAndLoginType(email, loginType) ?: throw NotFoundUserException()
+                userRepository.findByEmailAndLoginType(email, LoginType.PASSWORD) ?: throw NotFoundUserException()
             validate(user)
-            val token = jwtUtils.generateUserToken(user.email, user.roles.map { Role(it) }.toList())
-
-            redisRepository.setValue(
-                redisRepository.REFRESH_PREFIX + email,
-                token.refreshToken,
-                jwtUtils.refreshTokenValidityInMilliseconds,
-                TimeUnit.MILLISECONDS
-            )
-
-            return SignInUserResponse(user, token)
+            return generateResponse(user)
         }
     }
 
-    suspend fun SignInUserRequest.validate(user: User) {
-        val isValid = when (user.loginType) {
-            LoginType.KAKAO, LoginType.APPLE, LoginType.NAVER, LoginType.GOOGLE -> {
-                oauthValidationService.isValidTokenSignIn(loginType, accessToken!!, email)
-            }
-            LoginType.PASSWORD -> {
-                this.password != null &&
-                    user.password != null &&
-                    PasswordService.isValidPassword(this.password, user.password)
-            }
+    @Transactional(readOnly = true)
+    suspend fun signInUser(request: SocialSignInUserRequest): SignInUserResponse {
+        with(request) {
+            val email = oauthValidationService.getEmail(request)
+            val user =
+                userRepository.findByEmailAndLoginType(email, loginType) ?: throw NotFoundUserException()
+            validate(user)
+            return generateResponse(user)
         }
+    }
+
+    private suspend fun SocialSignInUserRequest.validate(user: User) {
+        if (loginType == LoginType.PASSWORD) {
+            throw ServerWebInputException("소셜 로그인 타입이 필요합니다.")
+        }
+        if (!oauthValidationService.isValidTokenSignIn(loginType, accessToken, user.email)) {
+            throw UnauthorizedException(HttpStatus.UNAUTHORIZED, "유효하지 않은 인증시도입니다.")
+        }
+    }
+
+    private suspend fun PasswordSignInUserRequest.validate(user: User) {
+        val isValid = user.password != null &&
+            PasswordService.isValidPassword(this.password, user.password)
         if (!isValid) {
             throw UnauthorizedException(HttpStatus.UNAUTHORIZED, "유효하지 않은 인증시도입니다.")
         }
+    }
+
+    private fun generateResponse(user: User): SignInUserResponse {
+        val token = jwtUtils.generateUserToken(user.email, user.roles.map { Role(it) }.toList())
+
+        redisRepository.setValue(
+            redisRepository.REFRESH_PREFIX + user.email,
+            token.refreshToken,
+            jwtUtils.refreshTokenValidityInMilliseconds,
+            TimeUnit.MILLISECONDS
+        )
+
+        return SignInUserResponse(user, token)
     }
 }

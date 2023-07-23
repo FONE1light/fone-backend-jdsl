@@ -1,26 +1,36 @@
 package com.fone.user.presentation.controller
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import com.fone.common.CustomDescribeSpec
 import com.fone.common.IntegrationTest
 import com.fone.common.TestGenerator
 import com.fone.common.doPost
 import com.fone.common.entity.CategoryType
 import com.fone.common.entity.Gender
+import com.fone.common.response.CommonResponse
 import com.fone.user.domain.enum.Job
-import com.fone.user.domain.enum.LoginType
+import com.fone.user.presentation.dto.PasswordValidationDto
+import com.fone.user.presentation.dto.PasswordValidationDto.PasswordValidationRequest
+import com.fone.user.presentation.dto.PasswordValidationDto.PasswordValidationResponse
 import com.fone.user.presentation.dto.SignInUserDto
 import com.fone.user.presentation.dto.SignUpUserDto
+import io.kotest.matchers.shouldBe
 import org.springframework.test.web.reactive.server.WebTestClient
 import java.time.LocalDate
 
 @IntegrationTest
-class PasswordUserAuthenticationTest(client: WebTestClient) : CustomDescribeSpec() {
-    private val signupUrl = "/api/v1/users/sign-up"
-    private val signinUrl = "/api/v1/users/sign-in"
+class PasswordUserAuthenticationTest(
+    client: WebTestClient,
+    private val objectMapper: ObjectMapper,
+) : CustomDescribeSpec() {
+    private val signupUrl = "/api/v1/users/password/sign-up"
+    private val signinUrl = "/api/v1/users/password/sign-in"
+    private val validationUrl = "/api/v1/users/password/validate"
 
     init {
         val weakPasswordSignUpRequest =
-            SignUpUserDto.SignUpUserRequest(
+            SignUpUserDto.PasswordSignUpUserRequest(
                 Job.ACTOR,
                 listOf(CategoryType.ETC),
                 "test_password",
@@ -30,15 +40,13 @@ class PasswordUserAuthenticationTest(client: WebTestClient) : CustomDescribeSpec
                 TestGenerator.getRandomPhoneNumber(),
                 "test_password@test.com",
                 "test_password@test.com",
-                LoginType.PASSWORD,
                 true,
                 true,
                 true,
-                null,
                 "password1"
             )
         val signUpUserRequest =
-            SignUpUserDto.SignUpUserRequest(
+            SignUpUserDto.PasswordSignUpUserRequest(
                 Job.ACTOR,
                 listOf(CategoryType.ETC),
                 "test_password",
@@ -48,17 +56,13 @@ class PasswordUserAuthenticationTest(client: WebTestClient) : CustomDescribeSpec
                 TestGenerator.getRandomPhoneNumber(),
                 "test_password@test.com",
                 "test_password@test.com",
-                LoginType.PASSWORD,
                 true,
                 true,
                 true,
-                null,
                 "Somepassword1!"
             )
-        val signInRequest = SignInUserDto.SignInUserRequest(
-            LoginType.PASSWORD,
+        val signInRequest = SignInUserDto.PasswordSignInUserRequest(
             "test_password@test.com",
-            null,
             "Somepassword1!"
         )
         describe("#Password SignUp") {
@@ -107,6 +111,42 @@ class PasswordUserAuthenticationTest(client: WebTestClient) : CustomDescribeSpec
                         .jsonPath("$.result")
                         .isEqualTo("FAIL")
                 }
+            }
+        }
+        context("#Password 중복 조회") {
+            it("이미 존재하는 email인 경우 Invalid 돌려준다") {
+                client
+                    .doPost(
+                        validationUrl,
+                        PasswordValidationRequest(signInRequest.email, signInRequest.password)
+                    )
+                    .expectStatus()
+                    .isOk
+                    .expectBody()
+                    .consumeWith {
+                        val response =
+                            objectMapper.readValue<CommonResponse<PasswordValidationResponse>>(it.responseBody!!)
+                        response.data!!.response shouldBe PasswordValidationDto.ResponseType.INVALID
+                    }
+                    .jsonPath("$.result")
+                    .isEqualTo("SUCCESS")
+            }
+            it("존재하지 않은 email인 경우 Valid 돌려준다") {
+                client
+                    .doPost(
+                        validationUrl,
+                        PasswordValidationRequest("abcdefg@gmail.com", signInRequest.password)
+                    )
+                    .expectStatus()
+                    .isOk
+                    .expectBody()
+                    .consumeWith {
+                        val response =
+                            objectMapper.readValue<CommonResponse<PasswordValidationResponse>>(it.responseBody!!)
+                        response.data!!.response shouldBe PasswordValidationDto.ResponseType.VALID
+                    }
+                    .jsonPath("$.result")
+                    .isEqualTo("SUCCESS")
             }
         }
     }

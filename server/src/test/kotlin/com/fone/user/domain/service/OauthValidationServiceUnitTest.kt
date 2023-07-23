@@ -9,12 +9,10 @@ import com.fone.user.infrastructure.AppleOauthRepository
 import com.fone.user.infrastructure.GoogleOauthRepository
 import com.fone.user.infrastructure.KakaoOauthRepository
 import com.fone.user.infrastructure.NaverOauthRepository
-import com.fone.user.presentation.dto.OauthEmailDto
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
-import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
@@ -63,26 +61,6 @@ class OauthValidationServiceUnitTest : ShouldSpec({
         listOf(appleRepo, googleRepo, naverRepo, kakaoRepo),
         mockFindUserRepo
     )
-    should("getEmailResponse should return true") {
-        oauthValidationService.getEmailResponse(
-            OauthEmailDto.OauthEmailRequest(
-                LoginType.NAVER,
-                "naver token"
-            )
-        ) shouldBe OauthEmailDto.OauthEmailResponse(LoginType.NAVER, "user@naver.com", true)
-        oauthValidationService.getEmailResponse(
-            OauthEmailDto.OauthEmailRequest(
-                LoginType.APPLE,
-                "apple token"
-            )
-        ) shouldBe OauthEmailDto.OauthEmailResponse(LoginType.APPLE, "user@apple.com", true)
-        coVerify {
-            mockFindUserRepo.findByEmailAndLoginType("user@naver.com", LoginType.NAVER)
-            naverRepo.fetchPrincipal("naver token")
-            mockFindUserRepo.findByIdentifier("apple1234")
-            appleRepo.fetchPrincipal("apple token")
-        }
-    }
 
     should("if isValidTokenSignIn pass it should return true") {
         oauthValidationService.isValidTokenSignIn(

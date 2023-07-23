@@ -14,11 +14,11 @@ import java.time.LocalDate
 @IntegrationTest
 class SignUpUserControllerTest(client: WebTestClient) : CustomDescribeSpec() {
 
-    private val baseUrl = "/api/v1/users/sign-up"
+    private val baseUrl = "/api/v1/users/social/sign-up"
 
     init {
         val signUpUserRequest =
-            SignUpUserDto.SignUpUserRequest(
+            SignUpUserDto.SocialSignUpUserRequest(
                 Job.ACTOR,
                 listOf(CategoryType.ETC),
                 "test5",
@@ -32,8 +32,7 @@ class SignUpUserControllerTest(client: WebTestClient) : CustomDescribeSpec() {
                 true,
                 true,
                 true,
-                "test",
-                null
+                "test"
             )
 
         describe("#signUp") {

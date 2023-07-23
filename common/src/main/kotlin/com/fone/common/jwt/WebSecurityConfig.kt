@@ -34,8 +34,8 @@ class WebSecurityConfig(
                 "/swagger-resources/**",
                 "/v2/api-docs",
                 "/webjars/**",
-                "/api/v1/users/sign-in",
-                "/api/v1/users/sign-up",
+                "/api/v1/users/password/*",
+                "/api/v1/users/social/*",
                 "/api/v1/users/check-nickname-duplication",
                 "/api/v1/questions",
                 "/profile"
