@@ -9,6 +9,9 @@ dependencies {
 
     // Kotlin 로깅
     implementation("io.github.microutils:kotlin-logging:2.1.21")
+
+    // JSON
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0")
 }
 
 tasks.jar { enabled = false }

@@ -12,10 +12,22 @@ class Connected(val routeActor: SendChannel<UserOutgoingMessage>, val username: 
 
 object Completed : UserActorMsg()
 
-data class UserIncomingMessage(val username: String, val message: String, val count: String) :
+data class UserIncomingMessage(
+    val type: String,
+    val messageId: String,
+    val username: String,
+    val message: String,
+    val isRead: Boolean,
+) :
     UserActorMsg()
 
-data class UserOutgoingMessage(val author: String, val message: String, var count: String) :
+data class UserOutgoingMessage(
+    val type: String,
+    val messageId: String,
+    val author: String,
+    val message: String,
+    var isRead: Boolean,
+) :
     UserActorMsg()
 
 fun userActor(roomActor: SendChannel<RoomActorMsg>) =
@@ -31,12 +43,15 @@ fun userActor(roomActor: SendChannel<RoomActorMsg>) =
                     routeActor = msg.routeActor
                     username = msg.username
                 }
+
                 is Completed -> {
                     roomActor.send(Terminated(username))
                 }
+
                 is UserIncomingMessage -> {
                     roomActor.send(IncomingMessage(msg.username, msg.message))
                 }
+
                 is UserOutgoingMessage -> {
                     routeActor.send(msg)
                 }
