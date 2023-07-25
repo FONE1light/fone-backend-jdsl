@@ -66,8 +66,8 @@ class WSHandler : WebSocketHandler {
                     }
 
                     "message_read" -> {
-                        val messageId = data.messageId.toString()
-                        val messageRead = MessageRead(messageId)
+                        val author = data.author.toString()
+                        val messageRead = MessageRead(author)
                         roomActor.send(messageRead)
                     }
                 }

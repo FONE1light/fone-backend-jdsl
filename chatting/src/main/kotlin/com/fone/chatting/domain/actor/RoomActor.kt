@@ -17,7 +17,7 @@ data class Terminated(val username: String) : RoomActorMsg()
 
 data class IncomingMessage(val username: String, val message: String) : RoomActorMsg()
 
-data class MessageRead(val messageId: String) : RoomActorMsg()
+data class MessageRead(val username: String) : RoomActorMsg()
 
 private val log = KotlinLogging.logger("roomActorLogger")
 
@@ -43,7 +43,7 @@ fun roomActor(roomId: Int) = CoroutineScope(Dispatchers.Default).actor<RoomActor
                     UUID.randomUUID().toString(),
                     msg.username,
                     msg.message,
-                    true
+                    false
                 )
                 broadCast(outgoingMessage)
                 log.info { "${msg.username} sent message: ${msg.message}" }
@@ -56,19 +56,20 @@ fun roomActor(roomId: Int) = CoroutineScope(Dispatchers.Default).actor<RoomActor
 
             is MessageRead -> {
                 // 메시지 읽음 상태를 처리합니다.
-                val messageId = msg.messageId
-                val readMessage = messages.find { it.messageId == messageId }
-                if (readMessage != null) {
-                    // 클라이언트에게 메시지 읽음 상태를 보냅니다.
-                    val outgoingMessage = UserOutgoingMessage(
-                        "message_read",
-                        UUID.randomUUID().toString(),
-                        readMessage.username,
-                        readMessage.message,
-                        true
-                    )
-                    broadCast(outgoingMessage)
-                }
+                // val messageId = msg.messageId
+                // val readMessage = messages.find { it.messageId == messageId }
+                // if (readMessage != null) {
+                //     // 클라이언트에게 메시지 읽음 상태를 보냅니다.
+                //     val outgoingMessage = UserOutgoingMessage(
+                //         "message_read",
+                //         UUID.randomUUID().toString(),
+                //         readMessage.username,
+                //         readMessage.message,
+                //         true
+                //     )
+                //     broadCast(outgoingMessage)
+                // }
+                broadCast(UserOutgoingMessage("message_read", "", msg.username, "", true))
             }
         }
     }
