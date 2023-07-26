@@ -35,6 +35,8 @@ fun roomActor(roomId: Int) = CoroutineScope(Dispatchers.Default).actor<RoomActor
                 log.info {
                     "${msg.username} joined room $roomId, current user list: ${users.keys}"
                 }
+
+                broadCast(UserOutgoingMessage("message_read", "", msg.username, "", true))
             }
 
             is IncomingMessage -> {
