@@ -24,9 +24,30 @@ private val log = KotlinLogging.logger("roomActorLogger")
 @ObsoleteCoroutinesApi
 fun roomActor(roomId: Int) = CoroutineScope(Dispatchers.Default).actor<RoomActorMsg> {
     val users = ConcurrentHashMap<String, SendChannel<UserActorMsg>>()
-    val messages = mutableListOf<UserIncomingMessage>()
+    val userOutgoingMessages = mutableListOf<UserOutgoingMessage>()
 
     suspend fun broadCast(outgoingMessage: UserOutgoingMessage) = users.values.forEach { it.send(outgoingMessage) }
+
+    suspend fun sendPrevMessagesToNewUser(
+        userOutgoingMessages: MutableList<UserOutgoingMessage>,
+        msg: Join,
+    ) {
+        userOutgoingMessages.forEach {
+            msg.channel.send(it)
+        }
+    }
+
+    fun markOutgoingMessagesAsRead(
+        userOutgoingMessages: MutableList<UserOutgoingMessage>,
+        username: String,
+    ) {
+        userOutgoingMessages.map {
+            if (it.author != username) {
+                it.isRead = true
+            }
+            it
+        }
+    }
 
     for (msg in channel) {
         when (msg) {
@@ -37,6 +58,10 @@ fun roomActor(roomId: Int) = CoroutineScope(Dispatchers.Default).actor<RoomActor
                 }
 
                 broadCast(UserOutgoingMessage("message_read", "", msg.username, "", true))
+
+                markOutgoingMessagesAsRead(userOutgoingMessages, msg.username)
+
+                sendPrevMessagesToNewUser(userOutgoingMessages, msg)
             }
 
             is IncomingMessage -> {
@@ -49,6 +74,7 @@ fun roomActor(roomId: Int) = CoroutineScope(Dispatchers.Default).actor<RoomActor
                 )
                 broadCast(outgoingMessage)
                 log.info { "${msg.username} sent message: ${msg.message}" }
+                userOutgoingMessages.add(outgoingMessage)
             }
 
             is Terminated -> {
@@ -57,21 +83,9 @@ fun roomActor(roomId: Int) = CoroutineScope(Dispatchers.Default).actor<RoomActor
             }
 
             is MessageRead -> {
-                // 메시지 읽음 상태를 처리합니다.
-                // val messageId = msg.messageId
-                // val readMessage = messages.find { it.messageId == messageId }
-                // if (readMessage != null) {
-                //     // 클라이언트에게 메시지 읽음 상태를 보냅니다.
-                //     val outgoingMessage = UserOutgoingMessage(
-                //         "message_read",
-                //         UUID.randomUUID().toString(),
-                //         readMessage.username,
-                //         readMessage.message,
-                //         true
-                //     )
-                //     broadCast(outgoingMessage)
-                // }
                 broadCast(UserOutgoingMessage("message_read", "", msg.username, "", true))
+
+                markOutgoingMessagesAsRead(userOutgoingMessages, msg.username)
             }
         }
     }
