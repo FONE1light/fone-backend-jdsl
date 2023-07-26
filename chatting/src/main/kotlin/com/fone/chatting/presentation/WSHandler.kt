@@ -1,5 +1,8 @@
 package com.fone.chatting.presentation
 
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fone.chatting.domain.Room
 import com.fone.chatting.domain.actor.Completed
 import com.fone.chatting.domain.actor.Connected
@@ -11,10 +14,6 @@ import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.reactive.asFlow
 import kotlinx.coroutines.reactor.mono
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.boolean
-import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.json.jsonPrimitive
 import org.springframework.web.reactive.socket.WebSocketHandler
 import org.springframework.web.reactive.socket.WebSocketSession
 import reactor.core.publisher.Mono
@@ -85,12 +84,14 @@ class WSHandler : WebSocketHandler {
     )
 
     private fun parsePayload(payload: String): Message {
-        val json = Json.parseToJsonElement(payload).jsonObject
-        val type = json["type"]?.jsonPrimitive?.content ?: ""
-        val messageId = json["messageId"]?.jsonPrimitive?.content
-        val author = json["author"]?.jsonPrimitive?.content
-        val message = json["message"]?.jsonPrimitive?.content
-        val isRead = json["isRead"]?.jsonPrimitive?.boolean ?: false
+        val mapper: ObjectMapper = jacksonObjectMapper()
+        val jsonNode: JsonNode = mapper.readTree(payload)
+
+        val type = jsonNode["type"]?.textValue() ?: ""
+        val messageId = jsonNode["messageId"]?.textValue()
+        val author = jsonNode["author"]?.textValue()
+        val message = jsonNode["message"]?.textValue()
+        val isRead = jsonNode["isRead"]?.booleanValue() ?: false
 
         return Message(type, messageId, author, message, isRead)
     }
