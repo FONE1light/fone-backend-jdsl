@@ -47,9 +47,7 @@ class WSHandler : WebSocketHandler {
             .onCompletion { userActor.send(Completed) }
             .collect {
                 val payload = it.payloadAsText
-                println(payload)
                 val data = parsePayload(payload)
-                println(data)
 
                 when (data.type) {
                     "user_incoming_message" -> {
