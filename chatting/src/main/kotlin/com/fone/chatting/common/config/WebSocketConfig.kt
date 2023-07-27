@@ -13,11 +13,14 @@ class WebSocketConfig {
     @Bean
     @InternalCoroutinesApi
     fun handlerMapping(): HandlerMapping {
-        val map = mapOf("/chat" to WSHandler())
+        val map = mapOf(
+            "/chat" to WSHandler()
+        )
         val order = -1 // before annotated controllers
 
         return SimpleUrlHandlerMapping(map, order)
     }
 
-    @Bean fun handlerAdapter() = WebSocketHandlerAdapter()
+    @Bean
+    fun handlerAdapter() = WebSocketHandlerAdapter()
 }
