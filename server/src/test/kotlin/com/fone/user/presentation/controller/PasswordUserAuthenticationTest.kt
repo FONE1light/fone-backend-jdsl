@@ -24,13 +24,13 @@ class PasswordUserAuthenticationTest(
     client: WebTestClient,
     private val objectMapper: ObjectMapper,
 ) : CustomDescribeSpec() {
-    private val signupUrl = "/api/v1/users/password/sign-up"
-    private val signinUrl = "/api/v1/users/password/sign-in"
+    private val signupUrl = "/api/v1/users/email/sign-up"
+    private val signinUrl = "/api/v1/users/email/sign-in"
     private val validationUrl = "/api/v1/users/password/validate"
 
     init {
         val weakPasswordSignUpRequest =
-            SignUpUserDto.PasswordSignUpUserRequest(
+            SignUpUserDto.EmailSignUpUserRequest(
                 Job.ACTOR,
                 listOf(CategoryType.ETC),
                 "test_password",
@@ -135,20 +135,3 @@ class PasswordUserAuthenticationTest(
         }
     }
 }
-
-val signUpUserRequest =
-    SignUpUserDto.PasswordSignUpUserRequest(
-        Job.ACTOR,
-        listOf(CategoryType.ETC),
-        "test_password",
-        LocalDate.now(),
-        Gender.IRRELEVANT,
-        null,
-        TestGenerator.getRandomPhoneNumber(),
-        "test_password@test.com",
-        "test_password@test.com",
-        true,
-        true,
-        true,
-        "Somepassword1!"
-    )

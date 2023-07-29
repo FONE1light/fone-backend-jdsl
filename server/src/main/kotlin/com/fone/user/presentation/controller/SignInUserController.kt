@@ -2,7 +2,7 @@ package com.fone.user.presentation.controller
 
 import com.fone.common.response.CommonResponse
 import com.fone.user.application.SignInUserFacade
-import com.fone.user.presentation.dto.SignInUserDto.PasswordSignInUserRequest
+import com.fone.user.presentation.dto.SignInUserDto.EmailSignInUserRequest
 import com.fone.user.presentation.dto.SignInUserDto.SignInUserResponse
 import com.fone.user.presentation.dto.SignInUserDto.SocialSignInUserRequest
 import io.swagger.annotations.Api
@@ -38,16 +38,16 @@ class SignInUserController(
         return CommonResponse.success(response)
     }
 
-    @PostMapping("/password/sign-in")
+    @PostMapping("/email/sign-in")
     @ApiOperation(value = "로그인 API")
     @ApiResponse(
         responseCode = "200",
         description = "성공",
         content = [Content(schema = Schema(implementation = SignInUserResponse::class))]
     )
-    suspend fun passwordSignInUser(
+    suspend fun emailSignInUser(
         @Valid @RequestBody
-        request: PasswordSignInUserRequest,
+        request: EmailSignInUserRequest,
     ): CommonResponse<SignInUserResponse> {
         val response = signInUserFacade.signIn(request)
         return CommonResponse.success(response)
