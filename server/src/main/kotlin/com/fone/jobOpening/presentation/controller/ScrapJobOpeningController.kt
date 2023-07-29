@@ -34,7 +34,7 @@ class ScrapJobOpeningController(
         principal: Principal,
         @PathVariable jobOpeningId: Long,
     ): CommonResponse<ScrapJobOpeningResponse> {
-        val response = scrapJobOpeningFacade.scrapJobOpening(principal.name, jobOpeningId)
+        val response: ScrapJobOpeningResponse = scrapJobOpeningFacade.scrapJobOpening(principal.name, jobOpeningId)
 
         return CommonResponse.success(response)
     }

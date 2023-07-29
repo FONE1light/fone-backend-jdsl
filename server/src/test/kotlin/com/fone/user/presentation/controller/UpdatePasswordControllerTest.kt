@@ -93,8 +93,8 @@ class UpdatePasswordControllerTest(client: WebTestClient, private val objectMapp
                         }
                     client
                         .doPost(
-                            "$baseUrl/password/sign-in",
-                            SignInUserDto.PasswordSignInUserRequest(signUpUserRequest.email, "newpassword1!")
+                            "$baseUrl/email/sign-in",
+                            SignInUserDto.EmailSignInUserRequest(signUpUserRequest.email, "newpassword1!")
                         )
                         .expectStatus()
                         .isOk
