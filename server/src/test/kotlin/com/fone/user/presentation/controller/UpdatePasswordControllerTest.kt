@@ -6,8 +6,8 @@ import com.fone.common.CustomDescribeSpec
 import com.fone.common.IntegrationTest
 import com.fone.common.doPost
 import com.fone.common.response.CommonResponse
-import com.fone.user.presentation.dto.PasswordPhoneDto
 import com.fone.user.presentation.dto.PasswordUpdateDto
+import com.fone.user.presentation.dto.SMSUserDto
 import com.fone.user.presentation.dto.SignInUserDto
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
@@ -17,20 +17,20 @@ import org.springframework.test.web.reactive.server.WebTestClient
 class UpdatePasswordControllerTest(client: WebTestClient, private val objectMapper: ObjectMapper) :
     CustomDescribeSpec() {
 
-    private val baseUrl = "/api/v1/users/password"
+    private val baseUrl = "/api/v1/users"
 
     init {
         var token = ""
         describe("#Password 변경") {
             context("SMS 인증") {
                 val invalidTokenRequest = PasswordUpdateDto.PasswordUpdateRequest(
-                    signUpUserRequest.email,
+                    signUpUserRequest.phoneNumber,
                     "newpassword1!",
                     "foo"
                 )
                 it("안한 상태에서는 실패하고 관련 안내 준다") {
                     client
-                        .doPost("$baseUrl/update", invalidTokenRequest)
+                        .doPost("$baseUrl/password/update", invalidTokenRequest)
                         .expectStatus()
                         .isBadRequest
                         .expectBody()
@@ -40,7 +40,7 @@ class UpdatePasswordControllerTest(client: WebTestClient, private val objectMapp
                 }
                 it("SMS 인증 요청 보내고 인증 코드 입력 가능하다") {
                     client
-                        .doPost("$baseUrl/sms", PasswordPhoneDto.PasswordPhoneSMSRequest(signUpUserRequest.email))
+                        .doPost("$baseUrl/sms", SMSUserDto.SMSRequest(signUpUserRequest.phoneNumber))
                         .expectStatus()
                         .isOk
                         .expectBody()
@@ -49,22 +49,22 @@ class UpdatePasswordControllerTest(client: WebTestClient, private val objectMapp
                         .isEqualTo("SUCCESS")
                     client
                         .doPost(
-                            "$baseUrl/sms-validate",
-                            PasswordPhoneDto.PasswordPhoneValidationRequest(signUpUserRequest.email, "123456")
+                            "$baseUrl/sms/password",
+                            SMSUserDto.SMSValidationRequest(signUpUserRequest.phoneNumber, "123456")
                         )
                         .expectStatus()
                         .isOk
                         .expectBody()
                         .consumeWith {
-                            val response: CommonResponse<PasswordPhoneDto.PasswordPhoneValidationResponse> =
+                            val response: CommonResponse<SMSUserDto.PasswordSMSValidationResponse> =
                                 objectMapper.readValue(it.responseBody!!)
-                            response.data!!.response shouldBe PasswordPhoneDto.ResponseType.SUCCESS
+                            response.data!!.response shouldBe SMSUserDto.ResponseType.SUCCESS
                             token = response.data!!.token!!
                         }
                 }
                 it("한 상태에서는 토큰 유효성 검토한다.") {
                     client
-                        .doPost("$baseUrl/update", invalidTokenRequest)
+                        .doPost("$baseUrl/password/update", invalidTokenRequest)
                         .expectStatus()
                         .isOk
                         .expectBody()
@@ -73,13 +73,15 @@ class UpdatePasswordControllerTest(client: WebTestClient, private val objectMapp
                         }
                 }
                 it("유효한 토큰 보낼 경우 성공한다.") {
-                    val invalidTokenRequest = PasswordUpdateDto.PasswordUpdateRequest(
-                        signUpUserRequest.email,
-                        "newpassword1!",
-                        token
-                    )
                     client
-                        .doPost("$baseUrl/update", invalidTokenRequest)
+                        .doPost(
+                            "$baseUrl/password/update",
+                            PasswordUpdateDto.PasswordUpdateRequest(
+                                signUpUserRequest.phoneNumber,
+                                "newpassword1!",
+                                token
+                            )
+                        )
                         .expectStatus()
                         .isOk
                         .expectBody()
@@ -90,7 +92,7 @@ class UpdatePasswordControllerTest(client: WebTestClient, private val objectMapp
                         }
                     client
                         .doPost(
-                            "$baseUrl/sign-in",
+                            "$baseUrl/password/sign-in",
                             SignInUserDto.PasswordSignInUserRequest(signUpUserRequest.email, "newpassword1!")
                         )
                         .expectStatus()

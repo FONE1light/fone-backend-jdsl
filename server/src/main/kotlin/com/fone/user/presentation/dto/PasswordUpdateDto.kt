@@ -1,17 +1,15 @@
 package com.fone.user.presentation.dto
 
 import io.swagger.annotations.ApiModelProperty
-import javax.validation.constraints.Email
 import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.Pattern
 
 class PasswordUpdateDto {
 
     data class PasswordUpdateRequest(
-        @field:NotEmpty(message = "이메일은 필수 값 입니다.")
-        @field:Email(message = "유효하지 않는 이메일 입니다.")
-        @ApiModelProperty(value = "이메일", example = "test@test.com", required = true)
-        val email: String,
+        @field:Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}\$")
+        @ApiModelProperty(value = "휴대폰 번호", example = "010-1234-1234", required = true)
+        val phoneNumber: String,
         @field:NotEmpty(message = "비밀번호는 필수 값 입니다.")
         @field:Pattern(
             regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,16}$",
