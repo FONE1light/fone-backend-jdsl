@@ -11,8 +11,6 @@ import com.fone.profile.domain.repository.ProfileWantRepository
 import com.fone.profile.presentation.dto.RetrieveProfilesDto.RetrieveProfileResponse
 import com.fone.profile.presentation.dto.RetrieveProfilesDto.RetrieveProfilesRequest
 import com.fone.profile.presentation.dto.RetrieveProfilesDto.RetrieveProfilesResponse
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -56,28 +54,26 @@ class RetrieveProfilesService(
         profileId: Long,
     ): RetrieveProfileResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
+        val userNickname = userRepository.findNicknameByEmail(email) ?: throw NotFoundUserException()
 
-        return coroutineScope {
-            val profile = async {
-                val profile = profileRepository.findByTypeAndId(type, profileId) ?: throw NotFoundProfileException()
-                profile.view()
-                profileRepository.save(profile)
-            }
+        val profile = profileRepository.findByTypeAndId(type, profileId) ?: throw NotFoundProfileException()
+        profile.view()
+        profileRepository.save(profile)
 
-            val userProfileWants = async { profileWantRepository.findByUserId(userId) }
+        val userProfileWants = profileWantRepository.findByUserId(userId)
 
-            val id = profile.await().id!!
+        val id = profile.id!!
 
-            val profileDomains = async { profileDomainRepository.findByProfileId(id) }
+        val profileDomains = profileDomainRepository.findByProfileId(id)
 
-            val profileCategories = async { profileCategoryRepository.findByProfileId(id) }
+        val profileCategories = profileCategoryRepository.findByProfileId(id)
 
-            RetrieveProfileResponse(
-                profile.await(),
-                userProfileWants.await(),
-                profileDomains.await(),
-                profileCategories.await()
-            )
-        }
+        return RetrieveProfileResponse(
+            profile,
+            userProfileWants,
+            profileDomains,
+            profileCategories,
+            userNickname
+        )
     }
 }

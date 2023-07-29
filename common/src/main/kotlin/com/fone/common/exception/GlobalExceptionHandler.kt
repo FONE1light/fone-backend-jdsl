@@ -1,5 +1,6 @@
 package com.fone.common.exception
 
+import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
 import com.fone.common.response.CommonResponse
 import com.fone.common.response.Error
 import com.fone.common.response.ErrorCode
@@ -29,8 +30,32 @@ class GlobalExceptionHandler {
     @ExceptionHandler(value = [ServerWebInputException::class])
     fun methodArgumentNotValidException(
         e: ServerWebInputException,
-    ): Mono<CommonResponse<Nothing?>> {
-        val errorResponse = CommonResponse.fail(null, ErrorCode.COMMON_NULL_PARAMETER)
+    ): Mono<CommonResponse<String?>> {
+        val data = if (e.cause?.cause is MissingKotlinParameterException) {
+            val param = (e.cause?.cause as MissingKotlinParameterException).parameter.name
+            "필드명: $param"
+        } else {
+            null
+        }
+        val errorResponse = CommonResponse.fail(data, ErrorCode.COMMON_NULL_PARAMETER)
+        return Mono.just(errorResponse)
+    }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(value = [UnauthorizedException::class])
+    fun tokenInvalidException(
+        e: UnauthorizedException,
+    ): Mono<CommonResponse<Nothing>> {
+        val errorResponse = CommonResponse.fail(e.message, e::class.java.simpleName)
+        return Mono.just(errorResponse)
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = [InvalidOauthStatusException::class])
+    fun invalidOauthUserException(
+        e: InvalidOauthStatusException,
+    ): Mono<CommonResponse<Nothing>> {
+        val errorResponse = CommonResponse.fail(e.message, e::class.java.simpleName)
         return Mono.just(errorResponse)
     }
 

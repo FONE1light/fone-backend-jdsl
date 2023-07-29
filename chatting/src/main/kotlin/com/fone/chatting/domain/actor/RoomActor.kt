@@ -6,6 +6,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.actor
 import mu.KotlinLogging
+import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 
 sealed class RoomActorMsg
@@ -16,67 +17,76 @@ data class Terminated(val username: String) : RoomActorMsg()
 
 data class IncomingMessage(val username: String, val message: String) : RoomActorMsg()
 
+data class MessageRead(val username: String) : RoomActorMsg()
+
 private val log = KotlinLogging.logger("roomActorLogger")
 
 @ObsoleteCoroutinesApi
-fun roomActor(roomId: Int) =
-    CoroutineScope(Dispatchers.Default).actor<RoomActorMsg> {
-        val users = ConcurrentHashMap<String, SendChannel<UserActorMsg>>()
+fun roomActor(roomId: Int) = CoroutineScope(Dispatchers.Default).actor<RoomActorMsg> {
+    val users = ConcurrentHashMap<String, SendChannel<UserActorMsg>>()
+    val userOutgoingMessages = mutableListOf<UserOutgoingMessage>()
 
-        suspend fun broadCast(outgoingMessage: UserOutgoingMessage) =
-            users.values.forEach { it.send(outgoingMessage) }
+    suspend fun broadCast(outgoingMessage: UserOutgoingMessage) = users.values.forEach { it.send(outgoingMessage) }
 
-        val userOutgoingMessages = mutableListOf<UserOutgoingMessage>()
-
-        suspend fun broadCastAll(
-            username: String,
-            users: ConcurrentHashMap<String, SendChannel<UserActorMsg>>,
-            msg: Join,
-        ) {
-            if (users[username] != null) {
-                return
-            }
-
-            val outgoingMessage = UserOutgoingMessage(msg.username, "", "")
-            broadCast(outgoingMessage)
-
-            users[msg.username] = msg.channel
-
-            userOutgoingMessages.forEach {
-                if (username == it.author) {
-                    it.count = it.count
-                } else {
-                    it.count = "0"
-                }
-                broadCast(it)
-            }
+    suspend fun sendPrevMessagesToNewUser(
+        userOutgoingMessages: MutableList<UserOutgoingMessage>,
+        msg: Join,
+    ) {
+        userOutgoingMessages.forEach {
+            msg.channel.send(it)
         }
+    }
 
-        for (msg in channel) {
-            when (msg) {
-                is Join -> {
-                    broadCastAll(msg.username, users, msg)
-                    log.info {
-                        "${msg.username} joined room $roomId, current user list: ${users.keys}"
-                    }
+    fun markOutgoingMessagesAsRead(
+        userOutgoingMessages: MutableList<UserOutgoingMessage>,
+        username: String,
+    ) {
+        userOutgoingMessages.map {
+            if (it.author != username) {
+                it.isRead = true
+            }
+            it
+        }
+    }
+
+    for (msg in channel) {
+        when (msg) {
+            is Join -> {
+                users[msg.username] = msg.channel
+                log.info {
+                    "${msg.username} joined room $roomId, current user list: ${users.keys}"
                 }
 
-                is IncomingMessage -> {
-                    val outgoingMessage =
-                        UserOutgoingMessage(
-                            msg.username,
-                            msg.message,
-                            (1 - users.values.count() + 1).toString()
-                        )
-                    userOutgoingMessages.add(outgoingMessage)
-                    broadCast(outgoingMessage)
-                    log.info { "${msg.username} sent message: ${msg.message}" }
-                }
+                broadCast(UserOutgoingMessage("message_read", "", msg.username, "", true))
 
-                is Terminated -> {
-                    users.remove(msg.username)
-                    log.info { "${msg.username} left room $roomId, current user list: ${users.keys}" }
-                }
+                markOutgoingMessagesAsRead(userOutgoingMessages, msg.username)
+
+                sendPrevMessagesToNewUser(userOutgoingMessages, msg)
+            }
+
+            is IncomingMessage -> {
+                val outgoingMessage = UserOutgoingMessage(
+                    "user_incoming_message",
+                    UUID.randomUUID().toString(),
+                    msg.username,
+                    msg.message,
+                    false
+                )
+                broadCast(outgoingMessage)
+                log.info { "${msg.username} sent message: ${msg.message}" }
+                userOutgoingMessages.add(outgoingMessage)
+            }
+
+            is Terminated -> {
+                users.remove(msg.username)
+                log.info { "${msg.username} left room $roomId, current user list: ${users.keys}" }
+            }
+
+            is MessageRead -> {
+                broadCast(UserOutgoingMessage("message_read", "", msg.username, "", true))
+
+                markOutgoingMessagesAsRead(userOutgoingMessages, msg.username)
             }
         }
     }
+}

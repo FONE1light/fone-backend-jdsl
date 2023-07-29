@@ -7,8 +7,6 @@ import com.fone.jobOpening.domain.repository.JobOpeningDomainRepository
 import com.fone.jobOpening.domain.repository.JobOpeningRepository
 import com.fone.jobOpening.domain.repository.JobOpeningScrapRepository
 import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningMyRegistrationDto.RetrieveJobOpeningMyRegistrationResponse
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -28,26 +26,20 @@ class RetrieveJobOpeningMyRegistrationService(
         email: String,
     ): RetrieveJobOpeningMyRegistrationResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
+        val jobOpenings = jobOpeningRepository.findAllByUserId(pageable, userId)
+        val userJobOpeningScraps = jobOpeningScrapRepository.findByUserId(userId)
 
-        return coroutineScope {
-            val jobOpenings = async {
-                jobOpeningRepository.findAllByUserId(pageable, userId)
-            }
+        val jobOpeningIds = jobOpenings.map { it.id!! }.toList()
+        val jobOpeningDomains = jobOpeningDomainRepository
+            .findByJobOpeningIds(jobOpeningIds)
+        val jobOpeningCategories = jobOpeningCategoryRepository
+            .findByJobOpeningIds(jobOpeningIds)
 
-            val userJobOpeningScraps = async { jobOpeningScrapRepository.findByUserId(userId) }
-
-            val jobOpeningIds = jobOpenings.await().map { it.id!! }.toList()
-            val jobOpeningDomains = jobOpeningDomainRepository
-                .findByJobOpeningIds(jobOpeningIds)
-            val jobOpeningCategories = jobOpeningCategoryRepository
-                .findByJobOpeningIds(jobOpeningIds)
-
-            RetrieveJobOpeningMyRegistrationResponse(
-                jobOpenings.await(),
-                userJobOpeningScraps.await(),
-                jobOpeningDomains,
-                jobOpeningCategories
-            )
-        }
+        return RetrieveJobOpeningMyRegistrationResponse(
+            jobOpenings,
+            userJobOpeningScraps,
+            jobOpeningDomains,
+            jobOpeningCategories
+        )
     }
 }

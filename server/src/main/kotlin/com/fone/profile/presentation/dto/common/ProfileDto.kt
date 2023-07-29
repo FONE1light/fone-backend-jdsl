@@ -4,10 +4,12 @@ import com.fone.common.entity.Career
 import com.fone.common.entity.CategoryType
 import com.fone.common.entity.DomainType
 import com.fone.common.entity.Gender
+import com.fone.common.entity.Type
 import com.fone.common.utils.DateTimeFormat
 import com.fone.profile.domain.entity.Profile
 import com.fone.profile.domain.entity.ProfileWant
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 data class ProfileDto(
     val id: Long,
@@ -21,6 +23,7 @@ data class ProfileDto(
     val sns: String,
     val specialty: String,
     val details: String,
+    val type: Type,
     val career: Career,
     val categories: List<CategoryType>,
     val domains: List<DomainType>?,
@@ -29,6 +32,8 @@ data class ProfileDto(
     val profileUrl: String,
     val isWant: Boolean = false,
     val age: Int,
+    val createdAt: LocalDateTime,
+    val userNickname: String?,
 ) {
     constructor(
         profile: Profile,
@@ -36,6 +41,7 @@ data class ProfileDto(
         profileUrls: List<String>,
         domains: List<DomainType>?,
         categories: List<CategoryType>,
+        userNickname: String? = null,
     ) : this(
         id = profile.id!!,
         name = profile.name,
@@ -46,6 +52,7 @@ data class ProfileDto(
         weight = profile.weight,
         email = profile.email,
         sns = profile.sns,
+        type = profile.type,
         specialty = profile.specialty,
         details = profile.details,
         career = profile.career,
@@ -55,6 +62,8 @@ data class ProfileDto(
         viewCount = profile.viewCount,
         isWant = userProfileWantMap.get(profile.id!!) != null,
         age = DateTimeFormat.calculateAge(profile.birthday),
-        profileUrl = if (profileUrls.isEmpty()) "" else profileUrls[0]
+        profileUrl = if (profileUrls.isEmpty()) "" else profileUrls[0],
+        createdAt = profile.createdAt,
+        userNickname = userNickname
     )
 }

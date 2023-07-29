@@ -2,7 +2,7 @@ package com.fone.jobOpening.presentation.controller
 
 import com.fone.common.response.CommonResponse
 import com.fone.jobOpening.application.ScrapJobOpeningFacade
-import com.fone.jobOpening.presentation.dto.ScrapJobOpeningDto
+import com.fone.jobOpening.presentation.dto.ScrapJobOpeningDto.ScrapJobOpeningResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.media.Content
@@ -28,14 +28,14 @@ class ScrapJobOpeningController(
     @ApiResponse(
         responseCode = "200",
         description = "성공",
-        content = [Content(schema = Schema(implementation = ScrapJobOpeningDto.ScrapJobOpeningResponse::class))]
+        content = [Content(schema = Schema(implementation = ScrapJobOpeningResponse::class))]
     )
     suspend fun scrapJobOpening(
         principal: Principal,
         @PathVariable jobOpeningId: Long,
-    ): CommonResponse<ScrapJobOpeningDto.ScrapJobOpeningResponse> {
+    ): CommonResponse<ScrapJobOpeningResponse> {
         val response = scrapJobOpeningFacade.scrapJobOpening(principal.name, jobOpeningId)
 
-        return CommonResponse.success(ScrapJobOpeningDto.ScrapJobOpeningResponse(response))
+        return CommonResponse.success(response)
     }
 }
