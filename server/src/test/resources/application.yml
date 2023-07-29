@@ -33,6 +33,8 @@ security:
       secret: mysecret
       iteration: 33
       keylength: 256
+  sms:
+    url: https://du646e9qh1.execute-api.ap-northeast-2.amazonaws.com/prod/send-sms
   jwt:
     secret: foneBackendSecretfoneBackendSecretfoneBackendSecret
     access-token-validity-in-seconds: 7200

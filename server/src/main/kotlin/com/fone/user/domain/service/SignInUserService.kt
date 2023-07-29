@@ -58,7 +58,7 @@ class SignInUserService(
 
     private suspend fun PasswordSignInUserRequest.validate(user: User) {
         val isValid = user.password != null &&
-            PasswordService.isValidPassword(this.password, user.password)
+            PasswordService.isValidPassword(this.password, user.password!!)
         if (!isValid) {
             throw UnauthorizedException(HttpStatus.UNAUTHORIZED, "유효하지 않은 인증시도입니다.")
         }

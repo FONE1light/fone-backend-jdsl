@@ -1,5 +1,6 @@
 package com.fone.common
 
+import com.fone.user.domain.repository.SMSRepository
 import com.fone.user.domain.service.OauthValidationService
 import com.fone.user.presentation.dto.SignInUserDto
 import io.mockk.coEvery
@@ -20,5 +21,13 @@ class ConfigTestBean {
             val request = it.invocation.args.first() as SignInUserDto.SocialSignInUserRequest
             request.accessToken.split(":").last()
         }
+    }
+
+    // SMS 전송 테스트 bean.
+    @Bean
+    @Primary
+    fun mockSMSRepository() = mockk<SMSRepository> {
+        coEvery { sendValidationMessage(any(), any()) } returns Unit
+        coEvery { generateRandomCode() } returns "123456"
     }
 }

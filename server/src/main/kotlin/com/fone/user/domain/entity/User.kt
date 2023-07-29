@@ -44,7 +44,7 @@ data class User(
     @Convert(converter = SeparatorConverter::class) var roles: List<String> = listOf(),
     @Column var enabled: Boolean = false,
     @JvmField @Column
-    val password: String? = null,
+    var password: String? = null,
 ) : UserDetails, BaseEntity() {
     fun modifyUser(request: ModifyUserRequest) {
         this.nickname = request.nickname

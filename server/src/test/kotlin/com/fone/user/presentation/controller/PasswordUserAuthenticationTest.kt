@@ -45,22 +45,6 @@ class PasswordUserAuthenticationTest(
                 true,
                 "password1"
             )
-        val signUpUserRequest =
-            SignUpUserDto.PasswordSignUpUserRequest(
-                Job.ACTOR,
-                listOf(CategoryType.ETC),
-                "test_password",
-                LocalDate.now(),
-                Gender.IRRELEVANT,
-                null,
-                TestGenerator.getRandomPhoneNumber(),
-                "test_password@test.com",
-                "test_password@test.com",
-                true,
-                true,
-                true,
-                "Somepassword1!"
-            )
         val signInRequest = SignInUserDto.PasswordSignInUserRequest(
             "test_password@test.com",
             "Somepassword1!"
@@ -151,3 +135,20 @@ class PasswordUserAuthenticationTest(
         }
     }
 }
+
+val signUpUserRequest =
+    SignUpUserDto.PasswordSignUpUserRequest(
+        Job.ACTOR,
+        listOf(CategoryType.ETC),
+        "test_password",
+        LocalDate.now(),
+        Gender.IRRELEVANT,
+        null,
+        TestGenerator.getRandomPhoneNumber(),
+        "test_password@test.com",
+        "test_password@test.com",
+        true,
+        true,
+        true,
+        "Somepassword1!"
+    )
