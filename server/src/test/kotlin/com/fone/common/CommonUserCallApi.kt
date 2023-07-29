@@ -4,7 +4,7 @@ import com.fone.common.entity.CategoryType
 import com.fone.common.entity.Gender
 import com.fone.common.response.CommonResponse
 import com.fone.user.domain.enum.Job
-import com.fone.user.domain.enum.SocialLoginType
+import com.fone.user.domain.enum.LoginType
 import com.fone.user.presentation.dto.SignInUserDto
 import com.fone.user.presentation.dto.SignUpUserDto
 import org.springframework.test.web.reactive.server.WebTestClient
@@ -12,15 +12,15 @@ import java.time.LocalDate
 import java.util.UUID
 
 object CommonUserCallApi {
-    private const val signInBaseUrl = "/api/v1/users/sign-in"
-    private const val signUpBaseUrl = "/api/v1/users/sign-up"
+    private const val signInBaseUrl = "/api/v1/users/social/sign-in"
+    private const val signUpBaseUrl = "/api/v1/users/social/sign-up"
 
     fun getAccessToken(client: WebTestClient): Pair<String, String> {
         val nickname = UUID.randomUUID().toString()
         val email = "$nickname@test.com"
 
         val signUpUserRequest =
-            SignUpUserDto.SignUpUserRequest(
+            SignUpUserDto.SocialSignUpUserRequest(
                 Job.ACTOR,
                 listOf(CategoryType.ETC),
                 nickname,
@@ -29,18 +29,18 @@ object CommonUserCallApi {
                 null,
                 TestGenerator.getRandomPhoneNumber(),
                 email,
-                SocialLoginType.APPLE,
+                email,
+                LoginType.APPLE,
                 true,
                 true,
                 true,
-                "test"
+                "token:$email"
             )
 
         val signInUserSuccessRequest =
-            SignInUserDto.SignInUserRequest(
-                SocialLoginType.APPLE,
-                email,
-                "test"
+            SignInUserDto.SocialSignInUserRequest(
+                LoginType.APPLE,
+                "token:$email"
             )
 
         client
@@ -74,7 +74,7 @@ object CommonUserCallApi {
         val email = "$nickname@test.com"
 
         val signUpUserRequest =
-            SignUpUserDto.SignUpUserRequest(
+            SignUpUserDto.SocialSignUpUserRequest(
                 Job.ACTOR,
                 listOf(CategoryType.ETC),
                 nickname,
@@ -83,7 +83,8 @@ object CommonUserCallApi {
                 null,
                 TestGenerator.getRandomPhoneNumber(),
                 email,
-                SocialLoginType.APPLE,
+                email,
+                LoginType.APPLE,
                 true,
                 true,
                 true,

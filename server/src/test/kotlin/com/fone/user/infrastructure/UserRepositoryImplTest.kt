@@ -4,7 +4,7 @@ import com.fone.common.IntegrationTest
 import com.fone.common.TestGenerator
 import com.fone.user.domain.entity.User
 import com.fone.user.domain.enum.Job
-import com.fone.user.domain.enum.SocialLoginType
+import com.fone.user.domain.enum.LoginType
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
@@ -16,10 +16,10 @@ class UserRepositoryImplTest(
     private val userRepositoryImpl: UserRepositoryImpl,
 ) : DescribeSpec({
 
-    describe("findByEmailAndSocialLoginType") {
+    describe("findByEmailAndLoginType") {
         val user = User(
             email = "test12345@gmail.com",
-            socialLoginType = SocialLoginType.KAKAO,
+            loginType = LoginType.KAKAO,
             phoneNumber = TestGenerator.getRandomPhoneNumber()
         )
         val users = listOf(
@@ -30,7 +30,7 @@ class UserRepositoryImplTest(
         context("검색 조건에 맞는 유저가 있다면") {
             it("유저가 조회 된다.") {
                 val result =
-                    userRepositoryImpl.findByEmailAndSocialLoginType("test12345@gmail.com", SocialLoginType.KAKAO)
+                    userRepositoryImpl.findByEmailAndLoginType("test12345@gmail.com", LoginType.KAKAO)
 
                 result shouldBe user
             }
@@ -38,21 +38,21 @@ class UserRepositoryImplTest(
 
         context("검색 조건에 맞는 유저가 없다면") {
             it("유저가 조회 되지 않는다 - email") {
-                val result = userRepositoryImpl.findByEmailAndSocialLoginType("test12@gmail.com", SocialLoginType.KAKAO)
+                val result = userRepositoryImpl.findByEmailAndLoginType("test12@gmail.com", LoginType.KAKAO)
 
                 result shouldBe null
             }
 
-            it("유저가 조회 되지 않는다 - socialLoginType") {
+            it("유저가 조회 되지 않는다 - loginType") {
                 val result =
-                    userRepositoryImpl.findByEmailAndSocialLoginType("test12345@gmail.com", SocialLoginType.APPLE)
+                    userRepositoryImpl.findByEmailAndLoginType("test12345@gmail.com", LoginType.APPLE)
 
                 result shouldBe null
             }
 
-            it("유저가 조회 되지 않는다 - email & socialLoginType") {
+            it("유저가 조회 되지 않는다 - email & loginType") {
                 val result =
-                    userRepositoryImpl.findByEmailAndSocialLoginType("test123@gmail.com", SocialLoginType.APPLE)
+                    userRepositoryImpl.findByEmailAndLoginType("test123@gmail.com", LoginType.APPLE)
 
                 result shouldBe null
             }

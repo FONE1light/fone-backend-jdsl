@@ -1,6 +1,5 @@
 package com.fone.common.jwt
 
-import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import org.springframework.security.authentication.ReactiveAuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -26,7 +25,7 @@ class AuthenticationManager(
         }
 
         runBlocking {
-            return@runBlocking async { userRepository.validTokenByEmail(email) }.await()
+            userRepository.validTokenByEmail(email)
         } ?: return Mono.empty()
 
         return Mono.just(jwtUtils.validateToken(authToken)).filter { valid -> valid }.switchIfEmpty(Mono.empty()).map {

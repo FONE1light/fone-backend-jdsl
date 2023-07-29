@@ -20,7 +20,6 @@ class ModifyUserDto {
     data class ModifyUserResponse(
         val user: UserDto,
     ) {
-
         constructor(
             user: User,
         ) : this(user = UserDto(user))

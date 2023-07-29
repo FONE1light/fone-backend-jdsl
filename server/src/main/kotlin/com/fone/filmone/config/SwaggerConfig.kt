@@ -20,6 +20,7 @@ import com.fone.question.presentation.dto.RegisterQuestionDto.RegisterQuestionRe
 import com.fone.report.presentation.dto.RegisterReportDto.RegisterReportResponse
 import com.fone.user.presentation.dto.CheckNicknameDuplicateDto.CheckNicknameDuplicateResponse
 import com.fone.user.presentation.dto.ModifyUserDto.ModifyUserResponse
+import com.fone.user.presentation.dto.PasswordValidationDto.PasswordValidationResponse
 import com.fone.user.presentation.dto.RetrieveMyPageUserDto.RetrieveMyPageUserResponse
 import com.fone.user.presentation.dto.SignInUserDto.SignInUserResponse
 import com.fone.user.presentation.dto.SignUpUserDto.SignUpUserResponse
@@ -88,7 +89,8 @@ class SwaggerConfig(
                 typeResolver.resolve(ModifyUserResponse::class.java),
                 typeResolver.resolve(RetrieveMyPageUserResponse::class.java),
                 typeResolver.resolve(SignInUserResponse::class.java),
-                typeResolver.resolve(SignUpUserResponse::class.java)
+                typeResolver.resolve(SignUpUserResponse::class.java),
+                typeResolver.resolve(PasswordValidationResponse::class.java)
             )
             .globalResponses(HttpMethod.GET, commonResponse)
             .globalResponses(HttpMethod.POST, commonResponse)

@@ -56,7 +56,6 @@ data class JobOpening(
 
     fun delete() {
         work.delete()
-
         deadline = null
         casting = ""
         numberOfRecruits = 0

@@ -2,8 +2,9 @@ package com.fone.user.presentation.controller
 
 import com.fone.common.response.CommonResponse
 import com.fone.user.application.SignInUserFacade
-import com.fone.user.presentation.dto.SignInUserDto.SignInUserRequest
+import com.fone.user.presentation.dto.SignInUserDto.EmailSignInUserRequest
 import com.fone.user.presentation.dto.SignInUserDto.SignInUserResponse
+import com.fone.user.presentation.dto.SignInUserDto.SocialSignInUserRequest
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.media.Content
@@ -22,16 +23,31 @@ class SignInUserController(
     private val signInUserFacade: SignInUserFacade,
 ) {
 
-    @PostMapping("/sign-in")
+    @PostMapping("/social/sign-in")
     @ApiOperation(value = "로그인 API")
     @ApiResponse(
         responseCode = "200",
         description = "성공",
         content = [Content(schema = Schema(implementation = SignInUserResponse::class))]
     )
-    suspend fun signInUser(
+    suspend fun socialSignInUser(
         @Valid @RequestBody
-        request: SignInUserRequest,
+        request: SocialSignInUserRequest,
+    ): CommonResponse<SignInUserResponse> {
+        val response = signInUserFacade.signIn(request)
+        return CommonResponse.success(response)
+    }
+
+    @PostMapping("/email/sign-in")
+    @ApiOperation(value = "로그인 API")
+    @ApiResponse(
+        responseCode = "200",
+        description = "성공",
+        content = [Content(schema = Schema(implementation = SignInUserResponse::class))]
+    )
+    suspend fun emailSignInUser(
+        @Valid @RequestBody
+        request: EmailSignInUserRequest,
     ): CommonResponse<SignInUserResponse> {
         val response = signInUserFacade.signIn(request)
         return CommonResponse.success(response)

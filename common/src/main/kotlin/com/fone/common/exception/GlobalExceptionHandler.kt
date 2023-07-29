@@ -41,6 +41,24 @@ class GlobalExceptionHandler {
         return Mono.just(errorResponse)
     }
 
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(value = [UnauthorizedException::class])
+    fun tokenInvalidException(
+        e: UnauthorizedException,
+    ): Mono<CommonResponse<Nothing>> {
+        val errorResponse = CommonResponse.fail(e.message, e::class.java.simpleName)
+        return Mono.just(errorResponse)
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = [InvalidOauthStatusException::class])
+    fun invalidOauthUserException(
+        e: InvalidOauthStatusException,
+    ): Mono<CommonResponse<Nothing>> {
+        val errorResponse = CommonResponse.fail(e.message, e::class.java.simpleName)
+        return Mono.just(errorResponse)
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = [WebExchangeBindException::class])
     fun methodArgumentNotValidException(e: WebExchangeBindException): Mono<CommonResponse<String>> {
