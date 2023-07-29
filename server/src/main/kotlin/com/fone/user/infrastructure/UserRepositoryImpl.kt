@@ -44,6 +44,18 @@ class UserRepositoryImpl(
         }
     }
 
+    override suspend fun findByPhone(
+        phone: String,
+    ): User? {
+        return queryFactory.singleQueryOrNull {
+            select(entity(User::class))
+            from(entity(User::class))
+            where(
+                col(User::phoneNumber).equal(phone)
+            )
+        }
+    }
+
     override suspend fun findByNicknameOrEmail(
         nickname: String?,
         email: String?,

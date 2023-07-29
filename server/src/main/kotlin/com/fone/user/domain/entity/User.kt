@@ -3,6 +3,7 @@ package com.fone.user.domain.entity
 import com.fone.common.converter.SeparatorConverter
 import com.fone.common.entity.BaseEntity
 import com.fone.common.entity.Gender
+import com.fone.common.password.PasswordService
 import com.fone.user.domain.enum.Job
 import com.fone.user.domain.enum.LoginType
 import com.fone.user.presentation.dto.ModifyUserDto.ModifyUserRequest
@@ -44,7 +45,7 @@ data class User(
     @Convert(converter = SeparatorConverter::class) var roles: List<String> = listOf(),
     @Column var enabled: Boolean = false,
     @JvmField @Column
-    val password: String? = null,
+    var password: String? = null,
 ) : UserDetails, BaseEntity() {
     fun modifyUser(request: ModifyUserRequest) {
         this.nickname = request.nickname
@@ -62,6 +63,10 @@ data class User(
         email = ""
         roles = listOf()
         enabled = false
+    }
+
+    fun updatePassword(newPassword: String) {
+        password = PasswordService.hashPassword(newPassword)
     }
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {

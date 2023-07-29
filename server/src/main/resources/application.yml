@@ -37,6 +37,8 @@ security:
     secret: foneBackendSecretfoneBackendSecretfoneBackendSecret
     access-token-validity-in-seconds: 7200
     refresh-token-validity-in-seconds: 1209600
+  sms:
+    url: https://du646e9qh1.execute-api.ap-northeast-2.amazonaws.com/prod/send-sms
   oauth:
     naver:
       client-id: aU9oh1xxoC6uAMW48qCP
