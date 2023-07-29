@@ -11,6 +11,7 @@ import com.fone.user.presentation.dto.PasswordPhoneDto.PasswordPhoneSMSRequest
 import com.fone.user.presentation.dto.PasswordPhoneDto.PasswordPhoneSMSResponse
 import com.fone.user.presentation.dto.PasswordPhoneDto.PasswordPhoneValidationRequest
 import com.fone.user.presentation.dto.PasswordPhoneDto.PasswordPhoneValidationResponse
+import com.fone.user.presentation.dto.PasswordPhoneDto.ResponseType
 import com.fone.user.presentation.dto.PasswordUpdateDto
 import com.fone.user.presentation.dto.PasswordUpdateDto.PasswordUpdateRequest
 import com.fone.user.presentation.dto.PasswordUpdateDto.PasswordUpdateResponse
