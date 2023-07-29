@@ -82,7 +82,7 @@ class SignUpUserDto {
         }
     }
 
-    data class PasswordSignUpUserRequest(
+    data class EmailSignUpUserRequest(
         @field:NotNull(message = "직업은 필수 값 입니다.") val job: Job,
         @field:Size(min = 1, message = "관심사는 1개 이상 선택 되어야 합니다") val interests: List<CategoryType>,
         @field:NotEmpty(message = "닉네임은 필수 값 입니다.") val nickname: String,

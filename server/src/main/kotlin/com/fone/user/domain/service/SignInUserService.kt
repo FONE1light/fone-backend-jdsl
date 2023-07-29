@@ -9,7 +9,7 @@ import com.fone.common.redis.RedisRepository
 import com.fone.user.domain.entity.User
 import com.fone.user.domain.enum.LoginType
 import com.fone.user.domain.repository.UserRepository
-import com.fone.user.presentation.dto.SignInUserDto.PasswordSignInUserRequest
+import com.fone.user.presentation.dto.SignInUserDto.EmailSignInUserRequest
 import com.fone.user.presentation.dto.SignInUserDto.SignInUserResponse
 import com.fone.user.presentation.dto.SignInUserDto.SocialSignInUserRequest
 import org.springframework.http.HttpStatus
@@ -27,7 +27,7 @@ class SignInUserService(
 ) {
 
     @Transactional(readOnly = true)
-    suspend fun signInUser(request: PasswordSignInUserRequest): SignInUserResponse {
+    suspend fun signInUser(request: EmailSignInUserRequest): SignInUserResponse {
         with(request) {
             val user =
                 userRepository.findByEmailAndLoginType(email, LoginType.PASSWORD) ?: throw NotFoundUserException()
@@ -56,7 +56,7 @@ class SignInUserService(
         }
     }
 
-    private suspend fun PasswordSignInUserRequest.validate(user: User) {
+    private suspend fun EmailSignInUserRequest.validate(user: User) {
         val isValid = user.password != null &&
             PasswordService.isValidPassword(this.password, user.password)
         if (!isValid) {

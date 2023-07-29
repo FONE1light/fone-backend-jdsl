@@ -34,6 +34,7 @@ class WebSecurityConfig(
                 "/swagger-resources/**",
                 "/v2/api-docs",
                 "/webjars/**",
+                "/api/v1/users/email/*",
                 "/api/v1/users/password/*",
                 "/api/v1/users/social/*",
                 "/api/v1/users/check-nickname-duplication",

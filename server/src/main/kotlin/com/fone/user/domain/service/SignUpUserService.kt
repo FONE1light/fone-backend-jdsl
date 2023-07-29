@@ -4,7 +4,7 @@ import com.fone.common.exception.DuplicateUserException
 import com.fone.common.exception.UnauthorizedException
 import com.fone.user.domain.enum.LoginType
 import com.fone.user.domain.repository.UserRepository
-import com.fone.user.presentation.dto.SignUpUserDto.PasswordSignUpUserRequest
+import com.fone.user.presentation.dto.SignUpUserDto.EmailSignUpUserRequest
 import com.fone.user.presentation.dto.SignUpUserDto.SignUpUserResponse
 import com.fone.user.presentation.dto.SignUpUserDto.SocialSignUpUserRequest
 import org.springframework.http.HttpStatus
@@ -33,7 +33,7 @@ class SignUpUserService(
     }
 
     @Transactional
-    suspend fun signUpUser(request: PasswordSignUpUserRequest): SignUpUserResponse {
+    suspend fun signUpUser(request: EmailSignUpUserRequest): SignUpUserResponse {
         with(request) {
             userRepository.findByNicknameOrEmail(nickname, email)?.let {
                 throw DuplicateUserException()
