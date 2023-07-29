@@ -21,7 +21,7 @@ class WebSecurityConfig(
 ) {
     @Bean
     fun securityWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
-        return http.exceptionHandling().authenticationEntryPoint { _: ServerWebExchange, _: AuthenticationException? ->
+        return http.exceptionHandling().authenticationEntryPoint { swe: ServerWebExchange, _: AuthenticationException? ->
             Mono.fromRunnable {
                 throw UnauthorizedException(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다.")
             }

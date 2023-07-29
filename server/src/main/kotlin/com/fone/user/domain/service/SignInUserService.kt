@@ -1,7 +1,7 @@
 package com.fone.user.domain.service
 
+import com.fone.common.exception.InvalidTokenException
 import com.fone.common.exception.NotFoundUserException
-import com.fone.common.exception.UnauthorizedException
 import com.fone.common.jwt.JWTUtils
 import com.fone.common.jwt.Role
 import com.fone.common.password.PasswordService
@@ -12,7 +12,6 @@ import com.fone.user.domain.repository.UserRepository
 import com.fone.user.presentation.dto.SignInUserDto.EmailSignInUserRequest
 import com.fone.user.presentation.dto.SignInUserDto.SignInUserResponse
 import com.fone.user.presentation.dto.SignInUserDto.SocialSignInUserRequest
-import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.server.ServerWebInputException
@@ -52,7 +51,7 @@ class SignInUserService(
             throw ServerWebInputException("소셜 로그인 타입이 필요합니다.")
         }
         if (!oauthValidationService.isValidTokenSignIn(loginType, accessToken, user.email)) {
-            throw UnauthorizedException(HttpStatus.UNAUTHORIZED, "유효하지 않은 인증시도입니다.")
+            throw InvalidTokenException()
         }
     }
 
@@ -60,7 +59,7 @@ class SignInUserService(
         val isValid = user.password != null &&
             PasswordService.isValidPassword(this.password, user.password)
         if (!isValid) {
-            throw UnauthorizedException(HttpStatus.UNAUTHORIZED, "유효하지 않은 인증시도입니다.")
+            throw InvalidTokenException("유효하지 않은 인증시도입니다.")
         }
     }
 

@@ -1,13 +1,12 @@
 package com.fone.user.domain.service
 
 import com.fone.common.exception.DuplicateUserException
-import com.fone.common.exception.UnauthorizedException
+import com.fone.common.exception.InvalidTokenException
 import com.fone.user.domain.enum.LoginType
 import com.fone.user.domain.repository.UserRepository
 import com.fone.user.presentation.dto.SignUpUserDto.EmailSignUpUserRequest
 import com.fone.user.presentation.dto.SignUpUserDto.SignUpUserResponse
 import com.fone.user.presentation.dto.SignUpUserDto.SocialSignUpUserRequest
-import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.server.ServerWebInputException
@@ -50,7 +49,7 @@ class SignUpUserService(
             throw ServerWebInputException("소셜 로그인 타입이 필요합니다.")
         }
         if (!oauthValidationService.isValidTokenSignIn(loginType, accessToken, email)) {
-            throw UnauthorizedException(HttpStatus.UNAUTHORIZED, "유효하지 않은 회원가입 시도입니다.")
+            throw InvalidTokenException()
         }
     }
 }

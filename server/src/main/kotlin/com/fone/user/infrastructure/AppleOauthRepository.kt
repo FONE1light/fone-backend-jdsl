@@ -9,11 +9,10 @@ import com.auth0.jwt.interfaces.DecodedJWT
 import com.auth0.jwt.interfaces.RSAKeyProvider
 import com.fone.common.annotation.NotInUse
 import com.fone.common.exception.InvalidOauthStatusException
-import com.fone.common.exception.UnauthorizedException
+import com.fone.common.exception.InvalidTokenException
 import com.fone.user.domain.entity.OauthPrincipal
 import com.fone.user.domain.enum.LoginType
 import com.fone.user.domain.repository.OauthRepository
-import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Repository
 import java.security.interfaces.RSAPrivateKey
 import java.security.interfaces.RSAPublicKey
@@ -52,7 +51,7 @@ class AppleOauthRepository : OauthRepository {
     override suspend fun fetchPrincipal(identityToken: String): OauthPrincipal {
         val decoded = decode(identityToken)
         if (decoded.issuer != "https://appleid.apple.com") {
-            throw UnauthorizedException(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다.")
+            throw InvalidTokenException()
         }
         verify(decoded) // 검증 진행. 실패 시 Exception
         if (!decoded.getClaim("email_verified").`as`(Boolean::class.java)) {
@@ -67,7 +66,7 @@ class AppleOauthRepository : OauthRepository {
         try {
             return JWT.decode(token)
         } catch (e: JWTDecodeException) {
-            throw UnauthorizedException(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다.")
+            throw InvalidTokenException()
         }
     }
 
@@ -75,7 +74,7 @@ class AppleOauthRepository : OauthRepository {
         try {
             algorithm.verify(jwt)
         } catch (e: SignatureVerificationException) {
-            throw UnauthorizedException(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다.")
+            throw InvalidTokenException()
         }
     }
 }
