@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -19,7 +20,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/api/v1/users")
 class UpdatePasswordController(private val passwordUpdateFacade: PasswordUpdateFacade) {
-    @PostMapping("/password/update")
+    @PatchMapping("/password")
     @ApiOperation(value = "비밀번호 변경 API")
     @ApiResponse(
         responseCode = "200",

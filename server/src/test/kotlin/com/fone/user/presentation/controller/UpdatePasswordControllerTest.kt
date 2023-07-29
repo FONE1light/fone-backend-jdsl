@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fone.common.CustomDescribeSpec
 import com.fone.common.IntegrationTest
+import com.fone.common.doPatch
 import com.fone.common.doPost
 import com.fone.common.response.CommonResponse
 import com.fone.user.presentation.dto.PasswordUpdateDto
@@ -30,7 +31,7 @@ class UpdatePasswordControllerTest(client: WebTestClient, private val objectMapp
                 )
                 it("안한 상태에서는 실패하고 관련 안내 준다") {
                     client
-                        .doPost("$baseUrl/password/update", invalidTokenRequest)
+                        .doPatch("$baseUrl/password", invalidTokenRequest)
                         .expectStatus()
                         .isBadRequest
                         .expectBody()
@@ -40,7 +41,7 @@ class UpdatePasswordControllerTest(client: WebTestClient, private val objectMapp
                 }
                 it("SMS 인증 요청 보내고 인증 코드 입력 가능하다") {
                     client
-                        .doPost("$baseUrl/sms", SMSUserDto.SMSRequest(signUpUserRequest.phoneNumber))
+                        .doPost("$baseUrl/sms/send", SMSUserDto.SMSRequest(signUpUserRequest.phoneNumber))
                         .expectStatus()
                         .isOk
                         .expectBody()
@@ -49,7 +50,7 @@ class UpdatePasswordControllerTest(client: WebTestClient, private val objectMapp
                         .isEqualTo("SUCCESS")
                     client
                         .doPost(
-                            "$baseUrl/sms/password",
+                            "$baseUrl/sms/find-password",
                             SMSUserDto.SMSValidationRequest(signUpUserRequest.phoneNumber, "123456")
                         )
                         .expectStatus()
@@ -64,7 +65,7 @@ class UpdatePasswordControllerTest(client: WebTestClient, private val objectMapp
                 }
                 it("한 상태에서는 토큰 유효성 검토한다.") {
                     client
-                        .doPost("$baseUrl/password/update", invalidTokenRequest)
+                        .doPatch("$baseUrl/password", invalidTokenRequest)
                         .expectStatus()
                         .isOk
                         .expectBody()
@@ -74,8 +75,8 @@ class UpdatePasswordControllerTest(client: WebTestClient, private val objectMapp
                 }
                 it("유효한 토큰 보낼 경우 성공한다.") {
                     client
-                        .doPost(
-                            "$baseUrl/password/update",
+                        .doPatch(
+                            "$baseUrl/password",
                             PasswordUpdateDto.PasswordUpdateRequest(
                                 signUpUserRequest.phoneNumber,
                                 "newpassword1!",

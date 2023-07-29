@@ -1,6 +1,6 @@
 package com.fone.user.domain.service
 
-import com.fone.common.exception.GlobalException
+import com.fone.common.exception.NotFoundUserException
 import com.fone.common.redis.RedisRepository
 import com.fone.user.domain.entity.User
 import com.fone.user.domain.repository.SMSRepository
@@ -11,7 +11,6 @@ import com.fone.user.presentation.dto.SMSUserDto.SMSRequest
 import com.fone.user.presentation.dto.SMSUserDto.SMSResponse
 import com.fone.user.presentation.dto.SMSUserDto.SMSValidationRequest
 import com.fone.user.presentation.dto.SMSUserDto.UserInfoSMSValidationResponse
-import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import java.util.UUID
 import java.util.concurrent.TimeUnit
@@ -25,14 +24,14 @@ class SMSService(
 ) {
     suspend fun sendSMS(request: SMSRequest): SMSResponse {
         val user = userRepository.findByPhone(request.phoneNumber)
-            ?: throw GlobalException(HttpStatus.BAD_REQUEST, "User Not Found")
+            ?: throw NotFoundUserException()
         sendUpdateVerificationMessage(user)
         return SMSResponse(ResponseType.SUCCESS)
     }
 
     suspend fun validateSMSPassword(request: SMSValidationRequest): PasswordSMSValidationResponse {
         val user = userRepository.findByPhone(request.phoneNumber)
-            ?: throw GlobalException(HttpStatus.BAD_REQUEST, "User Not Found")
+            ?: throw NotFoundUserException()
         if (!validateVerificationMessage(user, request.code)) {
             return PasswordSMSValidationResponse(ResponseType.FAILURE)
         }
@@ -43,7 +42,7 @@ class SMSService(
 
     suspend fun validateSMSUserInfo(request: SMSValidationRequest): UserInfoSMSValidationResponse {
         val user = userRepository.findByPhone(request.phoneNumber)
-            ?: throw GlobalException(HttpStatus.BAD_REQUEST, "User Not Found")
+            ?: throw NotFoundUserException()
         return UserInfoSMSValidationResponse(ResponseType.SUCCESS, user.loginType, user.email)
     }
 

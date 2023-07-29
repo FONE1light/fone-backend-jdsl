@@ -22,7 +22,7 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/api/v1/users")
 class SMSUserController(private val smsUserFacade: SMSUserFacade) {
-    @PostMapping("/sms")
+    @PostMapping("/sms/send")
     @ApiOperation(value = "인증 SMS 전송 API")
     @ApiResponse(
         responseCode = "200",
@@ -37,7 +37,7 @@ class SMSUserController(private val smsUserFacade: SMSUserFacade) {
         return CommonResponse.success(response)
     }
 
-    @PostMapping("/sms/user")
+    @PostMapping("/sms/find-id")
     @ApiOperation(value = "인증 SMS 전송 API")
     @ApiResponse(
         responseCode = "200",
@@ -52,7 +52,7 @@ class SMSUserController(private val smsUserFacade: SMSUserFacade) {
         return CommonResponse.success(response)
     }
 
-    @PostMapping("/sms/password")
+    @PostMapping("/sms/find-password")
     @ApiOperation(value = "비밀번호 변경 SMS 인증 API")
     @ApiResponse(
         responseCode = "200",

@@ -22,7 +22,7 @@ class UserInfoControllerTest(client: WebTestClient, private val objectMapper: Ob
             context("SMS 인증") {
                 it("성공하면 유저 로그인 정보 조회 가능하다") {
                     client
-                        .doPost(baseUrl, SMSUserDto.SMSRequest(signUpUserRequest.phoneNumber))
+                        .doPost("$baseUrl/send", SMSUserDto.SMSRequest(signUpUserRequest.phoneNumber))
                         .expectStatus()
                         .isOk
                         .expectBody()
@@ -31,7 +31,7 @@ class UserInfoControllerTest(client: WebTestClient, private val objectMapper: Ob
                         .isEqualTo("SUCCESS")
                     client
                         .doPost(
-                            "$baseUrl/user",
+                            "$baseUrl/find-id",
                             SMSUserDto.SMSValidationRequest(signUpUserRequest.phoneNumber, "123456")
                         )
                         .expectStatus()

@@ -34,3 +34,7 @@ data class NotFoundException(
 data class InvalidTokenException(
     override val message: String = "유효하지 않은 토큰입니다.",
 ) : ServerException(401, message)
+
+data class InvalidUserStateException(
+    override val message: String = "유효하지 않은 토큰입니다.",
+) : ServerException(400, message)
