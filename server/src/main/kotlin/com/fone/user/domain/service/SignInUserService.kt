@@ -13,7 +13,6 @@ import com.fone.user.presentation.dto.SignInUserDto.EmailSignInUserRequest
 import com.fone.user.presentation.dto.SignInUserDto.SignInUserResponse
 import com.fone.user.presentation.dto.SignInUserDto.SocialSignInUserRequest
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.server.ServerWebInputException
 import java.util.concurrent.TimeUnit
 
@@ -25,7 +24,6 @@ class SignInUserService(
     private val oauthValidationService: OauthValidationService,
 ) {
 
-    @Transactional(readOnly = true)
     suspend fun signInUser(request: EmailSignInUserRequest): SignInUserResponse {
         with(request) {
             val user =
@@ -35,7 +33,6 @@ class SignInUserService(
         }
     }
 
-    @Transactional(readOnly = true)
     suspend fun signInUser(request: SocialSignInUserRequest): SignInUserResponse {
         with(request) {
             val email = oauthValidationService.getEmail(request)
