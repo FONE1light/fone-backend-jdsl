@@ -16,15 +16,12 @@ class SignUpUserService(
     private val userRepository: UserRepository,
     private val oauthValidationService: OauthValidationService,
 ) {
-
     @Transactional
     suspend fun signUpUser(request: SocialSignUpUserRequest): SignUpUserResponse {
         with(request) {
-            validate()
             userRepository.findByNicknameOrEmail(nickname, email)?.let {
                 throw DuplicateUserException()
             }
-
             val newUser = toEntity()
             userRepository.save(newUser)
             return SignUpUserResponse(newUser)
@@ -44,12 +41,14 @@ class SignUpUserService(
         }
     }
 
-    suspend fun SocialSignUpUserRequest.validate() {
-        if (loginType == LoginType.PASSWORD) {
-            throw ServerWebInputException("소셜 로그인 타입이 필요합니다.")
-        }
-        if (!oauthValidationService.isValidTokenSignIn(loginType, accessToken, email)) {
-            throw InvalidTokenException()
+    suspend fun socialLoginValidate(request: SocialSignUpUserRequest) {
+        with(request) {
+            if (loginType == LoginType.PASSWORD) {
+                throw ServerWebInputException("소셜 로그인 타입이 필요합니다.")
+            }
+            if (!oauthValidationService.isValidTokenSignUp(loginType, accessToken, email, identifier)) {
+                throw InvalidTokenException()
+            }
         }
     }
 }
