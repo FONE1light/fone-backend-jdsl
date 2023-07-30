@@ -34,7 +34,6 @@ class SignUpUserController(
         @Valid @RequestBody
         request: SocialSignUpUserRequest,
     ): CommonResponse<SignUpUserResponse> {
-        println(Thread.currentThread().name)
         val response = signUpUserFacade.signUp(request)
         return CommonResponse.success(response)
     }

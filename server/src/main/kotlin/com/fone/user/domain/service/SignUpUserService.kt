@@ -7,8 +7,6 @@ import com.fone.user.domain.repository.UserRepository
 import com.fone.user.presentation.dto.SignUpUserDto.EmailSignUpUserRequest
 import com.fone.user.presentation.dto.SignUpUserDto.SignUpUserResponse
 import com.fone.user.presentation.dto.SignUpUserDto.SocialSignUpUserRequest
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.server.ServerWebInputException
@@ -18,13 +16,9 @@ class SignUpUserService(
     private val userRepository: UserRepository,
     private val oauthValidationService: OauthValidationService,
 ) {
-
     @Transactional
     suspend fun signUpUser(request: SocialSignUpUserRequest): SignUpUserResponse {
         with(request) {
-            withContext(Dispatchers.IO) {
-                validate()
-            }
             userRepository.findByNicknameOrEmail(nickname, email)?.let {
                 throw DuplicateUserException()
             }
@@ -47,12 +41,14 @@ class SignUpUserService(
         }
     }
 
-    suspend fun SocialSignUpUserRequest.validate() {
-        if (loginType == LoginType.PASSWORD) {
-            throw ServerWebInputException("소셜 로그인 타입이 필요합니다.")
-        }
-        if (!oauthValidationService.isValidTokenSignUp(loginType, accessToken, email, identifier)) {
-            throw InvalidTokenException()
+    suspend fun socialLoginValidate(request: SocialSignUpUserRequest) {
+        with(request) {
+            if (loginType == LoginType.PASSWORD) {
+                throw ServerWebInputException("소셜 로그인 타입이 필요합니다.")
+            }
+            if (!oauthValidationService.isValidTokenSignUp(loginType, accessToken, email, identifier)) {
+                throw InvalidTokenException()
+            }
         }
     }
 }
