@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit
 class EmailValidationService(
     private val redisRepository: RedisRepository,
     private val emailRepository: EmailRepository,
-    @Value("\${security.aws.senderEmail}") private val emailSource: String
+    @Value("\${security.aws.senderEmail}") private val emailSource: String,
 ) {
     private val emailTemplate =
         EmailRepositoryImpl::class.java.classLoader.getResource("email-template.html")!!.readText()

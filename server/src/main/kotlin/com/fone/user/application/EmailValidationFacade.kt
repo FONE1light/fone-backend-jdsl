@@ -4,7 +4,11 @@ import com.fone.user.presentation.dto.EmailValidationDto
 
 interface EmailValidationFacade {
 
-    suspend fun sendValidationMessage(emailSendRequest: EmailValidationDto.EmailSendRequest): EmailValidationDto.EmailSendResponse
+    suspend fun sendValidationMessage(
+        emailSendRequest: EmailValidationDto.EmailSendRequest,
+    ): EmailValidationDto.EmailSendResponse
 
-    suspend fun validateCode(emailValidationRequest: EmailValidationDto.EmailValidationRequest): EmailValidationDto.EmailValidationResponse
+    suspend fun validateCode(
+        emailValidationRequest: EmailValidationDto.EmailValidationRequest,
+    ): EmailValidationDto.EmailValidationResponse
 }
