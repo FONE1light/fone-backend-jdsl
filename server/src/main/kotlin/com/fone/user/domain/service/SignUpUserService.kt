@@ -2,6 +2,9 @@ package com.fone.user.domain.service
 
 import com.fone.common.exception.DuplicateUserException
 import com.fone.common.exception.InvalidTokenException
+import com.fone.common.redis.RedisRepository
+import com.fone.user.application.EmailValidationFacade
+import com.fone.user.application.EmailValidationFacadeNoOp
 import com.fone.user.domain.enum.LoginType
 import com.fone.user.domain.repository.UserRepository
 import com.fone.user.presentation.dto.SignUpUserDto.EmailSignUpUserRequest
@@ -15,6 +18,8 @@ import org.springframework.web.server.ServerWebInputException
 class SignUpUserService(
     private val userRepository: UserRepository,
     private val oauthValidationService: OauthValidationService,
+    private val redisRepository: RedisRepository,
+    private val emailValidationFacade: EmailValidationFacade,
 ) {
     @Transactional
     suspend fun signUpUser(request: SocialSignUpUserRequest): SignUpUserResponse {
@@ -49,6 +54,16 @@ class SignUpUserService(
             if (!oauthValidationService.isValidTokenSignUp(loginType, accessToken, email, identifier)) {
                 throw InvalidTokenException()
             }
+        }
+    }
+
+    suspend fun emailLoginValidate(request: EmailSignUpUserRequest) {
+        if (emailValidationFacade is EmailValidationFacadeNoOp) return
+        with(request) {
+            if (token != redisRepository.getValue("user:$email:emailSignUpToken")) {
+                throw InvalidTokenException()
+            }
+            redisRepository.delValue("user:$email:emailToken")
         }
     }
 }

@@ -20,7 +20,7 @@ import org.springframework.test.web.reactive.server.WebTestClient
 import java.time.LocalDate
 
 @IntegrationTest
-class PasswordUserAuthenticationTest(
+class EmailUserAuthenticationTest(
     client: WebTestClient,
     private val objectMapper: ObjectMapper,
 ) : CustomDescribeSpec() {
@@ -43,7 +43,8 @@ class PasswordUserAuthenticationTest(
                 true,
                 true,
                 true,
-                "password1"
+                "password1",
+                ""
             )
         val signInRequest = SignInUserDto.EmailSignInUserRequest(
             "test_password@test.com",
@@ -150,5 +151,6 @@ val signUpUserRequest =
         true,
         true,
         true,
-        "Somepassword1!"
+        "Somepassword1!",
+        ""
     )
