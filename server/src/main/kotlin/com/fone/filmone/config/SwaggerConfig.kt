@@ -19,9 +19,14 @@ import com.fone.profile.presentation.dto.RetrieveProfilesDto.RetrieveProfilesRes
 import com.fone.question.presentation.dto.RegisterQuestionDto.RegisterQuestionResponse
 import com.fone.report.presentation.dto.RegisterReportDto.RegisterReportResponse
 import com.fone.user.presentation.dto.CheckNicknameDuplicateDto.CheckNicknameDuplicateResponse
+import com.fone.user.presentation.dto.EmailValidationDto.EmailSendResponse
+import com.fone.user.presentation.dto.EmailValidationDto.EmailValidationResponse
 import com.fone.user.presentation.dto.ModifyUserDto.ModifyUserResponse
+import com.fone.user.presentation.dto.PasswordUpdateDto.PasswordUpdateResponse
 import com.fone.user.presentation.dto.PasswordValidationDto.PasswordValidationResponse
 import com.fone.user.presentation.dto.RetrieveMyPageUserDto.RetrieveMyPageUserResponse
+import com.fone.user.presentation.dto.SMSUserDto.PasswordSMSValidationResponse
+import com.fone.user.presentation.dto.SMSUserDto.UserInfoSMSValidationResponse
 import com.fone.user.presentation.dto.SignInUserDto.SignInUserResponse
 import com.fone.user.presentation.dto.SignUpUserDto.SignUpUserResponse
 import io.swagger.annotations.ApiModel
@@ -90,7 +95,12 @@ class SwaggerConfig(
                 typeResolver.resolve(RetrieveMyPageUserResponse::class.java),
                 typeResolver.resolve(SignInUserResponse::class.java),
                 typeResolver.resolve(SignUpUserResponse::class.java),
-                typeResolver.resolve(PasswordValidationResponse::class.java)
+                typeResolver.resolve(PasswordValidationResponse::class.java),
+                typeResolver.resolve(EmailValidationResponse::class.java),
+                typeResolver.resolve(EmailSendResponse::class.java),
+                typeResolver.resolve(UserInfoSMSValidationResponse::class.java),
+                typeResolver.resolve(PasswordSMSValidationResponse::class.java),
+                typeResolver.resolve(PasswordUpdateResponse::class.java)
             )
             .globalResponses(HttpMethod.GET, commonResponse)
             .globalResponses(HttpMethod.POST, commonResponse)

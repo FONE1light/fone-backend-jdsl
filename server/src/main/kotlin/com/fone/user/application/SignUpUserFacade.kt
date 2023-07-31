@@ -15,5 +15,8 @@ class SignUpUserFacade(
         signUpUserService.socialLoginValidate(request)
         return signUpUserService.signUpUser(request)
     }
-    suspend fun signUp(request: EmailSignUpUserRequest) = signUpUserService.signUpUser(request)
+    suspend fun signUp(request: EmailSignUpUserRequest): SignUpUserResponse {
+        signUpUserService.emailLoginValidate(request)
+        return signUpUserService.signUpUser(request)
+    }
 }

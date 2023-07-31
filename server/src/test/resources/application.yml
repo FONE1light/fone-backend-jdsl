@@ -28,6 +28,10 @@ spring:
     port: 6380
 
 security:
+  aws:
+    senderEmail: fyimbtmn@gmail.com
+    accessKey: ${AWS_ACCESS_KEY}
+    secretKey: ${AWS_SECRET_KEY}
   password:
     encoder:
       secret: mysecret

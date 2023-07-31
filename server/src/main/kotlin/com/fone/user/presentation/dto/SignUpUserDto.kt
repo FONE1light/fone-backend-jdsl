@@ -112,6 +112,7 @@ class SignUpUserDto {
             regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,16}$",
             message = "영문자, 숫자, 특수문자가 포함된 8~16자 비밀번호"
         ) val password: String,
+        @ApiModelProperty(value = "이메일 인증 토큰", required = true) val token: String,
     ) {
         fun toEntity(): User {
             return User(
