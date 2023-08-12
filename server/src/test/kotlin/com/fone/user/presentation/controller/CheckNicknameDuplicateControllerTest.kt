@@ -17,7 +17,7 @@ class CheckNicknameDuplicateControllerTest(client: WebTestClient) : CustomDescri
         describe("#checkNicknameDuplicate") {
             context("존재하지 않는 닉네임을 입력하면") {
                 it("성공한다.") {
-                    client.doGet(checkNicknameDuplicateUrl, null, mapOf("nickname" to "1"))
+                    client.doGet(checkNicknameDuplicateUrl, null, mapOf("nickname" to "123"))
                         .expectStatus().isOk.expectBody().consumeWith { println(it) }.jsonPath("$.data.isDuplicate")
                         .isEqualTo(false)
                 }
