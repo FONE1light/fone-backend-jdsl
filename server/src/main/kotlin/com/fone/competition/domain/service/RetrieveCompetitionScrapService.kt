@@ -5,8 +5,6 @@ import com.fone.common.repository.UserCommonRepository
 import com.fone.competition.domain.repository.CompetitionRepository
 import com.fone.competition.domain.repository.CompetitionScrapRepository
 import com.fone.competition.presentation.dto.RetrieveCompetitionScrapDto.RetrieveCompetitionScrapResponse
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -24,18 +22,11 @@ class RetrieveCompetitionScrapService(
         email: String,
     ): RetrieveCompetitionScrapResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
-
-        return coroutineScope {
-            val competitions = async {
-                competitionRepository.findScrapAllById(pageable, userId)
-            }
-
-            val userCompetitionScraps = async { competitionScrapRepository.findByUserId(userId) }
-
-            RetrieveCompetitionScrapResponse(
-                competitions.await(),
-                userCompetitionScraps.await()
-            )
-        }
+        val competitions = competitionRepository.findScrapAllById(pageable, userId)
+        val userCompetitionScraps = competitionScrapRepository.findByUserId(userId)
+        return RetrieveCompetitionScrapResponse(
+            competitions,
+            userCompetitionScraps
+        )
     }
 }

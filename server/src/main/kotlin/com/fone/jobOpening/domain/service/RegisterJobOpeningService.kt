@@ -8,8 +8,6 @@ import com.fone.jobOpening.domain.repository.JobOpeningRepository
 import com.fone.jobOpening.domain.repository.JobOpeningScrapRepository
 import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningRequest
 import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningResponse
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -28,44 +26,31 @@ class RegisterJobOpeningService(
         email: String,
     ): RegisterJobOpeningResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
+        return with(request) {
+            val jobOpening = toEntity(userId)
+            jobOpeningRepository.save(jobOpening)
 
-        return coroutineScope {
-            with(request) {
-                val jobOpening = async {
-                    val jobOpening = toEntity(userId)
-                    jobOpeningRepository.save(jobOpening)
-
-                    val jobOpeningDomains = domains?.map {
-                        com.fone.jobOpening.domain.entity.JobOpeningDomain(
-                            jobOpening.id!!,
-                            it
-                        )
-                    }
-
-                    val jobOpeningCategories = categories.map {
-                        com.fone.jobOpening.domain.entity.JobOpeningCategory(
-                            jobOpening.id!!,
-                            it
-                        )
-                    }
-                    jobOpeningDomainRepository.saveAll(jobOpeningDomains)
-                    jobOpeningCategoryRepository.saveAll(jobOpeningCategories)
-
-                    jobOpening
-                }
-
-                val userJobOpeningScraps = async {
-                    val scraps = jobOpeningScrapRepository.findByUserId(userId)
-                    scraps
-                }
-
-                RegisterJobOpeningResponse(
-                    jobOpening.await(),
-                    userJobOpeningScraps.await(),
-                    domains,
-                    categories
+            val jobOpeningDomains = domains?.map {
+                com.fone.jobOpening.domain.entity.JobOpeningDomain(
+                    jobOpening.id!!,
+                    it
                 )
             }
+            val jobOpeningCategories = categories.map {
+                com.fone.jobOpening.domain.entity.JobOpeningCategory(
+                    jobOpening.id!!,
+                    it
+                )
+            }
+            jobOpeningDomainRepository.saveAll(jobOpeningDomains)
+            jobOpeningCategoryRepository.saveAll(jobOpeningCategories)
+            val scraps = jobOpeningScrapRepository.findByUserId(userId)
+            RegisterJobOpeningResponse(
+                jobOpening,
+                scraps,
+                domains,
+                categories
+            )
         }
     }
 }
