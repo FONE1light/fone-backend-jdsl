@@ -7,8 +7,6 @@ import com.fone.competition.domain.repository.CompetitionRepository
 import com.fone.competition.domain.repository.CompetitionScrapRepository
 import com.fone.competition.presentation.dto.RetrieveCompetitionDto.RetrieveCompetitionResponse
 import com.fone.competition.presentation.dto.RetrieveCompetitionDto.RetrieveCompetitionsResponse
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -27,19 +25,11 @@ class RetrieveCompetitionService(
     ): RetrieveCompetitionsResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 
-        return coroutineScope {
-            val competitions = async { competitionRepository.findAll(pageable) }
+        val competitions = competitionRepository.findAll(pageable)
+        val userCompetitionScraps = competitionScrapRepository.findByUserId(userId)
+        val competitionCount = competitionRepository.count()
 
-            val userCompetitionScraps = async { competitionScrapRepository.findByUserId(userId) }
-
-            val competitionCount = async { competitionRepository.count() }
-
-            RetrieveCompetitionsResponse(
-                competitions.await(),
-                userCompetitionScraps.await(),
-                competitionCount.await()
-            )
-        }
+        return RetrieveCompetitionsResponse(competitions, userCompetitionScraps, competitionCount)
     }
 
     @Transactional
@@ -48,20 +38,15 @@ class RetrieveCompetitionService(
         competitionId: Long,
     ): RetrieveCompetitionResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
+        val competition = competitionRepository.findById(competitionId) ?: throw NotFoundCompetitionException()
+        competition.view()
+        val savedCompetition = competitionRepository.save(competition)
 
-        return coroutineScope {
-            val competition = async {
-                val competition = competitionRepository.findById(competitionId) ?: throw NotFoundCompetitionException()
-                competition.view()
-                competitionRepository.save(competition)
-            }
+        val userCompetitionScraps = competitionScrapRepository.findByUserId(userId)
 
-            val userCompetitionScraps = async { competitionScrapRepository.findByUserId(userId) }
-
-            RetrieveCompetitionResponse(
-                competition.await(),
-                userCompetitionScraps.await()
-            )
-        }
+        return RetrieveCompetitionResponse(
+            savedCompetition,
+            userCompetitionScraps
+        )
     }
 }

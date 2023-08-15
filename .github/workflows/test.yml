@@ -3,6 +3,10 @@ name: Test
 on:
   pull_request:
 
+env:
+  AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+  AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest

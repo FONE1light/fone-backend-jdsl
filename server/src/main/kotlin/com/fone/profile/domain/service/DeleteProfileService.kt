@@ -7,8 +7,6 @@ import com.fone.common.repository.UserCommonRepository
 import com.fone.profile.domain.repository.ProfileCategoryRepository
 import com.fone.profile.domain.repository.ProfileDomainRepository
 import com.fone.profile.domain.repository.ProfileRepository
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import org.springframework.stereotype.Service
 
 @Service
@@ -26,17 +24,9 @@ class DeleteProfileService(
         if (profile.userId != userId) {
             throw InvalidProfileUserIdException()
         }
-
         profile.delete()
-
-        coroutineScope {
-            val p = async { profileRepository.save(profile) }
-            val profileDomain = async { profileDomainRepository.deleteByProfileId(profileId) }
-            val profileCategory = async { profileCategoryRepository.deleteByProfileId(profileId) }
-
-            p.await()
-            profileDomain.await()
-            profileCategory.await()
-        }
+        profileRepository.save(profile)
+        profileDomainRepository.deleteByProfileId(profileId)
+        profileCategoryRepository.deleteByProfileId(profileId)
     }
 }

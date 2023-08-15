@@ -70,7 +70,7 @@ object CommonUserCallApi {
     }
 
     fun signUp(client: WebTestClient): Pair<String, String> {
-        val nickname = UUID.randomUUID().toString()
+        val nickname = UUID.randomUUID().toString().substring(0, 5)
         val email = "$nickname@test.com"
 
         val signUpUserRequest =

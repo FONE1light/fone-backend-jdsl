@@ -12,9 +12,8 @@ import com.fone.profile.domain.repository.ProfileRepository
 import com.fone.profile.domain.repository.ProfileWantRepository
 import com.fone.profile.presentation.dto.RegisterProfileDto.RegisterProfileRequest
 import com.fone.profile.presentation.dto.RegisterProfileDto.RegisterProfileResponse
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import org.springframework.stereotype.Service
+import javax.transaction.Transactional
 
 @Service
 class PutProfileService(
@@ -25,6 +24,7 @@ class PutProfileService(
     private val userRepository: UserCommonRepository,
 ) {
 
+    @Transactional
     suspend fun putProfile(
         request: RegisterProfileRequest,
         email: String,
@@ -38,35 +38,31 @@ class PutProfileService(
         profile.put(request)
         profileRepository.save(profile)
 
-        return coroutineScope {
-            val userProfileWants = async {
-                profileWantRepository.findByUserId(userId)
-            }
+        val userProfileWants = profileWantRepository.findByUserId(userId)
 
-            profileDomainRepository.deleteByProfileId(profile.id!!)
-            val profileDomains = request.domains?.map {
-                ProfileDomain(
-                    profile.id!!,
-                    it
-                )
-            }
-            profileDomainRepository.saveAll(profileDomains)
-
-            profileCategoryRepository.deleteByProfileId(profile.id!!)
-            val profileCategories = request.categories.map {
-                ProfileCategory(
-                    profile.id!!,
-                    it
-                )
-            }
-            profileCategoryRepository.saveAll(profileCategories)
-
-            RegisterProfileResponse(
-                profile,
-                userProfileWants.await(),
-                request.domains,
-                request.categories
+        profileDomainRepository.deleteByProfileId(profile.id!!)
+        val profileDomains = request.domains?.map {
+            ProfileDomain(
+                profile.id!!,
+                it
             )
         }
+        profileDomainRepository.saveAll(profileDomains)
+
+        profileCategoryRepository.deleteByProfileId(profile.id!!)
+        val profileCategories = request.categories.map {
+            ProfileCategory(
+                profile.id!!,
+                it
+            )
+        }
+        profileCategoryRepository.saveAll(profileCategories)
+
+        return RegisterProfileResponse(
+            profile,
+            userProfileWants,
+            request.domains,
+            request.categories
+        )
     }
 }

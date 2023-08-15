@@ -11,8 +11,6 @@ import com.fone.jobOpening.domain.repository.JobOpeningScrapRepository
 import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningResponse
 import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningsRequest
 import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningsResponse
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -34,24 +32,18 @@ class RetrieveJobOpeningService(
     ): RetrieveJobOpeningsResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 
-        return coroutineScope {
-            val jobOpenings = async {
-                jobOpeningRepository.findByFilters(pageable, request)
-            }
+        val jobOpenings = jobOpeningRepository.findByFilters(pageable, request)
+        val userJobOpeningScraps = jobOpeningScrapRepository.findByUserId(userId)
+        val jobOpeningIds = jobOpenings.map { it.id!! }.toList()
+        val jobOpeningDomains = jobOpeningDomainRepository.findByJobOpeningIds(jobOpeningIds)
+        val jobOpeningCategories = jobOpeningCategoryRepository.findByJobOpeningIds(jobOpeningIds)
 
-            val userJobOpeningScraps = async { jobOpeningScrapRepository.findByUserId(userId) }
-
-            val jobOpeningIds = jobOpenings.await().map { it.id!! }.toList()
-            val jobOpeningDomains = jobOpeningDomainRepository.findByJobOpeningIds(jobOpeningIds)
-            val jobOpeningCategories = jobOpeningCategoryRepository.findByJobOpeningIds(jobOpeningIds)
-
-            RetrieveJobOpeningsResponse(
-                jobOpenings.await(),
-                userJobOpeningScraps.await(),
-                jobOpeningDomains,
-                jobOpeningCategories
-            )
-        }
+        return RetrieveJobOpeningsResponse(
+            jobOpenings,
+            userJobOpeningScraps,
+            jobOpeningDomains,
+            jobOpeningCategories
+        )
     }
 
     @Transactional
@@ -61,35 +53,19 @@ class RetrieveJobOpeningService(
         jobOpeningId: Long,
     ): RetrieveJobOpeningResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
+        val jobOpening =
+            jobOpeningRepository.findByTypeAndId(type, jobOpeningId) ?: throw NotFoundJobOpeningException()
+        jobOpening.view()
+        jobOpeningRepository.save(jobOpening)
+        val userJobOpeningScraps = jobOpeningScrapRepository.findByUserId(userId)
+        val jobOpeningDomains = jobOpeningDomainRepository.findByJobOpeningId(jobOpening.id!!)
+        val jobOpeningCategories = jobOpeningCategoryRepository.findByJobOpeningId(jobOpening.id!!)
 
-        return coroutineScope {
-            val jobOpening = async {
-                val jobOpening =
-                    jobOpeningRepository.findByTypeAndId(type, jobOpeningId) ?: throw NotFoundJobOpeningException()
-                jobOpening.view()
-                jobOpeningRepository.save(jobOpening)
-            }
-
-            val userJobOpeningScraps = async { jobOpeningScrapRepository.findByUserId(userId) }
-
-            val jobOpeningDomains = async {
-                val id = jobOpening.await().id!!
-
-                jobOpeningDomainRepository.findByJobOpeningId(id)
-            }
-
-            val jobOpeningCategories = async {
-                val id = jobOpening.await().id!!
-
-                jobOpeningCategoryRepository.findByJobOpeningId(id)
-            }
-
-            RetrieveJobOpeningResponse(
-                jobOpening.await(),
-                userJobOpeningScraps.await(),
-                jobOpeningDomains.await(),
-                jobOpeningCategories.await()
-            )
-        }
+        return RetrieveJobOpeningResponse(
+            jobOpening,
+            userJobOpeningScraps,
+            jobOpeningDomains,
+            jobOpeningCategories
+        )
     }
 }

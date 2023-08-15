@@ -11,8 +11,6 @@ import com.fone.profile.domain.repository.ProfileRepository
 import com.fone.profile.domain.repository.ProfileWantRepository
 import com.fone.profile.presentation.dto.RegisterProfileDto.RegisterProfileRequest
 import com.fone.profile.presentation.dto.RegisterProfileDto.RegisterProfileResponse
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -31,50 +29,43 @@ class RegisterProfileService(
         email: String,
     ): RegisterProfileResponse {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
-
-        return coroutineScope {
-            with(request) {
-                val profile = async {
-                    val profile = toEntity(userId)
-                    profileUrls.forEach {
-                        profile.addProfileImage(
-                            ProfileImage(
-                                it
-                            )
-                        )
-                    }
-
-                    profileRepository.save(profile)
-
-                    val profileDomains = domains?.map {
-                        ProfileDomain(
-                            profile.id!!,
-                            it
-                        )
-                    }
-
-                    val profileCategories = categories.map {
-                        ProfileCategory(
-                            profile.id!!,
-                            it
-                        )
-                    }
-
-                    profileDomainRepository.saveAll(profileDomains)
-                    profileCategoryRepository.saveAll(profileCategories)
-
-                    profile
-                }
-
-                val userProfileWants = async { profileWantRepository.findByUserId(userId) }
-
-                RegisterProfileResponse(
-                    profile.await(),
-                    userProfileWants.await(),
-                    domains,
-                    categories
+        return with(request) {
+            val profile = toEntity(userId)
+            profileUrls.forEach {
+                profile.addProfileImage(
+                    ProfileImage(
+                        it
+                    )
                 )
             }
+
+            profileRepository.save(profile)
+
+            val profileDomains = domains?.map {
+                ProfileDomain(
+                    profile.id!!,
+                    it
+                )
+            }
+
+            val profileCategories = categories.map {
+                ProfileCategory(
+                    profile.id!!,
+                    it
+                )
+            }
+
+            profileDomainRepository.saveAll(profileDomains)
+            profileCategoryRepository.saveAll(profileCategories)
+
+            val userProfileWants = profileWantRepository.findByUserId(userId)
+
+            RegisterProfileResponse(
+                profile,
+                userProfileWants,
+                domains,
+                categories
+            )
         }
     }
 }
