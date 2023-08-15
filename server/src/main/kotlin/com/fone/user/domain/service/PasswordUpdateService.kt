@@ -8,7 +8,6 @@ import com.fone.user.domain.repository.UserRepository
 import com.fone.user.presentation.dto.PasswordUpdateDto
 import com.fone.user.presentation.dto.PasswordUpdateDto.PasswordUpdateRequest
 import com.fone.user.presentation.dto.PasswordUpdateDto.PasswordUpdateResponse
-import com.fone.user.presentation.dto.SMSUserDto.ResponseType
 import org.springframework.stereotype.Service
 import java.rmi.ServerException
 import javax.transaction.Transactional

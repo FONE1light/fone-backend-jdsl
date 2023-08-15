@@ -7,9 +7,8 @@ import com.fone.common.repository.UserCommonRepository
 import com.fone.jobOpening.domain.repository.JobOpeningCategoryRepository
 import com.fone.jobOpening.domain.repository.JobOpeningDomainRepository
 import com.fone.jobOpening.domain.repository.JobOpeningRepository
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
 import org.springframework.stereotype.Service
+import javax.transaction.Transactional
 
 @Service
 class DeleteJobOpeningService(
@@ -19,29 +18,18 @@ class DeleteJobOpeningService(
     private val userRepository: UserCommonRepository,
 ) {
 
+    @Transactional
     suspend fun deleteJobOpening(email: String, jobOpeningId: Long) {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 
         val jobOpening = jobOpeningRepository.findByTypeAndId(null, jobOpeningId) ?: throw NotFoundJobOpeningException()
-
         if (jobOpening.userId != userId) {
             throw InvalidJobOpeningUserIdException()
         }
 
         jobOpening.delete()
-
-        coroutineScope {
-            val jobOpening = async { jobOpeningRepository.save(jobOpening) }
-            val jobOpeningDomain = async {
-                jobOpeningDomainRepository.deleteByJobOpeningId(jobOpeningId)
-            }
-            val jobOpeningCategory = async {
-                jobOpeningCategoryRepository.deleteByJobOpeningId(jobOpeningId)
-            }
-
-            jobOpening.await()
-            jobOpeningDomain.await()
-            jobOpeningCategory.await()
-        }
+        jobOpeningRepository.save(jobOpening)
+        jobOpeningDomainRepository.deleteByJobOpeningId(jobOpeningId)
+        jobOpeningCategoryRepository.deleteByJobOpeningId(jobOpeningId)
     }
 }
