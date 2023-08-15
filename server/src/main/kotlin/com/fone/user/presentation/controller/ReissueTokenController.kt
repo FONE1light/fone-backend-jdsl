@@ -9,7 +9,6 @@ import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -25,7 +24,6 @@ class ReissueTokenController(
 ) {
 
     @PostMapping("/reissue")
-    @PreAuthorize("hasRole('USER')")
     @ApiOperation(value = "토큰 재발행 API")
     @ApiResponse(
         responseCode = "200",
