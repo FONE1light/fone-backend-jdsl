@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class RegisterQuestionService(
     private val questionRepository: QuestionRepository,
+    private val discordWebhookService: QuestionDiscordWebhookService
 ) {
 
     @Transactional
@@ -16,7 +17,7 @@ class RegisterQuestionService(
         with(request) {
             val question = toEntity()
             questionRepository.save(question)
-
+            discordWebhookService.send(question)
             return RegisterQuestionResponse(question)
         }
     }

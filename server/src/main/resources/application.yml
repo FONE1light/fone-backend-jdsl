@@ -47,3 +47,6 @@ security:
     naver:
       client-id: aU9oh1xxoC6uAMW48qCP
       client-secret: secret_placeholder
+
+discord:
+  question: ${DISCORD_QUESTION_URL}

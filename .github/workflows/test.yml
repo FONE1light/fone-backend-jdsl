@@ -6,6 +6,7 @@ on:
 env:
   AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
   AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
+  DISCORD_QUESTION_URL: ${{ secrets.DISCORD_QUESTION_URL }}
 
 jobs:
   build-and-test:

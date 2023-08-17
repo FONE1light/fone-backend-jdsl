@@ -19,7 +19,7 @@ class RegisterReportControllerTest(client: WebTestClient) : CustomDescribeSpec()
             reportUserId = 1,
             type = Type.CHATTING,
             typeId = 1,
-            inconvenients = listOf(""),
+            inconveniences = listOf(""),
             details = "test details"
         )
 

@@ -47,6 +47,9 @@ dependencies {
     // AWS SDK
     implementation("software.amazon.awssdk:ses:2.20.114")
 
+    // Discord
+    implementation("club.minnced:discord-webhooks:0.8.4")
+
     // Kotlin
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")

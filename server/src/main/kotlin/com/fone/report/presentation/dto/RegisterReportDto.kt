@@ -10,7 +10,7 @@ class RegisterReportDto {
         val reportUserId: Long,
         val type: Type,
         val typeId: Long,
-        val inconvenients: List<String>,
+        val inconveniences: List<String>,
         val details: String,
     ) {
         fun toEntity(userId: Long): Report {
@@ -18,7 +18,7 @@ class RegisterReportDto {
                 reportUserId = reportUserId,
                 type = type,
                 typeId = typeId,
-                inconvenients = inconvenients,
+                inconvenients = inconveniences,
                 details = details,
                 userId = userId
             )
