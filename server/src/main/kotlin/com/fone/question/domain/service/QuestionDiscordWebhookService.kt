@@ -48,13 +48,18 @@ class QuestionDiscordWebhookService(private val webhookClient: WebhookClient) {
             null,
             null,
             null,
-            WebhookEmbed.EmbedTitle(question.type.toString(), null),
+            WebhookEmbed.EmbedTitle(question.title, null),
             WebhookEmbed.EmbedAuthor(question.email, null, null),
             mutableListOf(
                 WebhookEmbed.EmbedField(
                     true,
                     "개인정보 이용 동의",
                     question.agreeToPersonalInformation.toString()
+                ),
+                WebhookEmbed.EmbedField(
+                    true,
+                    "종류",
+                    question.type.toString()
                 )
             )
         )
