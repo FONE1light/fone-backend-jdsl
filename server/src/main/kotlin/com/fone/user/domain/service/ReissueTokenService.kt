@@ -16,8 +16,9 @@ class ReissueTokenService(
 ) {
 
     @Transactional(readOnly = true)
-    suspend fun reissueToken(request: ReissueTokenDto.ReissueTokenRequest, email: String): Token {
+    suspend fun reissueToken(request: ReissueTokenDto.ReissueTokenRequest): Token {
         if (!jwtUtils.validateToken(request.refreshToken)) throw InvalidTokenException()
+        val email = jwtUtils.getEmailFromToken(request.refreshToken)
 
         val refreshToken =
             redisRepository.getValue(redisRepository.REFRESH_PREFIX + email) ?: throw InvalidTokenException()
