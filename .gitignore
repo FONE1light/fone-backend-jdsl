@@ -41,3 +41,6 @@ docker/mysql/**
 
 ### redis ###
 docker/redis/**
+
+### IDEA run ###
+/.run
