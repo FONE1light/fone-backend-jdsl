@@ -1,6 +1,7 @@
 package com.fone.common.jwt
 
 import io.jsonwebtoken.Claims
+import io.jsonwebtoken.JwtParser
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
@@ -19,6 +20,7 @@ class JWTUtils(
     private val accessTokenValidityInMilliseconds: Long
     val refreshTokenValidityInMilliseconds: Long
     private var key: Key? = null
+    lateinit var jwtParser: JwtParser
 
     init {
         accessTokenValidityInMilliseconds = accessTokenValidityInSeconds * 1000
@@ -28,11 +30,20 @@ class JWTUtils(
     override fun afterPropertiesSet() {
         val keyBytes = Decoders.BASE64.decode(secret)
         key = Keys.hmacShaKeyFor(keyBytes)
+        jwtParser = Jwts.parser().setSigningKey(key).setAllowedClockSkewSeconds(Long.MAX_VALUE / 1000)
     }
 
-    fun reissue(email: String, accessToken: String): Token {
-        val claims = getAllClaimsFromToken(accessToken)
-        return doGenerateToken(claims, email)
+    fun reissueAccessToken(refreshToken: String): Token {
+        val claims = getAllClaimsFromToken(refreshToken)
+        val email = getEmailFromToken(refreshToken)
+        val createdDate = Date()
+        return Token(
+            generateAccessToken(claims, email, createdDate),
+            refreshToken,
+            "Bearer",
+            accessTokenValidityInMilliseconds,
+            createdDate
+        )
     }
 
     fun generateUserToken(email: String, roles: List<Role>): Token {
@@ -51,7 +62,7 @@ class JWTUtils(
     }
 
     fun getAllClaimsFromToken(token: String?): Claims {
-        return Jwts.parser().setSigningKey(key).parseClaimsJws(token).body
+        return jwtParser.parseClaimsJws(token).body
     }
 
     private fun isTokenExpired(token: String): Boolean {
@@ -64,23 +75,31 @@ class JWTUtils(
     }
 
     private fun doGenerateToken(claims: Map<String, Any?>, email: String): Token {
-        val accessTokenExpirationTimeLong = accessTokenValidityInMilliseconds
-        val refreshTokenExpirationTimeLong = refreshTokenValidityInMilliseconds
         val createdDate = Date()
-        val accessTokenExpirationDate = Date(createdDate.time + accessTokenExpirationTimeLong)
-        val refreshTokenExpirationDate = Date(createdDate.time + refreshTokenExpirationTimeLong)
-
-        val accessToken = Jwts.builder().setClaims(claims).setSubject(email).setIssuedAt(createdDate)
-            .setExpiration(accessTokenExpirationDate).signWith(key).compact()
-        val refreshToken = Jwts.builder().setClaims(claims).setSubject(email).setIssuedAt(createdDate)
-            .setExpiration(refreshTokenExpirationDate).signWith(key).compact()
-
         return Token(
-            accessToken,
-            refreshToken,
+            generateAccessToken(claims, email, createdDate),
+            generateRefreshToken(claims, email, createdDate),
             "Bearer",
-            accessTokenExpirationTimeLong,
+            accessTokenValidityInMilliseconds,
             createdDate
         )
+    }
+
+    private fun generateRefreshToken(claims: Map<String, Any?>, email: String, creationDate: Date): String {
+        val accessTokenExpirationDate = Date(creationDate.time + accessTokenValidityInMilliseconds)
+        return generateJWT(claims, email, creationDate, accessTokenExpirationDate)
+    }
+    private fun generateAccessToken(claims: Map<String, Any?>, email: String, creationDate: Date): String {
+        val refreshTokenExpirationDate = Date(creationDate.time + refreshTokenValidityInMilliseconds)
+        return generateJWT(claims, email, creationDate, refreshTokenExpirationDate)
+    }
+    private fun generateJWT(
+        claims: Map<String, Any?>,
+        email: String,
+        creationDate: Date,
+        expirationDate: Date,
+    ): String {
+        return Jwts.builder().setClaims(claims).setSubject(email).setIssuedAt(creationDate)
+            .setExpiration(expirationDate).signWith(key).compact()
     }
 }
