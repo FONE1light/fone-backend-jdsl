@@ -18,7 +18,13 @@ object CommonUserCallApi {
     fun getAccessToken(client: WebTestClient): Pair<String, String> {
         val nickname = UUID.randomUUID().toString()
         val email = "$nickname@test.com"
+        val token = getToken(client, nickname, email)["token"]
+        val accessToken = (token as LinkedHashMap<*, *>)["accessToken"]
 
+        return Pair(accessToken.toString(), email)
+    }
+
+    fun getToken(client: WebTestClient, nickname: String, email: String): LinkedHashMap<*, *> {
         val signUpUserRequest =
             SignUpUserDto.SocialSignUpUserRequest(
                 Job.ACTOR,
@@ -52,21 +58,14 @@ object CommonUserCallApi {
             .jsonPath("$.result")
             .isEqualTo("SUCCESS")
 
-        val token =
-            (
-                client
-                    .doPost(signInBaseUrl, signInUserSuccessRequest)
-                    .expectStatus()
-                    .isOk
-                    .expectBody(CommonResponse::class.java)
-                    .returnResult()
-                    .responseBody
-                    ?.data as LinkedHashMap<*, *>
-                )["token"]
-
-        val accessToken = (token as LinkedHashMap<*, *>)["accessToken"]
-
-        return Pair(accessToken.toString(), email)
+        return client
+            .doPost(signInBaseUrl, signInUserSuccessRequest)
+            .expectStatus()
+            .isOk
+            .expectBody(CommonResponse::class.java)
+            .returnResult()
+            .responseBody
+            ?.data as LinkedHashMap<*, *>
     }
 
     fun signUp(client: WebTestClient): Pair<String, String> {
