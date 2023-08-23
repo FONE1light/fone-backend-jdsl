@@ -10,6 +10,10 @@ object DateTimeFormat {
     private val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
     fun calculateDays(deadline: LocalDate?): String {
+        if (deadline == null) {
+            return "상시 모집"
+        }
+
         val diffDays =
             Period.between(
                 LocalDate.parse(LocalDate.now().toString(), dateFormatter),
