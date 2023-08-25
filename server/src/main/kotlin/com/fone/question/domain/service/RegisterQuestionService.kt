@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class RegisterQuestionService(
     private val questionRepository: QuestionRepository,
-    private val discordWebhookService: QuestionDiscordWebhookService,
     private val userRepository: UserRepository,
 ) {
 
@@ -20,7 +19,6 @@ class RegisterQuestionService(
         with(request) {
             val question = toEntity()
             questionRepository.save(question)
-            discordWebhookService.send(question)
             return RegisterQuestionResponse(question)
         }
     }
@@ -32,7 +30,6 @@ class RegisterQuestionService(
                 user = userRepository.findByNicknameOrEmail(email = email) ?: throw InvalidTokenException()
             }
             questionRepository.save(question)
-            discordWebhookService.send(question)
             return RegisterQuestionResponse(question)
         }
     }
