@@ -13,7 +13,10 @@ interface UserRepository {
 
     suspend fun findByPhone(phone: String): com.fone.user.domain.entity.User?
 
-    suspend fun findByNicknameOrEmail(nickname: String?, email: String?): com.fone.user.domain.entity.User?
+    suspend fun findByNicknameOrEmail(
+        nickname: String? = null,
+        email: String? = null,
+    ): com.fone.user.domain.entity.User?
 
     suspend fun save(newUser: com.fone.user.domain.entity.User): com.fone.user.domain.entity.User
 }

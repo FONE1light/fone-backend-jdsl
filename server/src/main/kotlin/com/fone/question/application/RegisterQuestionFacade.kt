@@ -9,4 +9,9 @@ class RegisterQuestionFacade(
     private val registerQuestionService: RegisterQuestionService,
 ) {
     suspend fun registerQuestion(request: RegisterQuestionRequest) = registerQuestionService.registerQuestion(request)
+    suspend fun registerQuestion(email: String, request: RegisterQuestionRequest) =
+        registerQuestionService.registerQuestion(
+            email,
+            request
+        )
 }

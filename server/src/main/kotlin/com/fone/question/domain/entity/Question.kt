@@ -2,6 +2,7 @@ package com.fone.question.domain.entity
 
 import com.fone.common.entity.BaseEntity
 import com.fone.question.domain.enum.Type
+import com.fone.user.domain.entity.User
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.EnumType
@@ -9,6 +10,7 @@ import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.ManyToOne
 import javax.persistence.Table
 
 @Entity
@@ -23,4 +25,6 @@ data class Question(
     @Column var title: String = "",
     @Column(length = 500) var description: String = "",
     @Column var agreeToPersonalInformation: Boolean = false,
+    @ManyToOne
+    var user: User? = null,
 ) : BaseEntity()

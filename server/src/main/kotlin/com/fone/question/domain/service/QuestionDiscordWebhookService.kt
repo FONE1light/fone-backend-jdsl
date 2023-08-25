@@ -2,6 +2,7 @@ package com.fone.question.domain.service
 
 import club.minnced.discord.webhook.WebhookClient
 import club.minnced.discord.webhook.send.WebhookEmbed
+import club.minnced.discord.webhook.send.WebhookEmbed.EmbedField
 import club.minnced.discord.webhook.send.WebhookMessageBuilder
 import com.fone.question.domain.entity.Question
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -35,9 +36,11 @@ class QuestionDiscordWebhookService(private val webhookClient: WebhookClient) {
             }
         }
     }
+
     suspend fun send(question: Question) {
         webhookFlow.emit(question)
     }
+
     private suspend fun sendQuestion(question: Question) {
         val builder = WebhookMessageBuilder()
         builder.setContent("문의가 들어왔습니다.")
@@ -50,21 +53,53 @@ class QuestionDiscordWebhookService(private val webhookClient: WebhookClient) {
             null,
             WebhookEmbed.EmbedTitle(question.title, null),
             WebhookEmbed.EmbedAuthor(question.email, null, null),
-            mutableListOf(
-                WebhookEmbed.EmbedField(
-                    true,
-                    "개인정보 이용 동의",
-                    question.agreeToPersonalInformation.toString()
-                ),
-                WebhookEmbed.EmbedField(
-                    true,
-                    "종류",
-                    question.type.toString()
-                )
-            )
+            parseFields(question)
         )
         builder.addEmbeds(embed)
         val response = webhookClient.send(builder.build()).asDeferred().await()
         logger.info { response }
+    }
+
+    private fun parseFields(question: Question): List<EmbedField> {
+        val fields = mutableListOf(
+            EmbedField(
+                true,
+                "개인정보 이용 동의",
+                question.agreeToPersonalInformation.toString()
+            ),
+            EmbedField(
+                true,
+                "종류",
+                question.type.toString()
+            )
+        )
+        if (question.user != null) {
+            fields.addUserInfo(question)
+        }
+        return fields
+    }
+
+    private fun MutableList<EmbedField>.addUserInfo(question: Question) {
+        this.add(
+            EmbedField(
+                true,
+                "회원 이메일",
+                question.user!!.email
+            )
+        )
+        this.add(
+            EmbedField(
+                true,
+                "회원 닉네임",
+                question.user!!.nickname
+            )
+        )
+        this.add(
+            EmbedField(
+                true,
+                "회원 No",
+                question.user!!.id.toString()
+            )
+        )
     }
 }
