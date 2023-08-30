@@ -1,0 +1,5 @@
+credentials:
+  sms:
+    key: TEST_KEY
+    user-id: TEST_USER
+    sender: TEST_SENDER

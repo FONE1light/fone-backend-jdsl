@@ -15,8 +15,8 @@ class AligoSmsRequestSerializationTest(private val objectMapper: ObjectMapper) :
         "AligoSmsRequest Serialization Test" - {
             "Should match snakecase" {
                 val json = objectMapper.writeValueAsString(AligoSmsRequest("", "", "", "", ""))
-                json shouldContain "user_id"
-                json shouldContain "msg_type"
+                json shouldContain "userId"
+                json shouldContain "msgType"
             }
         }
     }

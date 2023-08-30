@@ -28,12 +28,11 @@ class SmsServiceUnitTest : FreeSpec() {
                 val message = it.invocation.args.first() as AligoSmsRequest
                 message.receiver shouldBe phone
                 message.msg shouldContain code
-                println("?")
                 mockResponse
             }
             val response = service.sendSmsMessage(SmsRequest(phone, code))
             response.result shouldBe Result.SUCCESS
-            response.data.messageId shouldBe "인증번호를 전송하였습니다."
+            response.message shouldBe "인증번호를 전송하였습니다."
             coVerify {
                 aligoServiceMock.sendToAligo(any())
             }
