@@ -1,0 +1,5 @@
+credentials:
+  sms:
+    key: ${SMS_KEY}
+    user-id: ${SMS_USER}
+    sender: ${SMS_SENDER}
