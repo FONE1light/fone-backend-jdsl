@@ -12,7 +12,7 @@ import org.springframework.test.web.reactive.server.WebTestClient
 class RegisterQuestionControllerTest(client: WebTestClient) : CustomDescribeSpec() {
 
     private val guestRegisterUrl = "/api/v1/questions"
-    private val userRegisterUrl = "/api/v1/questions/user"
+    private val userRegisterUrl = "/api/v1/questions"
 
     init {
         val (token, email) = CommonUserCallApi.getAccessToken(client)

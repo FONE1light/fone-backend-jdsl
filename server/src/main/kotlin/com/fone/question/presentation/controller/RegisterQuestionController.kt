@@ -24,7 +24,7 @@ class RegisterQuestionController(
 ) {
 
     @PostMapping
-    @ApiOperation(value = "비회원 문의등록 API")
+    @ApiOperation(value = "문의등록 API")
     @ApiResponse(
         responseCode = "200",
         description = "성공",
@@ -33,24 +33,13 @@ class RegisterQuestionController(
     suspend fun registerQuestion(
         @Valid @RequestBody
         request: RegisterQuestionRequest,
+        principal: Principal?,
     ): CommonResponse<RegisterQuestionResponse> {
-        val response = registerQuestionFacade.registerQuestion(request)
-        return CommonResponse.success(response)
-    }
-
-    @PostMapping("/user")
-    @ApiOperation(value = "회원 문의등록 API")
-    @ApiResponse(
-        responseCode = "200",
-        description = "성공",
-        content = [Content(schema = Schema(implementation = RegisterQuestionResponse::class))]
-    )
-    suspend fun registerQuestionWithPrincipal(
-        @Valid @RequestBody
-        request: RegisterQuestionRequest,
-        principal: Principal,
-    ): CommonResponse<RegisterQuestionResponse> {
-        val response = registerQuestionFacade.registerQuestion(principal.name, request)
+        val response = if (principal == null) {
+            registerQuestionFacade.registerQuestion(request)
+        } else {
+            registerQuestionFacade.registerQuestion(principal.name, request)
+        }
         return CommonResponse.success(response)
     }
 }
