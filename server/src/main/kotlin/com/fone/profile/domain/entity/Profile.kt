@@ -64,7 +64,7 @@ data class Profile(
         specialty = request.specialty
         details = request.details
         career = request.career
-        careerDetail = request.careerDetail
+        careerDetail = request.careerDetail ?: ""
         type = request.type
         profileUrl = request.profileUrl
     }
