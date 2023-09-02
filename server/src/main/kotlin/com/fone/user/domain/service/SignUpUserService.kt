@@ -12,7 +12,6 @@ import com.fone.user.domain.entity.User
 import com.fone.user.domain.enum.LoginType
 import com.fone.user.domain.repository.UserRepository
 import com.fone.user.presentation.dto.SignUpUserDto.EmailSignUpUserRequest
-import com.fone.user.presentation.dto.SignUpUserDto.SignUpUserResponse
 import com.fone.user.presentation.dto.SignUpUserDto.SocialSignUpUserRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
