@@ -6,8 +6,8 @@ import org.springframework.web.reactive.config.EnableWebFlux
 
 @SpringBootApplication
 @EnableWebFlux
-class SmsApplication
+class Application
 
 fun main(args: Array<String>) {
-    runApplication<SmsApplication>(*args)
+    runApplication<Application>(*args)
 }

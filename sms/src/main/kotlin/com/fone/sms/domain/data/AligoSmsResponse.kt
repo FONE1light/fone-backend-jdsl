@@ -1,4 +1,4 @@
-package com.fone.sms.data
+package com.fone.sms.domain.data
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies
 import com.fasterxml.jackson.databind.annotation.JsonNaming

@@ -1,6 +1,6 @@
 package com.fone.sms.presentation.data
 
-data class SmsResponse(
+data class SmsVerificationResponse(
     val result: Result,
     val data: SmsResponseData,
     val message: String,

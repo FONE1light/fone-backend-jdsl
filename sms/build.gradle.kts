@@ -15,11 +15,17 @@ java {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+    compileOnly("org.springframework.boot:spring-boot-starter-webflux")
+    compileOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
+    compileOnly("io.projectreactor.kotlin:reactor-kotlin-extensions")
+    compileOnly("org.jetbrains.kotlin:kotlin-reflect")
+    compileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+    compileOnly("io.springfox:springfox-boot-starter:3.0.0")
+    testImplementation("org.springframework.boot:spring-boot-starter-webflux")
+    testImplementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    testImplementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
+    testImplementation("org.jetbrains.kotlin:kotlin-reflect")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
     testImplementation("io.kotest:kotest-runner-junit5:5.5.4")

@@ -1,11 +1,11 @@
 package com.fone.sms.unit
 
-import com.fone.sms.data.AligoSmsRequest
-import com.fone.sms.data.AligoSmsResponse
+import com.fone.sms.application.SmsFacade
+import com.fone.sms.domain.data.AligoSmsRequest
+import com.fone.sms.domain.data.AligoSmsResponse
+import com.fone.sms.domain.service.AligoService
 import com.fone.sms.presentation.data.Result
-import com.fone.sms.presentation.data.SmsRequest
-import com.fone.sms.services.AligoService
-import com.fone.sms.services.SmsService
+import com.fone.sms.presentation.data.SMSVerificationRequest
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
@@ -15,7 +15,7 @@ import io.mockk.mockk
 
 class SmsServiceUnitTest : FreeSpec() {
     private val aligoServiceMock: AligoService = mockk()
-    private val service = SmsService("key", "userId", "sender", aligoServiceMock)
+    private val service = SmsFacade(aligoServiceMock)
 
     init {
         "SmsService Unit Test" {
@@ -30,7 +30,7 @@ class SmsServiceUnitTest : FreeSpec() {
                 message.msg shouldContain code
                 mockResponse
             }
-            val response = service.sendSmsMessage(SmsRequest(phone, code))
+            val response = service.sendSmsMessage(SMSVerificationRequest(phone, code))
             response.result shouldBe Result.SUCCESS
             response.message shouldBe "인증번호를 전송하였습니다."
             coVerify {
