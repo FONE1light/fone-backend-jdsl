@@ -1,5 +1,6 @@
 package com.fone.user.application
 
+import com.fone.common.jwt.Role
 import com.fone.user.domain.service.SignUpUserService
 import com.fone.user.presentation.dto.SignUpUserDto.EmailSignUpUserRequest
 import com.fone.user.presentation.dto.SignUpUserDto.SignUpUserResponse
@@ -13,10 +14,14 @@ class SignUpUserFacade(
 
     suspend fun signUp(request: SocialSignUpUserRequest): SignUpUserResponse {
         signUpUserService.socialLoginValidate(request)
-        return signUpUserService.signUpUser(request)
+        val signUpUser = signUpUserService.signUpUser(request)
+        val token = signUpUserService.getToken(signUpUser)
+        return SignUpUserResponse(signUpUser, token)
     }
     suspend fun signUp(request: EmailSignUpUserRequest): SignUpUserResponse {
         signUpUserService.emailLoginValidate(request)
-        return signUpUserService.signUpUser(request)
+        val signUpUser = signUpUserService.signUpUser(request)
+        val token = signUpUserService.getToken(signUpUser)
+        return SignUpUserResponse(signUpUser, token)
     }
 }
