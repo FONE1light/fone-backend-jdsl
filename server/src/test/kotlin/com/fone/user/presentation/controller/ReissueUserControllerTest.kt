@@ -34,7 +34,7 @@ class ReissueUserControllerTest(client: WebTestClient, objectMapper: ObjectMappe
             context("토큰 재발급 시도 시") {
                 var reissued: Token? = null
                 it("Access 토큰 재발행한다") {
-                    Thread.sleep(500)
+                    Thread.sleep(1000)
                     client
                         .doPost(
                             reissueUrl,

@@ -3,7 +3,6 @@ package com.fone.user.infrastructure
 import com.fone.sms.application.SmsFacade
 import io.kotest.core.spec.style.FreeSpec
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.mockk
 
 class SMSRepositoryImplTest : FreeSpec({
