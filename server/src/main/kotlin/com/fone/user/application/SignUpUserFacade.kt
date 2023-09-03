@@ -13,10 +13,14 @@ class SignUpUserFacade(
 
     suspend fun signUp(request: SocialSignUpUserRequest): SignUpUserResponse {
         signUpUserService.socialLoginValidate(request)
-        return signUpUserService.signUpUser(request)
+        val signUpUser = signUpUserService.signUpUser(request)
+        val token = signUpUserService.getToken(signUpUser)
+        return SignUpUserResponse(signUpUser, token)
     }
     suspend fun signUp(request: EmailSignUpUserRequest): SignUpUserResponse {
         signUpUserService.emailLoginValidate(request)
-        return signUpUserService.signUpUser(request)
+        val signUpUser = signUpUserService.signUpUser(request)
+        val token = signUpUserService.getToken(signUpUser)
+        return SignUpUserResponse(signUpUser, token)
     }
 }
