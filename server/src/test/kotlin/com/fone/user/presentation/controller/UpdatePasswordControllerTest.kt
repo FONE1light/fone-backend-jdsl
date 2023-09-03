@@ -7,11 +7,15 @@ import com.fone.common.IntegrationTest
 import com.fone.common.doPatch
 import com.fone.common.doPost
 import com.fone.common.response.CommonResponse
+import com.fone.user.domain.repository.generateRandomCode
 import com.fone.user.presentation.dto.PasswordUpdateDto
 import com.fone.user.presentation.dto.SMSUserDto
 import com.fone.user.presentation.dto.SignInUserDto
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
+import io.mockk.every
+import io.mockk.mockkStatic
+import io.mockk.unmockkStatic
 import org.springframework.test.web.reactive.server.WebTestClient
 
 @IntegrationTest
@@ -21,8 +25,10 @@ class UpdatePasswordControllerTest(client: WebTestClient, private val objectMapp
     private val baseUrl = "/api/v1/users"
 
     init {
-        var token = ""
         describe("#Password 변경") {
+            mockkStatic(::generateRandomCode)
+            every { generateRandomCode() } returns "123456"
+            var token = ""
             context("SMS 인증") {
                 val invalidTokenRequest = PasswordUpdateDto.PasswordUpdateRequest(
                     signUpUserRequest.phoneNumber,
@@ -104,6 +110,7 @@ class UpdatePasswordControllerTest(client: WebTestClient, private val objectMapp
                         .isEqualTo("SUCCESS")
                 }
             }
+            unmockkStatic(::generateRandomCode)
         }
     }
 }

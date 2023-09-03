@@ -1,8 +1,9 @@
 package com.fone.sms.presentation.controllers
 
+import com.fone.common.response.CommonResponse
 import com.fone.sms.application.SmsFacade
-import com.fone.sms.presentation.data.SMSVerificationRequest
-import com.fone.sms.presentation.data.SmsVerificationResponse
+import com.fone.sms.presentation.dto.SMSSendRequest
+import com.fone.sms.presentation.dto.SMSSendResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.media.Content
@@ -22,9 +23,9 @@ class SmsController(private val smsService: SmsFacade) {
     @ApiResponse(
         responseCode = "200",
         description = "성공",
-        content = [Content(schema = Schema(implementation = SmsVerificationResponse::class))]
+        content = [Content(schema = Schema(implementation = SMSSendResponse::class))]
     )
-    suspend fun sendSms(@RequestBody request: SMSVerificationRequest): SmsVerificationResponse {
-        return smsService.sendSmsMessage(request)
+    suspend fun sendSms(@RequestBody request: SMSSendRequest): CommonResponse<SMSSendResponse> {
+        return CommonResponse.success(smsService.sendSmsMessage(request))
     }
 }

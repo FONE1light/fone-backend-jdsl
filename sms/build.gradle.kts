@@ -1,8 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot")
-    id("io.spring.dependency-management")
     kotlin("jvm")
     kotlin("plugin.spring")
 }
@@ -15,12 +13,8 @@ java {
 }
 
 dependencies {
-    compileOnly("org.springframework.boot:spring-boot-starter-webflux")
-    compileOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
-    compileOnly("io.projectreactor.kotlin:reactor-kotlin-extensions")
-    compileOnly("org.jetbrains.kotlin:kotlin-reflect")
-    compileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-    compileOnly("io.springfox:springfox-boot-starter:3.0.0")
+    compileOnly(project(path = ":common", configuration = "default"))
+    testImplementation(project(path = ":common", configuration = "default"))
     testImplementation("org.springframework.boot:spring-boot-starter-webflux")
     testImplementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     testImplementation("io.projectreactor.kotlin:reactor-kotlin-extensions")

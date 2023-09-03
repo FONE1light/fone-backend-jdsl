@@ -1,20 +1,20 @@
 package com.fone.sms.unit
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.fone.sms.application.SmsFacade
-import com.fone.sms.domain.data.AligoSmsRequest
-import com.fone.sms.domain.data.AligoSmsResponse
+import com.fone.sms.domain.dto.AligoSmsRequest
+import com.fone.sms.domain.dto.AligoSmsResponse
 import com.fone.sms.domain.service.AligoService
-import com.fone.sms.presentation.data.Result
-import com.fone.sms.presentation.data.SMSVerificationRequest
+import com.fone.sms.presentation.dto.SMSSendRequest
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.mockk
+import io.mockk.spyk
 
 class SmsServiceUnitTest : FreeSpec() {
-    private val aligoServiceMock: AligoService = mockk()
+    private val aligoServiceMock: AligoService = spyk(AligoService("", "", "", ObjectMapper()))
     private val service = SmsFacade(aligoServiceMock)
 
     init {
@@ -23,18 +23,17 @@ class SmsServiceUnitTest : FreeSpec() {
             val code = "2424"
             val mockResponse = AligoSmsResponse(0, "", "123", 1, 0)
             coEvery {
-                aligoServiceMock.sendToAligo(any())
+                aligoServiceMock.sendToAligo(any<AligoSmsRequest>())
             } answers {
                 val message = it.invocation.args.first() as AligoSmsRequest
                 message.receiver shouldBe phone
                 message.msg shouldContain code
                 mockResponse
             }
-            val response = service.sendSmsMessage(SMSVerificationRequest(phone, code))
-            response.result shouldBe Result.SUCCESS
-            response.message shouldBe "인증번호를 전송하였습니다."
+            val response = service.sendSmsMessage(SMSSendRequest(phone, code))
+
             coVerify {
-                aligoServiceMock.sendToAligo(any())
+                aligoServiceMock.sendToAligo(any<AligoSmsRequest>())
             }
         }
     }
