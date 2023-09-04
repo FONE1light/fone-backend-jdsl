@@ -7,7 +7,6 @@ plugins {
 dependencies {
     implementation(project(path = ":common", configuration = "default"))
     implementation(project(":home"))
-    implementation(project(":idl"))
 
     // JWS validation
     implementation("com.auth0:java-jwt:4.4.0")
