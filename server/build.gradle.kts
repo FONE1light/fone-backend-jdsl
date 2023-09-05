@@ -7,7 +7,6 @@ plugins {
 dependencies {
     implementation(project(path = ":common", configuration = "default"))
     implementation(project(":home"))
-    implementation(project(":idl"))
     implementation(project(":sms"))
 
     // JWS validation

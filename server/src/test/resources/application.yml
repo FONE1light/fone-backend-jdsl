@@ -36,8 +36,8 @@ credentials:
 security:
   aws:
     senderEmail: fyimbtmn@gmail.com
-    accessKey: ${AWS_ACCESS_KEY}
-    secretKey: ${AWS_SECRET_KEY}
+    accessKey: ${AWS_ACCESS_KEY:test}
+    secretKey: ${AWS_SECRET_KEY:test}
   password:
     encoder:
       secret: mysecret

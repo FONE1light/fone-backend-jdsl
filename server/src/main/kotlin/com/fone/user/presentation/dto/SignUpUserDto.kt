@@ -3,6 +3,7 @@ package com.fone.user.presentation.dto
 import com.fone.common.entity.CategoryType
 import com.fone.common.entity.Gender
 import com.fone.common.jwt.Role
+import com.fone.common.jwt.Token
 import com.fone.common.password.PasswordService
 import com.fone.user.domain.entity.User
 import com.fone.user.domain.enum.Job
@@ -139,10 +140,12 @@ class SignUpUserDto {
 
     data class SignUpUserResponse(
         val user: UserDto,
+        val token: Token,
     ) {
 
         constructor(
             user: User,
-        ) : this(user = UserDto(user))
+            token: Token,
+        ) : this(user = UserDto(user), token = token)
     }
 }

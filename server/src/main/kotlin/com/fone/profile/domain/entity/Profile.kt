@@ -35,6 +35,7 @@ data class Profile(
     @Column var specialty: String,
     @Column(length = 500) var details: String,
     @Enumerated(EnumType.STRING) var career: Career,
+    @Column var careerDetail: String,
     @Enumerated(EnumType.STRING) var type: Type,
     @Column var userId: Long,
     @Column var viewCount: Long,
@@ -63,6 +64,7 @@ data class Profile(
         specialty = request.specialty
         details = request.details
         career = request.career
+        careerDetail = request.careerDetail ?: ""
         type = request.type
         profileUrl = request.profileUrl
     }
@@ -78,6 +80,7 @@ data class Profile(
         specialty = ""
         details = ""
         career = Career.IRRELEVANT
+        careerDetail = ""
         type = Type.ACTOR
         isDeleted = true
     }
