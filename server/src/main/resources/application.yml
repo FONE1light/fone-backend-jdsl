@@ -49,4 +49,4 @@ security:
       client-secret: secret_placeholder
 
 discord:
-  question: ${DISCORD_QUESTION_URL}
+  question: ${DISCORD_QUESTION_URL:url}
