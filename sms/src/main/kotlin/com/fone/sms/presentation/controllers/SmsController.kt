@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 @Api(tags = ["08. SMS"], description = "SMS 전송 서비스")
 @RestController
 @RequestMapping("/api/v1/sms")
-class SmsController(private val smsService: SmsFacade) {
+class SmsController(private val smsFacade: SmsFacade) {
     @PostMapping("/send-sms")
     @ApiOperation(value = "SMS 전송 API")
     @ApiResponse(
@@ -26,6 +26,6 @@ class SmsController(private val smsService: SmsFacade) {
         content = [Content(schema = Schema(implementation = SMSSendResponse::class))]
     )
     suspend fun sendSms(@RequestBody request: SMSSendRequest): CommonResponse<SMSSendResponse> {
-        return CommonResponse.success(smsService.sendSmsMessage(request))
+        return CommonResponse.success(smsFacade.sendSmsMessage(request))
     }
 }
