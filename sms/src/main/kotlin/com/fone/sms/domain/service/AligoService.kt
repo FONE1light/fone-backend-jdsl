@@ -6,8 +6,8 @@ import com.fone.common.exception.SMSBackendException
 import com.fone.sms.domain.dto.AligoSmsRequest
 import com.fone.sms.domain.dto.AligoSmsResponse
 import com.fone.sms.domain.dto.toMap
-import com.fone.sms.presentation.dto.SMSSendDTO.SMSSendRequest
-import com.fone.sms.presentation.dto.SMSSendDTO.SMSSendResponse
+import com.fone.sms.presentation.dto.SMSSendDto.SMSSendRequest
+import com.fone.sms.presentation.dto.SMSSendDto.SMSSendResponse
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Service

@@ -1,8 +1,8 @@
 package com.fone.common
 
 import com.fone.sms.domain.service.AligoService
-import com.fone.sms.presentation.dto.SMSSendDTO.SMSSendRequest
-import com.fone.sms.presentation.dto.SMSSendDTO.SMSSendResponse
+import com.fone.sms.presentation.dto.SMSSendDto.SMSSendRequest
+import com.fone.sms.presentation.dto.SMSSendDto.SMSSendResponse
 import com.fone.user.domain.service.OauthValidationService
 import com.fone.user.presentation.dto.SignInUserDto
 import io.mockk.coEvery

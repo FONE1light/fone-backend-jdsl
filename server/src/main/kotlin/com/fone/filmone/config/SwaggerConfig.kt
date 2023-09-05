@@ -18,7 +18,7 @@ import com.fone.profile.presentation.dto.RetrieveProfilesDto.RetrieveProfileResp
 import com.fone.profile.presentation.dto.RetrieveProfilesDto.RetrieveProfilesResponse
 import com.fone.question.presentation.dto.RegisterQuestionDto.RegisterQuestionResponse
 import com.fone.report.presentation.dto.RegisterReportDto.RegisterReportResponse
-import com.fone.sms.presentation.dto.SMSSendDTO.SMSSendResponse
+import com.fone.sms.presentation.dto.SMSSendDto.SMSSendResponse
 import com.fone.user.presentation.dto.CheckNicknameDuplicateDto.CheckNicknameDuplicateResponse
 import com.fone.user.presentation.dto.EmailValidationDto.EmailSendResponse
 import com.fone.user.presentation.dto.EmailValidationDto.EmailValidationResponse
