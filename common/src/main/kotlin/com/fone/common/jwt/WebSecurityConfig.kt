@@ -39,6 +39,7 @@ class WebSecurityConfig(
                 "/api/v1/users/sms/**",
                 "/api/v1/users/social/*",
                 "/api/v1/users/check-nickname-duplication",
+                "/api/v1/sms/send-sms",
                 "/api/v1/questions",
                 "/api/v1/users/reissue",
                 "/profile"

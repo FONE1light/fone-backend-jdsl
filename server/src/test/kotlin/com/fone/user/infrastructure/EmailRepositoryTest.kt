@@ -2,6 +2,7 @@ package com.fone.user.infrastructure
 
 import com.fone.common.IntegrationTest
 import com.fone.user.domain.repository.EmailRepository
+import com.fone.user.domain.repository.generateRandomCode
 import io.kotest.core.spec.style.ShouldSpec
 import software.amazon.awssdk.services.ses.model.SendEmailRequest
 
@@ -12,7 +13,7 @@ class EmailRepositoryTest(
     xshould("이메일을 정상적으로 보낸다") {
         val emailTemplate =
             EmailRepositoryTest::class.java.classLoader.getResource("email-template.html")!!.readText()
-        val code = emailRepository.generateRandomCode()
+        val code = generateRandomCode()
         val email = "fyimbtmn@gmail.com"
         val message = SendEmailRequest.builder()
             .source("fyimbtmn@gmail.com")

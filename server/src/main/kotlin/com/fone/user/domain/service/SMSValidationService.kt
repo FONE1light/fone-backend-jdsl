@@ -3,8 +3,8 @@ package com.fone.user.domain.service
 import com.fone.common.exception.NotFoundUserException
 import com.fone.common.redis.RedisRepository
 import com.fone.user.domain.entity.User
-import com.fone.user.domain.repository.SMSRepository
 import com.fone.user.domain.repository.UserRepository
+import com.fone.user.domain.repository.generateRandomCode
 import com.fone.user.presentation.dto.SMSUserDto.PasswordSMSValidationResponse
 import com.fone.user.presentation.dto.SMSUserDto.ResponseType
 import com.fone.user.presentation.dto.SMSUserDto.SMSRequest
@@ -16,16 +16,15 @@ import java.util.UUID
 import java.util.concurrent.TimeUnit
 
 @Service
-class SMSService(
+class SMSValidationService(
     private val redisRepository: RedisRepository,
     private val userRepository: UserRepository,
-    private val phoneService: AuthenticatePhoneService,
-    private val smsRepository: SMSRepository,
 ) {
-    suspend fun sendSMS(request: SMSRequest): SMSResponse {
+    suspend fun sendSMS(request: SMSRequest, smsSender: suspend (phone: String, code: String) -> Unit): SMSResponse {
         val user = userRepository.findByPhone(request.phoneNumber)
             ?: throw NotFoundUserException()
-        sendUpdateVerificationMessage(user)
+        val code = createUpdateVerificationCode(user)
+        smsSender(user.phoneNumber!!, code)
         return SMSResponse(ResponseType.SUCCESS)
     }
 
@@ -46,10 +45,10 @@ class SMSService(
         return UserInfoSMSValidationResponse(ResponseType.SUCCESS, user.loginType, user.email)
     }
 
-    private suspend fun sendUpdateVerificationMessage(user: User) {
-        val code = smsRepository.generateRandomCode()
+    private suspend fun createUpdateVerificationCode(user: User): String {
+        val code = generateRandomCode()
         redisRepository.setValue("user:${user.phoneNumber}:passwordPhoneValidation", code, 185, TimeUnit.SECONDS)
-        phoneService.sendMessageToPhone(user.phoneNumber!!, code)
+        return code
     }
 
     private suspend fun validateVerificationMessage(user: User, code: String): Boolean {

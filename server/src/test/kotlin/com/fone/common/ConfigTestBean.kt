@@ -1,6 +1,8 @@
 package com.fone.common
 
-import com.fone.user.domain.repository.SMSRepository
+import com.fone.sms.domain.service.AligoService
+import com.fone.sms.presentation.dto.SMSSendDto.SMSSendRequest
+import com.fone.sms.presentation.dto.SMSSendDto.SMSSendResponse
 import com.fone.user.domain.service.OauthValidationService
 import com.fone.user.presentation.dto.SignInUserDto
 import io.mockk.coEvery
@@ -26,8 +28,7 @@ class ConfigTestBean {
     // SMS 전송 테스트 bean.
     @Bean
     @Primary
-    fun mockSMSRepository() = mockk<SMSRepository> {
-        coEvery { sendValidationMessage(any(), any()) } returns Unit
-        coEvery { generateRandomCode() } returns "123456"
+    fun mockSMSRepository() = mockk<AligoService> {
+        coEvery { sendToAligo(any<SMSSendRequest>()) } returns SMSSendResponse("123")
     }
 }

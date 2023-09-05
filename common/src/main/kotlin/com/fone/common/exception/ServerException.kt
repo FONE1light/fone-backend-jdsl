@@ -42,3 +42,7 @@ data class InvalidUserStateException(
 data class InvalidOauthStatusException(
     override val message: String,
 ) : ServerException(400, message)
+
+data class SMSBackendException(
+    override val message: String = "SMS 인증에 오류가 있음",
+) : ServerException(500, message)
