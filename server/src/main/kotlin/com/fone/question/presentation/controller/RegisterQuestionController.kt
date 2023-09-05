@@ -35,11 +35,7 @@ class RegisterQuestionController(
         request: RegisterQuestionRequest,
         principal: Principal?,
     ): CommonResponse<RegisterQuestionResponse> {
-        val response = if (principal == null) {
-            registerQuestionFacade.registerQuestion(request)
-        } else {
-            registerQuestionFacade.registerQuestion(principal.name, request)
-        }
+        val response = registerQuestionFacade.registerQuestion(principal?.name, request)
         return CommonResponse.success(response)
     }
 }

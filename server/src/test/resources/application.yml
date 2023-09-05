@@ -45,4 +45,4 @@ security:
     refresh-token-validity-in-seconds: 1209600
 
 discord:
-  question: ${DISCORD_QUESTION_URL}
+  question: ${DISCORD_QUESTION_URL:url}

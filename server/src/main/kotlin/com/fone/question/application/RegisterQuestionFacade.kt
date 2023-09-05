@@ -11,14 +11,12 @@ class RegisterQuestionFacade(
     private val registerQuestionService: RegisterQuestionService,
     private val discordWebhookService: QuestionDiscordWebhookService,
 ) {
-    suspend fun registerQuestion(request: RegisterQuestionRequest): RegisterQuestionResponse {
-        val response = registerQuestionService.registerQuestion(request)
-        discordWebhookService.send(request.toEntity())
-        return response
-    }
-
-    suspend fun registerQuestion(email: String, request: RegisterQuestionRequest): RegisterQuestionResponse {
-        val response = registerQuestionService.registerQuestion(email, request)
+    suspend fun registerQuestion(email: String? = null, request: RegisterQuestionRequest): RegisterQuestionResponse {
+        val response = if(email == null) {
+            registerQuestionService.registerQuestion(request)
+        } else {
+            registerQuestionService.registerQuestion(email, request)
+        }
         discordWebhookService.send(request.toEntity())
         return response
     }
