@@ -1,8 +1,8 @@
 package com.fone.sms.application
 
 import com.fone.sms.domain.service.AligoService
-import com.fone.sms.presentation.dto.SMSSendRequest
-import com.fone.sms.presentation.dto.SMSSendResponse
+import com.fone.sms.presentation.dto.SMSSendDTO.SMSSendRequest
+import com.fone.sms.presentation.dto.SMSSendDTO.SMSSendResponse
 import org.springframework.stereotype.Service
 
 @Service

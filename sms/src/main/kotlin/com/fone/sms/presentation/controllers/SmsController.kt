@@ -2,8 +2,8 @@ package com.fone.sms.presentation.controllers
 
 import com.fone.common.response.CommonResponse
 import com.fone.sms.application.SmsFacade
-import com.fone.sms.presentation.dto.SMSSendRequest
-import com.fone.sms.presentation.dto.SMSSendResponse
+import com.fone.sms.presentation.dto.SMSSendDTO.SMSSendRequest
+import com.fone.sms.presentation.dto.SMSSendDTO.SMSSendResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.media.Content

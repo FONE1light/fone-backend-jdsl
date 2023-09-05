@@ -5,7 +5,7 @@ import com.fone.sms.application.SmsFacade
 import com.fone.sms.domain.dto.AligoSmsRequest
 import com.fone.sms.domain.dto.AligoSmsResponse
 import com.fone.sms.domain.service.AligoService
-import com.fone.sms.presentation.dto.SMSSendRequest
+import com.fone.sms.presentation.dto.SMSSendDTO.SMSSendRequest
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
