@@ -12,7 +12,7 @@ class RegisterQuestionFacade(
     private val discordWebhookService: QuestionDiscordWebhookService,
 ) {
     suspend fun registerQuestion(email: String? = null, request: RegisterQuestionRequest): RegisterQuestionResponse {
-        val response = if(email == null) {
+        val response = if (email == null) {
             registerQuestionService.registerQuestion(request)
         } else {
             registerQuestionService.registerQuestion(email, request)
