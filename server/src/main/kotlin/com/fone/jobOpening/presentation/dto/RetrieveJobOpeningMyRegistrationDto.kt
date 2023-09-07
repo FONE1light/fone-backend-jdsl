@@ -18,13 +18,17 @@ class RetrieveJobOpeningMyRegistrationDto {
             userJobOpeningScrapMap: Map<Long, JobOpeningScrap?>,
             jobOpeningDomains: Map<Long, List<DomainType>>,
             jobOpeningCategories: Map<Long, List<CategoryType>>,
+            nickname: String,
+            profileUrl: String,
         ) : this(
             jobOpenings = jobOpenings.map {
                 JobOpeningDto(
                     it,
                     userJobOpeningScrapMap,
                     jobOpeningDomains[it.id!!] ?: listOf(),
-                    jobOpeningCategories[it.id!!] ?: listOf()
+                    jobOpeningCategories[it.id!!] ?: listOf(),
+                    nickname,
+                    profileUrl
                 )
             }
         )

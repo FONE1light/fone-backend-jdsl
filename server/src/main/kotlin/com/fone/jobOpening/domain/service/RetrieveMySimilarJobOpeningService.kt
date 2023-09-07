@@ -2,12 +2,12 @@ package com.fone.jobOpening.domain.service
 
 import com.fone.common.entity.Type
 import com.fone.common.exception.NotFoundUserException
-import com.fone.common.repository.UserCommonRepository
 import com.fone.jobOpening.domain.repository.JobOpeningCategoryRepository
 import com.fone.jobOpening.domain.repository.JobOpeningDomainRepository
 import com.fone.jobOpening.domain.repository.JobOpeningRepository
 import com.fone.jobOpening.domain.repository.JobOpeningScrapRepository
 import com.fone.jobOpening.presentation.dto.RetrieveMySimilarJobOpeningDto.RetrieveMySimilarJobOpeningResponse
+import com.fone.user.domain.repository.UserRepository
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -18,7 +18,7 @@ class RetrieveMySimilarJobOpeningService(
     private val jobOpeningScrapRepository: JobOpeningScrapRepository,
     private val jobOpeningDomainRepository: JobOpeningDomainRepository,
     private val jobOpeningCategoryRepository: JobOpeningCategoryRepository,
-    private val userRepository: UserCommonRepository,
+    private val userRepository: UserRepository,
 ) {
 
     @Transactional(readOnly = true)
@@ -26,12 +26,11 @@ class RetrieveMySimilarJobOpeningService(
         pageable: Pageable,
         email: String,
     ): RetrieveMySimilarJobOpeningResponse {
-        val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
-        val userJob = userRepository.findJobByEmail(email) ?: throw NotFoundUserException()
+        val user = userRepository.findByNicknameOrEmail(null, email) ?: throw NotFoundUserException()
 
-        val userJobOpeningScraps = jobOpeningScrapRepository.findByUserId(userId)
+        val userJobOpeningScraps = jobOpeningScrapRepository.findByUserId(user.id!!)
 
-        val jobType = when (userJob.uppercase()) {
+        val jobType = when (user.job.toString().uppercase()) {
             "ACTOR", "HUNTER" -> "ACTOR"
             "STAFF", "NORMAL" -> "STAFF"
             else -> throw IllegalArgumentException("유효하지 않은 USER job이 존재합니다.")
@@ -45,7 +44,9 @@ class RetrieveMySimilarJobOpeningService(
             jobOpenings,
             userJobOpeningScraps,
             jobOpeningDomains,
-            jobOpeningCategories
+            jobOpeningCategories,
+            user.nickname,
+            user.profileUrl
         )
     }
 }

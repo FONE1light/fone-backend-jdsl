@@ -3,13 +3,13 @@ package com.fone.jobOpening.domain.service
 import com.fone.common.exception.InvalidJobOpeningUserIdException
 import com.fone.common.exception.NotFoundJobOpeningException
 import com.fone.common.exception.NotFoundUserException
-import com.fone.common.repository.UserCommonRepository
 import com.fone.jobOpening.domain.repository.JobOpeningCategoryRepository
 import com.fone.jobOpening.domain.repository.JobOpeningDomainRepository
 import com.fone.jobOpening.domain.repository.JobOpeningRepository
 import com.fone.jobOpening.domain.repository.JobOpeningScrapRepository
 import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningRequest
 import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningResponse
+import com.fone.user.domain.repository.UserRepository
 import org.springframework.stereotype.Service
 
 @Service
@@ -18,7 +18,7 @@ class PutJobOpeningService(
     private val jobOpeningScrapRepository: JobOpeningScrapRepository,
     private val jobOpeningDomainRepository: JobOpeningDomainRepository,
     private val jobOpeningCategoryRepository: JobOpeningCategoryRepository,
-    private val userRepository: UserCommonRepository,
+    private val userRepository: UserRepository,
 ) {
 
     suspend fun putJobOpening(
@@ -26,9 +26,9 @@ class PutJobOpeningService(
         email: String,
         jobOpeningId: Long,
     ): RegisterJobOpeningResponse {
-        val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
+        val user = userRepository.findByNicknameOrEmail(null, email) ?: throw NotFoundUserException()
         val jobOpening = jobOpeningRepository.findByTypeAndId(null, jobOpeningId) ?: throw NotFoundJobOpeningException()
-        if (userId != jobOpening.userId) {
+        if (user.id != jobOpening.userId) {
             throw InvalidJobOpeningUserIdException()
         }
 
@@ -53,13 +53,15 @@ class PutJobOpeningService(
         jobOpening.put(request)
         jobOpeningRepository.save(jobOpening)
 
-        val userJobOpeningScraps = jobOpeningScrapRepository.findByUserId(userId)
+        val userJobOpeningScraps = jobOpeningScrapRepository.findByUserId(user.id!!)
 
         return RegisterJobOpeningResponse(
             jobOpening,
             userJobOpeningScraps,
             request.domains,
-            request.categories
+            request.categories,
+            user.nickname,
+            user.profileUrl
         )
     }
 }
