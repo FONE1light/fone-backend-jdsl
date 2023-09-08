@@ -4,7 +4,9 @@ import club.minnced.discord.webhook.WebhookClient
 import club.minnced.discord.webhook.send.WebhookEmbed
 import club.minnced.discord.webhook.send.WebhookEmbed.EmbedField
 import club.minnced.discord.webhook.send.WebhookMessageBuilder
+import com.fone.common.exception.NotFoundUserException
 import com.fone.question.domain.entity.Question
+import com.fone.user.domain.repository.UserRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.future.asDeferred
 import kotlinx.coroutines.launch
@@ -17,7 +19,10 @@ import reactor.core.scheduler.Schedulers
 import javax.annotation.PostConstruct
 
 @Service
-class QuestionDiscordWebhookService(private val webhookClient: WebhookClient) {
+class QuestionDiscordWebhookService(
+    private val webhookClient: WebhookClient,
+    private val userRepository: UserRepository,
+) {
     private val webhookFlow = MutableSharedFlow<Question>(extraBufferCapacity = 10)
 
     companion object : KLogging()
@@ -60,7 +65,7 @@ class QuestionDiscordWebhookService(private val webhookClient: WebhookClient) {
         logger.info { response }
     }
 
-    private fun parseFields(question: Question): List<EmbedField> {
+    private suspend fun parseFields(question: Question): List<EmbedField> {
         val fields = mutableListOf(
             EmbedField(
                 true,
@@ -73,32 +78,33 @@ class QuestionDiscordWebhookService(private val webhookClient: WebhookClient) {
                 question.type.toString()
             )
         )
-        if (question.user != null) {
+        if (question.userId != null) {
             fields.addUserInfo(question)
         }
         return fields
     }
 
-    private fun MutableList<EmbedField>.addUserInfo(question: Question) {
+    private suspend fun MutableList<EmbedField>.addUserInfo(question: Question) {
+        val user = userRepository.findById(question.userId!!) ?: throw NotFoundUserException()
         this.add(
             EmbedField(
                 true,
                 "회원 이메일",
-                question.user!!.email
+                user.email
             )
         )
         this.add(
             EmbedField(
                 true,
                 "회원 닉네임",
-                question.user!!.nickname
+                user.nickname
             )
         )
         this.add(
             EmbedField(
                 true,
                 "회원 No",
-                question.user!!.id.toString()
+                user.id!!.toString()
             )
         )
     }

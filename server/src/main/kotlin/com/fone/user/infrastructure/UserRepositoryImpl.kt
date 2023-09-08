@@ -17,6 +17,17 @@ class UserRepositoryImpl(
     private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
 ) : UserRepository {
 
+    override suspend fun findById(
+        userId: Long,
+    ): User? {
+        return queryFactory.singleQueryOrNull {
+            select(entity(User::class))
+            from(entity(User::class))
+            where(
+                idEq(userId)
+            )
+        }
+    }
     override suspend fun findByEmailAndLoginType(
         email: String,
         loginType: LoginType,
@@ -87,6 +98,11 @@ class UserRepositoryImpl(
         }
     }
 
+    private fun SpringDataReactiveCriteriaQueryDsl<User?>.idEq(
+        userId: Long,
+    ): EqualValueSpec<Long?> {
+        return col(User::id).equal(userId)
+    }
     private fun SpringDataReactiveCriteriaQueryDsl<User?>.loginTypeEq(
         loginType: LoginType?,
     ): EqualValueSpec<LoginType>? {

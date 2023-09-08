@@ -26,8 +26,9 @@ class RegisterQuestionService(
     @Transactional
     suspend fun registerQuestion(email: String, request: RegisterQuestionRequest): RegisterQuestionResponse {
         with(request) {
+            val user = userRepository.findByNicknameOrEmail(email = email) ?: throw InvalidTokenException()
             val question = toEntity().apply {
-                user = userRepository.findByNicknameOrEmail(email = email) ?: throw InvalidTokenException()
+                userId = user.id
             }
             questionRepository.save(question)
             return RegisterQuestionResponse(question)
