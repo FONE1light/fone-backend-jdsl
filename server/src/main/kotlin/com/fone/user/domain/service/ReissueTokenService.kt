@@ -5,9 +5,8 @@ import com.fone.common.jwt.JWTUtils
 import com.fone.common.jwt.Token
 import com.fone.common.redis.RedisRepository
 import com.fone.user.presentation.dto.ReissueTokenDto
+import io.jsonwebtoken.ExpiredJwtException
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
-import java.util.concurrent.TimeUnit
 
 @Service
 class ReissueTokenService(
@@ -15,22 +14,18 @@ class ReissueTokenService(
     private val redisRepository: RedisRepository,
 ) {
 
-    @Transactional(readOnly = true)
-    suspend fun reissueToken(request: ReissueTokenDto.ReissueTokenRequest, email: String): Token {
-        if (!jwtUtils.validateToken(request.refreshToken)) throw InvalidTokenException()
+    suspend fun reissueToken(request: ReissueTokenDto.ReissueTokenRequest): Token {
+        validateRefreshToken(request.refreshToken)
+        return jwtUtils.reissueAccessToken(request.refreshToken)
+    }
 
-        val refreshToken =
-            redisRepository.getValue(redisRepository.REFRESH_PREFIX + email) ?: throw InvalidTokenException()
-
-        val token = jwtUtils.reissue(email, request.accessToken)
-
-        redisRepository.setValue(
-            redisRepository.REFRESH_PREFIX + email,
-            token.refreshToken,
-            jwtUtils.refreshTokenValidityInMilliseconds,
-            TimeUnit.MILLISECONDS
-        )
-
-        return token
+    private fun validateRefreshToken(token: String) {
+        try {
+            if (!jwtUtils.validateToken(token)) throw InvalidTokenException()
+        } catch (e: ExpiredJwtException) {
+            throw InvalidTokenException()
+        }
+        val email = jwtUtils.getEmailFromToken(token)
+        redisRepository.getValue(redisRepository.REFRESH_PREFIX + email) ?: throw InvalidTokenException()
     }
 }

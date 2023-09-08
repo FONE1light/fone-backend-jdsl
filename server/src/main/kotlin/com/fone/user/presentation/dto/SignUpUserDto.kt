@@ -3,6 +3,7 @@ package com.fone.user.presentation.dto
 import com.fone.common.entity.CategoryType
 import com.fone.common.entity.Gender
 import com.fone.common.jwt.Role
+import com.fone.common.jwt.Token
 import com.fone.common.password.PasswordService
 import com.fone.user.domain.entity.User
 import com.fone.user.domain.enum.Job
@@ -75,6 +76,7 @@ class SignUpUserDto {
                 enabled = true
             )
         }
+
         private fun loginTypeAssertion() {
             if (LoginType.PASSWORD == loginType) {
                 throw ServerWebInputException("Password 로그인의 경우 Password 있어야함")
@@ -109,7 +111,7 @@ class SignUpUserDto {
         @field:AssertTrue(message = "개인정보 취급방침 동의 선택은 필수 값 입니다.") val agreeToPersonalInformation: Boolean,
         @field:NotNull(message = "마케팅 정보수신 동의는 필수 값 입니다.") val isReceiveMarketing: Boolean,
         @field:Pattern(
-            regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,16}$",
+            regexp = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@\$!%*?&#_])[A-Za-z\\d@\$!%*?&#_]{8,16}\$",
             message = "영문자, 숫자, 특수문자가 포함된 8~16자 비밀번호"
         ) val password: String,
         @ApiModelProperty(value = "이메일 인증 토큰", required = true) val token: String,
@@ -138,10 +140,12 @@ class SignUpUserDto {
 
     data class SignUpUserResponse(
         val user: UserDto,
+        val token: Token,
     ) {
 
         constructor(
             user: User,
-        ) : this(user = UserDto(user))
+            token: Token,
+        ) : this(user = UserDto(user), token = token)
     }
 }

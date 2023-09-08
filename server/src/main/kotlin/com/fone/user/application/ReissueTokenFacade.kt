@@ -9,6 +9,6 @@ class ReissueTokenFacade(
     private val reissueTokenService: ReissueTokenService,
 ) {
 
-    suspend fun reissueToken(request: ReissueTokenDto.ReissueTokenRequest, email: String) =
-        reissueTokenService.reissueToken(request, email)
+    suspend fun reissueToken(request: ReissueTokenDto.ReissueTokenRequest) =
+        reissueTokenService.reissueToken(request)
 }

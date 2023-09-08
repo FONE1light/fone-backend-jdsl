@@ -25,6 +25,7 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+/.run/**
 
 ### NetBeans ###
 /nbproject/private/
@@ -41,3 +42,6 @@ docker/mysql/**
 
 ### redis ###
 docker/redis/**
+
+### IDEA run ###
+/.run

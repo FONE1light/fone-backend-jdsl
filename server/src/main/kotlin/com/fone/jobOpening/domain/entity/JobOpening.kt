@@ -52,6 +52,7 @@ data class JobOpening(
         ageMin = request.ageMin
         career = request.career
         type = request.type
+        work = request.work.toEntity()
     }
 
     fun delete() {

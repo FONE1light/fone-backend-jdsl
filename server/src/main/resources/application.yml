@@ -27,11 +27,17 @@ spring:
     host: localhost
     port: 6379
 
+credentials:
+  sms:
+    key: ${SMS_KEY:test}
+    user-id: ${SMS_USER:test}
+    sender: ${SMS_SENDER:test}
+
 security:
   aws:
     senderEmail: fyimbtmn@gmail.com
-    accessKey: ${AWS_ACCESS_KEY}
-    secretKey: ${AWS_SECRET_KEY}
+    accessKey: ${AWS_ACCESS_KEY:test}
+    secretKey: ${AWS_SECRET_KEY:test}
   password:
     encoder:
       secret: mysecret
@@ -41,8 +47,6 @@ security:
     secret: foneBackendSecretfoneBackendSecretfoneBackendSecret
     access-token-validity-in-seconds: 7200
     refresh-token-validity-in-seconds: 1209600
-  sms:
-    url: https://du646e9qh1.execute-api.ap-northeast-2.amazonaws.com/prod/send-sms
   oauth:
     naver:
       client-id: aU9oh1xxoC6uAMW48qCP

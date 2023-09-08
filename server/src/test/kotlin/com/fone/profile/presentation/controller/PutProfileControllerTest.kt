@@ -35,6 +35,7 @@ class PutProfileControllerTest(client: WebTestClient) : CustomDescribeSpec() {
             specialty = "test",
             details = "test",
             career = Career.IRRELEVANT,
+            careerDetail = "test",
             categories = listOf(CategoryType.ETC),
             type = Type.ACTOR,
             domains = listOf(DomainType.PAINTING),

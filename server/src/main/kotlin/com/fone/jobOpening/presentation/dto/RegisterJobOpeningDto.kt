@@ -17,7 +17,7 @@ class RegisterJobOpeningDto {
     data class RegisterJobOpeningRequest(
         val title: String,
         val categories: List<CategoryType>,
-        @DateTimeFormat(pattern = "yyyy-MM-dd") val deadline: LocalDate,
+        @DateTimeFormat(pattern = "yyyy-MM-dd") val deadline: LocalDate?,
         val casting: String?,
         val numberOfRecruits: Int,
         val gender: Gender,

@@ -33,6 +33,7 @@ class RegisterProfileDto {
         val specialty: String,
         val details: String,
         val career: Career,
+        val careerDetail: String?, // 하위 버전 호환성을 위해 null타입 추가 필요
         val categories: List<CategoryType>,
         val type: Type,
         val domains: List<DomainType>?,
@@ -52,6 +53,7 @@ class RegisterProfileDto {
                 specialty = specialty,
                 details = details,
                 career = career,
+                careerDetail = careerDetail ?: "",
                 type = type,
                 userId = userId,
                 viewCount = 0,

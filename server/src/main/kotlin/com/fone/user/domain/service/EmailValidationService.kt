@@ -3,6 +3,7 @@ package com.fone.user.domain.service
 import com.fone.common.exception.InvalidTokenException
 import com.fone.common.redis.RedisRepository
 import com.fone.user.domain.repository.EmailRepository
+import com.fone.user.domain.repository.generateRandomCode
 import com.fone.user.infrastructure.EmailRepositoryImpl
 import com.fone.user.presentation.dto.EmailValidationDto
 import org.springframework.beans.factory.annotation.Value
@@ -24,7 +25,7 @@ class EmailValidationService(
         request: EmailValidationDto.EmailSendRequest,
     ): EmailValidationDto.EmailSendResponse {
         return runCatching {
-            val code = emailRepository.generateRandomCode()
+            val code = generateRandomCode()
             val email = request.email
             redisRepository.setValue("user:$email:emailCode", code, 10, TimeUnit.MINUTES)
             val message = SendEmailRequest.builder()
