@@ -11,18 +11,31 @@ import org.springframework.test.web.reactive.server.WebTestClient
 @IntegrationTest
 class RegisterQuestionControllerTest(client: WebTestClient) : CustomDescribeSpec() {
 
-    private val registerUrl = "/api/v1/questions"
+    private val guestRegisterUrl = "/api/v1/questions"
+    private val userRegisterUrl = "/api/v1/questions"
 
     init {
-        val (_, email) = CommonUserCallApi.getAccessToken(client)
+        val (token, email) = CommonUserCallApi.getAccessToken(client)
         val registerQuestionRequest =
             RegisterQuestionRequest(email, Type.ALLIANCE, "테스트 제목", "테스트 설명", true)
 
         describe("#register question") {
-            context("유효한 정보로 문의등록을 하면") {
+            context("비회원이 유효한 정보로 문의등록을 하면") {
                 it("성공한다") {
                     client
-                        .doPost(registerUrl, registerQuestionRequest)
+                        .doPost(guestRegisterUrl, registerQuestionRequest)
+                        .expectStatus()
+                        .isOk
+                        .expectBody()
+                        .consumeWith { println(it) }
+                        .jsonPath("$.result")
+                        .isEqualTo("SUCCESS")
+                }
+            }
+            context("회원이 유효한 정보로 문의등록을 하면") {
+                it("성공한다") {
+                    client
+                        .doPost(userRegisterUrl, registerQuestionRequest, token)
                         .expectStatus()
                         .isOk
                         .expectBody()

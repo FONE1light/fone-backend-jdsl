@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.security.Principal
 import javax.validation.Valid
 
 @Api(tags = ["02. Question Info"], description = "문의등록 서비스")
@@ -32,8 +33,9 @@ class RegisterQuestionController(
     suspend fun registerQuestion(
         @Valid @RequestBody
         request: RegisterQuestionRequest,
+        principal: Principal?,
     ): CommonResponse<RegisterQuestionResponse> {
-        val response = registerQuestionFacade.registerQuestion(request)
+        val response = registerQuestionFacade.registerQuestion(principal?.name, request)
         return CommonResponse.success(response)
     }
 }

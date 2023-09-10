@@ -23,4 +23,5 @@ data class Question(
     @Column var title: String = "",
     @Column(length = 500) var description: String = "",
     @Column var agreeToPersonalInformation: Boolean = false,
+    var userId: Long? = null,
 ) : BaseEntity()
