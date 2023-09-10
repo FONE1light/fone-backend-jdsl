@@ -7,6 +7,7 @@ import com.fone.jobOpening.domain.repository.JobOpeningDomainRepository
 import com.fone.jobOpening.domain.repository.JobOpeningRepository
 import com.fone.jobOpening.domain.repository.JobOpeningScrapRepository
 import com.fone.jobOpening.presentation.dto.RetrieveMySimilarJobOpeningDto.RetrieveMySimilarJobOpeningResponse
+import com.fone.user.domain.enum.Job
 import com.fone.user.domain.repository.UserRepository
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
@@ -30,10 +31,9 @@ class RetrieveMySimilarJobOpeningService(
 
         val userJobOpeningScraps = jobOpeningScrapRepository.findByUserId(user.id!!)
 
-        val jobType = when (user.job.toString().uppercase()) {
-            "ACTOR", "HUNTER" -> "ACTOR"
-            "STAFF", "NORMAL" -> "STAFF"
-            else -> throw IllegalArgumentException("유효하지 않은 USER job이 존재합니다.")
+        val jobType = when (user.job) {
+            Job.ACTOR, Job.HUNTER -> "ACTOR"
+            Job.STAFF, Job.NORMAL -> "STAFF"
         }
         val jobOpenings = jobOpeningRepository.findAllTop5ByType(pageable, Type(jobType))
         val jobOpeningIds = jobOpenings.map { it.id!! }.toList()
