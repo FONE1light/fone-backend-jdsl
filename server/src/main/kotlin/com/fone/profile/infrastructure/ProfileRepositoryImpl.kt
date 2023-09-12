@@ -80,6 +80,14 @@ class ProfileRepositoryImpl(
         return ids.map { profiles.next() }
     }
 
+    override suspend fun findById(profileId: Long): Profile? {
+        return queryFactory.singleQueryOrNull {
+            select(entity(Profile::class))
+            from(entity(Profile::class))
+            fetch(Profile::profileImages, joinType = JoinType.LEFT)
+            where(idEq(profileId))
+        }
+    }
     override suspend fun findByTypeAndId(type: Type?, profileId: Long?): Profile? {
         return queryFactory.singleQueryOrNull {
             select(entity(Profile::class))

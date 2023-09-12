@@ -3,9 +3,14 @@ package com.fone.common
 import club.minnced.discord.webhook.WebhookClient
 import club.minnced.discord.webhook.receive.ReadonlyMessage
 import club.minnced.discord.webhook.send.WebhookMessage
+import com.fone.question.domain.repository.QuestionDiscordRepository
+import com.fone.question.infrastructure.QuestionDiscordRepositoryImpl
+import com.fone.report.domain.repository.ReportDiscordRepository
+import com.fone.report.infrastructure.ReportDiscordRepositoryImpl
 import com.fone.sms.domain.service.AligoService
 import com.fone.sms.presentation.dto.SMSSendDto.SMSSendRequest
 import com.fone.sms.presentation.dto.SMSSendDto.SMSSendResponse
+import com.fone.user.domain.repository.UserRepository
 import com.fone.user.domain.service.OauthValidationService
 import com.fone.user.presentation.dto.SignInUserDto
 import io.mockk.coEvery
@@ -42,7 +47,17 @@ class ConfigTestBean {
     // 제대로 작성했다면 트랜잭션 coroutine 체인을 방해해서는 안됨
     @Bean
     @Primary
-    fun mockDiscordWebhookClient() = mockk<WebhookClient> {
+    fun mockQuestionDiscordRepo(userRepository: UserRepository): QuestionDiscordRepository {
+        return QuestionDiscordRepositoryImpl(mockDiscordClient("Question Discord Mock"), userRepository)
+    }
+
+    @Bean
+    @Primary
+    fun mockReportDiscordRepo(userRepository: UserRepository): ReportDiscordRepository {
+        return ReportDiscordRepositoryImpl(mockDiscordClient("Report Discord Mock"), userRepository)
+    }
+
+    private fun mockDiscordClient(testMessage: String) = mockk<WebhookClient> {
         every { send(any<WebhookMessage>()) } answers {
             val thread = Thread {
                 Thread.sleep(1000)
@@ -50,7 +65,7 @@ class ConfigTestBean {
             thread.start()
             thread.join()
             val mockMessage = mockk<ReadonlyMessage>()
-            every { mockMessage.toString() } returns "Mock Message"
+            every { mockMessage.toString() } returns testMessage
             CompletableFuture.completedFuture(mockMessage)
         }
     }

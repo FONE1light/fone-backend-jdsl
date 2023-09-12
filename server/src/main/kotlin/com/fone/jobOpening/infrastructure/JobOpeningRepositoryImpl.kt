@@ -106,6 +106,17 @@ class JobOpeningRepositoryImpl(
         }
     }
 
+    override suspend fun findById(
+        jobOpeningId: Long,
+    ): JobOpening? {
+        return queryFactory.singleQueryOrNull {
+            select(entity(JobOpening::class))
+            from(entity(JobOpening::class))
+            where(
+                jobOpeningIdEq(jobOpeningId)
+            )
+        }
+    }
     override suspend fun findByTypeAndId(
         type: Type?,
         jobOpeningId: Long?,

@@ -1,4 +1,4 @@
-package com.fone.question.domain.service
+package com.fone.question.infrastructure
 
 import club.minnced.discord.webhook.WebhookClient
 import club.minnced.discord.webhook.send.WebhookEmbed
@@ -6,43 +6,42 @@ import club.minnced.discord.webhook.send.WebhookEmbed.EmbedField
 import club.minnced.discord.webhook.send.WebhookMessageBuilder
 import com.fone.common.exception.NotFoundUserException
 import com.fone.question.domain.entity.Question
+import com.fone.question.domain.repository.QuestionDiscordRepository
 import com.fone.user.domain.repository.UserRepository
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.future.asDeferred
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.reactor.asCoroutineDispatcher
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import mu.KLogging
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Service
-import reactor.core.scheduler.Schedulers
 import javax.annotation.PostConstruct
 
 @Service
-class QuestionDiscordWebhookService(
+class QuestionDiscordRepositoryImpl(
+    @Qualifier("QuestionWebhook")
     private val webhookClient: WebhookClient,
     private val userRepository: UserRepository,
-) {
+) : QuestionDiscordRepository {
     private val webhookFlow = MutableSharedFlow<Question>(extraBufferCapacity = 10)
 
     companion object : KLogging()
 
+    @OptIn(DelicateCoroutinesApi::class)
     @PostConstruct
     fun webhookFlowConsumer() {
-        Schedulers.boundedElastic().schedule {
-            runBlocking {
-                withContext(Schedulers.boundedElastic().asCoroutineDispatcher()) {
-                    webhookFlow.collect {
-                        launch {
-                            sendQuestion(it)
-                        }
-                    }
+        GlobalScope.launch(Dispatchers.IO) {
+            webhookFlow.collect {
+                launch {
+                    sendQuestion(it)
                 }
             }
         }
     }
 
-    suspend fun send(question: Question) {
+    override suspend fun send(question: Question) {
         webhookFlow.emit(question)
     }
 
