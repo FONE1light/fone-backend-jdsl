@@ -56,8 +56,10 @@ class RegisterJobOpeningDto {
             userJobOpeningScrapMap: Map<Long, JobOpeningScrap?>,
             domains: List<DomainType>?,
             categories: List<CategoryType>,
+            nickname: String,
+            profileUrl: String,
         ) : this(
-            jobOpening = JobOpeningDto(jobOpening, userJobOpeningScrapMap, domains, categories)
+            jobOpening = JobOpeningDto(jobOpening, userJobOpeningScrapMap, domains, categories, nickname, profileUrl)
         )
     }
 }

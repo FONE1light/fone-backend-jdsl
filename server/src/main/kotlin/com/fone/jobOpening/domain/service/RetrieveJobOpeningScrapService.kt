@@ -2,12 +2,12 @@ package com.fone.jobOpening.domain.service
 
 import com.fone.common.entity.Type
 import com.fone.common.exception.NotFoundUserException
-import com.fone.common.repository.UserCommonRepository
 import com.fone.jobOpening.domain.repository.JobOpeningCategoryRepository
 import com.fone.jobOpening.domain.repository.JobOpeningDomainRepository
 import com.fone.jobOpening.domain.repository.JobOpeningRepository
 import com.fone.jobOpening.domain.repository.JobOpeningScrapRepository
 import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningScrapDto.RetrieveJobOpeningScrapResponse
+import com.fone.user.domain.repository.UserRepository
 import kotlinx.coroutines.coroutineScope
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
@@ -19,7 +19,7 @@ class RetrieveJobOpeningScrapService(
     private val jobOpeningRepository: JobOpeningRepository,
     private val jobOpeningDomainRepository: JobOpeningDomainRepository,
     private val jobOpeningCategoryRepository: JobOpeningCategoryRepository,
-    private val userRepository: UserCommonRepository,
+    private val userRepository: UserRepository,
 ) {
 
     @Transactional(readOnly = true)
@@ -28,11 +28,11 @@ class RetrieveJobOpeningScrapService(
         email: String,
         type: Type?,
     ): RetrieveJobOpeningScrapResponse {
-        val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
+        val user = userRepository.findByNicknameOrEmail(null, email) ?: throw NotFoundUserException()
 
         return coroutineScope {
-            val jobOpenings = jobOpeningRepository.findScrapAllByUserId(pageable, userId, type)
-            val userJobOpeningScraps = jobOpeningScrapRepository.findByUserId(userId)
+            val jobOpenings = jobOpeningRepository.findScrapAllByUserId(pageable, user.id!!, type)
+            val userJobOpeningScraps = jobOpeningScrapRepository.findByUserId(user.id!!)
             val jobOpeningIds = jobOpenings.map { it.id!! }.toList()
             val jobOpeningDomains = jobOpeningDomainRepository.findByJobOpeningIds(jobOpeningIds)
             val jobOpeningCategories = jobOpeningCategoryRepository.findByJobOpeningIds(jobOpeningIds)
@@ -41,7 +41,9 @@ class RetrieveJobOpeningScrapService(
                 jobOpenings,
                 userJobOpeningScraps,
                 jobOpeningDomains,
-                jobOpeningCategories
+                jobOpeningCategories,
+                user.nickname,
+                user.profileUrl
             )
         }
     }

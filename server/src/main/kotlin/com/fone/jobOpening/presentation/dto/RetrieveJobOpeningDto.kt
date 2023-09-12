@@ -33,13 +33,17 @@ class RetrieveJobOpeningDto {
             userJobOpeningScrapMap: Map<Long, JobOpeningScrap?>,
             jobOpeningDomains: Map<Long, List<DomainType>>,
             jobOpeningCategories: Map<Long, List<CategoryType>>,
+            nickname: String,
+            profileUrl: String,
         ) : this(
             jobOpenings = jobOpeningPage.map {
                 JobOpeningDto(
                     it,
                     userJobOpeningScrapMap,
                     jobOpeningDomains[it.id!!] ?: listOf(),
-                    jobOpeningCategories[it.id!!] ?: listOf()
+                    jobOpeningCategories[it.id!!] ?: listOf(),
+                    nickname,
+                    profileUrl
                 )
             }
         )
@@ -54,8 +58,17 @@ class RetrieveJobOpeningDto {
             userJobOpeningScrapMap: Map<Long, JobOpeningScrap?>,
             domains: List<DomainType>,
             categories: List<CategoryType>,
+            nickname: String,
+            profileUrl: String,
         ) : this(
-            jobOpening = JobOpeningDto(reqJobOpening, userJobOpeningScrapMap, domains, categories)
+            jobOpening = JobOpeningDto(
+                reqJobOpening,
+                userJobOpeningScrapMap,
+                domains,
+                categories,
+                nickname,
+                profileUrl
+            )
         )
     }
 }
