@@ -5,11 +5,10 @@ import com.fone.common.exception.NotFoundUserException
 import com.fone.common.repository.UserCommonRepository
 import com.fone.jobOpening.domain.repository.JobOpeningRepository
 import com.fone.profile.domain.repository.ProfileRepository
+import com.fone.report.domain.entity.Report
 import com.fone.report.domain.enum.Type
-import com.fone.report.domain.repository.ReportDiscordRepository
 import com.fone.report.domain.repository.ReportRepository
 import com.fone.report.presentation.dto.RegisterReportDto.RegisterReportRequest
-import com.fone.report.presentation.dto.RegisterReportDto.RegisterReportResponse
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -19,14 +18,13 @@ class RegisterReportService(
     private val profileRepository: ProfileRepository,
     private val jobOpeningRepository: JobOpeningRepository,
     private val userRepository: UserCommonRepository,
-    private val reportDiscordRepository: ReportDiscordRepository,
 ) {
 
     @Transactional
     suspend fun registerReport(
         request: RegisterReportRequest,
         email: String,
-    ): RegisterReportResponse {
+    ): Report {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
         with(request) {
             val report = toEntity(userId)
@@ -43,9 +41,7 @@ class RegisterReportService(
                     report.reportUserId = jobOpening.userId
                 }
             }
-            reportRepository.save(report)
-            reportDiscordRepository.send(report)
-            return RegisterReportResponse(report)
+            return reportRepository.save(report)
         }
     }
 }

@@ -4,8 +4,6 @@ import club.minnced.discord.webhook.WebhookClient
 import club.minnced.discord.webhook.send.WebhookEmbed
 import club.minnced.discord.webhook.send.WebhookEmbed.EmbedField
 import club.minnced.discord.webhook.send.WebhookMessageBuilder
-import com.fone.common.exception.NotFoundUserException
-import com.fone.question.domain.entity.Question
 import com.fone.report.domain.entity.Report
 import com.fone.report.domain.enum.Type
 import com.fone.report.domain.repository.ReportDiscordRepository
@@ -96,30 +94,5 @@ class ReportDiscordRepositoryImpl(
             )
         )
         return userIds + inconveniences
-    }
-
-    private suspend fun MutableList<EmbedField>.addUserInfo(question: Question) {
-        val user = userRepository.findById(question.userId!!) ?: throw NotFoundUserException()
-        this.add(
-            EmbedField(
-                true,
-                "회원 이메일",
-                user.email
-            )
-        )
-        this.add(
-            EmbedField(
-                true,
-                "회원 닉네임",
-                user.nickname
-            )
-        )
-        this.add(
-            EmbedField(
-                true,
-                "회원 No",
-                user.id!!.toString()
-            )
-        )
     }
 }
