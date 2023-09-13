@@ -14,6 +14,8 @@ interface JobOpeningRepository {
         type: RetrieveJobOpeningsRequest,
     ): Page<JobOpening>
 
+    suspend fun findById(jobOpeningId: Long): JobOpening?
+
     suspend fun findByTypeAndId(type: Type?, jobOpeningId: Long?): JobOpening?
 
     suspend fun findAllByUserId(pageable: Pageable, userId: Long): Page<JobOpening>

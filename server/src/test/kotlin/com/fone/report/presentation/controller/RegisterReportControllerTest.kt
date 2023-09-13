@@ -10,14 +10,13 @@ import org.springframework.test.web.reactive.server.WebTestClient
 
 @IntegrationTest
 class RegisterReportControllerTest(client: WebTestClient) : CustomDescribeSpec() {
-
     private val registerUrl = "/api/v1/reports"
 
     init {
         val (accessToken, _) = CommonUserCallApi.getAccessToken(client)
         val registerReportRequest = RegisterReportRequest(
             reportUserId = 1,
-            type = Type.CHATTING,
+            type = Type.PROFILE,
             typeId = 1,
             inconveniences = listOf(""),
             details = "test details"

@@ -12,6 +12,7 @@ interface ProfileRepository {
         request: RetrieveProfilesRequest,
     ): Page<Profile>
 
+    suspend fun findById(profileId: Long): Profile?
     suspend fun findByTypeAndId(type: Type?, profileId: Long?): Profile?
 
     suspend fun findAllByUserId(pageable: Pageable, userId: Long): Page<Profile>
