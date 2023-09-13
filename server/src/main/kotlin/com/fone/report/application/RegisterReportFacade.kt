@@ -12,9 +12,9 @@ class RegisterReportFacade(
     private val discordReportService: DiscordReportService,
 ) {
 
-    suspend fun registerReport(request: RegisterReportRequest, email: String) {
+    suspend fun registerReport(request: RegisterReportRequest, email: String): RegisterReportResponse {
         val report = registerReportService.registerReport(request, email)
         discordReportService.sendReport(report)
-        RegisterReportResponse(report)
+        return RegisterReportResponse(report)
     }
 }
