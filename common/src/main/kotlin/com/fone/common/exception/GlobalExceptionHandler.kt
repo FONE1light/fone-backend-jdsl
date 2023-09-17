@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.bind.support.WebExchangeBindException
+import org.springframework.web.server.ServerWebExchange
 import org.springframework.web.server.ServerWebInputException
 import reactor.core.publisher.Mono
 
@@ -30,13 +31,18 @@ class GlobalExceptionHandler {
     @ExceptionHandler(value = [ServerWebInputException::class])
     fun methodArgumentNotValidException(
         e: ServerWebInputException,
+        exchange: ServerWebExchange,
     ): Mono<CommonResponse<String?>> {
+        println("test..12313")
         val data = if (e.cause?.cause is MissingKotlinParameterException) {
             val param = (e.cause?.cause as MissingKotlinParameterException).parameter.name
             "필드명: $param"
         } else {
             null
         }
+
+        println("Request URI: ${exchange.request.uri}")
+        println(data)
         val errorResponse = CommonResponse.fail(data, ErrorCode.COMMON_NULL_PARAMETER)
         return Mono.just(errorResponse)
     }
