@@ -11,4 +11,8 @@ interface EmailValidationFacade {
     suspend fun validateCode(
         emailValidationRequest: EmailValidationDto.EmailValidationRequest,
     ): EmailValidationDto.EmailValidationResponse
+
+    suspend fun duplicateCheck(
+        emailDuplicationRequest: EmailValidationDto.EmailDuplicationRequest,
+    ): EmailValidationDto.EmailDuplicationResponse
 }

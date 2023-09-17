@@ -12,4 +12,7 @@ class EmailValidationFacadeImpl(private val emailValidationService: EmailValidat
 
     override suspend fun validateCode(emailValidationRequest: EmailValidationDto.EmailValidationRequest) =
         emailValidationService.validateCode(emailValidationRequest)
+
+    override suspend fun duplicateCheck(emailDuplicationRequest: EmailValidationDto.EmailDuplicationRequest) =
+        emailValidationService.checkDuplicate(emailDuplicationRequest)
 }

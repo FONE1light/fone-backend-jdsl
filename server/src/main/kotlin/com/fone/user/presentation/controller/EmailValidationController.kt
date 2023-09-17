@@ -47,4 +47,19 @@ class EmailValidationController(private val emailValidationFacade: EmailValidati
         val response = emailValidationFacade.validateCode(request)
         return CommonResponse.success(response)
     }
+
+    @PostMapping("/email/duplicate")
+    @ApiOperation(value = "이메일 중복 확인 Api")
+    @ApiResponse(
+        responseCode = "200",
+        description = "성공",
+        content = [Content(schema = Schema(implementation = EmailValidationDto.EmailDuplicationResponse::class))]
+    )
+    suspend fun isDuplicateEmail(
+        @Valid @RequestBody
+        request: EmailValidationDto.EmailDuplicationRequest,
+    ): CommonResponse<EmailValidationDto.EmailDuplicationResponse> {
+        val response = emailValidationFacade.duplicateCheck(request)
+        return CommonResponse.success(response)
+    }
 }

@@ -1,5 +1,6 @@
 package com.fone.user.presentation.controller
 
+import com.fone.common.CommonUserCallApi
 import com.fone.common.CustomDescribeSpec
 import com.fone.common.IntegrationTest
 import com.fone.common.doPost
@@ -39,6 +40,36 @@ class EmailValidationControllerTest(client: WebTestClient) : CustomDescribeSpec(
                         .consumeWith { println(it) }
                         .jsonPath("$.result")
                         .isEqualTo("SUCCESS")
+                }
+            }
+        }
+
+        describe("#Email Duplication Check") {
+            val successfulRequest = EmailValidationDto.EmailDuplicationRequest("new_email@emails.com")
+            val (_, email) = CommonUserCallApi.getAccessToken(client)
+            val existingRequest = EmailValidationDto.EmailDuplicationRequest(email)
+            context("존재하지 않는 email 요청하면") {
+                it("성공한다") {
+                    client
+                        .doPost("$baseUrl/duplicate", successfulRequest)
+                        .expectStatus()
+                        .isOk
+                        .expectBody()
+                        .consumeWith { println(it) }
+                        .jsonPath("$.result")
+                        .isEqualTo("SUCCESS")
+                }
+            }
+            context("존재하는 email 요청하면") {
+                it("실패한다") {
+                    client
+                        .doPost("$baseUrl/duplicate", existingRequest)
+                        .expectStatus()
+                        .isOk
+                        .expectBody()
+                        .consumeWith { println(it) }
+                        .jsonPath("$.result")
+                        .isEqualTo("FAIL")
                 }
             }
         }
