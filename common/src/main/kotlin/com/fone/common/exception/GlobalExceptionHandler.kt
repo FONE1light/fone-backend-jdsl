@@ -33,7 +33,6 @@ class GlobalExceptionHandler {
         e: ServerWebInputException,
         exchange: ServerWebExchange,
     ): Mono<CommonResponse<String?>> {
-        println("test..12313")
         val data = if (e.cause?.cause is MissingKotlinParameterException) {
             val param = (e.cause?.cause as MissingKotlinParameterException).parameter.name
             "필드명: $param"
