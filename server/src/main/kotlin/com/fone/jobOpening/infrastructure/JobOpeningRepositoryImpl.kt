@@ -23,7 +23,6 @@ import com.linecorp.kotlinjdsl.spring.reactive.querydsl.SpringDataReactivePageab
 import io.smallrye.mutiny.coroutines.awaitSuspending
 import org.hibernate.reactive.mutiny.Mutiny
 import org.springframework.data.domain.Page
-import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Repository
@@ -58,32 +57,32 @@ class JobOpeningRepositoryImpl(
         request: RetrieveJobOpeningsRequest,
     ): Page<JobOpening> {
         return queryFactory.withFactory { factory ->
-            val domainJobOpeningIds = factory.listQuery {
-                select(col(JobOpeningDomain::jobOpeningId))
-                from(entity(JobOpeningDomain::class))
-                where(
-                    and(
-                        col(JobOpeningDomain::type).`in`(request.domains)
+            val domainJobOpeningIds = if (request.domains.isEmpty()) {
+                emptyList()
+            } else {
+                factory.listQuery {
+                    select(col(JobOpeningDomain::jobOpeningId))
+                    from(entity(JobOpeningDomain::class))
+                    where(
+                        and(
+                            col(JobOpeningDomain::type).`in`(request.domains)
+                        )
                     )
-                )
+                }
             }
 
-            val categoryJobOpeningIds = factory.listQuery {
-                select(col(JobOpeningCategory::jobOpeningId))
-                from(entity(JobOpeningCategory::class))
-                where(
-                    and(
-                        col(JobOpeningCategory::type).`in`(request.categories)
+            val categoryJobOpeningIds = if (request.categories.isEmpty()) {
+                emptyList()
+            } else {
+                factory.listQuery {
+                    select(col(JobOpeningCategory::jobOpeningId))
+                    from(entity(JobOpeningCategory::class))
+                    where(
+                        and(
+                            col(JobOpeningCategory::type).`in`(request.categories)
+                        )
                     )
-                )
-            }
-
-            if (domainJobOpeningIds.isEmpty() || categoryJobOpeningIds.isEmpty()) {
-                return@withFactory PageImpl(
-                    listOf(),
-                    pageable,
-                    0
-                )
+                }
             }
 
             factory.pageQuery(pageable) {
