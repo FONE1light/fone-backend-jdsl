@@ -37,10 +37,3 @@ security:
     secret: foneBackendSecretfoneBackendSecretfoneBackendSecret
     access-token-validity-in-seconds: 7200
     refresh-token-validity-in-seconds: 1209600
-
-logging:
-  level:
-    root: ERROR
-    org.springframework.web: ERROR
-    com.howtodoinjava: DEBUG
-    org.hibernate: ERROR
