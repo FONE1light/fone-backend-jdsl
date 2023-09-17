@@ -7,12 +7,14 @@ import com.fone.common.entity.CategoryType
 import com.fone.common.entity.Gender
 import com.fone.user.domain.enum.Job
 import com.fone.user.domain.enum.LoginType
+import com.fone.user.domain.repository.UserRepository
 import com.fone.user.presentation.dto.SignUpUserDto
+import io.kotest.matchers.shouldBe
 import org.springframework.test.web.reactive.server.WebTestClient
 import java.time.LocalDate
 
 @IntegrationTest
-class SignUpUserControllerTest(client: WebTestClient) : CustomDescribeSpec() {
+class SignUpUserControllerTest(client: WebTestClient, userRepository: UserRepository) : CustomDescribeSpec() {
 
     private val baseUrl = "/api/v1/users/social/sign-up"
 
@@ -21,6 +23,7 @@ class SignUpUserControllerTest(client: WebTestClient) : CustomDescribeSpec() {
             SignUpUserDto.SocialSignUpUserRequest(
                 Job.ACTOR,
                 listOf(CategoryType.ETC),
+                "testName5",
                 "test5",
                 LocalDate.now(),
                 Gender.IRRELEVANT,
@@ -46,6 +49,10 @@ class SignUpUserControllerTest(client: WebTestClient) : CustomDescribeSpec() {
                         .consumeWith { println(it) }
                         .jsonPath("$.result")
                         .isEqualTo("SUCCESS")
+                }
+                it("이름이 저장된다") {
+                    val user = userRepository.findByPhone("010-1234-1234")!!
+                    user.name shouldBe signUpUserRequest.name
                 }
             }
 

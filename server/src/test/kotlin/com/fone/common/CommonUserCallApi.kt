@@ -29,6 +29,7 @@ object CommonUserCallApi {
             SignUpUserDto.SocialSignUpUserRequest(
                 Job.ACTOR,
                 listOf(CategoryType.ETC),
+                "name_$nickname",
                 nickname,
                 LocalDate.now(),
                 Gender.IRRELEVANT,
@@ -76,6 +77,7 @@ object CommonUserCallApi {
             SignUpUserDto.SocialSignUpUserRequest(
                 Job.ACTOR,
                 listOf(CategoryType.ETC),
+                "name_$nickname",
                 nickname,
                 LocalDate.now(),
                 Gender.IRRELEVANT,

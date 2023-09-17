@@ -31,6 +31,7 @@ data class User(
     var id: Long? = null,
     @Enumerated(EnumType.STRING) var job: Job = Job.ACTOR,
     @Convert(converter = SeparatorConverter::class) var interests: List<String> = listOf(),
+    @Column var name: String = "",
     @Column var nickname: String = "",
     @Column var birthday: LocalDate? = null,
     @Enumerated(EnumType.STRING) val gender: Gender = Gender.MAN,
@@ -56,6 +57,7 @@ data class User(
 
     fun signOutUser() {
         interests = listOf()
+        name = "탈퇴한 유저"
         nickname = "탈퇴한 유저"
         birthday = null
         profileUrl = ""
