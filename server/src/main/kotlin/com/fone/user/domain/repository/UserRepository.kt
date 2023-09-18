@@ -5,6 +5,9 @@ import com.fone.user.domain.enum.LoginType
 interface UserRepository {
 
     suspend fun findById(userId: Long): com.fone.user.domain.entity.User?
+    suspend fun findByEmail(
+        email: String,
+    ): com.fone.user.domain.entity.User?
     suspend fun findByEmailAndLoginType(
         email: String,
         loginType: LoginType,

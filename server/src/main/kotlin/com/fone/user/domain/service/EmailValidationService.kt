@@ -1,8 +1,10 @@
 package com.fone.user.domain.service
 
+import com.fone.common.exception.DuplicateUserException
 import com.fone.common.exception.InvalidTokenException
 import com.fone.common.redis.RedisRepository
 import com.fone.user.domain.repository.EmailRepository
+import com.fone.user.domain.repository.UserRepository
 import com.fone.user.domain.repository.generateRandomCode
 import com.fone.user.infrastructure.EmailRepositoryImpl
 import com.fone.user.presentation.dto.EmailValidationDto
@@ -16,6 +18,7 @@ import java.util.concurrent.TimeUnit
 class EmailValidationService(
     private val redisRepository: RedisRepository,
     private val emailRepository: EmailRepository,
+    private val userRepository: UserRepository,
     @Value("\${security.aws.senderEmail}") private val emailSource: String,
 ) {
     private val emailTemplate =
@@ -61,5 +64,14 @@ class EmailValidationService(
         val token = (UUID.randomUUID().toString() + UUID.randomUUID().toString()).replace("-", "")
         redisRepository.setValue("user:$email:emailSignUpToken", token, 2, TimeUnit.HOURS)
         return EmailValidationDto.EmailValidationResponse(EmailValidationDto.ResponseType.SUCCESS, token)
+    }
+
+    suspend fun checkDuplicate(
+        request: EmailValidationDto.EmailDuplicationRequest,
+    ): EmailValidationDto.EmailDuplicationResponse {
+        if (userRepository.findByEmail(request.email) != null) {
+            throw DuplicateUserException()
+        }
+        return EmailValidationDto.EmailDuplicationResponse(request.email)
     }
 }

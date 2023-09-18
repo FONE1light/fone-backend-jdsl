@@ -31,6 +31,17 @@ class EmailValidationDto {
         val token: String,
     )
 
+    data class EmailDuplicationRequest(
+        @field:NotEmpty(message = "이메일은 필수 값 입니다.")
+        @field:Email(message = "유효하지 않는 이메일 입니다.")
+        @ApiModelProperty(value = "이메일", example = "test@test.com", required = true)
+        val email: String,
+    )
+
+    data class EmailDuplicationResponse(
+        val email: String,
+    )
+
     enum class ResponseType {
         SUCCESS, FAILURE
     }

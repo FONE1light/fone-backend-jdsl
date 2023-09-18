@@ -28,6 +28,18 @@ class UserRepositoryImpl(
             )
         }
     }
+
+    override suspend fun findByEmail(
+        email: String,
+    ): User? {
+        return queryFactory.singleQueryOrNull {
+            select(entity(User::class))
+            from(entity(User::class))
+            where(
+                emailEq(email)
+            )
+        }
+    }
     override suspend fun findByEmailAndLoginType(
         email: String,
         loginType: LoginType,
