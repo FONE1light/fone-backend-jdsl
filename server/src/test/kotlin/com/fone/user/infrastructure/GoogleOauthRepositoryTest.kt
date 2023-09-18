@@ -9,8 +9,8 @@ class GoogleOauthRepositoryTest(
     private val googleOauthRepository: GoogleOauthRepository,
 ) : ShouldSpec({
     val token = ""
-    xshould("access token 활용하여 email 조회 성공") {
-        val email = googleOauthRepository.fetchPrincipal(token)
-        email shouldBe "fyimbtmn@gmail.com"
+    xshould("id token 활용하여 email 조회 성공") {
+        val principal = googleOauthRepository.fetchPrincipal(token)
+        principal.email shouldBe "fyimbtmn@gmail.com"
     }
 })

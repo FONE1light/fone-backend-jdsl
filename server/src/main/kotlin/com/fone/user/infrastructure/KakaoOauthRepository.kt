@@ -21,8 +21,8 @@ class KakaoOauthRepository(private val webClient: WebClient) : OauthRepository {
     }
 
     @Suppress("NAME_SHADOWING", "UNCHECKED_CAST")
-    override suspend fun fetchPrincipal(accessToken: String): OauthPrincipal {
-        val accessToken = if (!accessToken.startsWith("Bearer")) "Bearer $accessToken" else accessToken
+    override suspend fun fetchPrincipal(token: String): OauthPrincipal {
+        val accessToken = if (!token.startsWith("Bearer")) "Bearer $token" else token
         val response = webClient.get().uri("https://kapi.kakao.com/v2/user/me").header("Authorization", accessToken)
             .exchangeToMono { response ->
                 if (response.statusCode().value() != 200) {

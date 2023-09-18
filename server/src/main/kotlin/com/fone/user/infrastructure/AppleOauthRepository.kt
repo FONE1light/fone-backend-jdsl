@@ -14,6 +14,7 @@ import com.fone.user.domain.entity.OauthPrincipal
 import com.fone.user.domain.enum.LoginType
 import com.fone.user.domain.repository.OauthRepository
 import org.springframework.stereotype.Repository
+import java.net.URL
 import java.security.interfaces.RSAPrivateKey
 import java.security.interfaces.RSAPublicKey
 import java.util.concurrent.TimeUnit
@@ -23,9 +24,9 @@ import java.util.concurrent.TimeUnit
 @Repository
 class AppleOauthRepository : OauthRepository {
     override val type = LoginType.APPLE
-    private val publicKeyUrl = "https://appleid.apple.com/auth/keys"
+    private val publicKeyUrl = URL("https://appleid.apple.com/auth/keys")
     private val jwkProvider = JwkProviderBuilder(publicKeyUrl) // public key는 수시로 변동 가능성 있다고 명시되어 있음
-        .cached(20, 1, TimeUnit.DAYS)
+        .cached(20, 2, TimeUnit.HOURS)
         .build()
     private val algorithm = Algorithm.RSA256(
         object : RSAKeyProvider {
@@ -54,10 +55,10 @@ class AppleOauthRepository : OauthRepository {
             throw InvalidTokenException()
         }
         verify(decoded) // 검증 진행. 실패 시 Exception
-        if (!decoded.getClaim("email_verified").`as`(Boolean::class.java)) {
+        if (!decoded.getClaim("email_verified").asBoolean()) {
             throw InvalidOauthStatusException("Apple에 이메일 인증되지 않은 유저")
         }
-        val email = decoded.getClaim("email").`as`(String::class.java)
+        val email = decoded.getClaim("email").asString()
             ?: throw InvalidOauthStatusException("Apple에 이메일이 없는 유저")
         return OauthPrincipal(type, email, decoded.subject)
     }
