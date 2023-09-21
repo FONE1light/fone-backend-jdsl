@@ -5,7 +5,6 @@ import com.fone.user.domain.entity.OauthPrincipal
 import com.fone.user.domain.enum.LoginType
 import com.fone.user.domain.repository.OauthRepository
 import com.fone.user.domain.repository.UserRepository
-import com.fone.user.presentation.dto.SignInUserDto
 import org.springframework.stereotype.Service
 
 @Service
@@ -17,8 +16,8 @@ class OauthValidationService(
         return oauthRepositories.findType(type).fetchAccessToken(authenticationCode, state)
     }
 
-    suspend fun getEmail(request: SignInUserDto.SocialSignInUserRequest): String {
-        return getPrincipal(request.loginType, request.accessToken).email
+    suspend fun getEmail(loginType: LoginType, accessToken: String): String {
+        return getPrincipal(loginType, accessToken).email
     }
 
     // sign-in의 경우 토큰의 유효성 및 기존 User와 일치하는지 확인

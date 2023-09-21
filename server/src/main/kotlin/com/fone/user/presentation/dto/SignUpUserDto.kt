@@ -36,14 +36,12 @@ class SignUpUserDto {
             required = true
         )
         val phoneNumber: String,
-        @field:NotEmpty(message = "이메일은 필수 값 입니다.")
-        @field:Email(message = "유효하지 않는 이메일 입니다.")
         @ApiModelProperty(
             value = "이메일",
             example = "test@test.com",
-            required = true
+            required = false
         )
-        val email: String,
+        var email: String? = null,
         val identifier: String? = null,
         @field:NotNull(message = "로그인 타입은 필수 값 입니다.")
         val loginType: LoginType,
@@ -66,7 +64,7 @@ class SignUpUserDto {
                 gender = gender,
                 profileUrl = profileUrl ?: "",
                 phoneNumber = phoneNumber,
-                email = email,
+                email = email!!,
                 identifier = identifier,
                 loginType = loginType,
                 agreeToTermsOfServiceTermsOfUse = agreeToTermsOfServiceTermsOfUse,
