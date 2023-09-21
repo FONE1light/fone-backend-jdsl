@@ -12,7 +12,6 @@ import com.fone.sms.presentation.dto.SMSSendDto.SMSSendRequest
 import com.fone.sms.presentation.dto.SMSSendDto.SMSSendResponse
 import com.fone.user.domain.repository.UserRepository
 import com.fone.user.domain.service.OauthValidationService
-import com.fone.user.presentation.dto.SignInUserDto
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -29,9 +28,9 @@ class ConfigTestBean {
     fun mockOauthValidationService() = mockk<OauthValidationService> {
         coEvery { isValidTokenSignIn(any(), any(), any()) } returns true
         coEvery { isValidTokenSignUp(any(), any(), any(), any()) } returns true
-        coEvery { getEmail(any()) } answers {
-            val request = it.invocation.args.first() as SignInUserDto.SocialSignInUserRequest
-            request.accessToken.split(":").last()
+        coEvery { getEmail(any(), any()) } answers {
+            val accessToken = it.invocation.args[1] as String
+            accessToken.split(":").last()
         }
     }
 
