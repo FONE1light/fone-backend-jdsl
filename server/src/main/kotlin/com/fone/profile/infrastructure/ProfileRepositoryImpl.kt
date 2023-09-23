@@ -70,14 +70,15 @@ class ProfileRepositoryImpl(
             )
         }
 
-        val profiles = queryFactory.listQuery {
+        val profilesMap = queryFactory.listQuery {
             select(entity(Profile::class))
             from(entity(Profile::class))
             fetch(Profile::profileImages, joinType = JoinType.LEFT)
             where(and(col(Profile::id).`in`(ids.content)))
             orderBy(orderSpec(pageable.sort))
-        }.iterator()
-        return ids.map { profiles.next() }
+        }.associateBy { it?.id }
+
+        return ids.map { profilesMap[it] }
     }
 
     override suspend fun findById(profileId: Long): Profile? {
@@ -88,6 +89,7 @@ class ProfileRepositoryImpl(
             where(idEq(profileId))
         }
     }
+
     override suspend fun findByTypeAndId(type: Type?, profileId: Long?): Profile? {
         return queryFactory.singleQueryOrNull {
             select(entity(Profile::class))
