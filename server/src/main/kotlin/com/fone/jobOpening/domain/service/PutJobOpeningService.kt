@@ -11,6 +11,7 @@ import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpe
 import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningResponse
 import com.fone.user.domain.repository.UserRepository
 import org.springframework.stereotype.Service
+import javax.transaction.Transactional
 
 @Service
 class PutJobOpeningService(
@@ -21,6 +22,7 @@ class PutJobOpeningService(
     private val userRepository: UserRepository,
 ) {
 
+    @Transactional
     suspend fun putJobOpening(
         request: RegisterJobOpeningRequest,
         email: String,

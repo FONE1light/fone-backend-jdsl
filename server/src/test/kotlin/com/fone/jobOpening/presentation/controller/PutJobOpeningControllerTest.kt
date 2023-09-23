@@ -39,7 +39,7 @@ class PutJobOpeningControllerTest(client: WebTestClient, private val objectMappe
             Gender.IRRELEVANT,
             100,
             0,
-            Career.IRRELEVANT,
+            listOf(Career.LESS_THAN_1YEARS, Career.LESS_THAN_3YEARS, Career.LESS_THAN_10YEARS),
             Type.ACTOR,
             listOf(DomainType.ART),
             WorkDto(
