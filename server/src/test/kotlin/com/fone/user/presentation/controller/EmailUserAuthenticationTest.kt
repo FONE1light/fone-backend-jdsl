@@ -33,6 +33,7 @@ class EmailUserAuthenticationTest(
             SignUpUserDto.EmailSignUpUserRequest(
                 Job.ACTOR,
                 listOf(CategoryType.ETC),
+                "name_test_password",
                 "test_password",
                 LocalDate.now(),
                 Gender.IRRELEVANT,
@@ -141,6 +142,7 @@ val signUpUserRequest =
     SignUpUserDto.EmailSignUpUserRequest(
         Job.ACTOR,
         listOf(CategoryType.ETC),
+        "name_test_password",
         "test_password",
         LocalDate.now(),
         Gender.IRRELEVANT,

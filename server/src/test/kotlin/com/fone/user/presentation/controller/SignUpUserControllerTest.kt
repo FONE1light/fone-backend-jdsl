@@ -21,7 +21,7 @@ class SignUpUserControllerTest(client: WebTestClient) : CustomDescribeSpec() {
             SignUpUserDto.SocialSignUpUserRequest(
                 Job.ACTOR,
                 listOf(CategoryType.ETC),
-                "test5",
+                "testName5",
                 LocalDate.now(),
                 Gender.IRRELEVANT,
                 null,
