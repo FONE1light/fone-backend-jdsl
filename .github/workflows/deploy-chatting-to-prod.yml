@@ -1,12 +1,7 @@
 name: Deploy Chatting To Prod
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'chatting/**'
-      - '.github/workflows/deploy-chatting-to-prod.yml'
+  pull_request:
 
 jobs:
   build-and-push:
