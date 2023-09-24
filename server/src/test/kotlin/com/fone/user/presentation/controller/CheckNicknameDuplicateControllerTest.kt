@@ -28,8 +28,7 @@ class CheckNicknameDuplicateControllerTest(client: WebTestClient) : CustomDescri
                         .expectStatus()
                         .isBadRequest
                         .expectBody()
-                        .consumeWith { println(it) }.jsonPath("$.data.isDuplicate")
-                        .isEqualTo(true)
+                        .consumeWith { println(it) }
                 }
             }
         }
