@@ -1,5 +1,6 @@
 package com.fone.user.domain.service
 
+import com.fone.common.exception.DuplicatePhoneNumberException
 import com.fone.common.exception.DuplicateUserException
 import com.fone.common.exception.InvalidTokenException
 import com.fone.common.jwt.JWTUtils
@@ -32,6 +33,11 @@ class SignUpUserService(
             userRepository.findByNicknameOrEmail(nickname, email)?.let {
                 throw DuplicateUserException()
             }
+
+            userRepository.findByPhone(request.phoneNumber)?.let {
+                throw DuplicatePhoneNumberException()
+            }
+
             val newUser = toEntity()
             userRepository.save(newUser)
             return newUser
@@ -43,6 +49,10 @@ class SignUpUserService(
         with(request) {
             userRepository.findByNicknameOrEmail(nickname, email)?.let {
                 throw DuplicateUserException()
+            }
+
+            userRepository.findByPhone(request.phoneNumber)?.let {
+                throw DuplicatePhoneNumberException()
             }
 
             val newUser = toEntity()

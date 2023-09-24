@@ -138,4 +138,30 @@ class GlobalExceptionHandler(
 
         return Mono.just(errorResponse)
     }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(value = [Exception::class])
+    fun exception(
+        e: Exception,
+        exchange: ServerWebExchange,
+    ): Mono<CommonResponse<String?>> {
+        val embed = WebhookEmbed(
+            null,
+            null,
+            e.message + "/" + e::class.java.simpleName,
+            null,
+            null,
+            null,
+            WebhookEmbed.EmbedTitle(exchange.request.uri.toString(), null),
+            null,
+            emptyList()
+        )
+        val builder = WebhookMessageBuilder()
+        builder.setContent("서버에서 정의하지 않은 서버입니다.")
+        builder.addEmbeds(embed)
+        webhookClient.send(builder.build())
+
+        val errorResponse = CommonResponse.fail(e.message, e::class.java.simpleName)
+        return Mono.just(errorResponse)
+    }
 }
