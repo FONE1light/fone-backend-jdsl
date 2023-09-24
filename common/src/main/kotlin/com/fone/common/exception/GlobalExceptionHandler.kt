@@ -7,7 +7,6 @@ import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
 import com.fone.common.response.CommonResponse
 import com.fone.common.response.Error
 import com.fone.common.response.ErrorCode
-import kotlinx.coroutines.future.asDeferred
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.http.HttpStatus
@@ -45,7 +44,7 @@ class GlobalExceptionHandler(
         val builder = WebhookMessageBuilder()
         builder.setContent(ex.message)
         builder.addEmbeds(embed)
-        webhookClient.send(builder.build()).asDeferred()
+        webhookClient.send(builder.build())
 
         val response = CommonResponse.fail(ex.message, ex.javaClass.simpleName)
         return ResponseEntity(response, null, ex.code)
@@ -78,7 +77,7 @@ class GlobalExceptionHandler(
         val builder = WebhookMessageBuilder()
         builder.setContent(ErrorCode.COMMON_NULL_PARAMETER.errorMsg)
         builder.addEmbeds(embed)
-        webhookClient.send(builder.build()).asDeferred()
+        webhookClient.send(builder.build())
 
         val errorResponse = CommonResponse.fail(data, ErrorCode.COMMON_NULL_PARAMETER)
         return Mono.just(errorResponse)
@@ -132,7 +131,7 @@ class GlobalExceptionHandler(
         val builder = WebhookMessageBuilder()
         builder.setContent(ErrorCode.COMMON_INVALID_PARAMETER.errorMsg)
         builder.addEmbeds(embed)
-        webhookClient.send(builder.build()).asDeferred()
+        webhookClient.send(builder.build())
 
         val errorResponse = CommonResponse
             .fail(errors.toString(), ErrorCode.COMMON_INVALID_PARAMETER)
