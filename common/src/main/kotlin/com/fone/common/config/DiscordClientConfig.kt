@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration
 class DiscordClientConfig(
     @Value("\${discord.question}") val questionUrl: String,
     @Value("\${discord.report}") val reportUrl: String,
+    @Value("\${discord.monitor}") val monitorUrl: String,
 ) {
     private val dummyUrl =
         "https://discord.com/api/webhooks/99999990000000/213aWRR5sEeY5UhOk7twvFSDFVC-Feqw"
@@ -26,6 +27,15 @@ class DiscordClientConfig(
     fun discordReportClient(): WebhookClient {
         return if (reportUrl.startsWith("https://discord.com")) {
             WebhookClient.withUrl(reportUrl)
+        } else {
+            WebhookClient.withUrl(dummyUrl)
+        }
+    }
+
+    @Bean("MonitorWebhook")
+    fun monitorReportClient(): WebhookClient {
+        return if (monitorUrl.startsWith("https://discord.com")) {
+            WebhookClient.withUrl(monitorUrl)
         } else {
             WebhookClient.withUrl(dummyUrl)
         }
