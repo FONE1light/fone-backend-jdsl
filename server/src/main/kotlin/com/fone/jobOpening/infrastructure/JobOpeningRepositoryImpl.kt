@@ -15,7 +15,6 @@ import com.linecorp.kotlinjdsl.querydsl.expression.column
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.SpringDataHibernateMutinyReactiveQueryFactory
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.pageQuery
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.singleQueryOrNull
-import com.linecorp.kotlinjdsl.spring.data.reactive.query.subquery
 import com.linecorp.kotlinjdsl.spring.reactive.listQuery
 import com.linecorp.kotlinjdsl.spring.reactive.pageQuery
 import com.linecorp.kotlinjdsl.spring.reactive.querydsl.SpringDataReactiveCriteriaQueryDsl
@@ -116,6 +115,7 @@ class JobOpeningRepositoryImpl(
             )
         }
     }
+
     override suspend fun findByTypeAndId(
         type: Type?,
         jobOpeningId: Long?,
@@ -154,22 +154,26 @@ class JobOpeningRepositoryImpl(
         userId: Long,
         type: Type?,
     ): Page<JobOpening> {
-        val jobOpeningIds = queryFactory.subquery {
-            select(column(JobOpeningScrap::id))
-            from(entity(JobOpeningScrap::class))
-            where(col(JobOpeningScrap::userId).equal(userId))
-        }
-
-        return queryFactory.pageQuery(pageable) {
-            select(entity(JobOpening::class))
-            from(entity(JobOpening::class))
-            where(
-                and(
-                    col(JobOpening::id).`in`(jobOpeningIds),
-                    typeEq(type),
-                    col(JobOpening::isDeleted).equal(false)
+        return queryFactory.withFactory { factory ->
+            val ids = factory.pageQuery(pageable) {
+                select(column(JobOpeningScrap::jobOpeningId))
+                from(entity(JobOpeningScrap::class))
+                join(entity(JobOpening::class), col(JobOpening::id).equal(col(JobOpeningScrap::jobOpeningId)))
+                where(
+                    and(
+                        col(JobOpeningScrap::userId).equal(userId),
+                        if (type != null) col(JobOpening::type).equal(type) else null
+                    )
                 )
-            )
+            }
+
+            val jobOpenings = factory.listQuery {
+                select(entity(JobOpening::class))
+                from(entity(JobOpening::class))
+                where(col(JobOpening::id).`in`(ids.content))
+            }.associateBy { it?.id }
+
+            ids.map { jobOpenings[it] }
         }
     }
 
