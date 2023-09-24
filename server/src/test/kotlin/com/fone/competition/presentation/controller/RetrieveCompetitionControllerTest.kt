@@ -48,7 +48,8 @@ class RetrieveCompetitionControllerTest(client: WebTestClient, private val objec
             context("존재하지 않는 공모전을 상세 조회하면") {
                 it("실패한다") {
                     client.doGet("$retrieveUrl/1231", accessToken)
-                        .expectStatus().isOk.expectBody().consumeWith { println(it) }.jsonPath("$.result")
+                        .expectStatus()
+                        .isBadRequest.expectBody().consumeWith { println(it) }.jsonPath("$.result")
                         .isEqualTo("FAIL")
                 }
             }

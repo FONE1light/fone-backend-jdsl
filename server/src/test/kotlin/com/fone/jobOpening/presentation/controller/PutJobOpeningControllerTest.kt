@@ -81,7 +81,7 @@ class PutJobOpeningControllerTest(client: WebTestClient, private val objectMappe
                     client
                         .doPut("$putUrl/1231", putJobOpeningActorRequest, accessToken)
                         .expectStatus()
-                        .isOk
+                        .isBadRequest
                         .expectBody()
                         .consumeWith { println(it) }
                         .jsonPath("$.result")

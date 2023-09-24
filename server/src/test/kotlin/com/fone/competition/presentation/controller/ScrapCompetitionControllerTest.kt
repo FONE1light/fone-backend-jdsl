@@ -32,7 +32,7 @@ class ScrapCompetitionControllerTest(client: WebTestClient) : CustomDescribeSpec
                 it("실패한다") {
                     client
                         .doPost("$scrapUrl/1231/scrap", null, accessToken)
-                        .expectStatus().isOk
+                        .expectStatus().isBadRequest
                         .expectBody()
                         .consumeWith { println(it) }
                         .jsonPath("$.result")
