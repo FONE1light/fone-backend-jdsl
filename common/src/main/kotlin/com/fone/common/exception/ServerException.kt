@@ -9,6 +9,10 @@ data class DuplicateUserException(
     override val message: String = "이미 존재 하는 이메일 혹은 닉네임 입니다.",
 ) : ServerException(400, message)
 
+data class DuplicatePhoneNumberException(
+    override val message: String = "이미 이 휴대폰 번호로 가입된 회원입니다.",
+) : ServerException(400, message)
+
 data class NotFoundUserException(override val message: String = "존재 하지 않는 유저 입니다.") : ServerException(400, message)
 
 data class NotFoundJobOpeningException(override val message: String = "존재 하지 않는 모집 입니다.") :
