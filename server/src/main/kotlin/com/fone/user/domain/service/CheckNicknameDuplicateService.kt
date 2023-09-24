@@ -1,5 +1,6 @@
 package com.fone.user.domain.service
 
+import com.fone.common.exception.DuplicateUserNicknameException
 import com.fone.user.domain.repository.UserRepository
 import com.fone.user.presentation.dto.CheckNicknameDuplicateDto.CheckNicknameDuplicateRequest
 import com.fone.user.presentation.dto.CheckNicknameDuplicateDto.CheckNicknameDuplicateResponse
@@ -17,7 +18,7 @@ class CheckNicknameDuplicateService(
     ): CheckNicknameDuplicateResponse {
         with(request) {
             userRepository.findByNicknameOrEmail(nickname, null)?.let {
-                return CheckNicknameDuplicateResponse(request.nickname, true)
+                throw DuplicateUserNicknameException()
             }
 
             return CheckNicknameDuplicateResponse(request.nickname, false)

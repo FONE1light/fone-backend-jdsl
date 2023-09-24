@@ -9,6 +9,10 @@ data class DuplicateUserException(
     override val message: String = "이미 존재 하는 이메일 혹은 닉네임 입니다.",
 ) : ServerException(400, message)
 
+data class DuplicateUserNicknameException(
+    override val message: String = "중복되는 닉네임입니다",
+) : ServerException(400, message)
+
 data class DuplicatePhoneNumberException(
     override val message: String = "이미 이 휴대폰 번호로 가입된 회원입니다.",
 ) : ServerException(400, message)
