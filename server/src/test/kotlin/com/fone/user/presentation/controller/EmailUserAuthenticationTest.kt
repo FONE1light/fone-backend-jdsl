@@ -91,7 +91,7 @@ class EmailUserAuthenticationTest(
                     client
                         .doPost(signupUrl, signUpUserRequest)
                         .expectStatus()
-                        .isOk
+                        .isBadRequest
                         .expectBody()
                         .consumeWith { println(it) }
                         .jsonPath("$.result")

@@ -26,7 +26,7 @@ class DeleteProfileControllerTest(client: WebTestClient) : CustomDescribeSpec() 
 
             context("존재하지 않는 프로필을 삭제하면") {
                 it("실패한다") {
-                    client.doDelete("$deleteUrl/1231", accessToken).expectStatus().isOk.expectBody()
+                    client.doDelete("$deleteUrl/1231", accessToken).expectStatus().isBadRequest.expectBody()
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("FAIL")
                 }
             }

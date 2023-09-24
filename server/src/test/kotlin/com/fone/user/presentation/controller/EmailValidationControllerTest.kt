@@ -65,7 +65,7 @@ class EmailValidationControllerTest(client: WebTestClient) : CustomDescribeSpec(
                     client
                         .doPost("$baseUrl/duplicate", existingRequest)
                         .expectStatus()
-                        .isOk
+                        .isBadRequest
                         .expectBody()
                         .consumeWith { println(it) }
                         .jsonPath("$.result")

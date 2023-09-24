@@ -1,10 +1,14 @@
 package com.fone.common.exception
 
+import club.minnced.discord.webhook.WebhookClient
+import club.minnced.discord.webhook.send.WebhookEmbed
+import club.minnced.discord.webhook.send.WebhookMessageBuilder
 import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
 import com.fone.common.response.CommonResponse
 import com.fone.common.response.Error
 import com.fone.common.response.ErrorCode
 import mu.KotlinLogging
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.FieldError
@@ -17,12 +21,31 @@ import org.springframework.web.server.ServerWebInputException
 import reactor.core.publisher.Mono
 
 @RestControllerAdvice
-class GlobalExceptionHandler {
+class GlobalExceptionHandler(
+    @Qualifier("MonitorWebhook")
+    private val webhookClient: WebhookClient,
+) {
 
     private val logger = KotlinLogging.logger {}
 
     @ExceptionHandler(ServerException::class)
-    fun handleServerException(ex: ServerException): ResponseEntity<Any> {
+    fun handleServerException(ex: ServerException, exchange: ServerWebExchange): ResponseEntity<Any> {
+        val embed = WebhookEmbed(
+            null,
+            null,
+            "code: " + ex.code + "\n" + ex.javaClass.simpleName,
+            null,
+            null,
+            null,
+            WebhookEmbed.EmbedTitle(exchange.request.uri.toString(), null),
+            null,
+            emptyList()
+        )
+        val builder = WebhookMessageBuilder()
+        builder.setContent(ex.message)
+        builder.addEmbeds(embed)
+        webhookClient.send(builder.build())
+
         val response = CommonResponse.fail(ex.message, ex.javaClass.simpleName)
         return ResponseEntity(response, null, ex.code)
     }
@@ -40,8 +63,22 @@ class GlobalExceptionHandler {
             null
         }
 
-        println("Request URI: ${exchange.request.uri}")
-        println(data)
+        val embed = WebhookEmbed(
+            null,
+            null,
+            data,
+            null,
+            null,
+            null,
+            WebhookEmbed.EmbedTitle(exchange.request.uri.toString(), null),
+            null,
+            emptyList()
+        )
+        val builder = WebhookMessageBuilder()
+        builder.setContent(ErrorCode.COMMON_NULL_PARAMETER.errorMsg)
+        builder.addEmbeds(embed)
+        webhookClient.send(builder.build())
+
         val errorResponse = CommonResponse.fail(data, ErrorCode.COMMON_NULL_PARAMETER)
         return Mono.just(errorResponse)
     }
@@ -66,7 +103,10 @@ class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = [WebExchangeBindException::class])
-    fun methodArgumentNotValidException(e: WebExchangeBindException): Mono<CommonResponse<String>> {
+    fun methodArgumentNotValidException(
+        e: WebExchangeBindException,
+        exchange: ServerWebExchange,
+    ): Mono<CommonResponse<String>> {
         val errors = mutableListOf<Error>()
         e.allErrors.forEach {
             val error = Error(
@@ -77,7 +117,24 @@ class GlobalExceptionHandler {
             errors.add(error)
         }
 
-        val errorResponse = CommonResponse.fail(errors.toString(), ErrorCode.COMMON_INVALID_PARAMETER)
+        val embed = WebhookEmbed(
+            null,
+            null,
+            errors.toString(),
+            null,
+            null,
+            null,
+            WebhookEmbed.EmbedTitle(exchange.request.uri.toString(), null),
+            null,
+            emptyList()
+        )
+        val builder = WebhookMessageBuilder()
+        builder.setContent(ErrorCode.COMMON_INVALID_PARAMETER.errorMsg)
+        builder.addEmbeds(embed)
+        webhookClient.send(builder.build())
+
+        val errorResponse = CommonResponse
+            .fail(errors.toString(), ErrorCode.COMMON_INVALID_PARAMETER)
 
         return Mono.just(errorResponse)
     }

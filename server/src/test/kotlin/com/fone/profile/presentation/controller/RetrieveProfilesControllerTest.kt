@@ -58,7 +58,7 @@ class RetrieveProfilesControllerTest(client: WebTestClient, private val objectMa
                 it("실패한다") {
                     client
                         .doGet("$retrieveUrl/1231", accessToken, mapOf("type" to "ACTOR"))
-                        .expectStatus().isOk
+                        .expectStatus().isBadRequest
                         .expectBody()
                         .consumeWith { println(it) }
                         .jsonPath("$.result")

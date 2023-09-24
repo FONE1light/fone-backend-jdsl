@@ -62,7 +62,7 @@ class PutProfileControllerTest(client: WebTestClient) : CustomDescribeSpec() {
                     client
                         .doPut("$putUrl/1231", putJobOpeningActorRequest, accessToken)
                         .expectStatus()
-                        .isOk
+                        .isBadRequest
                         .expectBody()
                         .consumeWith { println(it) }
                         .jsonPath("$.result")

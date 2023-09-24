@@ -51,3 +51,4 @@ security:
 discord:
   question: ${DISCORD_QUESTION_URL:url}
   report: ${DISCORD_REPORT_URL:url}
+  monitor: ${DISCORD_MONITOR_URL:url}

@@ -26,14 +26,3 @@ spring:
   redis:
     host: fone-redis
     port: 6379
-
-security:
-  password:
-    encoder:
-      secret: mysecret
-      iteration: 33
-      keylength: 256
-  jwt:
-    secret: foneBackendSecretfoneBackendSecretfoneBackendSecret
-    access-token-validity-in-seconds: 7200
-    refresh-token-validity-in-seconds: 1209600

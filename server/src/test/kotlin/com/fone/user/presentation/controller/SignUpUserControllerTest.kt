@@ -54,7 +54,7 @@ class SignUpUserControllerTest(client: WebTestClient) : CustomDescribeSpec() {
                     client
                         .doPost(baseUrl, signUpUserRequest)
                         .expectStatus()
-                        .isOk
+                        .isBadRequest
                         .expectBody()
                         .consumeWith { println(it) }
                         .jsonPath("$.result")

@@ -32,7 +32,7 @@ class WantProfileControllerTest(client: WebTestClient) : CustomDescribeSpec() {
                 it("실패한다") {
                     client
                         .doPost("$wantUrl/1231/want", null, accessToken)
-                        .expectStatus().isOk
+                        .expectStatus().isBadRequest
                         .expectBody()
                         .consumeWith { println(it) }
                         .jsonPath("$.result")
