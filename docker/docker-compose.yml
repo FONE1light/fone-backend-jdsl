@@ -8,6 +8,8 @@ services:
       - "8081:8081"
     environment:
       - USE_PROFILE=prod1
+    env_file:
+      - .env
     restart: always
   fone-api-2:
     depends_on:
@@ -17,6 +19,8 @@ services:
       - "8082:8082"
     environment:
       - USE_PROFILE=prod2
+    env_file:
+      - .env
     restart: always
   fone-chatting:
     image: sinkyoungdeok/fone-chatting
