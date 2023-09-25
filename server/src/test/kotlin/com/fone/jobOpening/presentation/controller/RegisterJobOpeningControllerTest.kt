@@ -30,7 +30,7 @@ class RegisterJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
             Gender.IRRELEVANT,
             100,
             0,
-            listOf(Career.LESS_THAN_1YEARS, Career.LESS_THAN_3YEARS),
+            setOf(Career.LESS_THAN_1YEARS, Career.LESS_THAN_3YEARS),
             Type.ACTOR,
             listOf(DomainType.ART),
             WorkDto(
@@ -47,7 +47,7 @@ class RegisterJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
             Gender.IRRELEVANT,
             100,
             0,
-            listOf(Career.IRRELEVANT),
+            setOf(Career.IRRELEVANT),
             Type.STAFF,
             listOf(DomainType.ART),
             WorkDto(
