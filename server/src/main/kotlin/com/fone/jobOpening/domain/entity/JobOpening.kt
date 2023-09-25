@@ -1,5 +1,6 @@
 package com.fone.jobOpening.domain.entity
 
+import com.fone.common.converter.CareerConverter
 import com.fone.common.entity.BaseEntity
 import com.fone.common.entity.Career
 import com.fone.common.entity.Gender
@@ -7,6 +8,7 @@ import com.fone.common.entity.Type
 import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningRequest
 import java.time.LocalDate
 import javax.persistence.Column
+import javax.persistence.Convert
 import javax.persistence.Embedded
 import javax.persistence.Entity
 import javax.persistence.EnumType
@@ -30,7 +32,8 @@ data class JobOpening(
     @Enumerated(EnumType.STRING) var gender: Gender,
     @Column var ageMax: Int,
     @Column var ageMin: Int,
-    @Enumerated(EnumType.STRING) var career: Career,
+    @Convert(converter = CareerConverter::class)
+    var careers: Set<Career>,
     @Enumerated(EnumType.STRING) var type: Type,
     @Column var userId: Long,
     @Column var viewCount: Long,
@@ -50,7 +53,7 @@ data class JobOpening(
         gender = request.gender
         ageMax = request.ageMax
         ageMin = request.ageMin
-        career = request.career
+        careers = request.careers
         type = request.type
         work = request.work.toEntity()
     }
@@ -63,7 +66,7 @@ data class JobOpening(
         gender = Gender.IRRELEVANT
         ageMax = 0
         ageMin = 0
-        career = Career.IRRELEVANT
+        careers = setOf()
         type = Type.ACTOR
         isDeleted = true
     }

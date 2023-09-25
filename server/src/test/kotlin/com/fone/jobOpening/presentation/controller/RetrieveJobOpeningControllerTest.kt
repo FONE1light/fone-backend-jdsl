@@ -2,6 +2,7 @@ package com.fone.jobOpening.presentation.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
+import com.fasterxml.jackson.module.kotlin.convertValue
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fone.common.CommonJobOpeningCallApi
 import com.fone.common.CommonUserCallApi
@@ -12,6 +13,7 @@ import com.fone.common.doGet
 import com.fone.common.response.CommonResponse
 import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto
 import com.fone.jobOpening.presentation.dto.common.JobOpeningDto
+import io.kotest.matchers.collections.shouldExist
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import org.springframework.data.domain.Page
@@ -33,9 +35,22 @@ class RetrieveJobOpeningControllerTest(client: WebTestClient, private val object
                     client.doGet(retrieveUrl, accessToken, mapOf("type" to "ACTOR")).expectStatus().isOk.expectBody()
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("SUCCESS")
                 }
+                it("Career 여러 개 있다") {
+                    client.doGet(retrieveUrl, accessToken, mapOf("type" to "ACTOR")).expectStatus().isOk.expectBody()
+                        .consumeWith {
+                            val body =
+                                objectMapper.readValue<CommonResponse<Map<Any, Any>>>(
+                                    it.responseBody!!
+                                )
+                            val jobOpenings =
+                                objectMapper.convertValue<List<JobOpeningDto>>(
+                                    (body.data!!["jobOpenings"] as Map<String, Any>)["content"]!!
+                                )
+                            jobOpenings.shouldExist { opening -> opening.careers.size > 1 }
+                        }.jsonPath("$.result").isEqualTo("SUCCESS")
+                }
             }
         }
-
         describe("#retrieve jobOpening") {
             context("존재하는 구인구직을 상세 조회하면") {
                 it("성공한다") {
