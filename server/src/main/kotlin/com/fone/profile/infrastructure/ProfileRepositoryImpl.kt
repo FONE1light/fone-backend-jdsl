@@ -118,9 +118,9 @@ class ProfileRepositoryImpl(
                     col(Profile::id).`in`(ids.content)
                 )
             )
-        }.iterator()
+        }.associateBy { it?.id }
 
-        return ids.map { profiles.next() }
+        return ids.map { profiles[it] }
     }
 
     override suspend fun findWantAllByUserId(
