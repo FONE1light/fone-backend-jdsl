@@ -66,7 +66,7 @@ data class Profile(
         sns = request.sns
         specialty = request.specialty
         details = request.details
-        careers = request.careers.toSet()
+        careers = request.careers
         careerDetail = request.careerDetail ?: ""
         type = request.type
         profileUrl = request.profileUrl

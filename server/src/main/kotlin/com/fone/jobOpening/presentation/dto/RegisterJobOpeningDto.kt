@@ -37,7 +37,7 @@ class RegisterJobOpeningDto {
                 gender = gender,
                 ageMax = ageMax,
                 ageMin = ageMin,
-                careers = careers.toSet(),
+                careers = careers,
                 type = type,
                 userId = userId,
                 viewCount = 0,

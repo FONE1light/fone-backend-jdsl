@@ -53,7 +53,7 @@ data class JobOpening(
         gender = request.gender
         ageMax = request.ageMax
         ageMin = request.ageMin
-        careers = request.careers.toSet()
+        careers = request.careers
         type = request.type
         work = request.work.toEntity()
     }

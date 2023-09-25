@@ -52,7 +52,7 @@ class RegisterProfileDto {
                 sns = sns,
                 specialty = specialty,
                 details = details,
-                careers = careers.toSet(),
+                careers = careers,
                 careerDetail = careerDetail ?: "",
                 type = type,
                 userId = userId,
