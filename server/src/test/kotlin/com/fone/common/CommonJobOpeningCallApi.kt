@@ -24,7 +24,7 @@ object CommonJobOpeningCallApi {
             Gender.IRRELEVANT,
             100,
             0,
-            setOf(Career.IRRELEVANT),
+            Career.IRRELEVANT,
             Type.ACTOR,
             listOf(DomainType.ART),
             WorkDto(
