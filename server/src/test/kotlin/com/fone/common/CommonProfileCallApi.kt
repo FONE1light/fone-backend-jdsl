@@ -25,7 +25,7 @@ object CommonProfileCallApi {
             sns = "test sns",
             specialty = "test",
             details = "test",
-            careers = setOf(Career.IRRELEVANT),
+            career = Career.IRRELEVANT,
             careerDetail = "test",
             categories = listOf(CategoryType.ETC),
             type = Type.ACTOR,

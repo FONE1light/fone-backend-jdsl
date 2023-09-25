@@ -7,7 +7,6 @@ import com.linecorp.kotlinjdsl.querydsl.expression.col
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.SpringDataHibernateMutinyReactiveQueryFactory
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.deleteQuery
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.listQuery
-import com.linecorp.kotlinjdsl.spring.reactive.deleteQuery
 import io.smallrye.mutiny.coroutines.awaitSuspending
 import org.hibernate.reactive.mutiny.Mutiny
 import org.springframework.stereotype.Repository
@@ -29,10 +28,8 @@ class JobOpeningCategoryRepositoryImpl(
     }
 
     override suspend fun deleteByJobOpeningId(jobOpeningId: Long): Int {
-        return queryFactory.withFactory { factory ->
-            factory.deleteQuery<JobOpeningCategory> {
-                where(col(JobOpeningCategory::jobOpeningId).equal(jobOpeningId))
-            }.executeUpdate()
+        return queryFactory.deleteQuery<JobOpeningCategory> {
+            where(col(JobOpeningCategory::jobOpeningId).equal(jobOpeningId))
         }
     }
 

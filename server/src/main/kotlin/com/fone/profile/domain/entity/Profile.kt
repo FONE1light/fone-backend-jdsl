@@ -1,6 +1,5 @@
 package com.fone.profile.domain.entity
 
-import com.fone.common.converter.CareerConverter
 import com.fone.common.entity.BaseEntity
 import com.fone.common.entity.Career
 import com.fone.common.entity.Gender
@@ -9,7 +8,6 @@ import com.fone.profile.presentation.dto.RegisterProfileDto.RegisterProfileReque
 import java.time.LocalDate
 import javax.persistence.CascadeType
 import javax.persistence.Column
-import javax.persistence.Convert
 import javax.persistence.Entity
 import javax.persistence.EnumType
 import javax.persistence.Enumerated
@@ -36,8 +34,7 @@ data class Profile(
     @Column(length = 300) var sns: String,
     @Column var specialty: String,
     @Column(length = 500) var details: String,
-    @Convert(converter = CareerConverter::class)
-    var careers: Set<Career>,
+    @Enumerated(EnumType.STRING) var career: Career,
     @Column var careerDetail: String,
     @Enumerated(EnumType.STRING) var type: Type,
     @Column var userId: Long,
@@ -66,7 +63,7 @@ data class Profile(
         sns = request.sns
         specialty = request.specialty
         details = request.details
-        careers = request.careers
+        career = request.career
         careerDetail = request.careerDetail ?: ""
         type = request.type
         profileUrl = request.profileUrl
@@ -82,7 +79,7 @@ data class Profile(
         sns = ""
         specialty = ""
         details = ""
-        careers = setOf()
+        career = Career.IRRELEVANT
         careerDetail = ""
         type = Type.ACTOR
         isDeleted = true
