@@ -32,7 +32,7 @@ class RegisterProfileDto {
         val sns: String,
         val specialty: String,
         val details: String,
-        val careers: List<Career>,
+        val careers: Set<Career>,
         val careerDetail: String?, // 하위 버전 호환성을 위해 null타입 추가 필요
         val categories: List<CategoryType>,
         val type: Type,

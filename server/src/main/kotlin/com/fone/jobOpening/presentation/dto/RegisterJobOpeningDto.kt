@@ -23,7 +23,7 @@ class RegisterJobOpeningDto {
         val gender: Gender,
         val ageMax: Int,
         val ageMin: Int,
-        val careers: List<Career>,
+        val careers: Set<Career>,
         val type: Type,
         val domains: List<DomainType>?,
         val work: WorkDto,
