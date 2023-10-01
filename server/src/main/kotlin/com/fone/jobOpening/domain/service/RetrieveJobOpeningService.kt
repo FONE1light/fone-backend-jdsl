@@ -10,6 +10,7 @@ import com.fone.jobOpening.domain.repository.JobOpeningScrapRepository
 import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningResponse
 import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningsRequest
 import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningsResponse
+import com.fone.user.domain.enum.Job
 import com.fone.user.domain.repository.UserRepository
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
@@ -64,13 +65,16 @@ class RetrieveJobOpeningService(
         val jobOpeningDomains = jobOpeningDomainRepository.findByJobOpeningId(jobOpening.id!!)
         val jobOpeningCategories = jobOpeningCategoryRepository.findByJobOpeningId(jobOpening.id!!)
 
+        val jobOpeningUser = userRepository.findById(jobOpening.userId)
+
         return RetrieveJobOpeningResponse(
             jobOpening,
             userJobOpeningScraps,
             jobOpeningDomains,
             jobOpeningCategories,
-            user.nickname,
-            user.profileUrl
+            jobOpeningUser?.nickname ?: "",
+            jobOpeningUser?.profileUrl ?: "",
+            jobOpeningUser?.job ?: Job.ACTOR
         )
     }
 }

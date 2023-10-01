@@ -8,6 +8,7 @@ import com.fone.common.entity.Type
 import com.fone.common.utils.DateTimeFormat
 import com.fone.jobOpening.domain.entity.JobOpening
 import com.fone.jobOpening.domain.entity.JobOpeningScrap
+import com.fone.user.domain.enum.Job
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -31,6 +32,7 @@ data class JobOpeningDto(
     val nickname: String,
     val profileUrl: String,
     val createdAt: LocalDateTime,
+    val userJob: Job,
 ) {
     val dDay: String
         get() = DateTimeFormat.calculateDays(deadline)
@@ -42,6 +44,7 @@ data class JobOpeningDto(
         categories: List<CategoryType>,
         nickname: String,
         profileUrl: String,
+        job: Job,
     ) : this(
         id = jobOpening.id!!,
         title = jobOpening.title,
@@ -61,6 +64,7 @@ data class JobOpeningDto(
         isScrap = userJobOpeningScrapMap.get(jobOpening.id!!) != null,
         nickname = nickname,
         profileUrl = profileUrl,
-        createdAt = jobOpening.createdAt
+        createdAt = jobOpening.createdAt,
+        userJob = job
     )
 }

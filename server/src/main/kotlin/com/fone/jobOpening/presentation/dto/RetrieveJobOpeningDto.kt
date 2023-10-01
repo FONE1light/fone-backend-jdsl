@@ -7,6 +7,7 @@ import com.fone.common.entity.Type
 import com.fone.jobOpening.domain.entity.JobOpening
 import com.fone.jobOpening.domain.entity.JobOpeningScrap
 import com.fone.jobOpening.presentation.dto.common.JobOpeningDto
+import com.fone.user.domain.enum.Job
 import io.swagger.annotations.ApiModelProperty
 import org.springframework.data.domain.Page
 
@@ -60,6 +61,7 @@ class RetrieveJobOpeningDto {
             categories: List<CategoryType>,
             nickname: String,
             profileUrl: String,
+            job: Job,
         ) : this(
             jobOpening = JobOpeningDto(
                 reqJobOpening,
@@ -67,7 +69,8 @@ class RetrieveJobOpeningDto {
                 domains,
                 categories,
                 nickname,
-                profileUrl
+                profileUrl,
+                job
             )
         )
     }
