@@ -39,14 +39,15 @@ class RetrieveMySimilarJobOpeningService(
         val jobOpeningIds = jobOpenings.map { it.id!! }.toList()
         val jobOpeningDomains = jobOpeningDomainRepository.findByJobOpeningIds(jobOpeningIds)
         val jobOpeningCategories = jobOpeningCategoryRepository.findByJobOpeningIds(jobOpeningIds)
+        val jobOpeningUserIds = jobOpenings.content.map { it.userId }.toList()
+        val jobOpeningUsers = userRepository.findByIds(jobOpeningUserIds).associateBy { it.id }
 
         return RetrieveMySimilarJobOpeningResponse(
             jobOpenings,
             userJobOpeningScraps,
             jobOpeningDomains,
             jobOpeningCategories,
-            user.nickname,
-            user.profileUrl
+            jobOpeningUsers
         )
     }
 }
