@@ -8,6 +8,7 @@ interface UserRepository {
     suspend fun findByEmail(
         email: String,
     ): com.fone.user.domain.entity.User?
+
     suspend fun findByEmailAndLoginType(
         email: String,
         loginType: LoginType,
@@ -23,4 +24,6 @@ interface UserRepository {
     ): com.fone.user.domain.entity.User?
 
     suspend fun save(newUser: com.fone.user.domain.entity.User): com.fone.user.domain.entity.User
+
+    suspend fun findByIds(userIds: List<Long>): List<com.fone.user.domain.entity.User>
 }

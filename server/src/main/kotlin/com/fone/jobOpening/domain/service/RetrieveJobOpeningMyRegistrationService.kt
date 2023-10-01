@@ -34,14 +34,15 @@ class RetrieveJobOpeningMyRegistrationService(
             .findByJobOpeningIds(jobOpeningIds)
         val jobOpeningCategories = jobOpeningCategoryRepository
             .findByJobOpeningIds(jobOpeningIds)
+        val jobOpeningUserIds = jobOpenings.content.map { it.userId }.toList()
+        val jobOpeningUsers = userRepository.findByIds(jobOpeningUserIds).associateBy { it.id }
 
         return RetrieveJobOpeningMyRegistrationResponse(
             jobOpenings,
             userJobOpeningScraps,
             jobOpeningDomains,
             jobOpeningCategories,
-            user.nickname,
-            user.profileUrl
+            jobOpeningUsers
         )
     }
 }

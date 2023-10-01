@@ -6,6 +6,7 @@ import com.fone.user.domain.repository.UserRepository
 import com.linecorp.kotlinjdsl.query.spec.predicate.EqualValueSpec
 import com.linecorp.kotlinjdsl.querydsl.expression.col
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.SpringDataHibernateMutinyReactiveQueryFactory
+import com.linecorp.kotlinjdsl.spring.data.reactive.query.listQuery
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.singleQueryOrNull
 import com.linecorp.kotlinjdsl.spring.reactive.querydsl.SpringDataReactiveCriteriaQueryDsl
 import com.linecorp.kotlinjdsl.spring.reactive.singleQueryOrNull
@@ -29,6 +30,16 @@ class UserRepositoryImpl(
         }
     }
 
+    override suspend fun findByIds(userIds: List<Long>): List<User> {
+        return queryFactory.listQuery {
+            select(entity(User::class))
+            from(entity(User::class))
+            where(
+                col(User::id).`in`(userIds)
+            )
+        }
+    }
+
     override suspend fun findByEmail(
         email: String,
     ): User? {
@@ -40,6 +51,7 @@ class UserRepositoryImpl(
             )
         }
     }
+
     override suspend fun findByEmailAndLoginType(
         email: String,
         loginType: LoginType,
@@ -115,6 +127,7 @@ class UserRepositoryImpl(
     ): EqualValueSpec<Long?> {
         return col(User::id).equal(userId)
     }
+
     private fun SpringDataReactiveCriteriaQueryDsl<User?>.loginTypeEq(
         loginType: LoginType?,
     ): EqualValueSpec<LoginType>? {

@@ -9,6 +9,7 @@ import com.fone.jobOpening.domain.entity.JobOpening
 import com.fone.jobOpening.domain.entity.JobOpeningScrap
 import com.fone.jobOpening.presentation.dto.common.JobOpeningDto
 import com.fone.jobOpening.presentation.dto.common.WorkDto
+import com.fone.user.domain.enum.Job
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDate
 
@@ -58,8 +59,17 @@ class RegisterJobOpeningDto {
             categories: List<CategoryType>,
             nickname: String,
             profileUrl: String,
+            job: Job,
         ) : this(
-            jobOpening = JobOpeningDto(jobOpening, userJobOpeningScrapMap, domains, categories, nickname, profileUrl)
+            jobOpening = JobOpeningDto(
+                jobOpening,
+                userJobOpeningScrapMap,
+                domains,
+                categories,
+                nickname,
+                profileUrl,
+                job
+            )
         )
     }
 }

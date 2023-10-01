@@ -7,6 +7,7 @@ import com.fone.jobOpening.domain.repository.JobOpeningRepository
 import com.fone.jobOpening.domain.repository.JobOpeningScrapRepository
 import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningRequest
 import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningResponse
+import com.fone.user.domain.enum.Job
 import com.fone.user.domain.repository.UserRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -45,13 +46,16 @@ class RegisterJobOpeningService(
             jobOpeningDomainRepository.saveAll(jobOpeningDomains)
             jobOpeningCategoryRepository.saveAll(jobOpeningCategories)
             val scraps = jobOpeningScrapRepository.findByUserId(user.id!!)
+
+            val jobOpeningUser = userRepository.findById(jobOpening.userId)
             RegisterJobOpeningResponse(
                 jobOpening,
                 scraps,
                 domains,
                 categories,
-                user.nickname,
-                user.profileUrl
+                jobOpeningUser?.nickname ?: "",
+                jobOpeningUser?.profileUrl ?: "",
+                jobOpeningUser?.job ?: Job.ACTOR
             )
         }
     }

@@ -5,6 +5,8 @@ import com.fone.common.entity.DomainType
 import com.fone.jobOpening.domain.entity.JobOpening
 import com.fone.jobOpening.domain.entity.JobOpeningScrap
 import com.fone.jobOpening.presentation.dto.common.JobOpeningDto
+import com.fone.user.domain.entity.User
+import com.fone.user.domain.enum.Job
 import org.springframework.data.domain.Page
 
 class RetrieveMySimilarJobOpeningDto {
@@ -17,8 +19,7 @@ class RetrieveMySimilarJobOpeningDto {
             userJobOpeningScrapMap: Map<Long, JobOpeningScrap?>,
             jobOpeningDomains: Map<Long, List<DomainType>>,
             jobOpeningCategories: Map<Long, List<CategoryType>>,
-            nickname: String,
-            profileUrl: String,
+            jobOpeningUsers: Map<Long?, User>,
         ) : this(
             jobOpenings = jobOpenings.map {
                 JobOpeningDto(
@@ -26,8 +27,9 @@ class RetrieveMySimilarJobOpeningDto {
                     userJobOpeningScrapMap,
                     jobOpeningDomains[it.id!!] ?: listOf(),
                     jobOpeningCategories[it.id!!] ?: listOf(),
-                    nickname,
-                    profileUrl
+                    jobOpeningUsers[it.userId]?.nickname ?: "",
+                    jobOpeningUsers[it.userId]?.profileUrl ?: "",
+                    jobOpeningUsers[it.userId]?.job ?: Job.ACTOR
                 )
             }
         )
