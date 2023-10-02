@@ -3,7 +3,6 @@ package com.fone.profile.domain.service
 import com.fone.common.entity.Type
 import com.fone.common.exception.NotFoundProfileException
 import com.fone.common.exception.NotFoundUserException
-import com.fone.common.repository.UserCommonRepository
 import com.fone.profile.domain.repository.ProfileCategoryRepository
 import com.fone.profile.domain.repository.ProfileDomainRepository
 import com.fone.profile.domain.repository.ProfileRepository
@@ -11,6 +10,8 @@ import com.fone.profile.domain.repository.ProfileWantRepository
 import com.fone.profile.presentation.dto.RetrieveProfilesDto.RetrieveProfileResponse
 import com.fone.profile.presentation.dto.RetrieveProfilesDto.RetrieveProfilesRequest
 import com.fone.profile.presentation.dto.RetrieveProfilesDto.RetrieveProfilesResponse
+import com.fone.user.domain.enum.Job
+import com.fone.user.domain.repository.UserRepository
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -19,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional
 class RetrieveProfilesService(
     private val profileRepository: ProfileRepository,
     private val profileWantRepository: ProfileWantRepository,
-    private val userRepository: UserCommonRepository,
+    private val userRepository: UserRepository,
     private val profileDomainRepository: ProfileDomainRepository,
     private val profileCategoryRepository: ProfileCategoryRepository,
 ) {
@@ -30,20 +31,24 @@ class RetrieveProfilesService(
         email: String,
         request: RetrieveProfilesRequest,
     ): RetrieveProfilesResponse {
-        val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
+        val user = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 
         val profiles = profileRepository.findAllByFilters(pageable, request)
-        val userProfileWants = profileWantRepository.findByUserId(userId)
+        val userProfileWants = profileWantRepository.findByUserId(user.id!!)
 
         val profileIds = profiles.map { it.id!! }.toList()
         val profileDomains = profileDomainRepository.findByProfileIds(profileIds)
         val profileCategories = profileCategoryRepository.findByProfileIds(profileIds)
 
+        val profileUserIds = profiles.map { it.userId }.toList()
+        val profileUsers = userRepository.findByIds(profileUserIds).associateBy { it.id }
+
         return RetrieveProfilesResponse(
             profiles,
             userProfileWants,
             profileDomains,
-            profileCategories
+            profileCategories,
+            profileUsers
         )
     }
 
@@ -53,14 +58,13 @@ class RetrieveProfilesService(
         type: Type,
         profileId: Long,
     ): RetrieveProfileResponse {
-        val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
-        val userNickname = userRepository.findNicknameByEmail(email) ?: throw NotFoundUserException()
+        val user = userRepository.findByEmail(email) ?: throw NotFoundUserException()
 
         val profile = profileRepository.findByTypeAndId(type, profileId) ?: throw NotFoundProfileException()
         profile.view()
         profileRepository.save(profile)
 
-        val userProfileWants = profileWantRepository.findByUserId(userId)
+        val userProfileWants = profileWantRepository.findByUserId(user.id!!)
 
         val id = profile.id!!
 
@@ -68,12 +72,16 @@ class RetrieveProfilesService(
 
         val profileCategories = profileCategoryRepository.findByProfileId(id)
 
+        val profileUser = userRepository.findById(user.id!!)
+
         return RetrieveProfileResponse(
             profile,
             userProfileWants,
             profileDomains,
             profileCategories,
-            userNickname
+            profileUser?.nickname ?: "",
+            profileUser?.profileUrl ?: "",
+            profileUser?.job ?: Job.ACTOR
         )
     }
 }
