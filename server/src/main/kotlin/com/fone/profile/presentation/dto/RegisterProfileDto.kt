@@ -8,6 +8,7 @@ import com.fone.common.entity.Type
 import com.fone.profile.domain.entity.Profile
 import com.fone.profile.domain.entity.ProfileWant
 import com.fone.profile.presentation.dto.common.ProfileDto
+import com.fone.user.domain.enum.Job
 import io.swagger.annotations.ApiModelProperty
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDate
@@ -72,13 +73,19 @@ class RegisterProfileDto {
             userProfileWantMap: Map<Long, ProfileWant?>,
             domains: List<DomainType>?,
             categories: List<CategoryType>,
+            nickname: String,
+            profileUrl: String,
+            job: Job,
         ) : this(
             profile = ProfileDto(
                 profile,
                 userProfileWantMap,
                 profile.profileImages.map { it.profileUrl }.toList(),
                 domains,
-                categories
+                categories,
+                nickname,
+                profileUrl,
+                job
             )
         )
     }

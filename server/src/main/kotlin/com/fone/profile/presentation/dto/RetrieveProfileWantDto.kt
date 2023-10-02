@@ -8,6 +8,8 @@ import com.fone.common.entity.DomainType
 import com.fone.profile.domain.entity.Profile
 import com.fone.profile.domain.entity.ProfileWant
 import com.fone.profile.presentation.dto.common.ProfileDto
+import com.fone.user.domain.entity.User
+import com.fone.user.domain.enum.Job
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
@@ -24,6 +26,7 @@ class RetrieveProfileWantDto {
             userProfileWantMap: Map<Long, ProfileWant?>,
             profileDomains: Map<Long, List<DomainType>>,
             profileCategories: Map<Long, List<CategoryType>>,
+            profileUsers: Map<Long?, User>,
             pageable: Pageable,
         ) : this(
             profiles = RestPage(
@@ -33,7 +36,10 @@ class RetrieveProfileWantDto {
                         userProfileWantMap,
                         it.profileImages.map { image -> image.profileUrl }.toList(),
                         profileDomains[it.id!!] ?: listOf(),
-                        profileCategories[it.id!!] ?: listOf()
+                        profileCategories[it.id!!] ?: listOf(),
+                        profileUsers[it.userId]?.nickname ?: "",
+                        profileUsers[it.userId]?.profileUrl ?: "",
+                        profileUsers[it.userId]?.job ?: Job.ACTOR
                     )
                 }.toList(),
                 pageable.pageNumber,

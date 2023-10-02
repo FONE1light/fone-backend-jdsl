@@ -7,6 +7,8 @@ import com.fone.common.entity.Type
 import com.fone.profile.domain.entity.Profile
 import com.fone.profile.domain.entity.ProfileWant
 import com.fone.profile.presentation.dto.common.ProfileDto
+import com.fone.user.domain.entity.User
+import com.fone.user.domain.enum.Job
 import io.swagger.annotations.ApiModelProperty
 import org.springframework.data.domain.Page
 
@@ -31,6 +33,7 @@ class RetrieveProfilesDto {
             userProfileWantMap: Map<Long, ProfileWant?>,
             profileDomains: Map<Long, List<DomainType>>,
             profileCategories: Map<Long, List<CategoryType>>,
+            profileUsers: Map<Long?, User>,
         ) : this(
             profiles = profiles.map {
                 ProfileDto(
@@ -38,7 +41,10 @@ class RetrieveProfilesDto {
                     userProfileWantMap,
                     it.profileImages.map { image -> image.profileUrl }.toList(),
                     profileDomains[it.id!!] ?: listOf(),
-                    profileCategories[it.id!!] ?: listOf()
+                    profileCategories[it.id!!] ?: listOf(),
+                    profileUsers[it.userId]?.nickname ?: "",
+                    profileUsers[it.userId]?.profileUrl ?: "",
+                    profileUsers[it.userId]?.job ?: Job.ACTOR
                 )
             }
         )
@@ -52,7 +58,9 @@ class RetrieveProfilesDto {
             userProfileWantMap: Map<Long, ProfileWant?>,
             profileDomains: List<DomainType>,
             profileCategories: List<CategoryType>,
-            userNickname: String,
+            nickname: String,
+            profileUrl: String,
+            job: Job,
         ) : this(
             profile = ProfileDto(
                 profile,
@@ -60,7 +68,9 @@ class RetrieveProfilesDto {
                 profile.profileImages.map { it.profileUrl }.toList(),
                 profileDomains,
                 profileCategories,
-                userNickname
+                nickname,
+                profileUrl,
+                job
             )
         )
     }
