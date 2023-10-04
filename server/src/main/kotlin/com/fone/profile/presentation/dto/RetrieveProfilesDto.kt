@@ -16,13 +16,13 @@ class RetrieveProfilesDto {
 
     data class RetrieveProfilesRequest(
         @ApiModelProperty(value = "타입", example = "ACTOR", required = true) val type: Type,
-        @ApiModelProperty(value = "성별", required = false) val genders: List<Gender> = Gender.getAllEnum(),
+        @ApiModelProperty(value = "성별", required = false) val genders: List<Gender> = Gender.values().toList(),
         @ApiModelProperty(value = "최대 나이", required = false, example = "200") val ageMax: Int = 200,
         @ApiModelProperty(value = "최소 나이", required = false, example = "0") val ageMin: Int = 0,
         @ApiModelProperty(
             value = "카테고리",
             required = false
-        ) val categories: List<CategoryType> = CategoryType.getAllEnum(),
+        ) val categories: List<CategoryType> = CategoryType.values().toList(),
     )
 
     data class RetrieveProfilesResponse(
