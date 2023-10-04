@@ -22,6 +22,7 @@ import com.linecorp.kotlinjdsl.spring.reactive.querydsl.SpringDataReactivePageab
 import io.smallrye.mutiny.coroutines.awaitSuspending
 import org.hibernate.reactive.mutiny.Mutiny
 import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Repository
@@ -82,6 +83,14 @@ class JobOpeningRepositoryImpl(
                         )
                     )
                 }
+            }
+
+            if (domainJobOpeningIds.isEmpty() || categoryJobOpeningIds.isEmpty()) {
+                return@withFactory PageImpl(
+                    listOf(),
+                    pageable,
+                    0
+                )
             }
 
             factory.pageQuery(pageable) {
