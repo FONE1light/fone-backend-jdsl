@@ -38,10 +38,14 @@ class ProfileRepositoryImpl(
         pageable: Pageable,
         request: RetrieveProfilesRequest,
     ): Page<Profile> {
-        val categoryProfileIds = queryFactory.listQuery {
-            select(col(ProfileCategory::profileId))
-            from(entity(ProfileCategory::class))
-            where(col(ProfileCategory::type).`in`(request.categories))
+        val categoryProfileIds = if (request.categories.isEmpty()) {
+            emptyList()
+        } else {
+            queryFactory.listQuery {
+                select(col(ProfileCategory::profileId))
+                from(entity(ProfileCategory::class))
+                where(col(ProfileCategory::type).`in`(request.categories))
+            }
         }
 
         if (categoryProfileIds.isEmpty()) {
