@@ -35,7 +35,7 @@ data class Profile(
     @Column var specialty: String,
     @Column(length = 500) var details: String,
     @Enumerated(EnumType.STRING) var career: Career,
-    @Column var careerDetail: String,
+    @Column(length = 500) var careerDetail: String,
     @Enumerated(EnumType.STRING) var type: Type,
     @Column var userId: Long,
     @Column var viewCount: Long,
