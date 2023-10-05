@@ -41,7 +41,7 @@ data class Profile(
     @Column var viewCount: Long,
     @Column var isDeleted: Boolean = false,
     @Column var profileUrl: String,
-    @OneToMany(mappedBy = "profile", cascade = [CascadeType.PERSIST])
+    @OneToMany(mappedBy = "profile", cascade = [CascadeType.PERSIST, CascadeType.MERGE], orphanRemoval = true)
     var profileImages: MutableList<ProfileImage> = mutableListOf(),
 ) : BaseEntity() {
 
@@ -67,6 +67,14 @@ data class Profile(
         careerDetail = request.careerDetail ?: ""
         type = request.type
         profileUrl = request.profileUrl
+        this.profileImages = mutableListOf()
+        request.profileUrls.forEach {
+            this.addProfileImage(
+                ProfileImage(
+                    it
+                )
+            )
+        }
     }
 
     fun delete() {
@@ -83,6 +91,7 @@ data class Profile(
         careerDetail = ""
         type = Type.ACTOR
         isDeleted = true
+        this.profileImages = mutableListOf()
     }
 
     /* 연관관계 메서드 */
