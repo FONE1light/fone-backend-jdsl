@@ -85,7 +85,7 @@ class JobOpeningRepositoryImpl(
                 }
             }
 
-            if (domainJobOpeningIds.isEmpty() || categoryJobOpeningIds.isEmpty()) {
+            if ((request.type == Type.STAFF && domainJobOpeningIds.isEmpty()) || categoryJobOpeningIds.isEmpty()) {
                 return@withFactory PageImpl(
                     listOf(),
                     pageable,
