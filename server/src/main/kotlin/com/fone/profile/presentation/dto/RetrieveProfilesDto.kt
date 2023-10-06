@@ -23,6 +23,7 @@ class RetrieveProfilesDto {
             value = "카테고리",
             required = false
         ) val categories: List<CategoryType> = CategoryType.values().toList(),
+        @ApiModelProperty(value = "분야", required = false) val domains: List<DomainType> = DomainType.values().toList(),
     )
 
     data class RetrieveProfilesResponse(

@@ -4,6 +4,7 @@ import com.fone.common.entity.Type
 import com.fone.common.utils.DateTimeFormat
 import com.fone.profile.domain.entity.Profile
 import com.fone.profile.domain.entity.ProfileCategory
+import com.fone.profile.domain.entity.ProfileDomain
 import com.fone.profile.domain.entity.ProfileWant
 import com.fone.profile.domain.repository.ProfileRepository
 import com.fone.profile.presentation.dto.RetrieveProfilesDto.RetrieveProfilesRequest
@@ -48,7 +49,17 @@ class ProfileRepositoryImpl(
             }
         }
 
-        if (categoryProfileIds.isEmpty()) {
+        val domainProfileIds = if (request.domains.isEmpty()) {
+            emptyList()
+        } else {
+            queryFactory.listQuery {
+                select(col(ProfileDomain::profileId))
+                from(entity(ProfileDomain::class))
+                where(col(ProfileDomain::type).`in`(request.domains))
+            }
+        }
+
+        if ((request.type == Type.STAFF && domainProfileIds.isEmpty()) || categoryProfileIds.isEmpty()) {
             return PageImpl(
                 listOf(),
                 pageable,
