@@ -11,7 +11,7 @@ class SMSUserFacade(
     private val smsValidationService: SMSValidationService,
     private val aligoService: AligoService,
 ) {
-    suspend fun sendSMS(request: SMSUserDto.SMSRequest): SMSUserDto.SMSResponse {
+    suspend fun sendSMS(request: SMSUserDto.SMSRequest) {
         return smsValidationService.sendSMS(request, ::smsSender)
     }
 
