@@ -8,11 +8,11 @@ import com.fone.jobOpening.domain.entity.JobOpeningScrap
 import com.fone.jobOpening.domain.repository.JobOpeningRepository
 import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningsRequest
 import com.linecorp.kotlinjdsl.query.spec.OrderSpec
-import com.linecorp.kotlinjdsl.query.spec.expression.EntitySpec
 import com.linecorp.kotlinjdsl.query.spec.predicate.EqualValueSpec
 import com.linecorp.kotlinjdsl.querydsl.expression.col
 import com.linecorp.kotlinjdsl.querydsl.expression.column
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.SpringDataHibernateMutinyReactiveQueryFactory
+import com.linecorp.kotlinjdsl.spring.data.reactive.query.listQuery
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.pageQuery
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.singleQueryOrNull
 import com.linecorp.kotlinjdsl.spring.reactive.listQuery
@@ -93,8 +93,8 @@ class JobOpeningRepositoryImpl(
                 )
             }
 
-            factory.pageQuery(pageable) {
-                select(entity(JobOpening::class) as EntitySpec<JobOpening>)
+            val jobOpeningIds = queryFactory.pageQuery(pageable) {
+                select(column(JobOpening::id))
                 from(entity(JobOpening::class))
                 where(
                     and(
@@ -110,6 +110,19 @@ class JobOpeningRepositoryImpl(
                     )
                 )
             }
+
+            val jobOpenings = queryFactory.listQuery {
+                select(entity(JobOpening::class))
+                from(entity(JobOpening::class))
+                where(and(col(JobOpening::id).`in`(jobOpeningIds.content)))
+                orderBy(orderSpec(pageable.sort))
+            }
+
+            PageImpl(
+                jobOpenings,
+                pageable,
+                jobOpenings.size.toLong()
+            )
         }
     }
 
@@ -238,12 +251,21 @@ class JobOpeningRepositoryImpl(
     private fun SpringDataReactiveCriteriaQueryDsl<JobOpening?>.orderSpec(
         sort: Sort,
     ): List<OrderSpec> {
-        val endDate = case(
-            `when`(column(JobOpening::deadline).lessThanOrEqualTo(LocalDate.now())).then(
+        val deadlineIsNull = case(
+            `when`(column(JobOpening::deadline).isNull()).then(
                 literal(1)
             ),
             `else` = literal(0)
         ).asc()
+
+        val deadlineAfterToday = case(
+            `when`(column(JobOpening::deadline).greaterThan(LocalDate.now())).then(
+                literal(1)
+            ),
+            `else` = literal(0)
+        ).desc()
+
+        val deadlineDesc = column(JobOpening::deadline).asc()
 
         val res = sort.map {
             val columnSpec = when (it.property) {
@@ -260,6 +282,6 @@ class JobOpeningRepositoryImpl(
             }
         }.toList()
 
-        return listOf(endDate) + res
+        return listOf(deadlineIsNull, deadlineAfterToday, deadlineDesc) + res
     }
 }
