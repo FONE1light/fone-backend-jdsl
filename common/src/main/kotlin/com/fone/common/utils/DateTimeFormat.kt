@@ -14,13 +14,10 @@ object DateTimeFormat {
             return "상시 모집"
         }
 
-        val diffDays =
-            Period.between(
-                LocalDate.parse(LocalDate.now().toString(), dateFormatter),
-                LocalDate.parse(deadline.toString(), dateFormatter)
-            ).days
+        val period = Period.between(LocalDate.now(), deadline)
+        val totalDays = period.years * 365 + period.months * 30 + period.days
 
-        return if (diffDays >= 0) "D-$diffDays" else "마감"
+        return if (totalDays >= 0) "D-$totalDays" else "마감"
     }
 
     fun calculateAge(date: LocalDate?): Int {
