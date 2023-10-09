@@ -19,12 +19,4 @@ class PasswordUpdateDto {
         @field:NotEmpty(message = "변경 토큰은 필수 값 입니다.")
         val token: String,
     )
-
-    data class PasswordUpdateResponse(
-        val response: ResponseType,
-    )
-
-    enum class ResponseType {
-        SUCCESS, INVALID_TOKEN
-    }
 }

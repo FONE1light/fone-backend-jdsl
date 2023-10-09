@@ -13,10 +13,6 @@ class SMSUserDto {
         val phoneNumber: String,
     )
 
-    data class SMSResponse(
-        val response: ResponseType,
-    )
-
     data class SMSValidationRequest(
         @field:Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}\$")
         @ApiModelProperty(value = "휴대폰 번호", example = "010-1234-1234", required = true)
@@ -27,17 +23,11 @@ class SMSUserDto {
     )
 
     data class PasswordSMSValidationResponse(
-        val response: ResponseType,
         val token: String? = null,
     )
 
     data class UserInfoSMSValidationResponse(
-        val response: ResponseType,
         val loginType: LoginType,
         val email: String?,
     )
-
-    enum class ResponseType {
-        SUCCESS, FAILURE
-    }
 }

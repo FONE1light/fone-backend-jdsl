@@ -23,7 +23,6 @@ import com.fone.user.presentation.dto.CheckNicknameDuplicateDto.CheckNicknameDup
 import com.fone.user.presentation.dto.EmailValidationDto.EmailSendResponse
 import com.fone.user.presentation.dto.EmailValidationDto.EmailValidationResponse
 import com.fone.user.presentation.dto.ModifyUserDto.ModifyUserResponse
-import com.fone.user.presentation.dto.PasswordUpdateDto.PasswordUpdateResponse
 import com.fone.user.presentation.dto.PasswordValidationDto.PasswordValidationResponse
 import com.fone.user.presentation.dto.RetrieveMyPageUserDto.RetrieveMyPageUserResponse
 import com.fone.user.presentation.dto.SMSUserDto.PasswordSMSValidationResponse
@@ -101,7 +100,6 @@ class SwaggerConfig(
                 typeResolver.resolve(EmailSendResponse::class.java),
                 typeResolver.resolve(UserInfoSMSValidationResponse::class.java),
                 typeResolver.resolve(PasswordSMSValidationResponse::class.java),
-                typeResolver.resolve(PasswordUpdateResponse::class.java),
 
                 // sms
                 typeResolver.resolve(SMSSendResponse::class.java)

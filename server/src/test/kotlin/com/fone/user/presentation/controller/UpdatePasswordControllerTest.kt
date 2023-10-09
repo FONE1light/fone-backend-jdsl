@@ -65,7 +65,7 @@ class UpdatePasswordControllerTest(client: WebTestClient, private val objectMapp
                         .consumeWith {
                             val response: CommonResponse<SMSUserDto.PasswordSMSValidationResponse> =
                                 objectMapper.readValue(it.responseBody!!)
-                            response.data!!.response shouldBe SMSUserDto.ResponseType.SUCCESS
+                            response.result shouldBe CommonResponse.Result.SUCCESS
                             token = response.data!!.token!!
                         }
                 }
@@ -73,11 +73,8 @@ class UpdatePasswordControllerTest(client: WebTestClient, private val objectMapp
                     client
                         .doPatch("$baseUrl/password", invalidTokenRequest)
                         .expectStatus()
-                        .isOk
+                        .isUnauthorized
                         .expectBody()
-                        .consumeWith {
-                            String(it.responseBody!!) shouldContain "INVALID_TOKEN"
-                        }
                 }
                 it("유효한 토큰 보낼 경우 성공한다.") {
                     client
@@ -93,9 +90,9 @@ class UpdatePasswordControllerTest(client: WebTestClient, private val objectMapp
                         .isOk
                         .expectBody()
                         .consumeWith {
-                            val response: CommonResponse<PasswordUpdateDto.PasswordUpdateResponse> =
+                            val response: CommonResponse<Unit> =
                                 objectMapper.readValue(it.responseBody!!)
-                            response.data?.response shouldBe PasswordUpdateDto.ResponseType.SUCCESS
+                            response.result shouldBe CommonResponse.Result.SUCCESS
                         }
                     client
                         .doPost(

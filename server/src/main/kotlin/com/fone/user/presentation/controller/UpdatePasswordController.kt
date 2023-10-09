@@ -3,11 +3,8 @@ package com.fone.user.presentation.controller
 import com.fone.common.response.CommonResponse
 import com.fone.user.application.PasswordUpdateFacade
 import com.fone.user.presentation.dto.PasswordUpdateDto.PasswordUpdateRequest
-import com.fone.user.presentation.dto.PasswordUpdateDto.PasswordUpdateResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
-import io.swagger.v3.oas.annotations.media.Content
-import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -23,14 +20,13 @@ class UpdatePasswordController(private val passwordUpdateFacade: PasswordUpdateF
     @ApiOperation(value = "비밀번호 변경 API")
     @ApiResponse(
         responseCode = "200",
-        description = "성공",
-        content = [Content(schema = Schema(implementation = PasswordUpdateResponse::class))]
+        description = "성공"
     )
     suspend fun passwordUpdate(
         @Valid @RequestBody
         request: PasswordUpdateRequest,
-    ): CommonResponse<PasswordUpdateResponse> {
-        val response = passwordUpdateFacade.update(request)
-        return CommonResponse.success(response)
+    ): CommonResponse<Unit> {
+        passwordUpdateFacade.updatePassword(request)
+        return CommonResponse.success(Unit)
     }
 }

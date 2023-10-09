@@ -5,7 +5,6 @@ import com.fone.user.application.SMSUserFacade
 import com.fone.user.presentation.dto.SMSUserDto
 import com.fone.user.presentation.dto.SMSUserDto.PasswordSMSValidationResponse
 import com.fone.user.presentation.dto.SMSUserDto.SMSRequest
-import com.fone.user.presentation.dto.SMSUserDto.SMSResponse
 import com.fone.user.presentation.dto.SMSUserDto.SMSValidationRequest
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
@@ -26,15 +25,14 @@ class SMSUserController(private val smsUserFacade: SMSUserFacade) {
     @ApiOperation(value = "인증 SMS 전송 API")
     @ApiResponse(
         responseCode = "200",
-        description = "성공",
-        content = [Content(schema = Schema(implementation = SMSResponse::class))]
+        description = "성공"
     )
     suspend fun sendSMS(
         @Valid @RequestBody
         request: SMSRequest,
-    ): CommonResponse<SMSResponse> {
-        val response = smsUserFacade.sendSMS(request)
-        return CommonResponse.success(response)
+    ): CommonResponse<Unit> {
+        smsUserFacade.sendSMS(request)
+        return CommonResponse.success(Unit, "인증번호 전송했습니다.")
     }
 
     @PostMapping("/sms/find-id")
@@ -42,7 +40,7 @@ class SMSUserController(private val smsUserFacade: SMSUserFacade) {
     @ApiResponse(
         responseCode = "200",
         description = "성공",
-        content = [Content(schema = Schema(implementation = SMSResponse::class))]
+        content = [Content(schema = Schema(implementation = SMSUserDto.UserInfoSMSValidationResponse::class))]
     )
     suspend fun userInfoValidateSMS(
         @Valid @RequestBody
