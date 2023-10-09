@@ -2,7 +2,6 @@ package com.fone.profile.presentation.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
-import com.fasterxml.jackson.module.kotlin.convertValue
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fone.common.CommonProfileCallApi
 import com.fone.common.CommonUserCallApi
@@ -13,7 +12,6 @@ import com.fone.common.doGet
 import com.fone.common.response.CommonResponse
 import com.fone.profile.presentation.dto.RetrieveProfilesDto
 import com.fone.profile.presentation.dto.common.ProfileDto
-import io.kotest.matchers.collections.shouldExist
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import org.springframework.data.domain.Page
@@ -37,25 +35,6 @@ class RetrieveProfilesControllerTest(client: WebTestClient, private val objectMa
                         .expectStatus().isOk
                         .expectBody()
                         .consumeWith { println(it) }
-                        .jsonPath("$.result")
-                        .isEqualTo("SUCCESS")
-                }
-                it("Career 여러 개 있다") {
-                    client
-                        .doGet(retrieveUrl, accessToken, mapOf("type" to "ACTOR"))
-                        .expectStatus().isOk
-                        .expectBody()
-                        .consumeWith {
-                            val body =
-                                objectMapper.readValue<CommonResponse<Map<Any, Any>>>(
-                                    it.responseBody!!
-                                )
-                            val profiles =
-                                objectMapper.convertValue<List<ProfileDto>>(
-                                    (body.data!!["profiles"] as Map<String, Any>)["content"]!!
-                                )
-                            profiles.shouldExist { profile -> profile.careers.size > 1 }
-                        }
                         .jsonPath("$.result")
                         .isEqualTo("SUCCESS")
                 }

@@ -42,7 +42,7 @@ class HttpModelFailureResponseTest(
             sns = "test sns",
             specialty = "test",
             details = "test",
-            careers = listOf(Career.IRRELEVANT),
+            career = Career.IRRELEVANT,
             careerDetail = "test",
             categories = listOf(CategoryType.ETC),
             type = Type.ACTOR,
