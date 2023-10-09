@@ -17,7 +17,7 @@ class PasswordUpdateService(
     private val userRepository: UserRepository,
 ) {
     @Transactional
-    suspend fun updateRequest(request: PasswordUpdateRequest) {
+    suspend fun updatePassword(request: PasswordUpdateRequest) {
         val user = userRepository.findByPhone(request.phoneNumber)
             ?: throw NotFoundUserException()
         val response = redisRepository.getValue("user:passwordUpdate:${user.phoneNumber}")

@@ -8,6 +8,6 @@ import org.springframework.stereotype.Service
 class PasswordUpdateFacade(
     private val passwordUpdateService: PasswordUpdateService,
 ) {
-    suspend fun update(request: PasswordUpdateDto.PasswordUpdateRequest) =
-        passwordUpdateService.updateRequest(request)
+    suspend fun updatePassword(request: PasswordUpdateDto.PasswordUpdateRequest) =
+        passwordUpdateService.updatePassword(request)
 }

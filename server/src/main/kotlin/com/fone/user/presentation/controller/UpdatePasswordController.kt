@@ -26,7 +26,7 @@ class UpdatePasswordController(private val passwordUpdateFacade: PasswordUpdateF
         @Valid @RequestBody
         request: PasswordUpdateRequest,
     ): CommonResponse<Unit> {
-        passwordUpdateFacade.update(request)
+        passwordUpdateFacade.updatePassword(request)
         return CommonResponse.success(Unit)
     }
 }
