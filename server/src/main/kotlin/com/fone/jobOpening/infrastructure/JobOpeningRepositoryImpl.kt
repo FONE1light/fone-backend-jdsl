@@ -85,14 +85,6 @@ class JobOpeningRepositoryImpl(
                 }
             }
 
-            if ((request.type == Type.STAFF && domainJobOpeningIds.isEmpty()) || categoryJobOpeningIds.isEmpty()) {
-                return@withFactory PageImpl(
-                    listOf(),
-                    pageable,
-                    0
-                )
-            }
-
             val jobOpeningIds = queryFactory.pageQuery(pageable) {
                 select(column(JobOpening::id))
                 from(entity(JobOpening::class))
@@ -104,10 +96,18 @@ class JobOpeningRepositoryImpl(
                             col(JobOpening::ageMax).greaterThanOrEqualTo(request.ageMin),
                             col(JobOpening::ageMin).lessThanOrEqualTo(request.ageMax)
                         ),
-                        col(JobOpening::id).`in`(domainJobOpeningIds),
-                        col(JobOpening::id).`in`(categoryJobOpeningIds),
+                        if (request.domains.isNotEmpty()) col(JobOpening::id).`in`(domainJobOpeningIds) else null,
+                        if (request.categories.isNotEmpty()) col(JobOpening::id).`in`(categoryJobOpeningIds) else null,
                         col(JobOpening::isDeleted).equal(false)
                     )
+                )
+            }
+
+            if (jobOpeningIds.content.isEmpty()) {
+                return@withFactory PageImpl(
+                    listOf(),
+                    pageable,
+                    0
                 )
             }
 
@@ -282,6 +282,10 @@ class JobOpeningRepositoryImpl(
             }
         }.toList()
 
-        return listOf(deadlineIsNull, deadlineAfterToday, deadlineDesc) + res
+        return if (sort.map { it.property }.contains("deadline")) {
+            listOf(deadlineIsNull, deadlineAfterToday, deadlineDesc)
+        } else {
+            res
+        }
     }
 }
