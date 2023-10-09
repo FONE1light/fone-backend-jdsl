@@ -80,10 +80,14 @@ class ProfileRepositoryImpl(
                     col(Profile::birthday).greaterThanOrEqualTo(
                         DateTimeFormat.calculdateLocalDate(request.ageMax)
                     ),
-                    col(Profile::id).`in`(categoryProfileIds)
+                    col(Profile::id).`in`(categoryProfileIds),
+                    col(Profile::isDeleted).equal(false)
                 )
             )
         }
+
+        println("test..11")
+        ids.content.forEach(::println)
 
         val profilesMap = queryFactory.listQuery {
             select(entity(Profile::class))
