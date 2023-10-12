@@ -5,6 +5,7 @@ enum class Job {
     STAFF,
     NORMAL,
     HUNTER,
+    VERIFIED,
     ;
 
     companion object {

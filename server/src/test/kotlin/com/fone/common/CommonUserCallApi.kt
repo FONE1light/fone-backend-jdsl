@@ -27,7 +27,7 @@ object CommonUserCallApi {
     fun getToken(client: WebTestClient, nickname: String, email: String): LinkedHashMap<*, *> {
         val signUpUserRequest =
             SignUpUserDto.SocialSignUpUserRequest(
-                Job.ACTOR,
+                Job.VERIFIED,
                 listOf(CategoryType.ETC),
                 nickname,
                 LocalDate.now(),

@@ -10,8 +10,10 @@ import com.fone.common.IntegrationTest
 import com.fone.common.PageDeserializer
 import com.fone.common.doGet
 import com.fone.common.response.CommonResponse
-import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto
+import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningResponse
+import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningsResponse
 import com.fone.jobOpening.presentation.dto.common.JobOpeningDto
+import com.fone.user.domain.enum.Job
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import org.springframework.data.domain.Page
@@ -40,7 +42,13 @@ class RetrieveJobOpeningControllerTest(client: WebTestClient, private val object
             context("존재하는 구인구직을 상세 조회하면") {
                 it("성공한다") {
                     client.doGet("$retrieveUrl/$jobOpeningId", accessToken, mapOf("type" to "ACTOR"))
-                        .expectStatus().isOk.expectBody().consumeWith { println(it) }.jsonPath("$.result")
+                        .expectStatus().isOk.expectBody().consumeWith {
+                            val response =
+                                objectMapper.readValue<CommonResponse<RetrieveJobOpeningResponse>>(
+                                    it.responseBody!!
+                                )
+                            response.data!!.jobOpening.userJob shouldBe Job.VERIFIED
+                        }.jsonPath("$.result")
                         .isEqualTo("SUCCESS")
                 }
             }
@@ -67,7 +75,7 @@ class RetrieveJobOpeningControllerTest(client: WebTestClient, private val object
                     client.doGet(retrieveUrl, accessToken, mapOf("type" to "ACTOR", "sort" to "viewCount,desc"))
                         .expectStatus().isOk.expectBody().consumeWith {
                             println(it)
-                            val response: CommonResponse<RetrieveJobOpeningDto.RetrieveJobOpeningsResponse> =
+                            val response: CommonResponse<RetrieveJobOpeningsResponse> =
                                 pageObjectMapper.readValue(String(it.responseBody!!))
                             val viewCounts = response.data?.jobOpenings?.toList()?.map { dto -> dto.viewCount }
                             viewCounts shouldNotBe null
