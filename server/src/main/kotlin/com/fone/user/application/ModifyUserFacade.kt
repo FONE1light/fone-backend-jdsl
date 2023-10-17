@@ -1,6 +1,7 @@
 package com.fone.user.application
 
 import com.fone.user.domain.service.ModifyUserService
+import com.fone.user.presentation.dto.ModifyUserDto.AdminModifyUserRequest
 import com.fone.user.presentation.dto.ModifyUserDto.ModifyUserRequest
 import org.springframework.stereotype.Service
 
@@ -10,4 +11,6 @@ class ModifyUserFacade(
 ) {
 
     suspend fun modifyUser(request: ModifyUserRequest, email: String) = modifyUserService.modifyUser(request, email)
+    suspend fun adminModifyUser(request: AdminModifyUserRequest, id: Long) =
+        modifyUserService.adminModifyUser(request, id)
 }
