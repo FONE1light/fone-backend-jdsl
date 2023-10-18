@@ -39,16 +39,6 @@ class ProfileRepositoryImpl(
         pageable: Pageable,
         request: RetrieveProfilesRequest,
     ): Page<Profile> {
-        val categoryProfileIds = if (request.categories.isEmpty()) {
-            emptyList()
-        } else {
-            queryFactory.listQuery {
-                select(col(ProfileCategory::profileId))
-                from(entity(ProfileCategory::class))
-                where(col(ProfileCategory::type).`in`(request.categories))
-            }
-        }
-
         val domainProfileIds = if (request.domains.isEmpty()) {
             emptyList()
         } else {
@@ -59,12 +49,14 @@ class ProfileRepositoryImpl(
             }
         }
 
-        if ((request.type == Type.STAFF && domainProfileIds.isEmpty()) || categoryProfileIds.isEmpty()) {
-            return PageImpl(
-                listOf(),
-                pageable,
-                0
-            )
+        val categoryProfileIds = if (request.categories.isEmpty()) {
+            emptyList()
+        } else {
+            queryFactory.listQuery {
+                select(col(ProfileCategory::profileId))
+                from(entity(ProfileCategory::class))
+                where(col(ProfileCategory::type).`in`(request.categories))
+            }
         }
 
         val ids = queryFactory.pageQuery(pageable) {
@@ -80,24 +72,34 @@ class ProfileRepositoryImpl(
                     col(Profile::birthday).greaterThanOrEqualTo(
                         DateTimeFormat.calculdateLocalDate(request.ageMax)
                     ),
-                    col(Profile::id).`in`(categoryProfileIds),
+                    if (request.domains.isNotEmpty()) col(Profile::id).`in`(domainProfileIds) else null,
+                    if (request.categories.isNotEmpty()) col(Profile::id).`in`(categoryProfileIds) else null,
                     col(Profile::isDeleted).equal(false)
                 )
             )
         }
 
-        println("test..11")
-        ids.content.forEach(::println)
+        if (ids.content.isEmpty()) {
+            return PageImpl(
+                listOf(),
+                pageable,
+                0
+            )
+        }
 
-        val profilesMap = queryFactory.listQuery {
+        val profiles = queryFactory.listQuery {
             select(entity(Profile::class))
             from(entity(Profile::class))
             fetch(Profile::profileImages, joinType = JoinType.LEFT)
             where(and(col(Profile::id).`in`(ids.content)))
             orderBy(orderSpec(pageable.sort))
-        }.associateBy { it?.id }
+        }
 
-        return ids.map { profilesMap[it] }
+        return PageImpl(
+            profiles,
+            pageable,
+            profiles.size.toLong()
+        )
     }
 
     override suspend fun findById(profileId: Long): Profile? {
