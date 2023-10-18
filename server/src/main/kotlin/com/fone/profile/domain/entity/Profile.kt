@@ -54,6 +54,7 @@ data class Profile(
     }
 
     fun put(request: RegisterProfileRequest) {
+        name = request.name
         hookingComment = request.hookingComment
         birthday = request.birthday
         gender = request.gender
