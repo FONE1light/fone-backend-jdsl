@@ -7,10 +7,14 @@ import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
 import com.fone.common.response.CommonResponse
 import com.fone.common.response.Error
 import com.fone.common.response.ErrorCode
+import kotlinx.coroutines.reactive.awaitFirst
+import kotlinx.coroutines.runBlocking
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.core.io.buffer.DataBufferUtils
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.http.server.reactive.ServerHttpRequest
 import org.springframework.validation.FieldError
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
@@ -44,6 +48,7 @@ class GlobalExceptionHandler(
         val builder = WebhookMessageBuilder()
         builder.setContent(ex.message)
         builder.addEmbeds(embed)
+        builder.addEmbeds(exchange.request.parseBodyToEmbed())
         webhookClient.send(builder.build())
 
         val response = CommonResponse.fail(ex.message, ex.javaClass.simpleName)
@@ -77,6 +82,7 @@ class GlobalExceptionHandler(
         val builder = WebhookMessageBuilder()
         builder.setContent(ErrorCode.COMMON_NULL_PARAMETER.errorMsg)
         builder.addEmbeds(embed)
+        builder.addEmbeds(exchange.request.parseBodyToEmbed())
         webhookClient.send(builder.build())
 
         val errorResponse = CommonResponse.fail(data, ErrorCode.COMMON_NULL_PARAMETER)
@@ -131,6 +137,7 @@ class GlobalExceptionHandler(
         val builder = WebhookMessageBuilder()
         builder.setContent(ErrorCode.COMMON_INVALID_PARAMETER.errorMsg)
         builder.addEmbeds(embed)
+        builder.addEmbeds(exchange.request.parseBodyToEmbed())
         webhookClient.send(builder.build())
 
         val errorResponse = CommonResponse
@@ -159,9 +166,32 @@ class GlobalExceptionHandler(
         val builder = WebhookMessageBuilder()
         builder.setContent("서버에서 정의하지 않은 서버입니다.")
         builder.addEmbeds(embed)
+        builder.addEmbeds(exchange.request.parseBodyToEmbed())
         webhookClient.send(builder.build())
 
         val errorResponse = CommonResponse.fail(e.message, e::class.java.simpleName)
         return Mono.just(errorResponse)
+    }
+
+    private fun ServerHttpRequest.parseBodyToEmbed(): WebhookEmbed {
+        return WebhookEmbed(
+            null,
+            null,
+            parseBody(),
+            null,
+            null,
+            null,
+            WebhookEmbed.EmbedTitle("Body", null),
+            null,
+            emptyList()
+        )
+    }
+    private fun ServerHttpRequest.parseBody(): String {
+        return runBlocking {
+            val body = DataBufferUtils.join(this@parseBody.body).awaitFirst()
+            val bytes = ByteArray(body.capacity())
+            body.read(bytes)
+            String(bytes)
+        }
     }
 }
