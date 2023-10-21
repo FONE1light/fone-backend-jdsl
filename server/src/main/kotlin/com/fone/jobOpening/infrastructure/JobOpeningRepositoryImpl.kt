@@ -92,7 +92,7 @@ class JobOpeningRepositoryImpl(
                     and(
                         col(JobOpening::type).equal(request.type),
                         col(JobOpening::gender).`in`(request.genders),
-                        or(
+                        and(
                             col(JobOpening::ageMax).greaterThanOrEqualTo(request.ageMin),
                             col(JobOpening::ageMin).lessThanOrEqualTo(request.ageMax)
                         ),
