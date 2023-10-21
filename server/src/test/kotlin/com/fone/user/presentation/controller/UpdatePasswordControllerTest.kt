@@ -32,7 +32,7 @@ class UpdatePasswordControllerTest(client: WebTestClient, private val objectMapp
             context("SMS 인증") {
                 val invalidTokenRequest = PasswordUpdateDto.PasswordUpdateRequest(
                     signUpUserRequest.phoneNumber,
-                    "newpassword1!",
+                    "newPassword1!",
                     "foo"
                 )
                 it("안한 상태에서는 실패하고 관련 안내 준다") {
@@ -82,7 +82,7 @@ class UpdatePasswordControllerTest(client: WebTestClient, private val objectMapp
                             "$baseUrl/password",
                             PasswordUpdateDto.PasswordUpdateRequest(
                                 signUpUserRequest.phoneNumber,
-                                "newpassword1!",
+                                "newPassword1!",
                                 token
                             )
                         )
@@ -97,7 +97,7 @@ class UpdatePasswordControllerTest(client: WebTestClient, private val objectMapp
                     client
                         .doPost(
                             "$baseUrl/email/sign-in",
-                            SignInUserDto.EmailSignInUserRequest(signUpUserRequest.email, "newpassword1!")
+                            SignInUserDto.EmailSignInUserRequest(signUpUserRequest.email, "newPassword1!")
                         )
                         .expectStatus()
                         .isOk

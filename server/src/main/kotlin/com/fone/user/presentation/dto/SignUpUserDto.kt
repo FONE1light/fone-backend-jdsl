@@ -111,7 +111,7 @@ class SignUpUserDto {
         @field:NotNull(message = "마케팅 정보수신 동의는 필수 값 입니다.") val isReceiveMarketing: Boolean,
         @field:Pattern(
             regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[\\W_])[A-Za-z\\d\\W_]{8,16}\$",
-            message = "영문자, 숫자, 특수문자가 포함된 8~16자 비밀번호"
+            message = "영소문자, 영대문자, 숫자, 특수문자가 포함된 8~16자 비밀번호"
         ) val password: String,
         @ApiModelProperty(value = "이메일 인증 토큰", required = true) val token: String,
     ) {
