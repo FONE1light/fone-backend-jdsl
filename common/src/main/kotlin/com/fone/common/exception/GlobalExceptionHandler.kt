@@ -58,7 +58,7 @@ class GlobalExceptionHandler(
     ): Mono<CommonResponse<String?>> {
         val data = if (e.cause?.cause is MissingKotlinParameterException) {
             val param = (e.cause?.cause as MissingKotlinParameterException).parameter.name
-            "필드명: $param"
+            "항목 ${param}을 확인해주세요"
         } else {
             null
         }
