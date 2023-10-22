@@ -92,10 +92,8 @@ class JobOpeningRepositoryImpl(
                     and(
                         col(JobOpening::type).equal(request.type),
                         col(JobOpening::gender).`in`(request.genders),
-                        and(
-                            col(JobOpening::ageMax).greaterThanOrEqualTo(request.ageMin),
-                            col(JobOpening::ageMin).lessThanOrEqualTo(request.ageMax)
-                        ),
+                        col(JobOpening::ageMax).greaterThanOrEqualTo(request.ageMin),
+                        col(JobOpening::ageMin).lessThanOrEqualTo(request.ageMax),
                         if (request.domains.isNotEmpty()) col(JobOpening::id).`in`(domainJobOpeningIds) else null,
                         if (request.categories.isNotEmpty()) col(JobOpening::id).`in`(categoryJobOpeningIds) else null,
                         col(JobOpening::isDeleted).equal(false)
