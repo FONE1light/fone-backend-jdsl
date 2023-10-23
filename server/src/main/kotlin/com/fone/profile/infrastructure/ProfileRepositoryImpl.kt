@@ -95,10 +95,12 @@ class ProfileRepositoryImpl(
             orderBy(orderSpec(pageable.sort))
         }
 
+        val uniqueProfiles = profiles.groupBy { it?.id }.map { it.value.first() }
+
         return PageImpl(
-            profiles,
+            uniqueProfiles,
             pageable,
-            profiles.size.toLong()
+            uniqueProfiles.size.toLong()
         )
     }
 
