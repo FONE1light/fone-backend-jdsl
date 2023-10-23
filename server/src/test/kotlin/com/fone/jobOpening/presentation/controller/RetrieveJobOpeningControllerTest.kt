@@ -10,7 +10,7 @@ import com.fone.common.IntegrationTest
 import com.fone.common.PageDeserializer
 import com.fone.common.doGet
 import com.fone.common.response.CommonResponse
-import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto
+import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningsResponse
 import com.fone.jobOpening.presentation.dto.common.JobOpeningDto
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -67,7 +67,7 @@ class RetrieveJobOpeningControllerTest(client: WebTestClient, private val object
                     client.doGet(retrieveUrl, accessToken, mapOf("type" to "ACTOR", "sort" to "viewCount,desc"))
                         .expectStatus().isOk.expectBody().consumeWith {
                             println(it)
-                            val response: CommonResponse<RetrieveJobOpeningDto.RetrieveJobOpeningsResponse> =
+                            val response: CommonResponse<RetrieveJobOpeningsResponse> =
                                 pageObjectMapper.readValue(String(it.responseBody!!))
                             val viewCounts = response.data?.jobOpenings?.toList()?.map { dto -> dto.viewCount }
                             viewCounts shouldNotBe null

@@ -2,10 +2,13 @@ package com.fone.user.domain.entity
 
 import com.fone.common.converter.SeparatorConverter
 import com.fone.common.entity.BaseEntity
+import com.fone.common.entity.CategoryType
 import com.fone.common.entity.Gender
+import com.fone.common.jwt.Role
 import com.fone.common.password.PasswordService
 import com.fone.user.domain.enum.Job
 import com.fone.user.domain.enum.LoginType
+import com.fone.user.presentation.dto.ModifyUserDto.AdminModifyUserRequest
 import com.fone.user.presentation.dto.ModifyUserDto.ModifyUserRequest
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -53,6 +56,14 @@ data class User(
         this.job = request.job
         this.interests = request.interests.map { it.toString() }.toList()
         this.profileUrl = request.profileUrl ?: this.profileUrl
+    }
+
+    fun adminModifyUser(request: AdminModifyUserRequest) {
+        request.job?.also { this.job = it }
+        request.interests?.also { this.interests = it.map(CategoryType::toString) }
+        request.profileUrl?.also { this.profileUrl = it }
+        request.nickname?.also { this.nickname = it }
+        request.roles?.also { this.roles = it.map(Role::toString) }
     }
 
     fun signOutUser() {
