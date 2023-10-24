@@ -51,11 +51,11 @@ class AppleOauthRepository : OauthRepository {
 
     override suspend fun fetchPrincipal(identityToken: String): OauthPrincipal {
         val decoded = decode(identityToken)
-        if (decoded.issuer != "https://appleid.apple.com") {
+        if (decoded.issuer != "https://appleid.apple.com" || !decoded.audience.contains("com.fone.filmone")) {
             throw InvalidTokenException()
         }
         verify(decoded) // 검증 진행. 실패 시 Exception
-        if (!decoded.getClaim("email_verified").asBoolean()) {
+        if (!decoded.getClaim("email_verified").asString().toBoolean()) {
             throw InvalidOauthStatusException("Apple에 이메일 인증되지 않은 유저")
         }
         val email = decoded.getClaim("email").asString()

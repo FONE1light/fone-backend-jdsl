@@ -10,6 +10,8 @@ import com.fone.report.infrastructure.ReportDiscordRepositoryImpl
 import com.fone.sms.domain.service.AligoService
 import com.fone.sms.presentation.dto.SMSSendDto.SMSSendRequest
 import com.fone.sms.presentation.dto.SMSSendDto.SMSSendResponse
+import com.fone.user.domain.entity.OauthPrincipal
+import com.fone.user.domain.enum.LoginType
 import com.fone.user.domain.repository.UserRepository
 import com.fone.user.domain.service.OauthValidationService
 import io.mockk.coEvery
@@ -26,11 +28,12 @@ class ConfigTestBean {
     @Bean
     @Primary
     fun mockOauthValidationService() = mockk<OauthValidationService> {
-        coEvery { isValidTokenSignIn(any(), any(), any()) } returns true
         coEvery { isValidTokenSignUp(any(), any(), any(), any()) } returns true
-        coEvery { getEmail(any(), any()) } answers {
+        coEvery { getPrincipal(any(), any()) } answers {
             val accessToken = it.invocation.args[1] as String
-            accessToken.split(":").last()
+            val loginType = it.invocation.args[0] as LoginType
+            val email = accessToken.split(":").last()
+            OauthPrincipal(loginType, email, email)
         }
     }
 

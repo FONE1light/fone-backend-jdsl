@@ -1,11 +1,13 @@
 package com.fone.user.domain.service
 
+import com.fone.common.exception.InvalidOauthStatusException
 import com.fone.common.exception.InvalidTokenException
 import com.fone.common.exception.NotFoundUserException
 import com.fone.common.jwt.JWTUtils
 import com.fone.common.jwt.Role
 import com.fone.common.password.PasswordService
 import com.fone.common.redis.RedisRepository
+import com.fone.user.domain.entity.OauthPrincipal
 import com.fone.user.domain.entity.User
 import com.fone.user.domain.enum.LoginType
 import com.fone.user.domain.repository.UserRepository
@@ -22,7 +24,6 @@ class SignInUserService(
     private val userRepository: UserRepository,
     private val jwtUtils: JWTUtils,
     private val redisRepository: RedisRepository,
-    private val oauthValidationService: OauthValidationService,
 ) {
 
     @Transactional(readOnly = true)
@@ -33,17 +34,24 @@ class SignInUserService(
     }
 
     @Transactional(readOnly = true)
-    suspend fun getUser(request: SocialSignInUserRequest, email: String): User {
-        return userRepository.findByEmailAndLoginType(email, request.loginType) ?: throw NotFoundUserException()
+    suspend fun getUser(principal: OauthPrincipal): User {
+        if (principal.identifier == null) {
+            throw InvalidOauthStatusException("Apple 로그인에는 identifier가 필수입니다.")
+        }
+        return when (principal.type) {
+            LoginType.APPLE -> {
+                userRepository.findByIdentifier(principal.identifier)
+            }
+            else -> {
+                userRepository.findByEmailAndLoginType(principal.email, principal.type)
+            }
+        } ?: throw NotFoundUserException()
     }
 
     suspend fun validate(request: SocialSignInUserRequest, user: User) {
         with(request) {
             if (loginType == LoginType.PASSWORD) {
                 throw ServerWebInputException("소셜 로그인 타입이 필요합니다.")
-            }
-            if (!oauthValidationService.isValidTokenSignIn(loginType, accessToken, user.email)) {
-                throw InvalidTokenException()
             }
         }
     }

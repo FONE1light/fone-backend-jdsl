@@ -16,7 +16,9 @@ class RetrieveCompetitionDto {
             userCompetitionScrapMap: Map<Long, CompetitionScrap?>,
             totalCount: Long,
         ) : this(
-            competitions = competitions.map { CompetitionDto(it, userCompetitionScrapMap) },
+            competitions = competitions.map {
+                CompetitionDto(it, userCompetitionScrapMap)
+            },
             totalCount = totalCount
         )
     }
