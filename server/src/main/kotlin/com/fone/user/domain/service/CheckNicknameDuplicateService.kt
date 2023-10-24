@@ -21,7 +21,7 @@ class CheckNicknameDuplicateService(
                 throw DuplicateUserNicknameException()
             }
 
-            return CheckNicknameDuplicateResponse(request.nickname, false)
+            return CheckNicknameDuplicateResponse(nickname, false)
         }
     }
 }

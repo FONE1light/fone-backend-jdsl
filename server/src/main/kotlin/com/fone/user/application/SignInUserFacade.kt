@@ -20,8 +20,8 @@ class SignInUserFacade(
     }
 
     suspend fun signIn(request: SocialSignInUserRequest): SignInUserResponse {
-        val email = oauthValidationService.getEmail(request.loginType, request.accessToken)
-        val user = signInUserService.getUser(request, email)
+        val principal = oauthValidationService.getPrincipal(request.loginType, request.accessToken)
+        val user = signInUserService.getUser(principal)
         signInUserService.validate(request, user)
         return signInUserService.generateResponse(user)
     }

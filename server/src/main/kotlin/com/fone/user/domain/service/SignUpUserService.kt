@@ -88,7 +88,7 @@ class SignUpUserService(
                 throw ServerWebInputException("소셜 로그인 타입이 필요합니다.")
             }
             if (email == null) {
-                email = oauthValidationService.getEmail(request.loginType, request.accessToken)
+                email = oauthValidationService.getPrincipal(request.loginType, request.accessToken).email
             }
             if (!oauthValidationService.isValidTokenSignUp(loginType, accessToken, email!!, identifier)) {
                 throw InvalidTokenException()
