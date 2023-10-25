@@ -35,11 +35,11 @@ class SignInUserService(
 
     @Transactional(readOnly = true)
     suspend fun getUser(principal: OauthPrincipal): User {
-        if (principal.identifier == null) {
-            throw InvalidOauthStatusException("Apple 로그인에는 identifier가 필수입니다.")
-        }
         return when (principal.type) {
             LoginType.APPLE -> {
+                if (principal.identifier == null) {
+                    throw InvalidOauthStatusException("Apple 로그인에는 identifier가 필수입니다.")
+                }
                 userRepository.findByIdentifier(principal.identifier)
             }
             else -> {
