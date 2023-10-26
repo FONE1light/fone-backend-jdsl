@@ -4,9 +4,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://fone-db:3306/fone?&characterEncoding=UTF-8
-    username: root
-    password: fone-flim-be
+    url: jdbc:mysql://${DB_URL:fone-db}:${DB_PORT:3306}/${DB_DATABASE:fone}?&characterEncoding=UTF-8
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:fone-flim-be}
     hikari:
       pool-name: test_pool
   jpa:
@@ -24,5 +24,5 @@ spring:
         show_sql: true
 
   redis:
-    host: fone-redis
-    port: 6379
+    host: ${REDIS_HOST:fone-redis}
+    port: ${REDIS_PORT:6379}
