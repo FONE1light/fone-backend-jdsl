@@ -9,7 +9,6 @@ class RegisterReportDto {
     data class RegisterReportRequest(
         val reportUserId: Long,
         val type: Type,
-        val typeId: Long,
         val inconveniences: List<String>,
         val details: String,
     ) {
@@ -17,7 +16,6 @@ class RegisterReportDto {
             return Report(
                 reportUserId = reportUserId,
                 type = type,
-                typeId = typeId,
                 inconvenients = inconveniences,
                 details = details,
                 userId = userId

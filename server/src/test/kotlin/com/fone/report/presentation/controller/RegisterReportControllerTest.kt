@@ -17,7 +17,6 @@ class RegisterReportControllerTest(client: WebTestClient) : CustomDescribeSpec()
         val registerReportRequest = RegisterReportRequest(
             reportUserId = 1,
             type = Type.PROFILE,
-            typeId = 1,
             inconveniences = listOf(""),
             details = "test details"
         )

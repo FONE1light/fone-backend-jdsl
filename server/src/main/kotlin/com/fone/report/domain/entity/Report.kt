@@ -20,7 +20,6 @@ data class Report(
     var id: Long? = null,
     @Column var reportUserId: Long = 0,
     @Column var type: Type = Type.JOB_OPENING,
-    @Column var typeId: Long = 0,
     @Convert(converter = SeparatorConverter::class)
     @Column(length = 500)
     var inconvenients: List<String> = listOf(),
