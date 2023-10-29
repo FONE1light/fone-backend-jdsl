@@ -15,7 +15,6 @@ class RegisterReportControllerTest(client: WebTestClient) : CustomDescribeSpec()
     init {
         val (accessToken, _) = CommonUserCallApi.getAccessToken(client)
         val registerReportRequest = RegisterReportRequest(
-            reportUserId = 1,
             type = Type.PROFILE,
             typeId = 1,
             inconveniences = listOf(""),
