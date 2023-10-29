@@ -7,7 +7,6 @@ import com.fone.report.presentation.dto.common.ReportDto
 class RegisterReportDto {
 
     data class RegisterReportRequest(
-        val reportUserId: Long,
         val type: Type,
         val typeId: Long,
         val inconveniences: List<String>,
@@ -15,7 +14,6 @@ class RegisterReportDto {
     ) {
         fun toEntity(userId: Long): Report {
             return Report(
-                reportUserId = reportUserId,
                 type = type,
                 typeId = typeId,
                 inconvenients = inconveniences,
