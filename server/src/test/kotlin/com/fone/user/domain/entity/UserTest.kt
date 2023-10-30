@@ -1,10 +1,12 @@
 package com.fone.user.domain.entity
 
 import com.fone.common.TestGenerator
+import com.fone.common.entity.CategoryType
 import com.fone.common.entity.Gender
 import com.fone.common.jwt.Role
 import com.fone.user.domain.enum.Job
 import com.fone.user.domain.enum.LoginType
+import com.fone.user.presentation.dto.ModifyUserDto
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
@@ -205,6 +207,89 @@ class UserTest : DescribeSpec({
             beforeLoginDate shouldBe null
             afterLoginDate shouldNotBe beforeLoginDate
             afterLoginDate.shouldNotBeNull()
+        }
+    }
+
+    describe("modifyUser") {
+        it("ModifyUserRequest를 사용하여 유저 정보 수정") {
+            val user = User(
+                job = Job.ACTOR,
+                interests = listOf(CategoryType.MOVIE.toString()),
+                nickname = "OriginalNickname",
+                profileUrl = "originalUrl.com"
+            )
+            val request = ModifyUserDto.ModifyUserRequest(
+                nickname = "NewNickname",
+                job = Job.STAFF,
+                interests = listOf(CategoryType.ETC),
+                profileUrl = "newUrl.com"
+            )
+            user.modifyUser(request)
+
+            user.nickname shouldBe "NewNickname"
+            user.job shouldBe Job.STAFF
+            user.interests shouldBe listOf(CategoryType.ETC.toString())
+            user.profileUrl shouldBe "newUrl.com"
+        }
+    }
+
+    describe("adminModifyUser") {
+        it("AdminModifyUserRequest를 사용하여 유저 정보 수정") {
+            val user = User(
+                job = Job.ACTOR,
+                interests = listOf(CategoryType.MOVIE.toString()),
+                nickname = "OriginalNickname",
+                roles = listOf(Role.ROLE_USER.toString())
+            )
+            val request = ModifyUserDto.AdminModifyUserRequest(
+                job = Job.STAFF,
+                interests = listOf(CategoryType.FEATURE_FILM),
+                profileUrl = "adminUrl.com",
+                nickname = "AdminNickname",
+                roles = listOf(Role.ROLE_ADMIN)
+            )
+            user.adminModifyUser(request)
+
+            user.job shouldBe Job.STAFF
+            user.interests shouldBe listOf(CategoryType.FEATURE_FILM.toString())
+            user.profileUrl shouldBe "adminUrl.com"
+            user.nickname shouldBe "AdminNickname"
+            user.roles shouldBe listOf(Role.ROLE_ADMIN.toString())
+        }
+    }
+
+    describe("signOutUser") {
+        it("유저 탈퇴 처리") {
+            val user = User(
+                job = Job.ACTOR,
+                interests = listOf("Acting"),
+                name = "ActiveUser",
+                nickname = "ActiveNickname",
+                profileUrl = "activeUrl.com",
+                phoneNumber = "123-456-7890",
+                email = "active@test.com"
+            )
+            user.signOutUser()
+
+            user.interests shouldBe listOf()
+            user.name shouldBe "탈퇴한 유저"
+            user.nickname shouldBe "탈퇴한 유저"
+            user.birthday shouldBe null
+            user.profileUrl shouldBe ""
+            user.phoneNumber shouldBe null
+            user.email shouldBe ""
+            user.roles shouldBe listOf()
+            user.enabled shouldBe false
+        }
+    }
+
+    describe("updatePassword") {
+        it("비밀번호 업데이트") {
+            val user = User()
+            val newPassword = "newPassword123"
+            user.updatePassword(newPassword)
+
+            user.password shouldNotBe null
         }
     }
 })
