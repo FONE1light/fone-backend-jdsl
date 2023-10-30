@@ -6,7 +6,9 @@ import com.fone.common.jwt.Role
 import com.fone.user.domain.enum.Job
 import com.fone.user.domain.enum.LoginType
 import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 
 class UserTest : DescribeSpec({
@@ -174,6 +176,35 @@ class UserTest : DescribeSpec({
             )
 
             user.isEnabled shouldBe enabled
+        }
+    }
+
+    describe("login") {
+        it("로그인 시 lastLoginDate가 업데이트 되어야 함") {
+            val user = User(
+                job = Job.ACTOR,
+                interests = listOf(""),
+                nickname = "",
+                birthday = null,
+                gender = Gender.IRRELEVANT,
+                profileUrl = "",
+                phoneNumber = TestGenerator.getRandomPhoneNumber(),
+                email = "test@test.com",
+                loginType = LoginType.APPLE,
+                agreeToTermsOfServiceTermsOfUse = false,
+                agreeToPersonalInformation = false,
+                isReceiveMarketing = false,
+                roles = listOf(),
+                enabled = true
+            )
+
+            val beforeLoginDate = user.lastLoginDate
+            user.login()
+            val afterLoginDate = user.lastLoginDate
+
+            beforeLoginDate shouldBe null
+            afterLoginDate shouldNotBe beforeLoginDate
+            afterLoginDate.shouldNotBeNull()
         }
     }
 })
