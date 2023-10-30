@@ -25,7 +25,7 @@ data class JobOpening(
     var id: Long? = null,
     @Column var title: String,
     @Column var deadline: LocalDate?,
-    @Column var casting: String?,
+    @Column(length = 50) var casting: String?,
     @Column var numberOfRecruits: Int,
     @Enumerated(EnumType.STRING) var gender: Gender,
     @Column var ageMax: Int,
