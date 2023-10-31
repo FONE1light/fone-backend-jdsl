@@ -2,7 +2,6 @@ package com.fone.user.domain.service
 
 import com.fone.common.exception.DuplicatePhoneNumberException
 import com.fone.common.exception.DuplicateUserException
-import com.fone.common.exception.ForbiddenException
 import com.fone.common.exception.InvalidTokenException
 import com.fone.common.jwt.JWTUtils
 import com.fone.common.jwt.Role
@@ -11,7 +10,6 @@ import com.fone.common.redis.RedisRepository
 import com.fone.user.application.EmailValidationFacade
 import com.fone.user.application.EmailValidationFacadeNoOp
 import com.fone.user.domain.entity.User
-import com.fone.user.domain.enum.Job
 import com.fone.user.domain.enum.LoginType
 import com.fone.user.domain.repository.UserRepository
 import com.fone.user.presentation.dto.SignUpUserDto.EmailSignUpUserRequest
@@ -31,9 +29,6 @@ class SignUpUserService(
 ) {
     @Transactional
     suspend fun signUpUser(request: SocialSignUpUserRequest): User {
-        if (request.job == Job.VERIFIED) {
-            throw ForbiddenException()
-        }
         with(request) {
             userRepository.findByNicknameOrEmail(nickname, email)?.let {
                 throw DuplicateUserException()
@@ -51,9 +46,6 @@ class SignUpUserService(
 
     @Transactional
     suspend fun signUpUser(request: EmailSignUpUserRequest): User {
-        if (request.job == Job.VERIFIED) {
-            throw ForbiddenException()
-        }
         with(request) {
             userRepository.findByNicknameOrEmail(nickname, email)?.let {
                 throw DuplicateUserException()

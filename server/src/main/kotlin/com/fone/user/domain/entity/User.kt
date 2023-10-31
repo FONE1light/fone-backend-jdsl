@@ -51,6 +51,7 @@ data class User(
     @Column var enabled: Boolean = false,
     @JvmField @Column
     var password: String? = null,
+    @Column var isVerified: Boolean = false,
     @Column var lastLoginDate: LocalDateTime? = null,
 ) : UserDetails, BaseEntity() {
     fun modifyUser(request: ModifyUserRequest) {
@@ -66,6 +67,7 @@ data class User(
         request.profileUrl?.also { this.profileUrl = it }
         request.nickname?.also { this.nickname = it }
         request.roles?.also { this.roles = it.map(Role::toString) }
+        request.isVerified?.also { this.isVerified = it }
     }
 
     fun login() {

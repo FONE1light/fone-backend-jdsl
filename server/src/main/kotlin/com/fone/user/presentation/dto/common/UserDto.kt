@@ -23,6 +23,7 @@ data class UserDto(
     val agreeToPersonalInformation: Boolean,
     val isReceiveMarketing: Boolean,
     val enabled: Boolean,
+    val isVerified: Boolean,
 ) {
 
     constructor(
@@ -42,6 +43,7 @@ data class UserDto(
         agreeToTermsOfServiceTermsOfUse = user.agreeToTermsOfServiceTermsOfUse,
         agreeToPersonalInformation = user.agreeToPersonalInformation,
         isReceiveMarketing = user.isReceiveMarketing,
-        enabled = user.enabled
+        enabled = user.enabled,
+        isVerified = user.isVerified
     )
 }
