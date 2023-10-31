@@ -23,7 +23,6 @@ class RegisterCompetitionService(
 
         with(request) {
             val competition = toEntity(userId)
-            prizes.forEach { competition.addPrize(it.toEntity()) }
 
             competitionRepository.save(competition)
 
