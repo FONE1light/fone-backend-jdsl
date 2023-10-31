@@ -4,7 +4,6 @@ import com.fone.common.CommonUserCallApi
 import com.fone.common.CustomDescribeSpec
 import com.fone.common.IntegrationTest
 import com.fone.common.doPost
-import com.fone.competition.presentation.dto.RegisterCompetitionDto.PrizeRequest
 import com.fone.competition.presentation.dto.RegisterCompetitionDto.RegisterCompetitionRequest
 import org.springframework.test.web.reactive.server.WebTestClient
 import java.time.LocalDate
@@ -25,14 +24,7 @@ class RegisterCompetitionControllerTest(client: WebTestClient) : CustomDescribeS
             submitEndDate = LocalDate.now(),
             showStartDate = LocalDate.now(),
             agency = "test agency",
-            details = "test details",
-            prizes = listOf(
-                PrizeRequest(
-                    ranking = "",
-                    prizeMoney = "",
-                    competitionId = 0
-                )
-            )
+            details = "test details"
         )
 
         describe("#register competition") {
