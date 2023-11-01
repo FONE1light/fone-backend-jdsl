@@ -4,6 +4,7 @@ import com.fone.common.exception.NotFoundUserException
 import com.fone.common.exception.SMSValidationException
 import com.fone.common.redis.RedisRepository
 import com.fone.user.domain.entity.User
+import com.fone.user.domain.enum.LoginType
 import com.fone.user.domain.repository.UserRepository
 import com.fone.user.domain.repository.generateRandomCode
 import com.fone.user.presentation.dto.SMSUserDto.PasswordSMSValidationResponse
@@ -29,12 +30,16 @@ class SMSValidationService(
     suspend fun validateSMSPassword(request: SMSValidationRequest): PasswordSMSValidationResponse {
         val user = userRepository.findByPhone(request.phoneNumber)
             ?: throw NotFoundUserException()
-        if (!isValidCode(user, request.code)) {
-            throw SMSValidationException()
+        return if (user.loginType == LoginType.PASSWORD) {
+            if (!isValidCode(user, request.code)) {
+                throw SMSValidationException()
+            }
+            val token = (UUID.randomUUID().toString() + UUID.randomUUID().toString()).replace("-", "")
+            redisRepository.setValue("user:passwordUpdate:${user.phoneNumber}", token, 30, TimeUnit.MINUTES)
+            PasswordSMSValidationResponse(token, user.loginType)
+        } else {
+            PasswordSMSValidationResponse(null, user.loginType)
         }
-        val token = (UUID.randomUUID().toString() + UUID.randomUUID().toString()).replace("-", "")
-        redisRepository.setValue("user:passwordUpdate:${user.phoneNumber}", token, 30, TimeUnit.MINUTES)
-        return PasswordSMSValidationResponse(token)
     }
 
     suspend fun validateSMSUserInfo(request: SMSValidationRequest): UserInfoSMSValidationResponse {
