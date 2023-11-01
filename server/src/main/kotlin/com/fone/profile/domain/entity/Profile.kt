@@ -24,7 +24,7 @@ data class Profile(
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
-    @Column var name: String,
+    @Column(length = 10) var name: String,
     @Column var hookingComment: String,
     @Column var birthday: LocalDate?,
     @Enumerated(EnumType.STRING) var gender: Gender,
@@ -32,7 +32,7 @@ data class Profile(
     @Column var weight: Int,
     @Column var email: String,
     @Column(length = 300) var sns: String,
-    @Column var specialty: String,
+    @Column(length = 50) var specialty: String,
     @Column(length = 500) var details: String,
     @Enumerated(EnumType.STRING) var career: Career,
     @Column(length = 500) var careerDetail: String,

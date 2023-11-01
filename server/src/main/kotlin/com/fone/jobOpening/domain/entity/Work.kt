@@ -5,16 +5,16 @@ import javax.persistence.Embeddable
 
 @Embeddable
 data class Work(
-    @Column var produce: String,
-    @Column var workTitle: String,
-    @Column var director: String,
-    @Column var genre: String,
+    @Column(length = 20) var produce: String,
+    @Column(length = 20) var workTitle: String,
+    @Column(length = 20) var director: String,
+    @Column(length = 20) var genre: String,
     @Column var logline: String?,
     @Column var location: String?,
     @Column var period: String?,
     @Column var pay: String?,
     @Column(length = 500) var details: String,
-    @Column var manager: String,
+    @Column(length = 10) var manager: String,
     @Column var email: String,
 ) {
     fun delete() {
