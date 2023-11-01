@@ -9,17 +9,20 @@ data class CompetitionDto(
     val id: Long,
     val title: String,
     val imageUrl: String,
-    val startDate: LocalDate?,
-    val endDate: LocalDate?,
+    val screeningStartDate: LocalDate?,
+    val screeningEndDate: LocalDate?,
+    val exhibitStartDate: LocalDate?,
+    val exhibitEndDate: LocalDate?,
     val showStartDate: LocalDate?,
     val agency: String,
     val details: String,
     val viewCount: Long,
     val scrapCount: Long,
     val isScrap: Boolean = false,
+    val linkUrl: String,
 ) {
     val dDay: String
-        get() = DateTimeFormat.calculateDays(endDate)
+        get() = DateTimeFormat.calculateDays(screeningEndDate)
 
     constructor(
         competition: Competition,
@@ -28,13 +31,16 @@ data class CompetitionDto(
         id = competition.id!!,
         title = competition.title,
         imageUrl = competition.imageUrl,
-        startDate = competition.startDate,
-        endDate = competition.endDate,
+        screeningStartDate = competition.screeningStartDate,
+        screeningEndDate = competition.screeningEndDate,
+        exhibitStartDate = competition.exhibitStartDate,
+        exhibitEndDate = competition.exhibitEndDate,
         showStartDate = competition.showStartDate,
         agency = competition.agency,
         details = competition.details,
         viewCount = competition.viewCount,
         scrapCount = competition.scrapCount,
-        isScrap = userCompetitionScrapMap.get(competition.id!!) != null
+        isScrap = userCompetitionScrapMap.get(competition.id!!) != null,
+        linkUrl = competition.linkUrl
     )
 }

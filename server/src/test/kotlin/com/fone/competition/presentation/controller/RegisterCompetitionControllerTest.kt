@@ -18,13 +18,14 @@ class RegisterCompetitionControllerTest(client: WebTestClient) : CustomDescribeS
         val registerCompetitionRequest = RegisterCompetitionRequest(
             title = "테스트 제목",
             imageUrl = "test url",
-            startDate = LocalDate.now(),
-            endDate = LocalDate.now(),
-            submitStartDate = LocalDate.now(),
-            submitEndDate = LocalDate.now(),
+            exhibitStartDate = LocalDate.now(),
+            exhibitEndDate = LocalDate.now(),
+            screeningStartDate = LocalDate.now(),
+            screeningEndDate = LocalDate.now(),
             showStartDate = LocalDate.now(),
             agency = "test agency",
-            details = "test details"
+            details = "test details",
+            linkUrl = "test link url"
         )
 
         describe("#register competition") {
