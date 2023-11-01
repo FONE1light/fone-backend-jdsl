@@ -24,6 +24,7 @@ class SMSUserDto {
 
     data class PasswordSMSValidationResponse(
         val token: String? = null,
+        val loginType: LoginType,
     )
 
     data class UserInfoSMSValidationResponse(
