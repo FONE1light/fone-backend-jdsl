@@ -2,12 +2,10 @@ package com.fone.competition.infrastructure
 
 import com.fone.competition.domain.entity.Competition
 import com.fone.competition.domain.entity.CompetitionScrap
-import com.fone.competition.domain.entity.Prize
 import com.fone.competition.domain.repository.CompetitionRepository
 import com.linecorp.kotlinjdsl.query.spec.OrderSpec
 import com.linecorp.kotlinjdsl.querydsl.expression.col
 import com.linecorp.kotlinjdsl.querydsl.expression.column
-import com.linecorp.kotlinjdsl.querydsl.from.fetch
 import com.linecorp.kotlinjdsl.querydsl.from.join
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.SpringDataHibernateMutinyReactiveQueryFactory
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.singleQuery
@@ -39,13 +37,6 @@ class CompetitionRepositoryImpl(
             val competitions = factory.listQuery {
                 select(entity(Competition::class))
                 from(entity(Competition::class))
-                fetch(
-                    Competition::class,
-                    Prize::class,
-                    on(
-                        Competition::prizes
-                    )
-                )
                 where(
                     and(
                         col(Competition::id).`in`(ids.content),
@@ -74,7 +65,6 @@ class CompetitionRepositoryImpl(
             factory.singleQueryOrNull {
                 select(entity(Competition::class))
                 from(entity(Competition::class))
-                fetch(Competition::prizes)
                 where(col(Competition::id).equal(competitionId))
             }
         }
@@ -95,7 +85,6 @@ class CompetitionRepositoryImpl(
             val competitions = factory.listQuery {
                 select(entity(Competition::class))
                 from(entity(Competition::class))
-                fetch(Competition::prizes)
                 where(col(Competition::id).`in`(ids.content))
             }.associateBy { it!!.id }
 
@@ -120,11 +109,11 @@ class CompetitionRepositoryImpl(
     ): List<OrderSpec> {
         val endDate = case(
             `when`(
-                column(Competition::submitEndDate).lessThanOrEqualTo(
+                column(Competition::endDate).lessThanOrEqualTo(
                     LocalDate.now()
                 )
             ).then(literal(1)),
-            `when`(column(Competition::submitEndDate).isNull()).then(
+            `when`(column(Competition::endDate).isNull()).then(
                 case(
                     `when`(
                         column(Competition::endDate).lessThanOrEqualTo(LocalDate.now())

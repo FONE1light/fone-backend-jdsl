@@ -18,14 +18,7 @@ object CommonCompetitionCallApi {
             submitEndDate = LocalDate.now(),
             showStartDate = LocalDate.now(),
             agency = "test agency",
-            details = "test details",
-            prizes = listOf(
-                RegisterCompetitionDto.PrizeRequest(
-                    ranking = "",
-                    prizeMoney = "",
-                    competitionId = 0
-                )
-            )
+            details = "test details"
         )
 
         val competition =
