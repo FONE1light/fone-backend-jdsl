@@ -14,6 +14,7 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Convert
 import javax.persistence.Entity
@@ -50,6 +51,7 @@ data class User(
     @Column var enabled: Boolean = false,
     @JvmField @Column
     var password: String? = null,
+    @Column var lastLoginDate: LocalDateTime? = null,
 ) : UserDetails, BaseEntity() {
     fun modifyUser(request: ModifyUserRequest) {
         this.nickname = request.nickname
@@ -64,6 +66,10 @@ data class User(
         request.profileUrl?.also { this.profileUrl = it }
         request.nickname?.also { this.nickname = it }
         request.roles?.also { this.roles = it.map(Role::toString) }
+    }
+
+    fun login() {
+        lastLoginDate = LocalDateTime.now()
     }
 
     fun signOutUser() {

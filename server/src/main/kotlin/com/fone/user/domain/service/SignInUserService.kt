@@ -5,6 +5,7 @@ import com.fone.common.exception.InvalidTokenException
 import com.fone.common.exception.NotFoundUserException
 import com.fone.common.jwt.JWTUtils
 import com.fone.common.jwt.Role
+import com.fone.common.jwt.Token
 import com.fone.common.password.PasswordService
 import com.fone.common.redis.RedisRepository
 import com.fone.user.domain.entity.OauthPrincipal
@@ -42,10 +43,20 @@ class SignInUserService(
                 }
                 userRepository.findByIdentifier(principal.identifier)
             }
+
             else -> {
                 userRepository.findByEmailAndLoginType(principal.email, principal.type)
             }
         } ?: throw NotFoundUserException()
+    }
+
+    suspend fun signInUser(token: Token) {
+        val email = jwtUtils.getEmailFromToken(token.refreshToken)
+        val loginUser = userRepository.findByEmail(email)
+        if (loginUser != null) {
+            loginUser.login()
+            userRepository.save(loginUser)
+        }
     }
 
     suspend fun validate(request: SocialSignInUserRequest, user: User) {
