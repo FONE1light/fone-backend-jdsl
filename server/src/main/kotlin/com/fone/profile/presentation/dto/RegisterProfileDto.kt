@@ -30,7 +30,8 @@ class RegisterProfileDto {
             required = true
         )
         val email: String,
-        val sns: String,
+        val sns: String? = null,
+        val snsUrls: List<String> = listOf(),
         val specialty: String,
         val details: String,
         val career: Career,
@@ -50,7 +51,7 @@ class RegisterProfileDto {
                 height = height,
                 weight = weight,
                 email = email,
-                sns = sns,
+                sns = if (sns.isNullOrBlank()) snsUrls else listOf(sns),
                 specialty = specialty,
                 details = details,
                 career = career,

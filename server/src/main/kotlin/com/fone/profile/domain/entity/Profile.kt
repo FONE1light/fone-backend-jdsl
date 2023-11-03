@@ -1,5 +1,6 @@
 package com.fone.profile.domain.entity
 
+import com.fone.common.converter.URLSeparatorConverter
 import com.fone.common.entity.BaseEntity
 import com.fone.common.entity.Career
 import com.fone.common.entity.Gender
@@ -8,6 +9,7 @@ import com.fone.profile.presentation.dto.RegisterProfileDto.RegisterProfileReque
 import java.time.LocalDate
 import javax.persistence.CascadeType
 import javax.persistence.Column
+import javax.persistence.Convert
 import javax.persistence.Entity
 import javax.persistence.EnumType
 import javax.persistence.Enumerated
@@ -31,7 +33,8 @@ data class Profile(
     @Column var height: Int,
     @Column var weight: Int,
     @Column var email: String,
-    @Column(length = 300) var sns: String,
+    @Convert(converter = URLSeparatorConverter::class)
+    @Column(length = 300) var sns: List<String>,
     @Column(length = 50) var specialty: String,
     @Column(length = 500) var details: String,
     @Enumerated(EnumType.STRING) var career: Career,
@@ -61,7 +64,7 @@ data class Profile(
         height = request.height
         weight = request.weight
         email = request.email
-        sns = request.sns
+        sns = if(request.sns.isNullOrBlank()) request.snsUrls else listOf(request.sns)
         specialty = request.specialty
         details = request.details
         career = request.career
@@ -85,7 +88,7 @@ data class Profile(
         height = 0
         weight = 0
         email = ""
-        sns = ""
+        sns = emptyList()
         specialty = ""
         details = ""
         career = Career.IRRELEVANT
