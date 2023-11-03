@@ -2,7 +2,6 @@ package com.fone.user.presentation.controller
 
 import com.fone.common.CustomDescribeSpec
 import com.fone.common.IntegrationTest
-import com.fone.common.TestGenerator
 import com.fone.common.doPost
 import com.fone.common.entity.CategoryType
 import com.fone.common.entity.Gender
@@ -35,22 +34,6 @@ class SignUpUserControllerTest(client: WebTestClient) : CustomDescribeSpec() {
                 true,
                 "test"
             )
-        val verifiedUserRequest = SignUpUserDto.SocialSignUpUserRequest(
-            Job.VERIFIED,
-            listOf(CategoryType.ETC),
-            "failName6",
-            LocalDate.now(),
-            Gender.IRRELEVANT,
-            null,
-            TestGenerator.getRandomPhoneNumber(),
-            "fail5@test.com",
-            "fail5@test.com",
-            LoginType.APPLE,
-            true,
-            true,
-            true,
-            "test"
-        )
 
         describe("#signUp") {
             context("새 유저 정보가 들어오면") {
@@ -72,18 +55,6 @@ class SignUpUserControllerTest(client: WebTestClient) : CustomDescribeSpec() {
                         .doPost(baseUrl, signUpUserRequest)
                         .expectStatus()
                         .isBadRequest
-                        .expectBody()
-                        .consumeWith { println(it) }
-                        .jsonPath("$.result")
-                        .isEqualTo("FAIL")
-                }
-            }
-            context("Job.VERIFIED으로 요청시") {
-                it("유저 생성을 실패한다.") {
-                    client
-                        .doPost(baseUrl, verifiedUserRequest)
-                        .expectStatus()
-                        .isForbidden
                         .expectBody()
                         .consumeWith { println(it) }
                         .jsonPath("$.result")

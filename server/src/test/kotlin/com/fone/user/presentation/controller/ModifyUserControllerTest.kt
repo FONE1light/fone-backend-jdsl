@@ -36,17 +36,11 @@ class ModifyUserControllerTest(
                 "test1515151",
                 ""
             )
-        val verifiedUserRequest =
-            ModifyUserDto.ModifyUserRequest(
-                Job.VERIFIED,
-                listOf(CategoryType.ETC),
-                "test1515151",
-                ""
-            )
         val adminModifyUserRequest =
             ModifyUserDto.AdminModifyUserRequest(
-                job = Job.VERIFIED,
-                roles = listOf(Role.ROLE_USER)
+                job = Job.STAFF,
+                roles = listOf(Role.ROLE_USER),
+                isVerified = true
             )
 
         describe("#modify") {
@@ -62,19 +56,7 @@ class ModifyUserControllerTest(
                         .isEqualTo("SUCCESS")
                 }
             }
-            context("유저의 스스로 Job.VERIFIED 정보로 수정을 요청하면") {
-                it("실패한다") {
-                    client
-                        .doPatch(modifyUrl, verifiedUserRequest, accessToken)
-                        .expectStatus()
-                        .isForbidden
-                        .expectBody()
-                        .consumeWith { println(it) }
-                        .jsonPath("$.result")
-                        .isEqualTo("FAIL")
-                }
-            }
-            context("어드민 권한이 있는 경우 Role, Job 수정하면") {
+            context("어드민 권한이 있는 경우 isVerified를 true로 수정하면") {
                 it("성공한다") {
                     val user = userRepository.findByEmail(email)!!
                     user.roles = listOf(Role.ROLE_USER, Role.ROLE_ADMIN).map { it.toString() }
@@ -88,10 +70,21 @@ class ModifyUserControllerTest(
                         .consumeWith {
                             val response = objectMapper
                                 .readValue<CommonResponse<ModifyUserDto.ModifyUserResponse>>(it.responseBody!!)
-                            response.data!!.user.job shouldBe Job.VERIFIED
+                            response.data!!.user.isVerified shouldBe true
                         }
                         .jsonPath("$.result")
                         .isEqualTo("SUCCESS")
+                }
+            }
+            context("어드민 권한이 없는 경우, api요청은") {
+                it("실패한다") {
+                    val user = userRepository.findByEmail(email)!!
+                    user.roles = listOf(Role.ROLE_USER).map { it.toString() }
+                    userRepository.save(user)
+                    val newAccessToken = getNewToken(client, email)
+                    client
+                        .doPatch(modifyUrl + "/${user.id}", adminModifyUserRequest, newAccessToken)
+                        .expectStatus().is5xxServerError
                 }
             }
         }

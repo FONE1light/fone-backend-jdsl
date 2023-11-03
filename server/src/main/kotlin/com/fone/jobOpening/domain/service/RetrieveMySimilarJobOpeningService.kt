@@ -32,7 +32,7 @@ class RetrieveMySimilarJobOpeningService(
         val userJobOpeningScraps = jobOpeningScrapRepository.findByUserId(user.id!!)
 
         val jobType = when (user.job) {
-            Job.ACTOR, Job.HUNTER, Job.VERIFIED -> "ACTOR"
+            Job.ACTOR, Job.HUNTER -> "ACTOR"
             Job.STAFF, Job.NORMAL -> "STAFF"
         }
         val jobOpenings = jobOpeningRepository.findAllTop5ByType(pageable, Type(jobType))

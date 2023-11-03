@@ -24,7 +24,9 @@ class ModifyUserDto {
         val nickname: String? = null,
         val profileUrl: String? = null,
         val roles: List<Role>? = null,
+        val isVerified: Boolean? = null,
     )
+
     data class ModifyUserResponse(
         val user: UserDto,
     ) {
