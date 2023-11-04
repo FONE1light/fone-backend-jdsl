@@ -23,6 +23,7 @@ class RegisterJobOpeningDto {
         val categories: List<CategoryType>,
         @Schema(description = "모집 마감일", example = "2021-10-10")
         @DateTimeFormat(pattern = "yyyy-MM-dd")
+        @Deprecated("recruitmentEndDate 로 대체합니다.")
         val deadline: LocalDate?,
         @Schema(description = "모집배역", example = "30대 중반 경찰")
         val casting: String?,
@@ -42,6 +43,15 @@ class RegisterJobOpeningDto {
         val domains: List<DomainType>?,
         @Schema(description = "작품정보")
         val work: WorkDto,
+
+        @Schema(description = "모집 기간 시작일", example = "2021.10.10")
+        val recruitmentStartDate: String,
+        @Schema(description = "모집 기간 종료일", example = "2021.10.11")
+        val recruitmentEndDate: String,
+        @Schema(description = "이미지(대표 이미지)", example = "https://www.naver.com")
+        val representativeImageUrl: String,
+        @Schema(description = "이미지", example = "[\"https://www.naver.com\",\"https://www.naver.com\"]")
+        val imageUrls: List<String>,
     ) {
         fun toEntity(userId: Long): JobOpening {
             return JobOpening(
