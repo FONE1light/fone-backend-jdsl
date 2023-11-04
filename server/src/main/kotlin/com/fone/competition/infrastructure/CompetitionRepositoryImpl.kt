@@ -109,14 +109,14 @@ class CompetitionRepositoryImpl(
     ): List<OrderSpec> {
         val endDate = case(
             `when`(
-                column(Competition::endDate).lessThanOrEqualTo(
+                column(Competition::screeningEndDate).lessThanOrEqualTo(
                     LocalDate.now()
                 )
             ).then(literal(1)),
-            `when`(column(Competition::endDate).isNull()).then(
+            `when`(column(Competition::screeningEndDate).isNull()).then(
                 case(
                     `when`(
-                        column(Competition::endDate).lessThanOrEqualTo(LocalDate.now())
+                        column(Competition::screeningEndDate).lessThanOrEqualTo(LocalDate.now())
                     ).then(literal(1)),
                     `else` = literal(0)
                 )

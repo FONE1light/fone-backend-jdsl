@@ -18,14 +18,17 @@ class Competition(
     var id: Long? = null,
     @Column var title: String,
     @Column(length = 300) var imageUrl: String,
-    @Column var startDate: LocalDate?,
-    @Column var endDate: LocalDate?,
+    @Column var screeningStartDate: LocalDate?,
+    @Column var screeningEndDate: LocalDate?,
+    @Column var exhibitStartDate: LocalDate?,
+    @Column var exhibitEndDate: LocalDate?,
     @Column var showStartDate: LocalDate?,
     @Column var agency: String,
-    @Column(length = 500) var details: String,
+    @Column(length = 1500) var details: String,
     @Column var userId: Long,
     @Column var viewCount: Long,
     @Column var scrapCount: Long,
+    @Column var linkUrl: String,
 ) : BaseEntity() {
     fun view() {
         viewCount += 1
