@@ -52,7 +52,9 @@ data class User(
     @Column var enabled: Boolean = false,
     @JvmField @Column
     var password: String? = null,
-    @Column @ColumnDefault("false") var isVerified: Boolean = false,
+    @Column
+    @ColumnDefault("false")
+    var isVerified: Boolean = false,
     @Column var lastLoginDate: LocalDateTime? = null,
 ) : UserDetails, BaseEntity() {
     fun modifyUser(request: ModifyUserRequest) {
