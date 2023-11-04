@@ -10,6 +10,7 @@ import com.fone.user.domain.enum.Job
 import com.fone.user.domain.enum.LoginType
 import com.fone.user.presentation.dto.ModifyUserDto.AdminModifyUserRequest
 import com.fone.user.presentation.dto.ModifyUserDto.ModifyUserRequest
+import org.hibernate.annotations.ColumnDefault
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
@@ -51,7 +52,9 @@ data class User(
     @Column var enabled: Boolean = false,
     @JvmField @Column
     var password: String? = null,
-    @Column var isVerified: Boolean = false,
+    @Column
+    @ColumnDefault("false")
+    var isVerified: Boolean = false,
     @Column var lastLoginDate: LocalDateTime? = null,
 ) : UserDetails, BaseEntity() {
     fun modifyUser(request: ModifyUserRequest) {
