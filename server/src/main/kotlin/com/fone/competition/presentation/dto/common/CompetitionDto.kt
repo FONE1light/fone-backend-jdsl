@@ -21,8 +21,11 @@ data class CompetitionDto(
     val isScrap: Boolean = false,
     val linkUrl: String,
 ) {
-    val dDay: String
+    val screeningDDay: String
         get() = DateTimeFormat.calculateDays(screeningEndDate)
+
+    val exhibitDDay: String
+        get() = DateTimeFormat.calculateDays(exhibitEndDate)
 
     constructor(
         competition: Competition,
