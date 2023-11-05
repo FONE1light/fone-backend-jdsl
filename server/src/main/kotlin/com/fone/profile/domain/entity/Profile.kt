@@ -34,7 +34,8 @@ data class Profile(
     @Column var weight: Int,
     @Column var email: String,
     @Convert(converter = URLSeparatorConverter::class)
-    @Column(length = 300) var sns: List<String>,
+    @Column(length = 300)
+    var sns: List<String>,
     @Column(length = 50) var specialty: String,
     @Column(length = 500) var details: String,
     @Enumerated(EnumType.STRING) var career: Career,
@@ -64,7 +65,7 @@ data class Profile(
         height = request.height
         weight = request.weight
         email = request.email
-        sns = if(request.sns.isNullOrBlank()) request.snsUrls else listOf(request.sns)
+        sns = if (request.sns.isNullOrBlank()) request.snsUrls else listOf(request.sns)
         specialty = request.specialty
         details = request.details
         career = request.career

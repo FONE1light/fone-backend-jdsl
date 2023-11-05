@@ -17,11 +17,18 @@ import javax.validation.constraints.Email
 class RegisterProfileDto {
 
     data class RegisterProfileRequest(
+        @ApiModelProperty(value = "프로필 이름")
         val name: String,
+        @ApiModelProperty(value = "후킹멘트")
         val hookingComment: String,
-        @DateTimeFormat(pattern = "yyyy-MM-dd") val birthday: LocalDate,
+        @ApiModelProperty(value = "생년월일")
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
+        val birthday: LocalDate,
+        @ApiModelProperty(value = "성별")
         val gender: Gender,
+        @ApiModelProperty(value = "키")
         val height: Int,
+        @ApiModelProperty(value = "몸무게")
         val weight: Int,
         @field:Email(message = "유효하지 않는 이메일 입니다.")
         @ApiModelProperty(
@@ -30,16 +37,27 @@ class RegisterProfileDto {
             required = true
         )
         val email: String,
+        @ApiModelProperty(value = "SNS url v1")
         val sns: String? = null,
+        @ApiModelProperty(value = "SNS url v2")
         val snsUrls: List<String> = listOf(),
+        @ApiModelProperty(value = "특기")
         val specialty: String,
+        @ApiModelProperty(value = "상세요강")
         val details: String,
+        @ApiModelProperty(value = "경력")
         val career: Career,
+        @ApiModelProperty(value = "경력 상세 설명")
         val careerDetail: String?, // 하위 버전 호환성을 위해 null타입 추가 필요
+        @ApiModelProperty(value = "관심사")
         val categories: List<CategoryType>,
+        @ApiModelProperty(value = "타입")
         val type: Type,
+        @ApiModelProperty(value = "분야")
         val domains: List<DomainType>?,
+        @ApiModelProperty(value = "이미지 URL")
         val profileUrls: List<String>,
+        @ApiModelProperty(value = "대표 이미지 URL")
         val profileUrl: String,
     ) {
 
