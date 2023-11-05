@@ -24,9 +24,6 @@ data class CompetitionDto(
     val screeningDDay: String
         get() = DateTimeFormat.calculateDays(screeningEndDate)
 
-    val exhibitDDay: String
-        get() = DateTimeFormat.calculateDays(exhibitEndDate)
-
     constructor(
         competition: Competition,
         userCompetitionScrapMap: Map<Long, CompetitionScrap?>,
