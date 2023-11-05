@@ -59,6 +59,11 @@ class SignInUserService(
         }
     }
 
+    suspend fun signInUser(user: User) {
+        user.login()
+        userRepository.save(user)
+    }
+
     suspend fun validate(request: SocialSignInUserRequest, user: User) {
         with(request) {
             if (loginType == LoginType.PASSWORD) {
