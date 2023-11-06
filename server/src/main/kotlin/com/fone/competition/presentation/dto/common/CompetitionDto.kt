@@ -4,6 +4,8 @@ import com.fone.common.utils.DateTimeFormat
 import com.fone.competition.domain.entity.Competition
 import com.fone.competition.domain.entity.CompetitionScrap
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 data class CompetitionDto(
     val id: Long,
@@ -23,6 +25,30 @@ data class CompetitionDto(
 ) {
     val screeningDDay: String
         get() = DateTimeFormat.calculateDays(screeningEndDate)
+
+    val screeningDate: String
+        get() = if (screeningStartDate == null || screeningEndDate == null) {
+            "미정"
+        } else {
+            screeningStartDate.format(
+                DateTimeFormatter.ofPattern(
+                    "yyyy.M.d(E)",
+                    Locale.KOREAN
+                )
+            ) + " ~ " + screeningEndDate.format(DateTimeFormatter.ofPattern("yyyy.M.d(E)", Locale.KOREAN))
+        }
+
+    val exhibitDate: String
+        get() = if (exhibitStartDate == null || exhibitEndDate == null) {
+            "미정"
+        } else {
+            exhibitStartDate.format(
+                DateTimeFormatter.ofPattern(
+                    "yyyy.M.d(E)",
+                    Locale.KOREAN
+                )
+            ) + " ~ " + exhibitEndDate.format(DateTimeFormatter.ofPattern("yyyy.M.d(E)", Locale.KOREAN))
+        }
 
     constructor(
         competition: Competition,
