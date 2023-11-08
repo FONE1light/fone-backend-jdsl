@@ -44,12 +44,12 @@ class RegisterJobOpeningDto {
         @Schema(description = "작품정보")
         val work: WorkDto,
 
-        @Schema(description = "모집 기간 시작일", example = "2021.10.10")
-        val recruitmentStartDate: String,
-        @Schema(description = "모집 기간 종료일", example = "2021.10.11")
-        val recruitmentEndDate: String,
+        @Schema(description = "모집 기간 시작일(null이면 상시모집)", example = "2021.10.10")
+        val recruitmentStartDate: LocalDate?,
+        @Schema(description = "모집 기간 종료일(null이면 상시모집)", example = "2021.10.11")
+        val recruitmentEndDate: LocalDate?,
         @Schema(description = "이미지(대표 이미지)", example = "https://www.naver.com")
-        val representativeImageUrl: String,
+        val representativeImageUrl: String?,
         @Schema(description = "이미지", example = "[\"https://www.naver.com\",\"https://www.naver.com\"]")
         val imageUrls: List<String>,
     ) {
@@ -67,7 +67,10 @@ class RegisterJobOpeningDto {
                 userId = userId,
                 viewCount = 0,
                 scrapCount = 0,
-                work = work.toEntity()
+                work = work.toEntity(),
+                recruitmentStartDate = recruitmentStartDate,
+                recruitmentEndDate = recruitmentEndDate,
+                representativeImageUrl = representativeImageUrl
             )
         }
     }
