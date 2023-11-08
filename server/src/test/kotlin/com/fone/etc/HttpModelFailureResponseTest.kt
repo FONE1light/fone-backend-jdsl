@@ -14,7 +14,7 @@ import com.fone.common.entity.DomainType
 import com.fone.common.entity.Gender
 import com.fone.common.entity.Type
 import com.fone.common.response.CommonResponse
-import com.fone.profile.presentation.dto.RegisterProfileDto
+import com.fone.profile.presentation.dto.RegisterProfileDto.RegisterProfileRequest
 import io.kotest.matchers.string.shouldContain
 import org.springframework.test.web.reactive.server.WebTestClient
 import java.time.LocalDate
@@ -31,7 +31,7 @@ class HttpModelFailureResponseTest(
         val (accessToken, _) = CommonUserCallApi.getAccessToken(client)
         val profileId = CommonProfileCallApi.register(client, accessToken)
 
-        val putJobOpeningActorRequest = RegisterProfileDto.RegisterProfileRequest(
+        val putJobOpeningActorRequest = RegisterProfileRequest(
             name = "테스트 이름",
             hookingComment = "테스트 후킹 멘트",
             birthday = LocalDate.now(),
@@ -47,8 +47,8 @@ class HttpModelFailureResponseTest(
             categories = listOf(CategoryType.ETC),
             type = Type.ACTOR,
             domains = listOf(DomainType.PAINTING),
-            profileUrls = listOf("test profile url"),
-            profileUrl = "test profile url"
+            profileImages = listOf("test profile url"),
+            mainProfileImage = "test profile url"
         )
 
         describe("#실패 요청") {

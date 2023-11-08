@@ -73,9 +73,9 @@ data class Profile(
         career = request.career
         careerDetail = request.careerDetail ?: ""
         type = request.type
-        profileUrl = request.profileUrl
+        profileUrl = request.mainProfileImage
         this.profileImages = mutableListOf()
-        request.profileUrls.forEach {
+        request.profileImages.forEach {
             this.addProfileImage(
                 ProfileImage(
                     it

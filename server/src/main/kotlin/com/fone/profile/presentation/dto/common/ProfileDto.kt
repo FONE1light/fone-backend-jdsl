@@ -10,61 +10,71 @@ import com.fone.profile.domain.entity.Profile
 import com.fone.profile.domain.entity.ProfileSns
 import com.fone.profile.domain.entity.ProfileWant
 import com.fone.user.domain.enum.Job
-import io.swagger.annotations.ApiModelProperty
+import io.swagger.v3.oas.annotations.media.Schema
 import java.time.LocalDate
 import java.time.LocalDateTime
 
 data class ProfileDto(
-    @ApiModelProperty(value = "id")
+    @Schema(description = "id")
     val id: Long,
-    @ApiModelProperty(value = "프로필 이름")
+    @Schema(description = "프로필 이름")
     val name: String,
-    @ApiModelProperty(value = "후킹멘트")
+    @Schema(description = "후킹멘트")
     val hookingComment: String,
-    @ApiModelProperty(value = "생년월일")
+    @Schema(description = "생년월일")
     val birthday: LocalDate?,
-    @ApiModelProperty(value = "성별")
+    @Schema(description = "성별", example = "WOMAN")
     val gender: Gender,
-    @ApiModelProperty(value = "키")
+    @Schema(description = "키", example = "188")
     val height: Int,
-    @ApiModelProperty(value = "몸무게")
+    @Schema(description = "몸무게", example = "70")
     val weight: Int,
-    @ApiModelProperty(value = "이메일")
+    @Schema(description = "이메일", example = "example@something.com")
     val email: String,
-    @ApiModelProperty(value = "SNS v1")
+    @Schema(description = "SNS v1", example = "https://www.youtube.com/channel")
     val sns: String,
-    @ApiModelProperty(value = "SNS v2")
+    @Schema(description = "SNS v2")
     val snsUrls: List<ProfileSnsUrl>,
-    @ApiModelProperty(value = "특기")
+    @Schema(description = "특기")
     val specialty: String,
-    @ApiModelProperty(value = "상세요강")
+    @Schema(description = "상세요강")
     val details: String,
-    @ApiModelProperty(value = "타입")
+    @Schema(description = "타입")
     val type: Type,
-    @ApiModelProperty(value = "경력")
+    @Schema(description = "경력", example = "LESS_THAN_3YEARS")
     val career: Career,
-    @ApiModelProperty(value = "경력 상세 설명")
+    @Schema(description = "경력 상세 설명")
     val careerDetail: String,
-    @ApiModelProperty(value = "관심사")
+    @Schema(description = "관심사", example = "WEB_DRAMA")
     val categories: List<CategoryType>,
-    @ApiModelProperty(value = "분야")
+    @Schema(description = "분야", example = "PLANNING")
     val domains: List<DomainType>?,
-    @ApiModelProperty(value = "이미지 URL")
-    val profileUrls: List<String>,
-    @ApiModelProperty(value = "조회수")
+    @Schema(
+        description = "이미지 URL",
+        example = "https://s3-ap-northeast-2.amazonaws.com/f-one-image/prod/user-profile/image.jpg"
+    )
+    val profileImages: List<String>,
+    @Schema(description = "조회수")
     val viewCount: Long,
-    val profileUrl: String,
-    @ApiModelProperty(value = "찜 여부")
+    @Schema(
+        description = "대표 이미지 URL",
+        example = "https://s3-ap-northeast-2.amazonaws.com/f-one-image/prod/user-profile/image.jpg"
+    )
+    val mainProfileImage: String,
+    @Schema(description = "찜 여부")
     val isWant: Boolean = false,
-    @ApiModelProperty(value = "나이")
+    @Schema(description = "나이", example = "45")
     val age: Int,
-    @ApiModelProperty(value = "생성 시간")
+    @Schema(description = "생성 시간")
     val createdAt: LocalDateTime,
-    @ApiModelProperty(value = "닉네임")
+    @Schema(description = "닉네임")
     val userNickname: String,
-    @ApiModelProperty(value = "대표 이미지 URL")
-    val userProfileUrl: String,
-    @ApiModelProperty(value = "Job 타입")
+    @Schema(
+        description = "유저 이미지 URL",
+        example = "https://s3-ap-northeast-2.amazonaws.com/f-one-image/prod/user-profile/image.jpg"
+    )
+    val userProfileImage: String,
+    @Schema(description = "Job 타입")
     val userJob: Job,
 ) {
     constructor(
@@ -94,14 +104,14 @@ data class ProfileDto(
         careerDetail = profile.careerDetail,
         categories = categories,
         domains = domains,
-        profileUrls = profileUrls,
+        profileImages = profileUrls,
         viewCount = profile.viewCount,
         isWant = userProfileWantMap[profile.id!!] != null,
         age = DateTimeFormat.calculateAge(profile.birthday),
-        profileUrl = if (profileUrls.isEmpty()) "" else profileUrls[0],
+        mainProfileImage = profile.profileUrl,
         createdAt = profile.createdAt,
         userNickname = userNickname,
-        userProfileUrl = profileUrl,
+        userProfileImage = profileUrl,
         userJob = job
     )
 }

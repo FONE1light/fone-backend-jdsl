@@ -17,6 +17,7 @@ import com.fone.profile.domain.entity.ProfileSns
 import com.fone.profile.domain.enum.SNS
 import com.fone.profile.domain.repository.ProfileRepository
 import com.fone.profile.presentation.dto.RegisterProfileDto
+import com.fone.profile.presentation.dto.RegisterProfileDto.RegisterProfileRequest
 import com.fone.profile.presentation.dto.common.ProfileSnsUrl
 import com.fone.profile.presentation.dto.common.toDto
 import io.kotest.common.runBlocking
@@ -41,7 +42,7 @@ class PutProfileControllerTest(
             ProfileSnsUrl("https://www.youtube.com/", SNS.YOUTUBE)
         )
 
-        val putJobOpeningActorRequest = RegisterProfileDto.RegisterProfileRequest(
+        val putJobOpeningActorRequest = RegisterProfileRequest(
             name = "테스트 이름",
             hookingComment = "테스트 후킹 멘트",
             birthday = LocalDate.now(),
@@ -56,8 +57,8 @@ class PutProfileControllerTest(
             categories = listOf(CategoryType.ETC),
             type = Type.ACTOR,
             domains = listOf(DomainType.PAINTING),
-            profileUrls = listOf("test profile url"),
-            profileUrl = "test profile url",
+            profileImages = listOf("test profile url"),
+            mainProfileImage = "test profile url",
             snsUrls = snsUrls
         )
 

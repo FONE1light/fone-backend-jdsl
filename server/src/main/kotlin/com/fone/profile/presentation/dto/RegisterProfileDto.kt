@@ -10,7 +10,7 @@ import com.fone.profile.domain.entity.ProfileWant
 import com.fone.profile.presentation.dto.common.ProfileDto
 import com.fone.profile.presentation.dto.common.ProfileSnsUrl
 import com.fone.user.domain.enum.Job
-import io.swagger.annotations.ApiModelProperty
+import io.swagger.v3.oas.annotations.media.Schema
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDate
 import javax.validation.constraints.Email
@@ -18,48 +18,54 @@ import javax.validation.constraints.Email
 class RegisterProfileDto {
 
     data class RegisterProfileRequest(
-        @ApiModelProperty(value = "프로필 이름")
+        @field:Schema(description = "프로필 이름")
         val name: String,
-        @ApiModelProperty(value = "후킹멘트")
+        @field:Schema(description = "후킹멘트")
         val hookingComment: String,
-        @ApiModelProperty(value = "생년월일")
+        @field:Schema(description = "생년월일")
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         val birthday: LocalDate,
-        @ApiModelProperty(value = "성별")
+        @field:Schema(description = "성별", example = "WOMAN")
         val gender: Gender,
-        @ApiModelProperty(value = "키")
+        @field:Schema(description = "키", example = "188")
         val height: Int,
-        @ApiModelProperty(value = "몸무게")
+        @field:Schema(description = "몸무게", example = "70")
         val weight: Int,
         @field:Email(message = "유효하지 않는 이메일 입니다.")
-        @ApiModelProperty(
-            value = "이메일",
+        @Schema(
+            description = "이메일",
             example = "test@test.com",
             required = true
         )
         val email: String,
-        @ApiModelProperty(value = "SNS url v1")
+        @field:Schema(description = "SNS url v1", example = "https://www.youtube.com/channel")
         val sns: String? = null,
-        @ApiModelProperty(value = "SNS url v2")
+        @field:Schema(description = "SNS url v2")
         val snsUrls: List<ProfileSnsUrl> = listOf(),
-        @ApiModelProperty(value = "특기")
+        @field:Schema(description = "특기")
         val specialty: String,
-        @ApiModelProperty(value = "상세요강")
+        @field:Schema(description = "상세요강")
         val details: String,
-        @ApiModelProperty(value = "경력")
+        @field:Schema(description = "경력")
         val career: Career,
-        @ApiModelProperty(value = "경력 상세 설명")
+        @field:Schema(description = "경력 상세 설명", example = "LESS_THAN_3YEARS")
         val careerDetail: String?, // 하위 버전 호환성을 위해 null타입 추가 필요
-        @ApiModelProperty(value = "관심사")
+        @field:Schema(description = "관심사", example = "YOUTUBE")
         val categories: List<CategoryType>,
-        @ApiModelProperty(value = "타입")
+        @field:Schema(description = "타입")
         val type: Type,
-        @ApiModelProperty(value = "분야")
+        @field:Schema(description = "분야", example = "PLANNING")
         val domains: List<DomainType>?,
-        @ApiModelProperty(value = "이미지 URL")
-        val profileUrls: List<String>,
-        @ApiModelProperty(value = "대표 이미지 URL")
-        val profileUrl: String,
+        @Schema(
+            description = "이미지 URL",
+            example = "https://s3-ap-northeast-2.amazonaws.com/f-one-image/prod/user-profile/image.jpg"
+        )
+        val profileImages: List<String>,
+        @Schema(
+            description = "대표 이미지 URL",
+            example = "https://s3-ap-northeast-2.amazonaws.com/f-one-image/prod/user-profile/image.jpg"
+        )
+        val mainProfileImage: String,
     ) {
 
         fun toEntity(userId: Long): Profile {
@@ -80,11 +86,10 @@ class RegisterProfileDto {
                 userId = userId,
                 viewCount = 0,
                 name = name,
-                profileUrl = profileUrl
+                profileUrl = mainProfileImage
             )
         }
     }
-
     data class RegisterProfileResponse(
         val profile: ProfileDto,
     ) {

@@ -47,8 +47,8 @@ class RegisterProfileControllerTest(objectMapper: ObjectMapper, client: WebTestC
             categories = listOf(CategoryType.ETC),
             type = Type.ACTOR,
             domains = listOf(DomainType.PAINTING),
-            profileUrls = listOf("test profile url"),
-            profileUrl = "test profile url",
+            profileImages = listOf("test profile url"),
+            mainProfileImage = "test profile url",
             snsUrls = snsUrls
         )
 
@@ -67,8 +67,8 @@ class RegisterProfileControllerTest(objectMapper: ObjectMapper, client: WebTestC
             categories = listOf(CategoryType.ETC),
             type = Type.ACTOR,
             domains = listOf(DomainType.PAINTING),
-            profileUrls = listOf("test profile url"),
-            profileUrl = "test profile url",
+            profileImages = listOf("test profile url"),
+            mainProfileImage = "test profile url",
             snsUrls = snsUrls
         )
 
