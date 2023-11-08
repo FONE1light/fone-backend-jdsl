@@ -8,6 +8,7 @@ import com.fone.common.entity.Type
 import com.fone.profile.domain.entity.Profile
 import com.fone.profile.domain.entity.ProfileWant
 import com.fone.profile.presentation.dto.common.ProfileDto
+import com.fone.profile.presentation.dto.common.ProfileSnsUrl
 import com.fone.user.domain.enum.Job
 import io.swagger.annotations.ApiModelProperty
 import org.springframework.format.annotation.DateTimeFormat
@@ -40,7 +41,7 @@ class RegisterProfileDto {
         @ApiModelProperty(value = "SNS url v1")
         val sns: String? = null,
         @ApiModelProperty(value = "SNS url v2")
-        val snsUrls: List<String> = listOf(),
+        val snsUrls: List<ProfileSnsUrl> = listOf(),
         @ApiModelProperty(value = "특기")
         val specialty: String,
         @ApiModelProperty(value = "상세요강")
@@ -69,7 +70,8 @@ class RegisterProfileDto {
                 height = height,
                 weight = weight,
                 email = email,
-                sns = if (sns.isNullOrBlank()) snsUrls else listOf(sns),
+                sns = sns ?: "",
+                snsUrls = snsUrls.map(ProfileSnsUrl::toEntity).toSet(),
                 specialty = specialty,
                 details = details,
                 career = career,

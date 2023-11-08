@@ -13,8 +13,12 @@ import com.fone.common.entity.DomainType
 import com.fone.common.entity.Gender
 import com.fone.common.entity.Type
 import com.fone.common.response.CommonResponse
+import com.fone.profile.domain.entity.ProfileSns
+import com.fone.profile.domain.enum.SNS
 import com.fone.profile.domain.repository.ProfileRepository
 import com.fone.profile.presentation.dto.RegisterProfileDto
+import com.fone.profile.presentation.dto.common.ProfileSnsUrl
+import com.fone.profile.presentation.dto.common.toDto
 import io.kotest.common.runBlocking
 import io.kotest.matchers.shouldBe
 import org.springframework.test.web.reactive.server.WebTestClient
@@ -32,7 +36,10 @@ class PutProfileControllerTest(
     init {
         val (accessToken, _) = CommonUserCallApi.getAccessToken(client)
         val profileId = CommonProfileCallApi.register(client, accessToken)
-        val snsUrls = listOf("https://www.instagram.com", "https://www.youtube.com/")
+        val snsUrls = listOf(
+            ProfileSnsUrl("https://www.instagram.com", SNS.INSTAGRAM),
+            ProfileSnsUrl("https://www.youtube.com/", SNS.YOUTUBE)
+        )
 
         val putJobOpeningActorRequest = RegisterProfileDto.RegisterProfileRequest(
             name = "테스트 이름",
@@ -69,7 +76,8 @@ class PutProfileControllerTest(
                                 )
                             response.data!!.profile.snsUrls.toSet() shouldBe snsUrls.toSet()
                             runBlocking {
-                                profileRepository.findById(profileId)!!.sns.toSet() shouldBe snsUrls.toSet()
+                                profileRepository.findById(profileId)!!.snsUrls.map(ProfileSns::toDto)
+                                    .toSet() shouldBe snsUrls.toSet()
                             }
                         }
                         .jsonPath("$.result")

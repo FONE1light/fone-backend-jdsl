@@ -91,6 +91,7 @@ class ProfileRepositoryImpl(
             select(entity(Profile::class))
             from(entity(Profile::class))
             fetch(Profile::profileImages, joinType = JoinType.LEFT)
+            fetch(Profile::snsUrls, joinType = JoinType.LEFT)
             where(and(col(Profile::id).`in`(ids.content)))
             orderBy(orderSpec(pageable.sort))
         }
@@ -109,6 +110,7 @@ class ProfileRepositoryImpl(
             select(entity(Profile::class))
             from(entity(Profile::class))
             fetch(Profile::profileImages, joinType = JoinType.LEFT)
+            fetch(Profile::snsUrls, joinType = JoinType.LEFT)
             where(idEq(profileId))
         }
     }
@@ -118,6 +120,7 @@ class ProfileRepositoryImpl(
             select(entity(Profile::class))
             from(entity(Profile::class))
             fetch(Profile::profileImages, joinType = JoinType.LEFT)
+            fetch(Profile::snsUrls, joinType = JoinType.LEFT)
             where(and(typeEq(type), idEq(profileId)))
         }
     }
@@ -136,6 +139,7 @@ class ProfileRepositoryImpl(
             select(entity(Profile::class))
             from(entity(Profile::class))
             fetch(Profile::profileImages, joinType = JoinType.LEFT)
+            fetch(Profile::snsUrls, joinType = JoinType.LEFT)
             where(
                 and(
                     col(Profile::id).`in`(ids.content)
@@ -168,6 +172,7 @@ class ProfileRepositoryImpl(
                 select(entity(Profile::class))
                 from(entity(Profile::class))
                 fetch(Profile::profileImages, joinType = JoinType.LEFT)
+                fetch(Profile::snsUrls, joinType = JoinType.LEFT)
                 where(col(Profile::id).`in`(ids.content))
             }.associateBy { it!!.id }
 

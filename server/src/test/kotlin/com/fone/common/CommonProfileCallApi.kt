@@ -6,7 +6,9 @@ import com.fone.common.entity.DomainType
 import com.fone.common.entity.Gender
 import com.fone.common.entity.Type
 import com.fone.common.response.CommonResponse
+import com.fone.profile.domain.enum.SNS
 import com.fone.profile.presentation.dto.RegisterProfileDto
+import com.fone.profile.presentation.dto.common.ProfileSnsUrl
 import org.springframework.test.web.reactive.server.WebTestClient
 import java.time.LocalDate
 
@@ -14,6 +16,10 @@ object CommonProfileCallApi {
     private val registerUrl = "/api/v1/profiles"
 
     fun register(client: WebTestClient, accessToken: String): Long {
+        val snsUrls = listOf(
+            ProfileSnsUrl("https://www.instagram.com/test", SNS.INSTAGRAM),
+            ProfileSnsUrl("https://www.youtube.com/test", SNS.YOUTUBE)
+        )
         val registerProfileActorRequest = RegisterProfileDto.RegisterProfileRequest(
             name = "테스트 이름",
             hookingComment = "테스트 후킹 멘트",
@@ -23,6 +29,7 @@ object CommonProfileCallApi {
             weight = 70,
             email = "test12345@test.com",
             sns = "test sns",
+            snsUrls = snsUrls,
             specialty = "test",
             details = "test",
             career = Career.IRRELEVANT,

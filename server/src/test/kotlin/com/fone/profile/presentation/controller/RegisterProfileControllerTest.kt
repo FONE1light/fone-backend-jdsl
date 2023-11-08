@@ -12,8 +12,10 @@ import com.fone.common.entity.DomainType
 import com.fone.common.entity.Gender
 import com.fone.common.entity.Type
 import com.fone.common.response.CommonResponse
+import com.fone.profile.domain.enum.SNS
 import com.fone.profile.presentation.dto.RegisterProfileDto
 import com.fone.profile.presentation.dto.RegisterProfileDto.RegisterProfileRequest
+import com.fone.profile.presentation.dto.common.ProfileSnsUrl
 import io.kotest.matchers.shouldBe
 import org.springframework.test.web.reactive.server.WebTestClient
 import java.time.LocalDate
@@ -25,7 +27,11 @@ class RegisterProfileControllerTest(objectMapper: ObjectMapper, client: WebTestC
 
     init {
         val (accessToken, _) = CommonUserCallApi.getAccessToken(client)
-        val snsUrls = listOf("https://www.instagram.com", "https://www.youtube.com/")
+        val snsUrls = listOf(
+            ProfileSnsUrl("https://www.instagram.com", SNS.INSTAGRAM),
+            ProfileSnsUrl("https://www.youtube.com/", SNS.YOUTUBE)
+        )
+
         val registerProfileActorRequest = RegisterProfileRequest(
             name = "테스트 이름",
             hookingComment = "테스트 후킹 멘트",
