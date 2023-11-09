@@ -35,7 +35,11 @@ class RegisterJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
             listOf(DomainType.ART),
             WorkDto(
                 "", "", "", "", "", "", "", "", "", "", ""
-            )
+            ),
+            null,
+            null,
+            null,
+            listOf("https://www.naver.com")
         )
 
         val registerJobOpeningStaffRequest = RegisterJobOpeningRequest(
@@ -52,7 +56,11 @@ class RegisterJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
             listOf(DomainType.ART),
             WorkDto(
                 "", "", "", "", "", "", "", "", "", "", ""
-            )
+            ),
+            null,
+            null,
+            null,
+            listOf("https://www.naver.com")
         )
 
         describe("#register jobOpening") {

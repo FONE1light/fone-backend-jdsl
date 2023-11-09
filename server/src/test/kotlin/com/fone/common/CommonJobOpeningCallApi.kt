@@ -27,9 +27,11 @@ object CommonJobOpeningCallApi {
             Career.IRRELEVANT,
             Type.ACTOR,
             listOf(DomainType.ART),
-            WorkDto(
-                "", "", "", "", "", "", "", "", "", "", ""
-            )
+            WorkDto(),
+            null,
+            null,
+            null,
+            listOf("https://www.naver.com")
         )
 
         val jobOpening =

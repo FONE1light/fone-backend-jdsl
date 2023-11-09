@@ -11,56 +11,56 @@ import java.time.LocalTime
 
 data class WorkDto(
     @Schema(description = "제작", example = "FONE")
-    val produce: String,
+    val produce: String = "",
     @Schema(description = "제목", example = "작품 제목")
-    val workTitle: String,
+    val workTitle: String = "",
     @Schema(description = "연출", example = "이하은")
-    val director: String,
+    val director: String = "",
     @Schema(description = "장르", example = "스릴러")
     @Deprecated("genres 로 대체합니다.")
-    val genre: String,
+    val genre: String = "",
     @Schema(description = "로그라인", example = "자폐 스펙트럼 장애를 가진 변호사의 이야기")
-    val logline: String?,
+    val logline: String? = null,
     @Schema(description = "촬영위치", example = "서울")
     @Deprecated("workingCity, workingDistrict 로 대체합니다.")
-    val location: String?,
+    val location: String? = null,
     @Schema(description = "촬영기간", example = "2021-10-10 ~ 2021-10-11")
     @Deprecated("workingStartDate, workingEndDate 로 대체합니다.")
-    val period: String?,
+    val period: String? = null,
     @Schema(description = "급여", example = "추후협의")
     @Deprecated("salaryType, salary 로 대체합니다.")
-    val pay: String?,
+    val pay: String? = null,
     @Schema(description = "상세요강", example = "상세내용")
-    val details: String,
+    val details: String = "",
     @Schema(description = "담당자", example = "김매니저")
-    val manager: String,
+    val manager: String = "",
     @Schema(description = "이메일", example = "test@test.com")
-    val email: String,
+    val email: String = "",
 
     @Schema(description = "장르", example = "[\"스릴러\",\"드라마\"]")
-    val genres: Set<Genre>,
+    val genres: Set<Genre> = setOf(),
     @Schema(description = "촬영위치(시)", example = "서울")
-    val workingCity: String,
+    val workingCity: String = "",
     @Schema(description = "촬영위치(구)", example = "강남구")
-    val workingDistrict: String,
+    val workingDistrict: String = "",
     @Schema(description = "근무기간(시작일)", example = "2021.10.10")
     @DateTimeFormat(pattern = "yyyy.MM.dd")
-    val workingStartDate: LocalDate?,
+    val workingStartDate: LocalDate? = null,
     @Schema(description = "근무기간(종료일)", example = "2021.10.11")
     @DateTimeFormat(pattern = "yyyy.MM.dd")
-    val workingEndDate: LocalDate?,
+    val workingEndDate: LocalDate? = null,
     @Schema(description = "근무요일", example = "[\"MON\",\"TUE\"]")
-    val selectedDays: Set<Weekday>,
+    val selectedDays: Set<Weekday> = setOf(),
     @Schema(description = "근무시간(시작시간)", example = "09:00")
     @DateTimeFormat(pattern = "HH:mm")
-    val workingStartTime: LocalTime?,
+    val workingStartTime: LocalTime? = null,
     @Schema(description = "근무시간(종료시간)", example = "18:00")
     @DateTimeFormat(pattern = "HH:mm")
-    val workingEndTime: LocalTime?,
+    val workingEndTime: LocalTime? = null,
     @Schema(description = "급여유형", example = "HOUR")
-    val salaryType: Salary,
+    val salaryType: Salary = Salary.HOURLY,
     @Schema(description = "급여", example = "100000")
-    val salary: Int,
+    val salary: Int = 0,
 ) {
     constructor(
         work: Work,
