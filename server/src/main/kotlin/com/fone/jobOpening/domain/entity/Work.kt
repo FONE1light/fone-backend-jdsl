@@ -33,13 +33,13 @@ data class Work(
     @Column var email: String,
 
     @Convert(converter = SeparatorConverter::class)
-    var genres: Set<Genre> = setOf(),
+    var genres: List<Genre> = listOf(),
     @Column var workingCity: String,
     @Column var workingDistrict: String,
     @Column var workingStartDate: LocalDate?,
     @Column var workingEndDate: LocalDate?,
     @Convert(converter = SeparatorConverter::class)
-    var selectedDays: Set<Weekday> = setOf(),
+    var selectedDays: List<Weekday> = listOf(),
     @Column var workingStartTime: LocalTime?,
     @Column var workingEndTime: LocalTime?,
     @Column var salaryType: Salary,
