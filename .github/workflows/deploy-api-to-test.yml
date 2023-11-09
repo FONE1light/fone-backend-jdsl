@@ -1,0 +1,58 @@
+name: Deploy API To Prod
+
+on:
+  push:
+    branches:
+      - FO-728
+    paths-ignore:
+      - 'chatting/**'
+      - '.github/workflows/deploy-chatting-to-prod.yml'
+      - '.github/auto-assign.yml'
+      - '.github/workflows/auto-assign.yml'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set Up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          java-package: 'jre'
+          distribution: 'temurin'
+          cache: 'gradle'
+      - name: Make Prod1 Yml
+        run: |
+          cd ./server/src/main/resources
+          echo "${{ secrets.PROPERTIES_PROD1 }}" > ./application-prod1.yml
+      - name: Build With Gradle
+        run: chmod +x gradlew && ./gradlew :server:bootJar -x test
+      - name: Docker Build
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+          docker build -f docker/api.Dockerfile -t fone-api .
+      - name: Log in to registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+      - name: Docker Push
+        id: docker_push
+        run: |
+          IMAGE_NAME=fone-api
+          IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+          VERSION=latest
+          echo "IMAGE_ID=$IMAGE_ID" >> $GITHUB_OUTPUT
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
+          docker push $IMAGE_ID:$VERSION
+      - name: Deploy Prod
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          key: ${{ secrets.TEST_SSH_KEY }}
+          host: ${{ secrets.TEST_HOST_NAME }}
+          username: ubuntu
+          port: 22
+          script: |
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+            docker pull ${{ steps.docker_push.outputs.IMAGE_ID }}:${{ steps.docker_push.outputs.VERSION }}
+            docker-compose up -d fone-api
