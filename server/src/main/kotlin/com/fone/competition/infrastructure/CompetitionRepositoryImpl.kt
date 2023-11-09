@@ -107,22 +107,21 @@ class CompetitionRepositoryImpl(
     private fun SpringDataReactiveCriteriaQueryDsl<Competition?>.orderSpec(
         sort: Sort,
     ): List<OrderSpec> {
-        val endDate = case(
-            `when`(
-                column(Competition::screeningEndDate).lessThanOrEqualTo(
-                    LocalDate.now()
-                )
-            ).then(literal(1)),
+        val screeningDateIsNull = case(
             `when`(column(Competition::screeningEndDate).isNull()).then(
-                case(
-                    `when`(
-                        column(Competition::screeningEndDate).lessThanOrEqualTo(LocalDate.now())
-                    ).then(literal(1)),
-                    `else` = literal(0)
-                )
+                literal(1)
             ),
             `else` = literal(0)
         ).asc()
+
+        val screeningDateAfterToday = case(
+            `when`(column(Competition::screeningEndDate).greaterThan(LocalDate.now())).then(
+                literal(1)
+            ),
+            `else` = literal(0)
+        ).asc()
+
+        val screeningDateAsc = column(Competition::screeningEndDate).asc()
 
         val res = sort.map {
             val columnSpec = when (it.property) {
@@ -139,6 +138,10 @@ class CompetitionRepositoryImpl(
             }
         }.toList()
 
-        return listOf(endDate) + res
+        return if (sort.map { it.property }.contains("screeningEndDate")) {
+            listOf(screeningDateIsNull, screeningDateAfterToday, screeningDateAsc)
+        } else {
+            res
+        }
     }
 }
