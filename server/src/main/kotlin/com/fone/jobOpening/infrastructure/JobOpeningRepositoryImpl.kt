@@ -41,16 +41,24 @@ class JobOpeningRepositoryImpl(
         type: Type,
     ): Page<JobOpening> {
         return queryFactory.withFactory { factory ->
-            factory.pageQuery(pageable) {
-                select(entity(JobOpening::class))
+            val ids = factory.pageQuery(pageable) {
+                select(column(JobOpening::id))
                 from(entity(JobOpening::class))
                 where(
                     and(
-                        typeEq(type),
+                        col(JobOpening::type).equal(type),
                         col(JobOpening::isDeleted).equal(false)
                     )
                 )
             }
+
+            val jobOpenings = factory.listQuery {
+                select(entity(JobOpening::class))
+                from(entity(JobOpening::class))
+                fetch(JobOpening::images, joinType = JoinType.LEFT)
+            }.associateBy { it?.id }
+
+            ids.map { jobOpenings[it] }
         }
     }
 
