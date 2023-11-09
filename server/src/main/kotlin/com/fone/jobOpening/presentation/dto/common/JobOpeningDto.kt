@@ -33,6 +33,11 @@ data class JobOpeningDto(
     val profileUrl: String,
     val createdAt: LocalDateTime,
     val userJob: Job,
+
+    val recruitmentStartDate: LocalDate?,
+    val recruitmentEndDate: LocalDate?,
+    val representativeImageUrl: String?,
+    val imageUrls: List<String>,
 ) {
     val dDay: String
         get() = DateTimeFormat.calculateDays(deadline)
@@ -45,6 +50,7 @@ data class JobOpeningDto(
         nickname: String,
         profileUrl: String,
         job: Job,
+        imageUrls: List<String>,
     ) : this(
         id = jobOpening.id!!,
         title = jobOpening.title,
@@ -65,6 +71,10 @@ data class JobOpeningDto(
         nickname = nickname,
         profileUrl = profileUrl,
         createdAt = jobOpening.createdAt,
-        userJob = job
+        userJob = job,
+        recruitmentStartDate = jobOpening.recruitmentStartDate,
+        recruitmentEndDate = jobOpening.recruitmentEndDate,
+        representativeImageUrl = jobOpening.representativeImageUrl,
+        imageUrls = imageUrls
     )
 }

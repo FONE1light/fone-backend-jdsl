@@ -1,7 +1,13 @@
 package com.fone.jobOpening.presentation.dto.common
 
+import com.fone.common.entity.Genre
+import com.fone.common.entity.Salary
+import com.fone.common.entity.Weekday
 import com.fone.jobOpening.domain.entity.Work
 import io.swagger.v3.oas.annotations.media.Schema
+import org.springframework.format.annotation.DateTimeFormat
+import java.time.LocalDate
+import java.time.LocalTime
 
 data class WorkDto(
     @Schema(description = "제작", example = "FONE")
@@ -32,23 +38,27 @@ data class WorkDto(
     val email: String,
 
     @Schema(description = "장르", example = "[\"스릴러\",\"드라마\"]")
-    val genres: List<String>, // dto로 변경 필요
+    val genres: Set<Genre>,
     @Schema(description = "촬영위치(시)", example = "서울")
-    val workingCity: String, // enum으로 변경 필요
+    val workingCity: String,
     @Schema(description = "촬영위치(구)", example = "강남구")
-    val workingDistrict: String, // enum으로 변경 필요
+    val workingDistrict: String,
     @Schema(description = "근무기간(시작일)", example = "2021.10.10")
-    val workingStartDate: String, // 미정 일 때 어떻게처리할지 고민 필요
+    @DateTimeFormat(pattern = "yyyy.MM.dd")
+    val workingStartDate: LocalDate?,
     @Schema(description = "근무기간(종료일)", example = "2021.10.11")
-    val workingEndDate: String, // 미정 일 때 어떻게처리할지 고민 필요
+    @DateTimeFormat(pattern = "yyyy.MM.dd")
+    val workingEndDate: LocalDate?,
     @Schema(description = "근무요일", example = "[\"MON\",\"TUE\"]")
-    val selectedDays: List<String>, // enum으로 변경 필요
+    val selectedDays: Set<Weekday>,
     @Schema(description = "근무시간(시작시간)", example = "09:00")
-    val workingStartTime: String, // 미정 일 때 어떻게처리할지 고민 필요
+    @DateTimeFormat(pattern = "HH:mm")
+    val workingStartTime: LocalTime?,
     @Schema(description = "근무시간(종료시간)", example = "18:00")
-    val workingEndTime: String, // 미정 일 때 어떻게처리할지 고민 필요
+    @DateTimeFormat(pattern = "HH:mm")
+    val workingEndTime: LocalTime?,
     @Schema(description = "급여유형", example = "HOUR")
-    val salaryType: String, // enum으로 변경 필요
+    val salaryType: Salary,
     @Schema(description = "급여", example = "100000")
     val salary: Int,
 ) {
@@ -65,7 +75,17 @@ data class WorkDto(
         pay = work.pay,
         details = work.details,
         manager = work.manager,
-        email = work.email
+        email = work.email,
+        genres = work.genres,
+        workingCity = work.workingCity,
+        workingDistrict = work.workingDistrict,
+        workingStartDate = work.workingStartDate,
+        workingEndDate = work.workingEndDate,
+        selectedDays = work.selectedDays,
+        workingStartTime = work.workingStartTime,
+        workingEndTime = work.workingEndTime,
+        salaryType = work.salaryType,
+        salary = work.salary
     )
 
     fun toEntity(): Work {
@@ -80,7 +100,17 @@ data class WorkDto(
             pay = pay,
             details = details,
             manager = manager,
-            email = email
+            email = email,
+            genres = genres,
+            workingCity = workingCity,
+            workingDistrict = workingDistrict,
+            workingStartDate = workingStartDate,
+            workingEndDate = workingEndDate,
+            selectedDays = selectedDays,
+            workingStartTime = workingStartTime,
+            workingEndTime = workingEndTime,
+            salaryType = salaryType,
+            salary = salary
         )
     }
 }

@@ -79,6 +79,9 @@ data class JobOpening(
         career = request.career
         type = request.type
         work = request.work.toEntity()
+        recruitmentStartDate = request.recruitmentStartDate
+        recruitmentEndDate = request.recruitmentEndDate
+        representativeImageUrl = request.representativeImageUrl
     }
 
     fun delete() {
@@ -92,6 +95,9 @@ data class JobOpening(
         career = Career.IRRELEVANT
         type = Type.ACTOR
         isDeleted = true
+        recruitmentStartDate = null
+        recruitmentEndDate = null
+        representativeImageUrl = null
     }
 
     /* 연관관계 메서드 */

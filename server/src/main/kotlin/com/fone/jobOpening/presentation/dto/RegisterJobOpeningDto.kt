@@ -17,41 +17,42 @@ import java.time.LocalDate
 class RegisterJobOpeningDto {
 
     data class RegisterJobOpeningRequest(
-        @Schema(description = "모집제목", example = "많은 이들의 시선보다 ..")
-        val title: String,
-        @Schema(description = "작품의 성격", example = "[\"ACTOR\",\"ACTRESS\"]")
-        val categories: List<CategoryType>,
-        @Schema(description = "모집 마감일", example = "2021-10-10")
+        @Schema(description = "모집제목", example = "많은 이들의 시선보다 ..") val title: String,
+        @Schema(description = "작품의 성격", example = "[\"ACTOR\",\"ACTRESS\"]") val categories: List<CategoryType>,
+        @Schema(
+            description = "모집 마감일",
+            example = "2021-10-10"
+        )
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         @Deprecated("recruitmentEndDate 로 대체합니다.")
         val deadline: LocalDate?,
-        @Schema(description = "모집배역", example = "30대 중반 경찰")
-        val casting: String?,
-        @Schema(description = "모집인원", example = "1")
-        val numberOfRecruits: Int,
-        @Schema(description = "성별", example = "MAN")
-        val gender: Gender,
-        @Schema(description = "최대 나이", example = "40")
-        val ageMax: Int,
-        @Schema(description = "최소 나이", example = "20")
-        val ageMin: Int,
-        @Schema(description = "경력", example = "NEWCOMER")
-        val career: Career,
-        @Schema(description = "모집유형", example = "ACTOR")
-        val type: Type,
-        @Schema(description = "모집분야", example = "[\"PLANNING\",\"SCENARIO\"]")
-        val domains: List<DomainType>?,
-        @Schema(description = "작품정보")
-        val work: WorkDto,
+        @Schema(description = "모집배역", example = "30대 중반 경찰") val casting: String?,
+        @Schema(description = "모집인원", example = "1") val numberOfRecruits: Int,
+        @Schema(description = "성별", example = "MAN") val gender: Gender,
+        @Schema(description = "최대 나이", example = "40") val ageMax: Int,
+        @Schema(description = "최소 나이", example = "20") val ageMin: Int,
+        @Schema(description = "경력", example = "NEWCOMER") val career: Career,
+        @Schema(description = "모집유형", example = "ACTOR") val type: Type,
+        @Schema(description = "모집분야", example = "[\"PLANNING\",\"SCENARIO\"]") val domains: List<DomainType>?,
+        @Schema(description = "작품정보") val work: WorkDto,
 
-        @Schema(description = "모집 기간 시작일(null이면 상시모집)", example = "2021.10.10")
+        @Schema(
+            description = "모집 기간 시작일(null이면 상시모집)",
+            example = "2021.10.10"
+        )
+        @DateTimeFormat(pattern = "yyyy.MM.dd")
         val recruitmentStartDate: LocalDate?,
-        @Schema(description = "모집 기간 종료일(null이면 상시모집)", example = "2021.10.11")
+        @Schema(
+            description = "모집 기간 종료일(null이면 상시모집)",
+            example = "2021.10.11"
+        )
+        @DateTimeFormat(pattern = "yyyy.MM.dd")
         val recruitmentEndDate: LocalDate?,
-        @Schema(description = "이미지(대표 이미지)", example = "https://www.naver.com")
-        val representativeImageUrl: String?,
-        @Schema(description = "이미지", example = "[\"https://www.naver.com\",\"https://www.naver.com\"]")
-        val imageUrls: List<String>,
+        @Schema(description = "이미지(대표 이미지)", example = "https://www.naver.com") val representativeImageUrl: String?,
+        @Schema(
+            description = "이미지",
+            example = "[\"https://www.naver.com\",\"https://www.naver.com\"]"
+        ) val imageUrls: List<String>,
     ) {
         fun toEntity(userId: Long): JobOpening {
             return JobOpening(
@@ -95,7 +96,8 @@ class RegisterJobOpeningDto {
                 categories,
                 nickname,
                 profileUrl,
-                job
+                job,
+                jobOpening.images.map { it.url }.toList()
             )
         )
     }

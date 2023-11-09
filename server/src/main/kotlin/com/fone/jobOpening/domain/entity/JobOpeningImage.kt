@@ -19,13 +19,13 @@ data class JobOpeningImage(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
 
-    @Column(length = 300) var jobOpeningUrl: String,
+    @Column(length = 300) var url: String,
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "job_opening_id")
     var jobOpening: JobOpening? = null,
 ) : BaseEntity() {
 
-    constructor(url: String) : this(jobOpeningUrl = url)
+    constructor(jobOpeningUrl: String) : this(url = jobOpeningUrl)
 
     override fun toString(): String {
         return "JobOpeningImage(id=$id)"

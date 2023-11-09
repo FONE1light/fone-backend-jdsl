@@ -1,6 +1,7 @@
 package com.fone.jobOpening.domain.service
 
 import com.fone.common.exception.NotFoundUserException
+import com.fone.jobOpening.domain.entity.JobOpeningImage
 import com.fone.jobOpening.domain.repository.JobOpeningCategoryRepository
 import com.fone.jobOpening.domain.repository.JobOpeningDomainRepository
 import com.fone.jobOpening.domain.repository.JobOpeningRepository
@@ -29,6 +30,14 @@ class RegisterJobOpeningService(
         val user = userRepository.findByNicknameOrEmail(null, email) ?: throw NotFoundUserException()
         return with(request) {
             val jobOpening = toEntity(user.id!!)
+            imageUrls.forEach {
+                jobOpening.addJobOpeningImage(
+                    JobOpeningImage(
+                        it
+                    )
+                )
+            }
+
             jobOpeningRepository.save(jobOpening)
 
             val jobOpeningDomains = domains?.map {
