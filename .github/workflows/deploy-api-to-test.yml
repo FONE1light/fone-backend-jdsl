@@ -3,7 +3,7 @@ name: Deploy API To Prod
 on:
   push:
     branches:
-      - FO-728
+      - main
     paths-ignore:
       - 'chatting/**'
       - '.github/workflows/deploy-chatting-to-prod.yml'
