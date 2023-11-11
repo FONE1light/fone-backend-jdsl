@@ -58,7 +58,7 @@ class PutProfileControllerTest(
             type = Type.ACTOR,
             domains = listOf(DomainType.PAINTING),
             profileImages = listOf("test profile url"),
-            mainProfileImage = "test profile url",
+            representativeImageUrl = "test profile url",
             snsUrls = snsUrls
         )
 

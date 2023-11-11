@@ -48,7 +48,7 @@ class HttpModelFailureResponseTest(
             type = Type.ACTOR,
             domains = listOf(DomainType.PAINTING),
             profileImages = listOf("test profile url"),
-            mainProfileImage = "test profile url"
+            representativeImageUrl = "test profile url"
         )
 
         describe("#실패 요청") {

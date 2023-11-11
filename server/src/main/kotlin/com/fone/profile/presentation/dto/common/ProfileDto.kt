@@ -7,6 +7,7 @@ import com.fone.common.entity.Gender
 import com.fone.common.entity.Type
 import com.fone.common.utils.DateTimeFormat
 import com.fone.profile.domain.entity.Profile
+import com.fone.profile.domain.entity.ProfileImage
 import com.fone.profile.domain.entity.ProfileSns
 import com.fone.profile.domain.entity.ProfileWant
 import com.fone.user.domain.enum.Job
@@ -50,17 +51,31 @@ data class ProfileDto(
     @Schema(description = "분야", example = "PLANNING")
     val domains: List<DomainType>?,
     @Schema(
+        description = "(Deprecated) 이미지 URL",
+        deprecated = true,
+        example = "['https://s3-ap-northeast-2.amazonaws.com/f-one-image/prod/user-profile/image.jpg']"
+    )
+    @Deprecated("profileImages으로 대체됩니다.")
+    val profileUrls: List<String>,
+    @Schema(
         description = "이미지 URL",
-        example = "https://s3-ap-northeast-2.amazonaws.com/f-one-image/prod/user-profile/image.jpg"
+        example = "['https://s3-ap-northeast-2.amazonaws.com/f-one-image/prod/user-profile/image.jpg']"
     )
     val profileImages: List<String>,
     @Schema(description = "조회수")
     val viewCount: Long,
     @Schema(
+        description = "(Deprecated) 대표 이미지 URL",
+        deprecated = true,
+        example = "https://s3-ap-northeast-2.amazonaws.com/f-one-image/prod/user-profile/image.jpg"
+    )
+    @Deprecated("representativeImageUrl으로 대체됩니다.")
+    val profileUrl: String,
+    @Schema(
         description = "대표 이미지 URL",
         example = "https://s3-ap-northeast-2.amazonaws.com/f-one-image/prod/user-profile/image.jpg"
     )
-    val mainProfileImage: String,
+    val representativeImageUrl: String,
     @Schema(description = "찜 여부")
     val isWant: Boolean = false,
     @Schema(description = "나이", example = "45")
@@ -73,14 +88,14 @@ data class ProfileDto(
         description = "유저 이미지 URL",
         example = "https://s3-ap-northeast-2.amazonaws.com/f-one-image/prod/user-profile/image.jpg"
     )
-    val userProfileImage: String,
+    val userProfileUrl: String,
     @Schema(description = "Job 타입")
     val userJob: Job,
 ) {
     constructor(
         profile: Profile,
         userProfileWantMap: Map<Long, ProfileWant?>,
-        profileUrls: List<String>,
+        profileImages: List<ProfileImage>,
         domains: List<DomainType>?,
         categories: List<CategoryType>,
         userNickname: String,
@@ -104,14 +119,16 @@ data class ProfileDto(
         careerDetail = profile.careerDetail,
         categories = categories,
         domains = domains,
-        profileImages = profileUrls,
         viewCount = profile.viewCount,
         isWant = userProfileWantMap[profile.id!!] != null,
         age = DateTimeFormat.calculateAge(profile.birthday),
-        mainProfileImage = profile.profileUrl,
+        profileUrl = profile.profileUrl,
+        profileUrls = profileImages.map { it.profileUrl },
+        representativeImageUrl = profile.representativeImageUrl,
+        profileImages = profileImages.map { it.url },
         createdAt = profile.createdAt,
         userNickname = userNickname,
-        userProfileImage = profileUrl,
+        userProfileUrl = profileUrl,
         userJob = job
     )
 }

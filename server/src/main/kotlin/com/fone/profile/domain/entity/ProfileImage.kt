@@ -18,13 +18,16 @@ data class ProfileImage(
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
-    @Column(length = 300) var profileUrl: String,
+    @Deprecated("url으로 대체됩니다.")
+    @Column(length = 300)
+    var profileUrl: String,
+    @Column(length = 300) var url: String,
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "profile_id")
     var profile: Profile? = null,
 ) : BaseEntity() {
 
-    constructor(url: String) : this(profileUrl = url)
+    constructor(url: String) : this(profileUrl = url, url = url)
 
     override fun toString(): String {
         return "ProfileImage(id=$id)"

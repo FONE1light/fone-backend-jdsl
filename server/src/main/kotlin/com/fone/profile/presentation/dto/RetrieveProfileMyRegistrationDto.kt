@@ -26,7 +26,7 @@ class RetrieveProfileMyRegistrationDto {
                 ProfileDto(
                     it,
                     userProfileWantMap,
-                    it.profileImages.map { image -> image.profileUrl }.toList(),
+                    it.profileImages,
                     profileDomains[it.id!!] ?: listOf(),
                     profileCategories[it.id!!] ?: listOf(),
                     profileUsers[it.userId]?.nickname ?: "",

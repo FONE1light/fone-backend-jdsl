@@ -40,7 +40,7 @@ class RetrieveProfilesDto {
                 ProfileDto(
                     it,
                     userProfileWantMap,
-                    it.profileImages.map { image -> image.profileUrl }.toList(),
+                    it.profileImages,
                     profileDomains[it.id!!] ?: listOf(),
                     profileCategories[it.id!!] ?: listOf(),
                     profileUsers[it.userId]?.nickname ?: "",
@@ -66,7 +66,7 @@ class RetrieveProfilesDto {
             profile = ProfileDto(
                 profile,
                 userProfileWantMap,
-                profile.profileImages.map { it.profileUrl }.toList(),
+                profile.profileImages,
                 profileDomains,
                 profileCategories,
                 nickname,

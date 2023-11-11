@@ -45,7 +45,11 @@ data class Profile(
     @Column var userId: Long,
     @Column var viewCount: Long,
     @Column var isDeleted: Boolean = false,
-    @Column var profileUrl: String,
+    @Deprecated("representativeImageUrl 으로 대체됩니다.")
+    @Column
+    var profileUrl: String,
+    @Column
+    var representativeImageUrl: String,
     @OneToMany(mappedBy = "profile", cascade = [CascadeType.PERSIST, CascadeType.MERGE], orphanRemoval = true)
     var profileImages: MutableList<ProfileImage> = mutableListOf(),
 ) : BaseEntity() {
@@ -73,9 +77,10 @@ data class Profile(
         career = request.career
         careerDetail = request.careerDetail ?: ""
         type = request.type
-        profileUrl = request.mainProfileImage
+        profileUrl = request.representativeImageUrl ?: request.profileUrl
+        representativeImageUrl = request.representativeImageUrl ?: request.profileUrl
         this.profileImages = mutableListOf()
-        request.profileImages.forEach {
+        (request.profileImages ?: request.profileUrls).forEach {
             this.addProfileImage(
                 ProfileImage(
                     it
