@@ -1,0 +1,97 @@
+name: Deploy API To Prod
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'chatting/**'
+      - '.github/workflows/deploy-chatting-to-prod.yml'
+      - '.github/auto-assign.yml'
+      - '.github/workflows/auto-assign.yml'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set Up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          java-package: 'jre'
+          distribution: 'temurin'
+          cache: 'gradle'
+      - name: Make Prod1 Yml
+        run: |
+          cd ./server/src/main/resources
+          echo "${{ secrets.PROPERTIES_PROD1 }}" > ./application-prod1.yml
+      - name: Make Prod2 Yml
+        run: |
+          cd ./server/src/main/resources
+          touch ./application-prod2.yml
+          echo "${{ secrets.PROPERTIES_PROD2 }}" > ./application-prod2.yml
+      - name: Build With Gradle
+        run: chmod +x gradlew && ./gradlew :server:bootJar -x test
+      - name: Docker Build
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+          docker build -f docker/api.Dockerfile -t fone-api .
+      - name: Log in to registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+      - name: Docker Push
+        id: docker_push
+        run: |
+          IMAGE_NAME=fone-api
+          IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+          VERSION=latest
+          echo "IMAGE_ID=$IMAGE_ID" >> $GITHUB_OUTPUT
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
+          docker push $IMAGE_ID:$VERSION
+      - name: Deploy Prod
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          key: ${{ secrets.TEST_SSH_KEY }}
+          host: ${{ secrets.TEST_HOST_NAME }}
+          username: ubuntu
+          port: 22
+          script: |
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+            docker pull ${{ steps.docker_push.outputs.IMAGE_ID }}:${{ steps.docker_push.outputs.VERSION }}
+            echo "> 구동중인 Profile 확인"
+            CURRENT_PROFILE=$(curl -s http://localhost/profile)
+            echo "> $CURRENT_PROFILE"
+
+            echo "> profile setting"
+            if [ "$CURRENT_PROFILE" == "prod1" ]
+            then
+              IDLE_PROFILE=prod2
+              IDLE_PORT=8082
+            elif [ "$CURRENT_PROFILE" == "prod2" ]
+            then
+              IDLE_PROFILE=prod1
+              IDLE_PORT=8081
+            else
+              echo "> 일치하는 Profile이 없음."
+              IDLE_PROFILE=prod1
+              IDLE_PORT=8081
+            fi
+
+            echo "> 배포"
+            if [ "$IDLE_PROFILE" == "prod1" ]
+            then
+              docker-compose up -d fone-api-1
+            else
+              docker-compose up -d fone-api-2
+            fi
+
+            sleep 60
+
+            echo "> Change Nginx Proxy Port"
+            echo "set \$service_url http://127.0.0.1:${IDLE_PORT};" |sudo tee /etc/nginx/conf.d/service-url.inc
+
+
+            echo "> Nginx Reload"
+            sudo service nginx reload
