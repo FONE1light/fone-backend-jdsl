@@ -30,7 +30,8 @@ class RetrieveJobOpeningMyRegistrationDto {
                     jobOpeningCategories[it.id!!] ?: listOf(),
                     jobOpeningUsers[it.userId]?.nickname ?: "",
                     jobOpeningUsers[it.userId]?.profileUrl ?: "",
-                    jobOpeningUsers[it.userId]?.job ?: Job.ACTOR
+                    jobOpeningUsers[it.userId]?.job ?: Job.ACTOR,
+                    it.images.map { image -> image.url }.toList()
                 )
             }
         )

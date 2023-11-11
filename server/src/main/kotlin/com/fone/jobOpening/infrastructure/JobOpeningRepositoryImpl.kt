@@ -11,6 +11,7 @@ import com.linecorp.kotlinjdsl.query.spec.OrderSpec
 import com.linecorp.kotlinjdsl.query.spec.predicate.EqualValueSpec
 import com.linecorp.kotlinjdsl.querydsl.expression.col
 import com.linecorp.kotlinjdsl.querydsl.expression.column
+import com.linecorp.kotlinjdsl.querydsl.from.fetch
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.SpringDataHibernateMutinyReactiveQueryFactory
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.listQuery
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.pageQuery
@@ -27,6 +28,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Repository
 import java.time.LocalDate
+import javax.persistence.criteria.JoinType
 
 @Repository
 class JobOpeningRepositoryImpl(
@@ -39,16 +41,24 @@ class JobOpeningRepositoryImpl(
         type: Type,
     ): Page<JobOpening> {
         return queryFactory.withFactory { factory ->
-            factory.pageQuery(pageable) {
-                select(entity(JobOpening::class))
+            val ids = factory.pageQuery(pageable) {
+                select(column(JobOpening::id))
                 from(entity(JobOpening::class))
                 where(
                     and(
-                        typeEq(type),
+                        col(JobOpening::type).equal(type),
                         col(JobOpening::isDeleted).equal(false)
                     )
                 )
             }
+
+            val jobOpenings = factory.listQuery {
+                select(entity(JobOpening::class))
+                from(entity(JobOpening::class))
+                fetch(JobOpening::images, joinType = JoinType.LEFT)
+            }.associateBy { it?.id }
+
+            ids.map { jobOpenings[it] }
         }
     }
 
@@ -112,6 +122,7 @@ class JobOpeningRepositoryImpl(
             val jobOpenings = queryFactory.listQuery {
                 select(entity(JobOpening::class))
                 from(entity(JobOpening::class))
+                fetch(JobOpening::images, joinType = JoinType.LEFT)
                 where(and(col(JobOpening::id).`in`(jobOpeningIds.content)))
                 orderBy(orderSpec(pageable.sort))
             }
@@ -130,6 +141,7 @@ class JobOpeningRepositoryImpl(
         return queryFactory.singleQueryOrNull {
             select(entity(JobOpening::class))
             from(entity(JobOpening::class))
+            fetch(JobOpening::images, joinType = JoinType.LEFT)
             where(
                 jobOpeningIdEq(jobOpeningId)
             )
@@ -143,6 +155,7 @@ class JobOpeningRepositoryImpl(
         return queryFactory.singleQueryOrNull {
             select(entity(JobOpening::class))
             from(entity(JobOpening::class))
+            fetch(JobOpening::images, joinType = JoinType.LEFT)
             where(
                 and(
                     typeEqOrNull(type),
@@ -157,16 +170,20 @@ class JobOpeningRepositoryImpl(
         pageable: Pageable,
         userId: Long,
     ): Page<JobOpening> {
-        return queryFactory.pageQuery(pageable) {
+        val ids = queryFactory.pageQuery(pageable) {
+            select(column(JobOpening::id))
+            from(entity(JobOpening::class))
+            where(col(JobOpening::userId).equal(userId))
+        }
+
+        val jobOpenings = queryFactory.listQuery {
             select(entity(JobOpening::class))
             from(entity(JobOpening::class))
-            where(
-                and(
-                    userIdEq(userId),
-                    col(JobOpening::isDeleted).equal(false)
-                )
-            )
-        }
+            fetch(JobOpening::images, joinType = JoinType.LEFT)
+            where(and(col(JobOpening::id).`in`(ids.content)))
+        }.associateBy { it?.id }
+
+        return ids.map { jobOpenings[it] }
     }
 
     override suspend fun findScrapAllByUserId(
@@ -190,6 +207,7 @@ class JobOpeningRepositoryImpl(
             val jobOpenings = factory.listQuery {
                 select(entity(JobOpening::class))
                 from(entity(JobOpening::class))
+                fetch(JobOpening::images, joinType = JoinType.LEFT)
                 where(col(JobOpening::id).`in`(ids.content))
             }.associateBy { it?.id }
 
@@ -215,23 +233,7 @@ class JobOpeningRepositoryImpl(
         jobOpeningId: Long?,
     ) = col(JobOpening::id).equal(jobOpeningId)
 
-    private fun SpringDataReactivePageableQueryDsl<JobOpening>.idIn(
-        jobOpeningIds: List<Long>,
-    ) = col(JobOpening::id).`in`(jobOpeningIds)
-
-    private fun SpringDataReactivePageableQueryDsl<JobOpening>.userIdEq(
-        userId: Long,
-    ) = col(JobOpening::userId).equal(userId)
-
     private fun SpringDataReactiveCriteriaQueryDsl<JobOpening?>.typeEqOrNull(
-        type: Type?,
-    ): EqualValueSpec<Type>? {
-        type ?: return null
-
-        return col(JobOpening::type).equal(type)
-    }
-
-    private fun SpringDataReactiveCriteriaQueryDsl<JobOpening>.typeEq(
         type: Type?,
     ): EqualValueSpec<Type>? {
         type ?: return null

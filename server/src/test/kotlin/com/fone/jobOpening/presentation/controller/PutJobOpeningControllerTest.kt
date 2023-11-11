@@ -54,7 +54,11 @@ class PutJobOpeningControllerTest(client: WebTestClient, private val objectMappe
                 "update",
                 "update",
                 "update@email.com"
-            )
+            ),
+            null,
+            null,
+            null,
+            listOf("https://www.naver.com")
         )
 
         describe("#put jobOpening") {
