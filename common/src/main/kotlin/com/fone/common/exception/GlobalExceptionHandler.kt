@@ -7,7 +7,7 @@ import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
 import com.fone.common.response.CommonResponse
 import com.fone.common.response.Error
 import com.fone.common.response.ErrorCode
-import kotlinx.coroutines.reactive.awaitFirstOrDefault
+import kotlinx.coroutines.reactive.awaitFirst
 import kotlinx.coroutines.runBlocking
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Qualifier
@@ -187,10 +187,12 @@ class GlobalExceptionHandler(
             emptyList()
         )
     }
+
     private fun ServerHttpRequest.parseBody(): String {
         return runBlocking {
-            val body = DataBufferUtils.join(this@parseBody.body) // Body 없는 경우 empty string
-                .awaitFirstOrDefault(DefaultDataBufferFactory.sharedInstance.wrap("".toByteArray()))
+            val body = runCatching {
+                DataBufferUtils.join(this@parseBody.body).awaitFirst()
+            }.getOrDefault(DefaultDataBufferFactory.sharedInstance.wrap("".toByteArray()))
             val bytes = ByteArray(body.capacity())
             body.read(bytes)
             String(bytes)
