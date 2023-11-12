@@ -9,6 +9,8 @@ import java.time.LocalTime
 import javax.persistence.Column
 import javax.persistence.Convert
 import javax.persistence.Embeddable
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
 
 @Embeddable
 data class Work(
@@ -42,7 +44,7 @@ data class Work(
     var selectedDays: List<Weekday> = listOf(),
     @Column var workingStartTime: LocalTime?,
     @Column var workingEndTime: LocalTime?,
-    @Column var salaryType: Salary,
+    @Enumerated(EnumType.STRING) var salaryType: Salary,
     @Column var salary: Int,
 ) {
     fun delete() {
