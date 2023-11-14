@@ -31,7 +31,9 @@ class GlobalExceptionHandler(
     private val webhookClient: WebhookClient,
 ) {
 
-    private val logger = KotlinLogging.logger {}
+    companion object {
+        private val log = KotlinLogging.logger { }
+    }
 
     @ExceptionHandler(ServerException::class)
     fun handleServerException(ex: ServerException, exchange: ServerWebExchange): ResponseEntity<Any> {

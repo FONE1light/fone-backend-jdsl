@@ -1,6 +1,6 @@
 package com.fone.common.config.log
 
-import io.vertx.core.impl.logging.LoggerFactory
+import mu.KotlinLogging
 import org.springframework.core.io.buffer.DataBuffer
 import org.springframework.stereotype.Component
 import org.springframework.web.server.ServerWebExchange
@@ -11,7 +11,9 @@ import java.nio.charset.StandardCharsets
 
 @Component
 class LoggingWebFilter : WebFilter {
-    private val logger = LoggerFactory.getLogger(LoggingWebFilter::class.java)
+    companion object {
+        private val log = KotlinLogging.logger { }
+    }
 
     override fun filter(exchange: ServerWebExchange, chain: WebFilterChain): Mono<Void> {
         val originalRequestBody = exchange.request.body
@@ -36,7 +38,7 @@ class LoggingWebFilter : WebFilter {
     private fun requestLogging(exchange: ServerWebExchange, body: String) {
         val method = exchange.request.method
         val path = exchange.request.path.pathWithinApplication().value()
-        logger.info("Request : $method $path | $body")
+        log.info("Request : $method $path | $body")
     }
 
     private fun responseLogging(exchange: ServerWebExchange) {
@@ -44,6 +46,6 @@ class LoggingWebFilter : WebFilter {
         val path = exchange.request.path.pathWithinApplication().value()
         // Note: Extracting the actual response body in WebFlux is non-trivial and might require storing the response as well.
         // For simplicity, we are not logging the actual response body here.
-        logger.info("Response : $method $path")
+        log.info("Response : $method $path")
     }
 }
