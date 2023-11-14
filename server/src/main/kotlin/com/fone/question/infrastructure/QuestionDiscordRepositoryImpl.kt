@@ -14,7 +14,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.future.asDeferred
 import kotlinx.coroutines.launch
-import mu.KLogging
+import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Service
 import javax.annotation.PostConstruct
@@ -27,7 +27,9 @@ class QuestionDiscordRepositoryImpl(
 ) : QuestionDiscordRepository {
     private val webhookFlow = MutableSharedFlow<Question>(extraBufferCapacity = 10)
 
-    companion object : KLogging()
+    companion object {
+        private val log = KotlinLogging.logger { }
+    }
 
     @OptIn(DelicateCoroutinesApi::class)
     @PostConstruct
@@ -61,7 +63,7 @@ class QuestionDiscordRepositoryImpl(
         )
         builder.addEmbeds(embed)
         val response = webhookClient.send(builder.build()).asDeferred().await()
-        logger.info { response }
+        log.info { response }
     }
 
     private suspend fun parseFields(question: Question): List<EmbedField> {
