@@ -119,7 +119,7 @@ class CompetitionRepositoryImpl(
                 literal(1)
             ),
             `else` = literal(0)
-        ).asc()
+        ).desc()
 
         val screeningDateAsc = column(Competition::screeningEndDate).asc()
 
