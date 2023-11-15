@@ -41,7 +41,11 @@ data class CompetitionDto(
 
     @get:Schema(description = "상영기간 D-Day", example = "D-5")
     val screeningDDay: String
-        get() = DateTimeFormat.calculateDays(screeningEndDate)
+        get() = if (screeningStartDate == null || screeningEndDate == null) {
+            "미정"
+        } else {
+            DateTimeFormat.calculateDays(screeningEndDate)
+        }
 
     @get:Schema(description = "상영기간", example = "2023.1.16(월) ~ 2023.6.30(금)")
     val screeningDate: String
