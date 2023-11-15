@@ -18,11 +18,11 @@ import java.time.LocalDateTime
 data class ProfileDto(
     @Schema(description = "id")
     val id: Long,
-    @Schema(description = "프로필 이름")
+    @Schema(description = "프로필 이름", example = "차이나는 클라스")
     val name: String,
-    @Schema(description = "후킹멘트")
+    @Schema(description = "후킹멘트", example = "제가 좋아하는 색은 노랑색이에요")
     val hookingComment: String,
-    @Schema(description = "생년월일")
+    @Schema(description = "생년월일", example = "2000-10-01")
     val birthday: LocalDate?,
     @Schema(description = "성별", example = "WOMAN")
     val gender: Gender,
@@ -36,7 +36,7 @@ data class ProfileDto(
     val sns: String,
     @Schema(description = "SNS v2")
     val snsUrls: List<ProfileSnsUrl>,
-    @Schema(description = "특기")
+    @Schema(description = "특기", example = "매운 음식 먹기")
     val specialty: String,
     @Schema(description = "상세요강")
     val details: String,
@@ -44,7 +44,7 @@ data class ProfileDto(
     val type: Type,
     @Schema(description = "경력", example = "LESS_THAN_3YEARS")
     val career: Career,
-    @Schema(description = "경력 상세 설명")
+    @Schema(description = "경력 상세 설명", example = "복숭아 요거트 제작 3년")
     val careerDetail: String,
     @Schema(description = "관심사", example = "WEB_DRAMA")
     val categories: List<CategoryType>,
@@ -122,8 +122,8 @@ data class ProfileDto(
         viewCount = profile.viewCount,
         isWant = userProfileWantMap[profile.id!!] != null,
         age = DateTimeFormat.calculateAge(profile.birthday),
-        profileUrl = profile.profileUrl,
-        profileUrls = profileImages.map { it.profileUrl },
+        profileUrl = profile.representativeImageUrl,
+        profileUrls = profileImages.map { it.url },
         representativeImageUrl = profile.representativeImageUrl,
         profileImages = profileImages.map { it.url },
         createdAt = profile.createdAt,
