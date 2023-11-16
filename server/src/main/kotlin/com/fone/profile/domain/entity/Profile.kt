@@ -5,6 +5,7 @@ import com.fone.common.entity.Career
 import com.fone.common.entity.Gender
 import com.fone.common.entity.Type
 import com.fone.profile.presentation.dto.RegisterProfileDto.RegisterProfileRequest
+import com.fone.profile.presentation.dto.common.ProfileSnsUrl
 import java.time.LocalDate
 import javax.persistence.CascadeType
 import javax.persistence.Column
@@ -14,6 +15,7 @@ import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.JoinColumn
 import javax.persistence.OneToMany
 import javax.persistence.Table
 
@@ -32,6 +34,9 @@ data class Profile(
     @Column var weight: Int,
     @Column var email: String,
     @Column(length = 300) var sns: String,
+    @OneToMany(cascade = [CascadeType.PERSIST, CascadeType.MERGE], orphanRemoval = true)
+    @JoinColumn(name = "profile_id")
+    var snsUrls: Set<ProfileSns>,
     @Column(length = 50) var specialty: String,
     @Column(length = 500) var details: String,
     @Enumerated(EnumType.STRING) var career: Career,
@@ -40,7 +45,8 @@ data class Profile(
     @Column var userId: Long,
     @Column var viewCount: Long,
     @Column var isDeleted: Boolean = false,
-    @Column var profileUrl: String,
+    @Column
+    var representativeImageUrl: String,
     @OneToMany(mappedBy = "profile", cascade = [CascadeType.PERSIST, CascadeType.MERGE], orphanRemoval = true)
     var profileImages: MutableList<ProfileImage> = mutableListOf(),
 ) : BaseEntity() {
@@ -61,20 +67,17 @@ data class Profile(
         height = request.height
         weight = request.weight
         email = request.email
-        sns = request.sns
+        sns = request.sns ?: ""
+        snsUrls = request.snsUrls.map(ProfileSnsUrl::toEntity).toSet()
         specialty = request.specialty
         details = request.details
         career = request.career
         careerDetail = request.careerDetail ?: ""
         type = request.type
-        profileUrl = request.profileUrl
+        representativeImageUrl = request.representativeImageUrl ?: request.profileUrl
         this.profileImages = mutableListOf()
-        request.profileUrls.forEach {
-            this.addProfileImage(
-                ProfileImage(
-                    it
-                )
-            )
+        (request.profileImages ?: request.profileUrls).forEach {
+            this.addProfileImage(ProfileImage(it))
         }
     }
 
@@ -86,6 +89,7 @@ data class Profile(
         weight = 0
         email = ""
         sns = ""
+        snsUrls = emptySet()
         specialty = ""
         details = ""
         career = Career.IRRELEVANT

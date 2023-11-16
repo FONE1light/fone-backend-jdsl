@@ -32,7 +32,7 @@ class RegisterProfileService(
         val user = userRepository.findByEmail(email) ?: throw NotFoundUserException()
         return with(request) {
             val profile = toEntity(user.id!!)
-            profileUrls.forEach {
+            (profileImages ?: profileUrls).forEach {
                 profile.addProfileImage(
                     ProfileImage(
                         it
