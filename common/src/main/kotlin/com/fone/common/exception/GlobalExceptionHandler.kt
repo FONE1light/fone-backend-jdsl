@@ -52,6 +52,7 @@ class GlobalExceptionHandler(
         builder.setContent(ex.message)
         builder.addEmbeds(embed)
         builder.addEmbeds(exchange.request.parseBodyToEmbed())
+        builder.addEmbeds(exchange.request.parseUserAgentToEmbed())
         webhookClient.send(builder.build())
 
         val response = CommonResponse.fail(ex.message, ex.javaClass.simpleName)
@@ -86,6 +87,7 @@ class GlobalExceptionHandler(
         builder.setContent(ErrorCode.COMMON_NULL_PARAMETER.errorMsg)
         builder.addEmbeds(embed)
         builder.addEmbeds(exchange.request.parseBodyToEmbed())
+        builder.addEmbeds(exchange.request.parseUserAgentToEmbed())
         webhookClient.send(builder.build())
 
         val errorResponse = CommonResponse.fail(data, ErrorCode.COMMON_NULL_PARAMETER)
@@ -141,6 +143,7 @@ class GlobalExceptionHandler(
         builder.setContent(ErrorCode.COMMON_INVALID_PARAMETER.errorMsg)
         builder.addEmbeds(embed)
         builder.addEmbeds(exchange.request.parseBodyToEmbed())
+        builder.addEmbeds(exchange.request.parseUserAgentToEmbed())
         webhookClient.send(builder.build())
 
         val errorResponse = CommonResponse
@@ -170,6 +173,7 @@ class GlobalExceptionHandler(
         builder.setContent("서버에서 정의하지 않은 서버입니다.")
         builder.addEmbeds(embed)
         builder.addEmbeds(exchange.request.parseBodyToEmbed())
+        builder.addEmbeds(exchange.request.parseUserAgentToEmbed())
         webhookClient.send(builder.build())
 
         val errorResponse = CommonResponse.fail(e.message, e::class.java.simpleName)
@@ -199,5 +203,20 @@ class GlobalExceptionHandler(
             body.read(bytes)
             String(bytes)
         }
+    }
+
+    private fun ServerHttpRequest.parseUserAgentToEmbed(): WebhookEmbed {
+        val userAgent = this.headers["User-Agent"]?.joinToString(", ") ?: "Unknown User-Agent"
+        return WebhookEmbed(
+            null,
+            null,
+            userAgent,
+            null,
+            null,
+            null,
+            WebhookEmbed.EmbedTitle("User-Agent", null),
+            null,
+            emptyList()
+        )
     }
 }
