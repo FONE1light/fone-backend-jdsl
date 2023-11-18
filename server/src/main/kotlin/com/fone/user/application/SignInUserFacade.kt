@@ -22,7 +22,6 @@ class SignInUserFacade(
         return signInUserService.generateResponse(user)
     }
 
-    @Transactional
     suspend fun signIn(request: SocialSignInUserRequest): SignInUserResponse {
         val principal = oauthValidationService.getPrincipal(request.loginType, request.accessToken)
         val user = signInUserService.getUser(principal)
