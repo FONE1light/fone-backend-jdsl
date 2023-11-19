@@ -20,8 +20,9 @@ class RegisterJobOpeningDto {
         @Schema(description = "모집제목", example = "많은 이들의 시선보다 ..") val title: String,
         @Schema(description = "작품의 성격", example = "[\"ACTOR\",\"ACTRESS\"]") val categories: List<CategoryType>,
         @Schema(
-            description = "모집 마감일",
-            example = "2021-10-10"
+            description = "recruitmentEndDate 로 대체합니다.",
+            example = "2021-10-10",
+            deprecated = true
         )
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         @Deprecated("recruitmentEndDate 로 대체합니다.")
