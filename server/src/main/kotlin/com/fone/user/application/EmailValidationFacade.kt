@@ -6,7 +6,7 @@ interface EmailValidationFacade {
 
     suspend fun sendValidationMessage(
         emailSendRequest: EmailValidationDto.EmailSendRequest,
-    ): EmailValidationDto.EmailSendResponse
+    )
 
     suspend fun validateCode(
         emailValidationRequest: EmailValidationDto.EmailValidationRequest,

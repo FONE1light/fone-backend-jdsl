@@ -9,11 +9,10 @@ import org.springframework.stereotype.Service
 @Primary
 class EmailValidationFacadeNoOp(private val emailValidationService: EmailValidationService) : EmailValidationFacade {
 
-    override suspend fun sendValidationMessage(emailSendRequest: EmailValidationDto.EmailSendRequest) =
-        EmailValidationDto.EmailSendResponse(EmailValidationDto.ResponseType.SUCCESS)
+    override suspend fun sendValidationMessage(emailSendRequest: EmailValidationDto.EmailSendRequest) = Unit
 
     override suspend fun validateCode(emailValidationRequest: EmailValidationDto.EmailValidationRequest) =
-        EmailValidationDto.EmailValidationResponse(EmailValidationDto.ResponseType.SUCCESS, "NO-OP")
+        EmailValidationDto.EmailValidationResponse("NO-OP")
 
     override suspend fun duplicateCheck(emailDuplicationRequest: EmailValidationDto.EmailDuplicationRequest) =
         emailValidationService.checkDuplicate(emailDuplicationRequest)

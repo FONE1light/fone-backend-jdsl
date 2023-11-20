@@ -22,15 +22,14 @@ class EmailValidationController(private val emailValidationFacade: EmailValidati
     @ApiOperation(value = "인증 이메일 전송 API")
     @ApiResponse(
         responseCode = "200",
-        description = "성공",
-        content = [Content(schema = Schema(implementation = EmailValidationDto.EmailSendResponse::class))]
+        description = "성공"
     )
     suspend fun sendEmail(
         @Valid @RequestBody
         request: EmailValidationDto.EmailSendRequest,
-    ): CommonResponse<EmailValidationDto.EmailSendResponse> {
-        val response = emailValidationFacade.sendValidationMessage(request)
-        return CommonResponse.success(response)
+    ): CommonResponse<Unit> {
+        emailValidationFacade.sendValidationMessage(request)
+        return CommonResponse.success()
     }
 
     @PostMapping("/email/validate")
