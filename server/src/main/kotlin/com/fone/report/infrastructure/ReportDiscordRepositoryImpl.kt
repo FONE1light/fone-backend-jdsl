@@ -7,6 +7,7 @@ import club.minnced.discord.webhook.send.WebhookMessageBuilder
 import com.fone.report.domain.entity.Report
 import com.fone.report.domain.enum.Type
 import com.fone.report.domain.repository.ReportDiscordRepository
+import com.fone.user.domain.entity.User
 import com.fone.user.domain.repository.UserRepository
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -60,7 +61,8 @@ class ReportDiscordRepositoryImpl(
             null,
             WebhookEmbed.EmbedTitle(resolveTypeName(report.type), null),
             WebhookEmbed.EmbedAuthor(user!!.email, null, null),
-            parseFields(report)
+
+            parseFields(user, report)
         )
         builder.addEmbeds(embed)
         val response = webhookClient.send(builder.build()).asDeferred().await()
@@ -69,21 +71,26 @@ class ReportDiscordRepositoryImpl(
 
     private fun resolveTypeName(type: Type): String {
         return when (type) {
-            Type.JOB_OPENING -> "구인구직"
+            Type.JOB_OPENING -> "모집글"
             Type.CHATTING -> "채팅"
             Type.PROFILE -> "프로필"
         }
     }
 
-    private suspend fun parseFields(report: Report): List<EmbedField> {
-        val inconveniences = report.inconvenients.map {
+    private suspend fun parseFields(user: User, report: Report): List<EmbedField> {
+        val inconveniences = EmbedField(
+            false,
+            "불편사항",
+            report.inconvenients.joinToString(separator = "\n") {
+                "* $it"
+            }
+        )
+        val userIds = mutableListOf(
             EmbedField(
                 true,
-                "불편사항",
-                it
-            )
-        }
-        val userIds = mutableListOf(
+                "회원 닉네임",
+                user.nickname
+            ),
             EmbedField(
                 true,
                 "신고자 Id",
