@@ -1,6 +1,7 @@
 package com.fone.user.domain.service
 
 import com.fone.common.exception.DuplicateUserException
+import com.fone.common.exception.EmailBackendException
 import com.fone.common.exception.InvalidTokenException
 import com.fone.common.redis.RedisRepository
 import com.fone.user.domain.repository.EmailRepository
@@ -26,8 +27,8 @@ class EmailValidationService(
 
     suspend fun sendValidationCode(
         request: EmailValidationDto.EmailSendRequest,
-    ): EmailValidationDto.EmailSendResponse {
-        return runCatching {
+    ) {
+        runCatching {
             val code = generateRandomCode()
             val email = request.email
             redisRepository.setValue("user:$email:emailCode", code, 10, TimeUnit.MINUTES)
@@ -38,7 +39,7 @@ class EmailValidationService(
                 }
                 .message {
                     it.subject {
-                        it.data("인증번호입니다.")
+                        it.data("에프원 회원가입 인증번호입니다.")
                     }
                     it.body {
                         it.html {
@@ -47,10 +48,10 @@ class EmailValidationService(
                     }
                 }.build()
             emailRepository.sendEmail(message)
-            EmailValidationDto.EmailSendResponse(EmailValidationDto.ResponseType.SUCCESS)
         }.onFailure {
             it.printStackTrace()
-        }.getOrDefault(EmailValidationDto.EmailSendResponse(EmailValidationDto.ResponseType.FAILURE))
+            throw EmailBackendException()
+        }
     }
 
     suspend fun validateCode(
@@ -61,9 +62,10 @@ class EmailValidationService(
         if (code != request.code) {
             throw InvalidTokenException()
         }
+        redisRepository.delValue("user:$email:emailCode")
         val token = (UUID.randomUUID().toString() + UUID.randomUUID().toString()).replace("-", "")
         redisRepository.setValue("user:$email:emailSignUpToken", token, 2, TimeUnit.HOURS)
-        return EmailValidationDto.EmailValidationResponse(EmailValidationDto.ResponseType.SUCCESS, token)
+        return EmailValidationDto.EmailValidationResponse(token)
     }
 
     suspend fun checkDuplicate(

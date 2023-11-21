@@ -13,10 +13,6 @@ class EmailValidationDto {
         val email: String,
     )
 
-    data class EmailSendResponse(
-        val responseType: ResponseType,
-    )
-
     data class EmailValidationRequest(
         @field:NotEmpty(message = "이메일은 필수 값 입니다.")
         @field:Email(message = "유효하지 않는 이메일 입니다.")
@@ -27,7 +23,6 @@ class EmailValidationDto {
     )
 
     data class EmailValidationResponse(
-        val responseType: ResponseType,
         val token: String,
     )
 
@@ -41,8 +36,4 @@ class EmailValidationDto {
     data class EmailDuplicationResponse(
         val email: String,
     )
-
-    enum class ResponseType {
-        SUCCESS, FAILURE
-    }
 }

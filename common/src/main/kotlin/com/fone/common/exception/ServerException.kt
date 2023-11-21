@@ -62,3 +62,7 @@ data class SMSBackendException(
 data class SMSValidationException(
     override val message: String = "인증번호가 적절하지 않음.",
 ) : ServerException(400, message)
+
+data class EmailBackendException(
+    override val message: String = "이메일 전송 오류 발생",
+) : ServerException(500, message)
