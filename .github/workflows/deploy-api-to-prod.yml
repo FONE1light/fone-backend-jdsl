@@ -1,14 +1,8 @@
 name: Deploy API To Prod
 
 on:
-  push:
-    branches:
-      - main
-    paths-ignore:
-      - 'chatting/**'
-      - '.github/workflows/deploy-chatting-to-prod.yml'
-      - '.github/auto-assign.yml'
-      - '.github/workflows/auto-assign.yml'
+  release:
+    types: [ published ]
 
 jobs:
   build-and-push:
