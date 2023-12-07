@@ -252,20 +252,20 @@ class JobOpeningRepositoryImpl(
         sort: Sort,
     ): List<OrderSpec> {
         val deadlineIsNull = case(
-            `when`(column(JobOpening::deadline).isNull()).then(
+            `when`(column(JobOpening::recruitmentEndDate).isNull()).then(
                 literal(1)
             ),
             `else` = literal(0)
         ).asc()
 
         val deadlineAfterToday = case(
-            `when`(column(JobOpening::deadline).greaterThan(LocalDate.now())).then(
+            `when`(column(JobOpening::recruitmentEndDate).greaterThan(LocalDate.now())).then(
                 literal(1)
             ),
             `else` = literal(0)
         ).desc()
 
-        val deadlineDesc = column(JobOpening::deadline).asc()
+        val deadlineDesc = column(JobOpening::recruitmentEndDate).asc()
 
         val res = sort.map {
             val columnSpec = when (it.property) {
