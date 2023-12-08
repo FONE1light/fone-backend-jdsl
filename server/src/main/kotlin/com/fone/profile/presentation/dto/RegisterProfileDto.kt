@@ -60,26 +60,12 @@ class RegisterProfileDto {
             description = "이미지 URL",
             example = "['https://s3-ap-northeast-2.amazonaws.com/f-one-image/prod/user-profile/image.jpg']"
         )
-        val profileImages: List<String>? = null,
+        val profileImages: List<String>,
         @field:Schema(
             description = "대표 이미지 URL",
             example = "https://s3-ap-northeast-2.amazonaws.com/f-one-image/prod/user-profile/image.jpg"
         )
-        val representativeImageUrl: String? = null,
-        @field:Schema(
-            description = "(Deprecated) 이미지 URL",
-            deprecated = true,
-            example = "['https://s3-ap-northeast-2.amazonaws.com/f-one-image/prod/user-profile/image.jpg']"
-        )
-        @Deprecated("profileImages으로 대체됩니다.")
-        val profileUrls: List<String> = listOf(),
-        @field:Schema(
-            description = "(Deprecated) 대표 이미지 URL",
-            deprecated = true,
-            example = "https://s3-ap-northeast-2.amazonaws.com/f-one-image/prod/user-profile/image.jpg"
-        )
-        @Deprecated("representativeImageUrl으로 대체됩니다.")
-        val profileUrl: String = "",
+        val representativeImageUrl: String,
     ) {
 
         fun toEntity(userId: Long): Profile {
@@ -100,10 +86,11 @@ class RegisterProfileDto {
                 userId = userId,
                 viewCount = 0,
                 name = name,
-                representativeImageUrl = representativeImageUrl ?: profileUrl
+                representativeImageUrl = representativeImageUrl
             )
         }
     }
+
     data class RegisterProfileResponse(
         val profile: ProfileDto,
     ) {
