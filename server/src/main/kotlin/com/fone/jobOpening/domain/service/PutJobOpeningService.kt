@@ -65,7 +65,8 @@ class PutJobOpeningService(
             request.categories,
             jobOpeningUser?.nickname ?: "",
             jobOpeningUser?.profileUrl ?: "",
-            jobOpeningUser?.job ?: Job.ACTOR
+            jobOpeningUser?.job ?: Job.ACTOR,
+            jobOpeningUser?.isVerified ?: false
         )
     }
 }

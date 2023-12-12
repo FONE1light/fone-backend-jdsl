@@ -70,6 +70,9 @@ data class JobOpeningDto(
         example = "[\"https://www.naver.com\",\"https://www.naver.com\"]"
     )
     val imageUrls: List<String>,
+
+    @Schema(description = "공식 인증 여부", example = "false")
+    val isVerified: Boolean,
 ) {
     @get:Schema(description = "D-day", example = "D-1")
     val dDay: String
@@ -84,6 +87,7 @@ data class JobOpeningDto(
         profileUrl: String,
         job: Job,
         imageUrls: List<String>,
+        isVerified: Boolean,
     ) : this(
         id = jobOpening.id!!,
         title = jobOpening.title,
@@ -107,6 +111,7 @@ data class JobOpeningDto(
         recruitmentStartDate = jobOpening.recruitmentStartDate,
         recruitmentEndDate = jobOpening.recruitmentEndDate,
         representativeImageUrl = jobOpening.representativeImageUrl,
-        imageUrls = imageUrls
+        imageUrls = imageUrls,
+        isVerified = isVerified
     )
 }

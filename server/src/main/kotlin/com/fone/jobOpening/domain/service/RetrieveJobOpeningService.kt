@@ -75,7 +75,8 @@ class RetrieveJobOpeningService(
             jobOpeningCategories,
             jobOpeningUser?.nickname ?: "",
             jobOpeningUser?.profileUrl ?: "",
-            jobOpeningUser?.job ?: Job.ACTOR
+            jobOpeningUser?.job ?: Job.ACTOR,
+            jobOpeningUser?.isVerified ?: false
         )
     }
 }

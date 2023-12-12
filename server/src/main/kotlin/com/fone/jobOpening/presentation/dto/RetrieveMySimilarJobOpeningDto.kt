@@ -30,7 +30,8 @@ class RetrieveMySimilarJobOpeningDto {
                     jobOpeningUsers[it.userId]?.nickname ?: "",
                     jobOpeningUsers[it.userId]?.profileUrl ?: "",
                     jobOpeningUsers[it.userId]?.job ?: Job.ACTOR,
-                    it.images.map { image -> image.url }.toList()
+                    it.images.map { image -> image.url }.toList(),
+                    jobOpeningUsers[it.userId]?.isVerified ?: false
                 )
             }
         )
