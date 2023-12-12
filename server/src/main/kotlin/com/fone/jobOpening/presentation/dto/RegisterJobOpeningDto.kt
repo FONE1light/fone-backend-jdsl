@@ -80,6 +80,7 @@ class RegisterJobOpeningDto {
             nickname: String,
             profileUrl: String,
             job: Job,
+            isVerified: Boolean,
         ) : this(
             jobOpening = JobOpeningDto(
                 jobOpening,
@@ -89,7 +90,8 @@ class RegisterJobOpeningDto {
                 nickname,
                 profileUrl,
                 job,
-                jobOpening.images.map { it.url }.toList()
+                jobOpening.images.map { it.url }.toList(),
+                isVerified
             )
         )
     }
