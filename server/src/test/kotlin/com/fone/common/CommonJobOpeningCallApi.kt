@@ -9,6 +9,7 @@ import com.fone.common.response.CommonResponse
 import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto
 import com.fone.jobOpening.presentation.dto.common.WorkDto
 import org.springframework.test.web.reactive.server.WebTestClient
+import java.time.LocalDate
 
 object CommonJobOpeningCallApi {
     private const val registerUrl = "/api/v1/job-openings"
@@ -17,6 +18,7 @@ object CommonJobOpeningCallApi {
         val registerJobOpeningActorRequest = RegisterJobOpeningDto.RegisterJobOpeningRequest(
             "테스트 제목",
             listOf(CategoryType.ETC),
+            LocalDate.now(),
             "테스트 캐스팅",
             2,
             Gender.IRRELEVANT,

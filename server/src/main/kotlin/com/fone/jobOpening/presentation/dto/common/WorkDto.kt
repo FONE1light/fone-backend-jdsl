@@ -15,7 +15,35 @@ data class WorkDto(
     @Schema(description = "제작", example = "FONE") val produce: String = "",
     @Schema(description = "제목", example = "작품 제목") val workTitle: String = "",
     @Schema(description = "연출", example = "이하은") val director: String = "",
+    @Schema(
+        description = "genres 로 대체합니다.",
+        example = "스릴러",
+        deprecated = true
+    )
+    @Deprecated("genres 로 대체합니다.")
+    val genre: String = "",
     @Schema(description = "로그라인", example = "자폐 스펙트럼 장애를 가진 변호사의 이야기") val logline: String? = null,
+    @Schema(
+        description = "workingCity, workingDistrict, workingLocation 로 대체합니다.",
+        example = "서울",
+        deprecated = true
+    )
+    @Deprecated("workingCity, workingDistrict 로 대체합니다.")
+    val location: String? = null,
+    @Schema(
+        description = "workingCity, workingDistrict, workingLocation 로 대체합니다.",
+        example = "2021-10-10 ~ 2021-10-11",
+        deprecated = true
+    )
+    @Deprecated("workingStartDate, workingEndDate 로 대체합니다.")
+    val period: String? = null,
+    @Schema(
+        description = "salaryType, salary 로 대체합니다.",
+        example = "추후협의",
+        deprecated = true
+    )
+    @Deprecated("salaryType, salary 로 대체합니다.")
+    val pay: String? = null,
     @Schema(description = "상세요강", example = "상세내용") val details: String = "",
     @Schema(description = "담당자", example = "김매니저") val manager: String = "",
     @Schema(description = "이메일", example = "test@test.com") val email: String = "",
@@ -88,7 +116,11 @@ data class WorkDto(
         produce = work.produce,
         workTitle = work.workTitle,
         director = work.director,
+        genre = work.genre,
         logline = work.logline,
+        location = work.location,
+        period = work.period,
+        pay = work.pay,
         details = work.details,
         manager = work.manager,
         email = work.email,
@@ -109,7 +141,11 @@ data class WorkDto(
             produce = produce,
             workTitle = workTitle,
             director = director,
+            genre = genre,
             logline = logline,
+            location = location,
+            period = period,
+            pay = pay,
             details = details,
             manager = manager,
             email = email,

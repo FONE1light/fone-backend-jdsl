@@ -27,6 +27,9 @@ data class JobOpening(
     var id: Long? = null,
 
     @Column var title: String,
+    @Deprecated("recruitmentEndDate 로 대체합니다.")
+    @Column
+    var deadline: LocalDate?,
 
     @Column(length = 50) var casting: String?,
 
@@ -67,6 +70,7 @@ data class JobOpening(
 
     fun put(request: RegisterJobOpeningRequest) {
         title = request.title
+        deadline = request.deadline
         casting = request.casting
         numberOfRecruits = request.numberOfRecruits
         gender = request.gender
@@ -82,6 +86,7 @@ data class JobOpening(
 
     fun delete() {
         work.delete()
+        deadline = null
         casting = ""
         numberOfRecruits = 0
         gender = Gender.IRRELEVANT
