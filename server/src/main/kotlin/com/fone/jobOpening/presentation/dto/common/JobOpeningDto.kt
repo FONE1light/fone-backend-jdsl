@@ -20,6 +20,13 @@ data class JobOpeningDto(
     val title: String,
     @Schema(description = "작품의 성격", example = "[\"ACTOR\",\"ACTRESS\"]")
     val categories: List<CategoryType>,
+    @Schema(
+        description = "모집 마감일",
+        example = "2021-10-10",
+        deprecated = true
+    )
+    @Deprecated("recruitmentEndDate 로 대체합니다.")
+    val deadline: LocalDate?,
     @Schema(description = "모집배역", example = "30대 중반 경찰")
     val casting: String?,
     @Schema(description = "모집인원", example = "1")
@@ -76,7 +83,7 @@ data class JobOpeningDto(
 ) {
     @get:Schema(description = "D-day", example = "D-1")
     val dDay: String
-        get() = DateTimeFormat.calculateDays(recruitmentEndDate)
+        get() = DateTimeFormat.calculateDays(deadline)
 
     constructor(
         jobOpening: JobOpening,
@@ -92,6 +99,7 @@ data class JobOpeningDto(
         id = jobOpening.id!!,
         title = jobOpening.title,
         categories = categories,
+        deadline = jobOpening.deadline,
         casting = jobOpening.casting,
         numberOfRecruits = jobOpening.numberOfRecruits,
         gender = jobOpening.gender,

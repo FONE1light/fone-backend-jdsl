@@ -34,10 +34,7 @@ data class Profile(
     @Column var weight: Int,
     @Column var email: String,
     @Column(length = 300) var sns: String,
-    @OneToMany(
-        cascade = [CascadeType.PERSIST, CascadeType.MERGE],
-        orphanRemoval = true
-    )
+    @OneToMany(cascade = [CascadeType.PERSIST, CascadeType.MERGE], orphanRemoval = true)
     @JoinColumn(name = "profile_id")
     var snsUrls: Set<ProfileSns>,
     @Column(length = 50) var specialty: String,
@@ -48,12 +45,10 @@ data class Profile(
     @Column var userId: Long,
     @Column var viewCount: Long,
     @Column var isDeleted: Boolean = false,
-    @Column var representativeImageUrl: String,
-    @OneToMany(
-        mappedBy = "profile",
-        cascade = [CascadeType.PERSIST, CascadeType.MERGE],
-        orphanRemoval = true
-    ) var profileImages: MutableList<ProfileImage> = mutableListOf(),
+    @Column
+    var representativeImageUrl: String,
+    @OneToMany(mappedBy = "profile", cascade = [CascadeType.PERSIST, CascadeType.MERGE], orphanRemoval = true)
+    var profileImages: MutableList<ProfileImage> = mutableListOf(),
 ) : BaseEntity() {
 
     fun view() {
@@ -79,9 +74,9 @@ data class Profile(
         career = request.career
         careerDetail = request.careerDetail ?: ""
         type = request.type
-        representativeImageUrl = request.representativeImageUrl
+        representativeImageUrl = request.representativeImageUrl ?: request.profileUrl
         this.profileImages = mutableListOf()
-        request.profileImages.forEach {
+        (request.profileImages ?: request.profileUrls).forEach {
             this.addProfileImage(ProfileImage(it))
         }
     }

@@ -18,6 +18,7 @@ import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpe
 import com.fone.jobOpening.presentation.dto.common.WorkDto
 import io.kotest.matchers.shouldBe
 import org.springframework.test.web.reactive.server.WebTestClient
+import java.time.LocalDate
 
 @IntegrationTest
 class PutJobOpeningControllerTest(client: WebTestClient, private val objectMapper: ObjectMapper) :
@@ -32,6 +33,7 @@ class PutJobOpeningControllerTest(client: WebTestClient, private val objectMappe
         val putJobOpeningActorRequest = RegisterJobOpeningRequest(
             "테스트 제목2",
             listOf(CategoryType.ETC),
+            LocalDate.now(),
             "테스트 캐스팅",
             2,
             Gender.IRRELEVANT,
@@ -48,7 +50,8 @@ class PutJobOpeningControllerTest(client: WebTestClient, private val objectMappe
                 "update",
                 "update",
                 "update",
-                setOf(),
+                "update",
+                "update",
                 "update",
                 "update@email.com"
             ),

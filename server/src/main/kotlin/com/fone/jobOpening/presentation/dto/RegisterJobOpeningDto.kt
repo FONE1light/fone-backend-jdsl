@@ -19,6 +19,14 @@ class RegisterJobOpeningDto {
     data class RegisterJobOpeningRequest(
         @Schema(description = "모집제목", example = "많은 이들의 시선보다 ..") val title: String,
         @Schema(description = "작품의 성격", example = "[\"ACTOR\",\"ACTRESS\"]") val categories: List<CategoryType>,
+        @Schema(
+            description = "recruitmentEndDate 로 대체합니다.",
+            example = "2021-10-10",
+            deprecated = true
+        )
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
+        @Deprecated("recruitmentEndDate 로 대체합니다.")
+        val deadline: LocalDate?,
         @Schema(description = "모집배역", example = "30대 중반 경찰") val casting: String?,
         @Schema(description = "모집인원", example = "1") val numberOfRecruits: Int,
         @Schema(description = "성별", example = "MAN") val gender: Gender,
@@ -50,6 +58,7 @@ class RegisterJobOpeningDto {
         fun toEntity(userId: Long): JobOpening {
             return JobOpening(
                 title = title,
+                deadline = deadline,
                 casting = casting,
                 numberOfRecruits = numberOfRecruits,
                 gender = gender,
