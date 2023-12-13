@@ -173,9 +173,8 @@ class JobOpeningRepositoryImpl(
         val ids = queryFactory.pageQuery(pageable) {
             select(column(JobOpening::id))
             from(entity(JobOpening::class))
-            where(col(JobOpening::userId).equal(userId))
+            where(col(JobOpening::userId).equal(userId).and(col(JobOpening::isDeleted).equal(false)))
         }
-
         val jobOpenings = queryFactory.listQuery {
             select(entity(JobOpening::class))
             from(entity(JobOpening::class))
@@ -199,6 +198,7 @@ class JobOpeningRepositoryImpl(
                 where(
                     and(
                         col(JobOpeningScrap::userId).equal(userId),
+                        col(JobOpening::isDeleted).equal(false),
                         if (type != null) col(JobOpening::type).equal(type) else null
                     )
                 )
