@@ -51,26 +51,12 @@ data class ProfileDto(
     @Schema(description = "분야", example = "PLANNING")
     val domains: List<DomainType>?,
     @Schema(
-        description = "(Deprecated) 이미지 URL",
-        deprecated = true,
-        example = "['https://s3-ap-northeast-2.amazonaws.com/f-one-image/prod/user-profile/image.jpg']"
-    )
-    @Deprecated("profileImages으로 대체됩니다.")
-    val profileUrls: List<String>,
-    @Schema(
         description = "이미지 URL",
         example = "['https://s3-ap-northeast-2.amazonaws.com/f-one-image/prod/user-profile/image.jpg']"
     )
     val profileImages: List<String>,
     @Schema(description = "조회수")
     val viewCount: Long,
-    @Schema(
-        description = "(Deprecated) 대표 이미지 URL",
-        deprecated = true,
-        example = "https://s3-ap-northeast-2.amazonaws.com/f-one-image/prod/user-profile/image.jpg"
-    )
-    @Deprecated("representativeImageUrl으로 대체됩니다.")
-    val profileUrl: String,
     @Schema(
         description = "대표 이미지 URL",
         example = "https://s3-ap-northeast-2.amazonaws.com/f-one-image/prod/user-profile/image.jpg"
@@ -122,8 +108,6 @@ data class ProfileDto(
         viewCount = profile.viewCount,
         isWant = userProfileWantMap[profile.id!!] != null,
         age = DateTimeFormat.calculateAge(profile.birthday),
-        profileUrl = profile.representativeImageUrl,
-        profileUrls = profileImages.map { it.url },
         representativeImageUrl = profile.representativeImageUrl,
         profileImages = profileImages.map { it.url },
         createdAt = profile.createdAt,
