@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema
 
 data class ProfileSnsUrl(
     val url: String,
-    @field:Schema(description = "Sns URL", example = "https://www.youtube.com/channel")
+    @field:Schema(description = "Sns Type", example = "YOUTUBE")
     val sns: SNS,
 ) {
     fun toEntity() = ProfileSns(url, sns)

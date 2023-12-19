@@ -20,6 +20,7 @@ import com.linecorp.kotlinjdsl.spring.reactive.listQuery
 import com.linecorp.kotlinjdsl.spring.reactive.pageQuery
 import com.linecorp.kotlinjdsl.spring.reactive.querydsl.SpringDataReactiveCriteriaQueryDsl
 import com.linecorp.kotlinjdsl.spring.reactive.querydsl.SpringDataReactivePageableQueryDsl
+import com.linecorp.kotlinjdsl.spring.reactive.singleQueryOrNull
 import io.smallrye.mutiny.coroutines.awaitSuspending
 import org.hibernate.reactive.mutiny.Mutiny
 import org.springframework.data.domain.Page
@@ -35,28 +36,30 @@ class JobOpeningRepositoryImpl(
     private val sessionFactory: Mutiny.SessionFactory,
     private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
 ) : JobOpeningRepository {
-
     override suspend fun findAllTop5ByType(
         pageable: Pageable,
         type: Type,
     ): Page<JobOpening> {
         return queryFactory.withFactory { factory ->
-            val ids = factory.pageQuery(pageable) {
-                select(column(JobOpening::id))
-                from(entity(JobOpening::class))
-                where(
-                    and(
-                        col(JobOpening::type).equal(type),
-                        col(JobOpening::isDeleted).equal(false)
+            val ids =
+                factory.pageQuery(pageable) {
+                    select(column(JobOpening::id))
+                    from(entity(JobOpening::class))
+                    where(
+                        and(
+                            col(JobOpening::type).equal(type),
+                            col(JobOpening::isDeleted).equal(false)
+                        )
                     )
-                )
-            }
+                }
 
-            val jobOpenings = factory.listQuery {
-                select(entity(JobOpening::class))
-                from(entity(JobOpening::class))
-                fetch(JobOpening::images, joinType = JoinType.LEFT)
-            }.associateBy { it?.id }
+            val jobOpenings =
+                factory.listQuery {
+                    select(entity(JobOpening::class))
+                    from(entity(JobOpening::class))
+                    fetch(JobOpening::images, joinType = JoinType.LEFT)
+                    fetch(JobOpening::location, joinType = JoinType.LEFT)
+                }.associateBy { it?.id }
 
             ids.map { jobOpenings[it] }
         }
@@ -67,49 +70,58 @@ class JobOpeningRepositoryImpl(
         request: RetrieveJobOpeningsRequest,
     ): Page<JobOpening> {
         return queryFactory.withFactory { factory ->
-            val domainJobOpeningIds = if (request.domains.isEmpty()) {
-                emptyList()
-            } else {
-                factory.listQuery {
-                    select(col(JobOpeningDomain::jobOpeningId))
-                    from(entity(JobOpeningDomain::class))
+            val domainJobOpeningIds =
+                if (request.domains.isEmpty()) {
+                    emptyList()
+                } else {
+                    factory.listQuery {
+                        select(col(JobOpeningDomain::jobOpeningId))
+                        from(entity(JobOpeningDomain::class))
+                        where(
+                            and(
+                                col(JobOpeningDomain::type).`in`(request.domains)
+                            )
+                        )
+                    }
+                }
+
+            val categoryJobOpeningIds =
+                if (request.categories.isEmpty()) {
+                    emptyList()
+                } else {
+                    factory.listQuery {
+                        select(col(JobOpeningCategory::jobOpeningId))
+                        from(entity(JobOpeningCategory::class))
+                        where(
+                            and(
+                                col(JobOpeningCategory::type).`in`(request.categories)
+                            )
+                        )
+                    }
+                }
+
+            val jobOpeningIds =
+                factory.pageQuery(pageable) {
+                    select(column(JobOpening::id))
+                    from(entity(JobOpening::class))
                     where(
                         and(
-                            col(JobOpeningDomain::type).`in`(request.domains)
+                            col(JobOpening::type).equal(request.type),
+                            col(JobOpening::gender).`in`(request.genders),
+                            col(JobOpening::ageMax).greaterThanOrEqualTo(request.ageMin),
+                            col(JobOpening::ageMin).lessThanOrEqualTo(request.ageMax),
+                            if (request.domains.isNotEmpty()) col(JobOpening::id).`in`(domainJobOpeningIds) else null,
+                            if (request.categories.isNotEmpty()) {
+                                col(
+                                    JobOpening::id
+                                ).`in`(categoryJobOpeningIds)
+                            } else {
+                                null
+                            },
+                            col(JobOpening::isDeleted).equal(false)
                         )
                     )
                 }
-            }
-
-            val categoryJobOpeningIds = if (request.categories.isEmpty()) {
-                emptyList()
-            } else {
-                factory.listQuery {
-                    select(col(JobOpeningCategory::jobOpeningId))
-                    from(entity(JobOpeningCategory::class))
-                    where(
-                        and(
-                            col(JobOpeningCategory::type).`in`(request.categories)
-                        )
-                    )
-                }
-            }
-
-            val jobOpeningIds = queryFactory.pageQuery(pageable) {
-                select(column(JobOpening::id))
-                from(entity(JobOpening::class))
-                where(
-                    and(
-                        col(JobOpening::type).equal(request.type),
-                        col(JobOpening::gender).`in`(request.genders),
-                        col(JobOpening::ageMax).greaterThanOrEqualTo(request.ageMin),
-                        col(JobOpening::ageMin).lessThanOrEqualTo(request.ageMax),
-                        if (request.domains.isNotEmpty()) col(JobOpening::id).`in`(domainJobOpeningIds) else null,
-                        if (request.categories.isNotEmpty()) col(JobOpening::id).`in`(categoryJobOpeningIds) else null,
-                        col(JobOpening::isDeleted).equal(false)
-                    )
-                )
-            }
 
             if (jobOpeningIds.content.isEmpty()) {
                 return@withFactory PageImpl(
@@ -119,13 +131,15 @@ class JobOpeningRepositoryImpl(
                 )
             }
 
-            val jobOpenings = queryFactory.listQuery {
-                select(entity(JobOpening::class))
-                from(entity(JobOpening::class))
-                fetch(JobOpening::images, joinType = JoinType.LEFT)
-                where(and(col(JobOpening::id).`in`(jobOpeningIds.content)))
-                orderBy(orderSpec(pageable.sort))
-            }
+            val jobOpenings =
+                factory.listQuery {
+                    select(entity(JobOpening::class))
+                    from(entity(JobOpening::class))
+                    fetch(JobOpening::images, joinType = JoinType.LEFT)
+                    fetch(JobOpening::location, joinType = JoinType.LEFT)
+                    where(and(col(JobOpening::id).`in`(jobOpeningIds.content)))
+                    orderBy(orderSpec(pageable.sort))
+                }
 
             PageImpl(
                 jobOpenings,
@@ -135,16 +149,17 @@ class JobOpeningRepositoryImpl(
         }
     }
 
-    override suspend fun findById(
-        jobOpeningId: Long,
-    ): JobOpening? {
-        return queryFactory.singleQueryOrNull {
-            select(entity(JobOpening::class))
-            from(entity(JobOpening::class))
-            fetch(JobOpening::images, joinType = JoinType.LEFT)
-            where(
-                jobOpeningIdEq(jobOpeningId)
-            )
+    override suspend fun findById(jobOpeningId: Long): JobOpening? {
+        return queryFactory.withFactory { factory ->
+            factory.singleQueryOrNull {
+                select(entity(JobOpening::class))
+                from(entity(JobOpening::class))
+                fetch(JobOpening::images, joinType = JoinType.LEFT)
+                fetch(JobOpening::location, joinType = JoinType.LEFT)
+                where(
+                    jobOpeningIdEq(jobOpeningId)
+                )
+            }
         }
     }
 
@@ -152,17 +167,20 @@ class JobOpeningRepositoryImpl(
         type: Type?,
         jobOpeningId: Long?,
     ): JobOpening? {
-        return queryFactory.singleQueryOrNull {
-            select(entity(JobOpening::class))
-            from(entity(JobOpening::class))
-            fetch(JobOpening::images, joinType = JoinType.LEFT)
-            where(
-                and(
-                    typeEqOrNull(type),
-                    jobOpeningIdEq(jobOpeningId),
-                    col(JobOpening::isDeleted).equal(false)
+        return queryFactory.withFactory { factory ->
+            factory.singleQueryOrNull {
+                select(entity(JobOpening::class))
+                from(entity(JobOpening::class))
+                fetch(JobOpening::images, joinType = JoinType.LEFT)
+                fetch(JobOpening::location, joinType = JoinType.LEFT)
+                where(
+                    and(
+                        typeEqOrNull(type),
+                        jobOpeningIdEq(jobOpeningId),
+                        col(JobOpening::isDeleted).equal(false)
+                    )
                 )
-            )
+            }
         }
     }
 
@@ -170,19 +188,24 @@ class JobOpeningRepositoryImpl(
         pageable: Pageable,
         userId: Long,
     ): Page<JobOpening> {
-        val ids = queryFactory.pageQuery(pageable) {
-            select(column(JobOpening::id))
-            from(entity(JobOpening::class))
-            where(col(JobOpening::userId).equal(userId).and(col(JobOpening::isDeleted).equal(false)))
-        }
-        val jobOpenings = queryFactory.listQuery {
-            select(entity(JobOpening::class))
-            from(entity(JobOpening::class))
-            fetch(JobOpening::images, joinType = JoinType.LEFT)
-            where(and(col(JobOpening::id).`in`(ids.content)))
-        }.associateBy { it?.id }
+        return queryFactory.withFactory { factory ->
+            val ids =
+                factory.pageQuery(pageable) {
+                    select(column(JobOpening::id))
+                    from(entity(JobOpening::class))
+                    where(col(JobOpening::userId).equal(userId).and(col(JobOpening::isDeleted).equal(false)))
+                }
+            val jobOpenings =
+                factory.listQuery {
+                    select(entity(JobOpening::class))
+                    from(entity(JobOpening::class))
+                    fetch(JobOpening::images, joinType = JoinType.LEFT)
+                    fetch(JobOpening::location, joinType = JoinType.LEFT)
+                    where(and(col(JobOpening::id).`in`(ids.content)))
+                }.associateBy { it?.id }
 
-        return ids.map { jobOpenings[it] }
+            ids.map { jobOpenings[it] }
+        }
     }
 
     override suspend fun findScrapAllByUserId(
@@ -191,96 +214,97 @@ class JobOpeningRepositoryImpl(
         type: Type?,
     ): Page<JobOpening> {
         return queryFactory.withFactory { factory ->
-            val ids = factory.pageQuery(pageable) {
-                select(column(JobOpeningScrap::jobOpeningId))
-                from(entity(JobOpeningScrap::class))
-                join(entity(JobOpening::class), col(JobOpening::id).equal(col(JobOpeningScrap::jobOpeningId)))
-                where(
-                    and(
-                        col(JobOpeningScrap::userId).equal(userId),
-                        col(JobOpening::isDeleted).equal(false),
-                        if (type != null) col(JobOpening::type).equal(type) else null
+            val ids =
+                factory.pageQuery(pageable) {
+                    select(column(JobOpeningScrap::jobOpeningId))
+                    from(entity(JobOpeningScrap::class))
+                    join(entity(JobOpening::class), col(JobOpening::id).equal(col(JobOpeningScrap::jobOpeningId)))
+                    where(
+                        and(
+                            col(JobOpeningScrap::userId).equal(userId),
+                            col(JobOpening::isDeleted).equal(false),
+                            if (type != null) col(JobOpening::type).equal(type) else null
+                        )
                     )
-                )
-            }
+                }
 
-            val jobOpenings = factory.listQuery {
-                select(entity(JobOpening::class))
-                from(entity(JobOpening::class))
-                fetch(JobOpening::images, joinType = JoinType.LEFT)
-                where(col(JobOpening::id).`in`(ids.content))
-            }.associateBy { it?.id }
+            val jobOpenings =
+                factory.listQuery {
+                    select(entity(JobOpening::class))
+                    from(entity(JobOpening::class))
+                    fetch(JobOpening::images, joinType = JoinType.LEFT)
+                    fetch(JobOpening::location, joinType = JoinType.LEFT)
+                    where(col(JobOpening::id).`in`(ids.content))
+                }.associateBy { it?.id }
 
             ids.map { jobOpenings[it] }
         }
     }
 
     override suspend fun save(jobOpening: JobOpening): JobOpening {
-        val test = jobOpening.also {
-            queryFactory.withFactory { session, _ ->
-                if (it.id == null) {
-                    session.persist(it)
-                } else {
-                    session.merge(it)
-                }.flatMap { session.flush() }.awaitSuspending()
+        val test =
+            jobOpening.also {
+                queryFactory.withFactory { session, _ ->
+                    if (it.id == null) {
+                        session.persist(it)
+                    } else {
+                        session.merge(it)
+                    }.flatMap { session.flush() }.awaitSuspending()
+                }
             }
-        }
 
         return test
     }
 
-    private fun SpringDataReactiveCriteriaQueryDsl<JobOpening?>.jobOpeningIdEq(
-        jobOpeningId: Long?,
-    ) = col(JobOpening::id).equal(jobOpeningId)
+    private fun SpringDataReactiveCriteriaQueryDsl<JobOpening?>.jobOpeningIdEq(jobOpeningId: Long?) =
+        col(JobOpening::id).equal(jobOpeningId)
 
-    private fun SpringDataReactiveCriteriaQueryDsl<JobOpening?>.typeEqOrNull(
-        type: Type?,
-    ): EqualValueSpec<Type>? {
+    private fun SpringDataReactiveCriteriaQueryDsl<JobOpening?>.typeEqOrNull(type: Type?): EqualValueSpec<Type>? {
         type ?: return null
 
         return col(JobOpening::type).equal(type)
     }
 
-    private fun SpringDataReactivePageableQueryDsl<JobOpening>.typeEq(
-        type: Type?,
-    ): EqualValueSpec<Type>? {
+    private fun SpringDataReactivePageableQueryDsl<JobOpening>.typeEq(type: Type?): EqualValueSpec<Type>? {
         type ?: return null
         return col(JobOpening::type).equal(type)
     }
 
-    private fun SpringDataReactiveCriteriaQueryDsl<JobOpening?>.orderSpec(
-        sort: Sort,
-    ): List<OrderSpec> {
-        val deadlineIsNull = case(
-            `when`(column(JobOpening::recruitmentEndDate).isNull()).then(
-                literal(1)
-            ),
-            `else` = literal(0)
-        ).asc()
+    private fun SpringDataReactiveCriteriaQueryDsl<JobOpening?>.orderSpec(sort: Sort): List<OrderSpec> {
+        val deadlineIsNull =
+            case(
+                `when`(column(JobOpening::recruitmentEndDate).isNull()).then(
+                    literal(1)
+                ),
+                `else` = literal(0)
+            ).asc()
 
-        val deadlineAfterToday = case(
-            `when`(column(JobOpening::recruitmentEndDate).greaterThan(LocalDate.now())).then(
-                literal(1)
-            ),
-            `else` = literal(0)
-        ).desc()
+        val deadlineAfterToday =
+            case(
+                `when`(column(JobOpening::recruitmentEndDate).greaterThan(LocalDate.now())).then(
+                    literal(1)
+                ),
+                `else` = literal(0)
+            ).desc()
 
         val deadlineDesc = column(JobOpening::recruitmentEndDate).asc()
 
-        val res = sort.map {
-            val columnSpec = when (it.property) {
-                "viewCount" -> col(JobOpening::viewCount)
-                "createdAt" -> col(JobOpening::createdAt)
-                "scrapCount" -> col(JobOpening::scrapCount)
-                else -> col(JobOpening::viewCount)
-            }
+        val res =
+            sort.map {
+                val columnSpec =
+                    when (it.property) {
+                        "viewCount" -> col(JobOpening::viewCount)
+                        "createdAt" -> col(JobOpening::createdAt)
+                        "scrapCount" -> col(JobOpening::scrapCount)
+                        else -> col(JobOpening::viewCount)
+                    }
 
-            if (it.isAscending) {
-                columnSpec.asc()
-            } else {
-                columnSpec.desc()
-            }
-        }.toList()
+                if (it.isAscending) {
+                    columnSpec.asc()
+                } else {
+                    columnSpec.desc()
+                }
+            }.toList()
 
         return if (sort.map { it.property }.contains("deadline")) {
             listOf(deadlineIsNull, deadlineAfterToday, deadlineDesc)

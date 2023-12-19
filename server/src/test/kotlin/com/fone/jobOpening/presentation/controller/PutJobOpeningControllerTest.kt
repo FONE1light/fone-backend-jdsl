@@ -15,6 +15,7 @@ import com.fone.common.entity.Type
 import com.fone.common.response.CommonResponse
 import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningRequest
 import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningResponse
+import com.fone.jobOpening.presentation.dto.common.LocationDto
 import com.fone.jobOpening.presentation.dto.common.WorkDto
 import io.kotest.matchers.shouldBe
 import org.springframework.test.web.reactive.server.WebTestClient
@@ -22,41 +23,42 @@ import org.springframework.test.web.reactive.server.WebTestClient
 @IntegrationTest
 class PutJobOpeningControllerTest(client: WebTestClient, private val objectMapper: ObjectMapper) :
     CustomDescribeSpec() {
-
     private val putUrl = "/api/v1/job-openings"
 
     init {
         val (accessToken, _) = CommonUserCallApi.getAccessToken(client)
         val jobOpeningId = CommonJobOpeningCallApi.register(client, accessToken)
 
-        val putJobOpeningActorRequest = RegisterJobOpeningRequest(
-            "테스트 제목2",
-            listOf(CategoryType.ETC),
-            "테스트 캐스팅",
-            2,
-            Gender.IRRELEVANT,
-            100,
-            0,
-            Career.IRRELEVANT,
-            Type.ACTOR,
-            listOf(DomainType.ART),
-            WorkDto(
-                "update",
-                "update",
-                "update",
-                "update",
-                "update",
-                "update",
-                "update",
-                setOf(),
-                "update",
-                "update@email.com"
-            ),
-            null,
-            null,
-            null,
-            listOf("https://www.naver.com")
-        )
+        val putJobOpeningActorRequest =
+            RegisterJobOpeningRequest(
+                "테스트 제목2",
+                listOf(CategoryType.ETC),
+                "테스트 캐스팅",
+                2,
+                Gender.IRRELEVANT,
+                100,
+                0,
+                Career.IRRELEVANT,
+                Type.ACTOR,
+                listOf(DomainType.ART),
+                WorkDto(
+                    "update",
+                    "update",
+                    "update",
+                    "update",
+                    "update",
+                    "update",
+                    "update",
+                    setOf(),
+                    "update",
+                    "update@email.com"
+                ),
+                null,
+                null,
+                null,
+                listOf("https://www.naver.com"),
+                LocationDto("서울특별시", "강서구")
+            )
 
         describe("#put jobOpening") {
             context("존재하는 구인구직을 수정하면") {
@@ -67,9 +69,10 @@ class PutJobOpeningControllerTest(client: WebTestClient, private val objectMappe
                         .isOk
                         .expectBody()
                         .consumeWith {
-                            val opening = objectMapper.readValue<CommonResponse<RegisterJobOpeningResponse>>(
-                                it.responseBody!!
-                            )
+                            val opening =
+                                objectMapper.readValue<CommonResponse<RegisterJobOpeningResponse>>(
+                                    it.responseBody!!
+                                )
                             opening.data!!.jobOpening.work shouldBe putJobOpeningActorRequest.work
                         }
                         .jsonPath("$.result")

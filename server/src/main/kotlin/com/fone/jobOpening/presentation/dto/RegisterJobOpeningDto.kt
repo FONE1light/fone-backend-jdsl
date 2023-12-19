@@ -7,7 +7,9 @@ import com.fone.common.entity.Gender
 import com.fone.common.entity.Type
 import com.fone.jobOpening.domain.entity.JobOpening
 import com.fone.jobOpening.domain.entity.JobOpeningScrap
+import com.fone.jobOpening.infrastructure.toEntity
 import com.fone.jobOpening.presentation.dto.common.JobOpeningDto
+import com.fone.jobOpening.presentation.dto.common.LocationDto
 import com.fone.jobOpening.presentation.dto.common.WorkDto
 import com.fone.user.domain.enum.Job
 import io.swagger.v3.oas.annotations.media.Schema
@@ -15,7 +17,6 @@ import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDate
 
 class RegisterJobOpeningDto {
-
     data class RegisterJobOpeningRequest(
         @Schema(description = "모집제목", example = "많은 이들의 시선보다 ..") val title: String,
         @Schema(description = "작품의 성격", example = "[\"ACTOR\",\"ACTRESS\"]") val categories: List<CategoryType>,
@@ -28,7 +29,6 @@ class RegisterJobOpeningDto {
         @Schema(description = "모집유형", example = "ACTOR") val type: Type,
         @Schema(description = "모집분야", example = "[\"PLANNING\",\"SCENARIO\"]") val domains: List<DomainType>?,
         @Schema(description = "작품정보") val work: WorkDto,
-
         @Schema(
             description = "모집 기간 시작일(null이면 상시모집)",
             example = "2021.10.10"
@@ -46,32 +46,12 @@ class RegisterJobOpeningDto {
             description = "이미지",
             example = "[\"https://www.naver.com\",\"https://www.naver.com\"]"
         ) val imageUrls: List<String>,
-    ) {
-        fun toEntity(userId: Long): JobOpening {
-            return JobOpening(
-                title = title,
-                casting = casting,
-                numberOfRecruits = numberOfRecruits,
-                gender = gender,
-                ageMax = ageMax,
-                ageMin = ageMin,
-                career = career,
-                type = type,
-                userId = userId,
-                viewCount = 0,
-                scrapCount = 0,
-                work = work.toEntity(),
-                recruitmentStartDate = recruitmentStartDate,
-                recruitmentEndDate = recruitmentEndDate,
-                representativeImageUrl = representativeImageUrl
-            )
-        }
-    }
+        val location: LocationDto?,
+    )
 
     data class RegisterJobOpeningResponse(
         val jobOpening: JobOpeningDto,
     ) {
-
         constructor(
             jobOpening: JobOpening,
             userJobOpeningScrapMap: Map<Long, JobOpeningScrap?>,
@@ -82,7 +62,8 @@ class RegisterJobOpeningDto {
             job: Job,
             isVerified: Boolean,
         ) : this(
-            jobOpening = JobOpeningDto(
+            jobOpening =
+            JobOpeningDto(
                 jobOpening,
                 userJobOpeningScrapMap,
                 domains,
@@ -95,4 +76,25 @@ class RegisterJobOpeningDto {
             )
         )
     }
+}
+
+suspend fun RegisterJobOpeningDto.RegisterJobOpeningRequest.toEntity(userId: Long): JobOpening {
+    return JobOpening(
+        title = title,
+        casting = casting,
+        numberOfRecruits = numberOfRecruits,
+        gender = gender,
+        ageMax = ageMax,
+        ageMin = ageMin,
+        career = career,
+        type = type,
+        userId = userId,
+        viewCount = 0,
+        scrapCount = 0,
+        work = work.toEntity(),
+        recruitmentStartDate = recruitmentStartDate,
+        recruitmentEndDate = recruitmentEndDate,
+        representativeImageUrl = representativeImageUrl,
+        location = location?.toEntity()
+    )
 }

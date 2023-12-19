@@ -10,8 +10,10 @@ import com.fone.common.IntegrationTest
 import com.fone.common.PageDeserializer
 import com.fone.common.doGet
 import com.fone.common.response.CommonResponse
+import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningResponse
 import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningsResponse
 import com.fone.jobOpening.presentation.dto.common.JobOpeningDto
+import com.fone.jobOpening.presentation.dto.common.LocationDto
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import org.springframework.data.domain.Page
@@ -20,7 +22,6 @@ import org.springframework.test.web.reactive.server.WebTestClient
 @IntegrationTest
 class RetrieveJobOpeningControllerTest(client: WebTestClient, private val objectMapper: ObjectMapper) :
     CustomDescribeSpec() {
-
     private val retrieveUrl = "/api/v1/job-openings"
 
     init {
@@ -51,6 +52,22 @@ class RetrieveJobOpeningControllerTest(client: WebTestClient, private val object
                         .expectStatus()
                         .isBadRequest.expectBody().consumeWith { println(it) }.jsonPath("$.result")
                         .isEqualTo("FAIL")
+                }
+            }
+
+            context("Location 정보가 있음") {
+                it("성공한다") {
+                    client.doGet("$retrieveUrl/$jobOpeningId", accessToken, mapOf("type" to "ACTOR"))
+                        .expectStatus().isOk.expectBody()
+                        .consumeWith {
+                            val response =
+                                objectMapper.readValue<CommonResponse<RetrieveJobOpeningResponse>>(
+                                    it.responseBody!!
+                                )
+                            response.data!!.jobOpening.location shouldBe LocationDto("서울특별시", "강남구")
+                        }
+                        .jsonPath("$.result")
+                        .isEqualTo("SUCCESS")
                 }
             }
         }
