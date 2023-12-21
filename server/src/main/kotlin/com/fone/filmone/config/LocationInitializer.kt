@@ -14,6 +14,7 @@ class LocationInitializer(val locationRepository: LocationRepository) : Applicat
             if (locationRepository.count() == 0L) {
                 val locations =
                     getLocationCsv().split("\n")
+                        .filter { it.isNotBlank() }
                         .map {
                             val (region, district) = it.split(",")
                             Location(region = region, district = district)
