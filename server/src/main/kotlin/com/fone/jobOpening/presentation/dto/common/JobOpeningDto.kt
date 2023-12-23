@@ -52,7 +52,6 @@ data class JobOpeningDto(
     val createdAt: LocalDateTime,
     @Schema(description = "유저 직업", example = "ACTOR")
     val userJob: Job,
-
     @Schema(
         description = "모집 기간 시작일(null이면 상시모집)",
         example = "2021.10.10"
@@ -70,9 +69,9 @@ data class JobOpeningDto(
         example = "[\"https://www.naver.com\",\"https://www.naver.com\"]"
     )
     val imageUrls: List<String>,
-
     @Schema(description = "공식 인증 여부", example = "false")
     val isVerified: Boolean,
+    val location: LocationDto?,
 ) {
     @get:Schema(description = "D-day", example = "D-1")
     val dDay: String
@@ -112,6 +111,7 @@ data class JobOpeningDto(
         recruitmentEndDate = jobOpening.recruitmentEndDate,
         representativeImageUrl = jobOpening.representativeImageUrl,
         imageUrls = imageUrls,
-        isVerified = isVerified
+        isVerified = isVerified,
+        location = jobOpening.location?.toDto()
     )
 }

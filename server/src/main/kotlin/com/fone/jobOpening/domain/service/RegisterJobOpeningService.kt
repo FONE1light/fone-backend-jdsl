@@ -8,6 +8,7 @@ import com.fone.jobOpening.domain.repository.JobOpeningRepository
 import com.fone.jobOpening.domain.repository.JobOpeningScrapRepository
 import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningRequest
 import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningResponse
+import com.fone.jobOpening.presentation.dto.toEntity
 import com.fone.user.domain.enum.Job
 import com.fone.user.domain.repository.UserRepository
 import org.springframework.stereotype.Service
@@ -21,7 +22,6 @@ class RegisterJobOpeningService(
     private val jobOpeningCategoryRepository: JobOpeningCategoryRepository,
     private val userRepository: UserRepository,
 ) {
-
     @Transactional
     suspend fun registerJobOpening(
         request: RegisterJobOpeningRequest,
@@ -40,18 +40,20 @@ class RegisterJobOpeningService(
 
             jobOpeningRepository.save(jobOpening)
 
-            val jobOpeningDomains = domains?.map {
-                com.fone.jobOpening.domain.entity.JobOpeningDomain(
-                    jobOpening.id!!,
-                    it
-                )
-            }
-            val jobOpeningCategories = categories.map {
-                com.fone.jobOpening.domain.entity.JobOpeningCategory(
-                    jobOpening.id!!,
-                    it
-                )
-            }
+            val jobOpeningDomains =
+                domains?.map {
+                    com.fone.jobOpening.domain.entity.JobOpeningDomain(
+                        jobOpening.id!!,
+                        it
+                    )
+                }
+            val jobOpeningCategories =
+                categories.map {
+                    com.fone.jobOpening.domain.entity.JobOpeningCategory(
+                        jobOpening.id!!,
+                        it
+                    )
+                }
             jobOpeningDomainRepository.saveAll(jobOpeningDomains)
             jobOpeningCategoryRepository.saveAll(jobOpeningCategories)
             val scraps = jobOpeningScrapRepository.findByUserId(user.id!!)
