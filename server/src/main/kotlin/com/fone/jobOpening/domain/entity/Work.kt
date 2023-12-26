@@ -1,11 +1,8 @@
 package com.fone.jobOpening.domain.entity
 
 import com.fone.common.converter.SeparatorConverter
-import com.fone.common.entity.Genre
 import com.fone.common.entity.Salary
-import com.fone.common.entity.Weekday
 import java.time.LocalDate
-import java.time.LocalTime
 import javax.persistence.Column
 import javax.persistence.Convert
 import javax.persistence.Embeddable
@@ -23,15 +20,15 @@ data class Work(
     @Column var email: String,
 
     @Convert(converter = SeparatorConverter::class)
-    var genres: List<Genre> = listOf(),
+    var genres: List<String> = listOf(),
     @Column var workingCity: String,
     @Column var workingDistrict: String,
     @Column var workingStartDate: LocalDate?,
     @Column var workingEndDate: LocalDate?,
     @Convert(converter = SeparatorConverter::class)
-    var selectedDays: List<Weekday> = listOf(),
-    @Column var workingStartTime: LocalTime?,
-    @Column var workingEndTime: LocalTime?,
+    var selectedDays: List<String> = listOf(),
+    @Column var workingStartTime: String?,
+    @Column var workingEndTime: String?,
     @Enumerated(EnumType.STRING) var salaryType: Salary,
     @Column var salary: Int,
 ) {
