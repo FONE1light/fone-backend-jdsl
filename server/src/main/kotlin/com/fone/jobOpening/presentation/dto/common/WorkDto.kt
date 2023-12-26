@@ -7,7 +7,6 @@ import com.fone.jobOpening.domain.entity.Work
 import io.swagger.v3.oas.annotations.media.Schema
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDate
-import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
@@ -25,30 +24,29 @@ data class WorkDto(
     @Schema(description = "촬영위치(구)", example = "강남구") val workingDistrict: String = "",
     @Schema(
         description = "근무기간(시작일)",
-        example = "2021.10.10"
+        example = "2021-10-10"
     )
-    @DateTimeFormat(pattern = "yyyy.MM.dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     val workingStartDate: LocalDate? = null,
     @Schema(
         description = "근무기간(종료일)",
-        example = "2021.10.11"
+        example = "2021-10-11"
     )
-    @DateTimeFormat(pattern = "yyyy.MM.dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     val workingEndDate: LocalDate? = null,
     @Schema(description = "근무요일", example = "[\"MON\",\"TUE\"]") val selectedDays: Set<Weekday> = setOf(),
     @Schema(
         description = "근무시간(시작시간)",
         example = "09:00"
-    )
-    @DateTimeFormat(pattern = "HH:mm")
-    val workingStartTime: LocalTime? = null,
+    ) val workingStartTime: String? = null,
     @Schema(
         description = "근무시간(종료시간)",
         example = "18:00"
-    )
-    @DateTimeFormat(pattern = "HH:mm")
-    val workingEndTime: LocalTime? = null,
-    @Schema(description = "급여유형", example = "HOUR") val salaryType: Salary = Salary.HOURLY,
+    ) val workingEndTime: String? = null,
+    @Schema(
+        description = "급여유형",
+        example = "HOURLY"
+    ) val salaryType: Salary = Salary.HOURLY,
     @Schema(description = "급여", example = "100000") val salary: Int = 0,
 ) {
     @get:Schema(description = "근무기간", example = "2021.10.10(금) ~ 2023.10.17(화)")
@@ -92,12 +90,12 @@ data class WorkDto(
         details = work.details,
         manager = work.manager,
         email = work.email,
-        genres = work.genres.toSet(),
+        genres = work.genres.map { Genre(it) }.toSet(),
         workingCity = work.workingCity,
         workingDistrict = work.workingDistrict,
         workingStartDate = work.workingStartDate,
         workingEndDate = work.workingEndDate,
-        selectedDays = work.selectedDays.toSet(),
+        selectedDays = work.selectedDays.map { Weekday(it) }.toSet(),
         workingStartTime = work.workingStartTime,
         workingEndTime = work.workingEndTime,
         salaryType = work.salaryType,
@@ -113,12 +111,12 @@ data class WorkDto(
             details = details,
             manager = manager,
             email = email,
-            genres = genres.toList(),
+            genres = genres.map { it.toString() },
             workingCity = workingCity,
             workingDistrict = workingDistrict,
             workingStartDate = workingStartDate,
             workingEndDate = workingEndDate,
-            selectedDays = selectedDays.toList(),
+            selectedDays = selectedDays.map { it.toString() },
             workingStartTime = workingStartTime,
             workingEndTime = workingEndTime,
             salaryType = salaryType,
