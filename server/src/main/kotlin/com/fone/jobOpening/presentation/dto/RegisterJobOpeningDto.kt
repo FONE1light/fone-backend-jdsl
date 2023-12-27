@@ -7,9 +7,8 @@ import com.fone.common.entity.Gender
 import com.fone.common.entity.Type
 import com.fone.jobOpening.domain.entity.JobOpening
 import com.fone.jobOpening.domain.entity.JobOpeningScrap
-import com.fone.jobOpening.infrastructure.toEntity
+import com.fone.jobOpening.infrastructure.toLocation
 import com.fone.jobOpening.presentation.dto.common.JobOpeningDto
-import com.fone.jobOpening.presentation.dto.common.LocationDto
 import com.fone.jobOpening.presentation.dto.common.WorkDto
 import com.fone.user.domain.enum.Job
 import io.swagger.v3.oas.annotations.media.Schema
@@ -46,7 +45,6 @@ class RegisterJobOpeningDto {
             description = "이미지",
             example = "[\"https://www.naver.com\",\"https://www.naver.com\"]"
         ) val imageUrls: List<String>,
-        val location: LocationDto?,
     )
 
     data class RegisterJobOpeningResponse(
@@ -95,6 +93,6 @@ suspend fun RegisterJobOpeningDto.RegisterJobOpeningRequest.toEntity(userId: Lon
         recruitmentStartDate = recruitmentStartDate,
         recruitmentEndDate = recruitmentEndDate,
         representativeImageUrl = representativeImageUrl,
-        location = location?.toEntity()
+        location = work.toLocation()
     )
 }

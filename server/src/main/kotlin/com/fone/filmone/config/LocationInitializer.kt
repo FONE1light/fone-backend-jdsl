@@ -16,7 +16,7 @@ class LocationInitializer(val locationRepository: LocationRepository) : Applicat
                     getLocationCsv().split("\n")
                         .filter { it.isNotBlank() }
                         .map {
-                            val (region, district) = it.split(",")
+                            val (region, district) = it.split(",").map { it.replace("\n", "") }
                             Location(region = region, district = district)
                         }
                 locationRepository.saveAll(locations)

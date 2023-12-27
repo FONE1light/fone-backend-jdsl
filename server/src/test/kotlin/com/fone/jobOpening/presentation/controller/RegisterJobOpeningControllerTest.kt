@@ -10,7 +10,6 @@ import com.fone.common.entity.DomainType
 import com.fone.common.entity.Gender
 import com.fone.common.entity.Type
 import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningRequest
-import com.fone.jobOpening.presentation.dto.common.LocationDto
 import com.fone.jobOpening.presentation.dto.common.WorkDto
 import org.springframework.test.web.reactive.server.WebTestClient
 
@@ -33,13 +32,12 @@ class RegisterJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                 Type.ACTOR,
                 listOf(DomainType.ART),
                 WorkDto(
-                    "", "", "", "", "", "", "", setOf(), "", ""
+                    "", "", "", "", "", "", "", setOf(), "서울특별시", "강서구"
                 ),
                 null,
                 null,
                 null,
-                listOf("https://www.naver.com"),
-                LocationDto("서울특별시", "강서구")
+                listOf("https://www.naver.com")
             )
 
         val registerJobOpeningStaffRequest =
@@ -55,13 +53,12 @@ class RegisterJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                 Type.STAFF,
                 listOf(DomainType.ART),
                 WorkDto(
-                    "", "", "", "", "", "", "", setOf(), "", ""
+                    "", "", "", "", "", "", "", setOf(), "서울특별시", "강서구"
                 ),
                 null,
                 null,
                 null,
-                listOf("https://www.naver.com"),
-                LocationDto("서울특별시", "강서구")
+                listOf("https://www.naver.com")
             )
 
         describe("#register jobOpening") {

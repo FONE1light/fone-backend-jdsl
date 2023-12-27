@@ -15,7 +15,6 @@ import com.fone.common.entity.Type
 import com.fone.common.response.CommonResponse
 import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningRequest
 import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningResponse
-import com.fone.jobOpening.presentation.dto.common.LocationDto
 import com.fone.jobOpening.presentation.dto.common.WorkDto
 import io.kotest.matchers.shouldBe
 import org.springframework.test.web.reactive.server.WebTestClient
@@ -50,14 +49,13 @@ class PutJobOpeningControllerTest(client: WebTestClient, private val objectMappe
                     "update",
                     "update",
                     setOf(),
-                    "update",
-                    "update@email.com"
+                    "서울특별시",
+                    "강서구"
                 ),
                 null,
                 null,
                 null,
-                listOf("https://www.naver.com"),
-                LocationDto("서울특별시", "강서구")
+                listOf("https://www.naver.com")
             )
 
         describe("#put jobOpening") {
