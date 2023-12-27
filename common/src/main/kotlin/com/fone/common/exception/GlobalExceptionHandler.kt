@@ -3,6 +3,7 @@ package com.fone.common.exception
 import club.minnced.discord.webhook.WebhookClient
 import club.minnced.discord.webhook.send.WebhookEmbed
 import club.minnced.discord.webhook.send.WebhookMessageBuilder
+import com.fasterxml.jackson.databind.exc.MismatchedInputException
 import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
 import com.fone.common.response.CommonResponse
 import com.fone.common.response.Error
@@ -30,24 +31,27 @@ class GlobalExceptionHandler(
     @Qualifier("MonitorWebhook")
     private val webhookClient: WebhookClient,
 ) {
-
     companion object {
         private val log = KotlinLogging.logger { }
     }
 
     @ExceptionHandler(ServerException::class)
-    fun handleServerException(ex: ServerException, exchange: ServerWebExchange): ResponseEntity<Any> {
-        val embed = WebhookEmbed(
-            null,
-            null,
-            "code: " + ex.code + "\n" + ex.javaClass.simpleName,
-            null,
-            null,
-            null,
-            WebhookEmbed.EmbedTitle(exchange.request.uri.toString(), null),
-            null,
-            emptyList()
-        )
+    fun handleServerException(
+        ex: ServerException,
+        exchange: ServerWebExchange,
+    ): ResponseEntity<Any> {
+        val embed =
+            WebhookEmbed(
+                null,
+                null,
+                "code: " + ex.code + "\n" + ex.javaClass.simpleName,
+                null,
+                null,
+                null,
+                WebhookEmbed.EmbedTitle(exchange.request.uri.toString(), null),
+                null,
+                emptyList()
+            )
         val builder = WebhookMessageBuilder()
         builder.setContent(ex.message)
         builder.addEmbeds(embed)
@@ -65,24 +69,28 @@ class GlobalExceptionHandler(
         e: ServerWebInputException,
         exchange: ServerWebExchange,
     ): Mono<CommonResponse<String?>> {
-        val data = if (e.cause?.cause is MissingKotlinParameterException) {
-            val param = (e.cause?.cause as MissingKotlinParameterException).parameter.name
-            "항목 ${param}을 확인해주세요"
-        } else {
-            null
-        }
+        val data =
+            if (e.cause?.cause is MissingKotlinParameterException) {
+                val param = (e.cause?.cause as MissingKotlinParameterException).parameter.name
+                "항목 ${param}을 확인해주세요"
+            } else if (e.cause?.cause is MismatchedInputException) {
+                e.message
+            } else {
+                null
+            }
 
-        val embed = WebhookEmbed(
-            null,
-            null,
-            data,
-            null,
-            null,
-            null,
-            WebhookEmbed.EmbedTitle(exchange.request.uri.toString(), null),
-            null,
-            emptyList()
-        )
+        val embed =
+            WebhookEmbed(
+                null,
+                null,
+                data,
+                null,
+                null,
+                null,
+                WebhookEmbed.EmbedTitle(exchange.request.uri.toString(), null),
+                null,
+                emptyList()
+            )
         val builder = WebhookMessageBuilder()
         builder.setContent(ErrorCode.COMMON_NULL_PARAMETER.errorMsg)
         builder.addEmbeds(embed)
@@ -96,18 +104,14 @@ class GlobalExceptionHandler(
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(value = [UnauthorizedException::class])
-    fun tokenInvalidException(
-        e: UnauthorizedException,
-    ): Mono<CommonResponse<Nothing>> {
+    fun tokenInvalidException(e: UnauthorizedException): Mono<CommonResponse<Nothing>> {
         val errorResponse = CommonResponse.fail(e.message, e::class.java.simpleName)
         return Mono.just(errorResponse)
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = [InvalidOauthStatusException::class])
-    fun invalidOauthUserException(
-        e: InvalidOauthStatusException,
-    ): Mono<CommonResponse<Nothing>> {
+    fun invalidOauthUserException(e: InvalidOauthStatusException): Mono<CommonResponse<Nothing>> {
         val errorResponse = CommonResponse.fail(e.message, e::class.java.simpleName)
         return Mono.just(errorResponse)
     }
@@ -120,25 +124,27 @@ class GlobalExceptionHandler(
     ): Mono<CommonResponse<String>> {
         val errors = mutableListOf<Error>()
         e.allErrors.forEach {
-            val error = Error(
-                field = (it as FieldError).field,
-                message = it.defaultMessage,
-                value = it.rejectedValue
-            )
+            val error =
+                Error(
+                    field = (it as FieldError).field,
+                    message = it.defaultMessage,
+                    value = it.rejectedValue
+                )
             errors.add(error)
         }
 
-        val embed = WebhookEmbed(
-            null,
-            null,
-            errors.toString(),
-            null,
-            null,
-            null,
-            WebhookEmbed.EmbedTitle(exchange.request.uri.toString(), null),
-            null,
-            emptyList()
-        )
+        val embed =
+            WebhookEmbed(
+                null,
+                null,
+                errors.toString(),
+                null,
+                null,
+                null,
+                WebhookEmbed.EmbedTitle(exchange.request.uri.toString(), null),
+                null,
+                emptyList()
+            )
         val builder = WebhookMessageBuilder()
         builder.setContent(ErrorCode.COMMON_INVALID_PARAMETER.errorMsg)
         builder.addEmbeds(embed)
@@ -146,8 +152,9 @@ class GlobalExceptionHandler(
         builder.addEmbeds(exchange.request.parseUserAgentToEmbed())
         webhookClient.send(builder.build())
 
-        val errorResponse = CommonResponse
-            .fail(errors.toString(), ErrorCode.COMMON_INVALID_PARAMETER)
+        val errorResponse =
+            CommonResponse
+                .fail(errors.toString(), ErrorCode.COMMON_INVALID_PARAMETER)
 
         return Mono.just(errorResponse)
     }
@@ -158,17 +165,18 @@ class GlobalExceptionHandler(
         e: Exception,
         exchange: ServerWebExchange,
     ): Mono<CommonResponse<String?>> {
-        val embed = WebhookEmbed(
-            null,
-            null,
-            e.message + "/" + e::class.java.simpleName,
-            null,
-            null,
-            null,
-            WebhookEmbed.EmbedTitle(exchange.request.uri.toString(), null),
-            null,
-            emptyList()
-        )
+        val embed =
+            WebhookEmbed(
+                null,
+                null,
+                e.message + "/" + e::class.java.simpleName,
+                null,
+                null,
+                null,
+                WebhookEmbed.EmbedTitle(exchange.request.uri.toString(), null),
+                null,
+                emptyList()
+            )
         val builder = WebhookMessageBuilder()
         builder.setContent("서버에서 정의하지 않은 서버입니다.")
         builder.addEmbeds(embed)
@@ -196,9 +204,10 @@ class GlobalExceptionHandler(
 
     private fun ServerHttpRequest.parseBody(): String {
         return runBlocking {
-            val body = runCatching {
-                DataBufferUtils.join(this@parseBody.body).awaitFirst()
-            }.getOrDefault(DefaultDataBufferFactory.sharedInstance.wrap("".toByteArray()))
+            val body =
+                runCatching {
+                    DataBufferUtils.join(this@parseBody.body).awaitFirst()
+                }.getOrDefault(DefaultDataBufferFactory.sharedInstance.wrap("".toByteArray()))
             val bytes = ByteArray(body.capacity())
             body.read(bytes)
             String(bytes)

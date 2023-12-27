@@ -16,7 +16,6 @@ import java.time.LocalDate
 import javax.validation.constraints.Email
 
 class RegisterProfileDto {
-
     data class RegisterProfileRequest(
         @field:Schema(description = "프로필 이름", required = true, example = "차이나는 클라스")
         val name: String,
@@ -50,11 +49,11 @@ class RegisterProfileDto {
         val career: Career,
         @field:Schema(description = "경력 상세 설명", example = "복숭아 요거트 제작 3년")
         val careerDetail: String?, // 하위 버전 호환성을 위해 null타입 추가 필요
-        @field:Schema(description = "관심사", example = "YOUTUBE", required = true)
+        @field:Schema(description = "관심사", example = "[\"YOUTUBE\"]", required = true)
         val categories: List<CategoryType>,
         @field:Schema(description = "타입", required = true)
         val type: Type,
-        @field:Schema(description = "분야", example = "PLANNING")
+        @field:Schema(description = "분야", example = "[\"PLANNING\"]")
         val domains: List<DomainType>?,
         @field:Schema(
             description = "이미지 URL",
@@ -67,7 +66,6 @@ class RegisterProfileDto {
         )
         val representativeImageUrl: String,
     ) {
-
         fun toEntity(userId: Long): Profile {
             return Profile(
                 hookingComment = hookingComment,
@@ -94,7 +92,6 @@ class RegisterProfileDto {
     data class RegisterProfileResponse(
         val profile: ProfileDto,
     ) {
-
         constructor(
             profile: Profile,
             userProfileWantMap: Map<Long, ProfileWant?>,
@@ -104,7 +101,8 @@ class RegisterProfileDto {
             profileUrl: String,
             job: Job,
         ) : this(
-            profile = ProfileDto(
+            profile =
+            ProfileDto(
                 profile,
                 userProfileWantMap,
                 profile.profileImages,
