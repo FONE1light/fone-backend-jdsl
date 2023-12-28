@@ -3,6 +3,7 @@ package com.fone.jobOpening.presentation.dto.common
 import com.fone.common.entity.Genre
 import com.fone.common.entity.Salary
 import com.fone.common.entity.Weekday
+import com.fone.jobOpening.domain.entity.Location
 import com.fone.jobOpening.domain.entity.Work
 import io.swagger.v3.oas.annotations.media.Schema
 import org.springframework.format.annotation.DateTimeFormat
@@ -87,8 +88,7 @@ data class WorkDto(
 
     constructor(
         work: Work,
-        workingCity: String? = "",
-        workingDistrict: String? = "",
+        location: Location?,
     ) : this(
         produce = work.produce,
         workTitle = work.workTitle,
@@ -103,8 +103,8 @@ data class WorkDto(
         selectedDays = work.selectedDays.map { Weekday(it) }.toSet(),
         workingStartTime = work.workingStartTime,
         workingEndTime = work.workingEndTime,
-        workingCity = workingCity ?: "",
-        workingDistrict = workingDistrict ?: "",
+        workingCity = location?.region ?: "",
+        workingDistrict = location?.district ?: "",
         salaryType = work.salaryType,
         salary = work.salary
     )
