@@ -5,12 +5,15 @@ import com.fone.competition.presentation.dto.RegisterCompetitionDto.RegisterComp
 import com.fone.competition.presentation.dto.RetrieveCompetitionDto.RetrieveCompetitionResponse
 import com.fone.competition.presentation.dto.RetrieveCompetitionDto.RetrieveCompetitionsResponse
 import com.fone.competition.presentation.dto.RetrieveCompetitionScrapDto.RetrieveCompetitionScrapResponse
+import com.fone.jobOpening.presentation.dto.LocationDto.RetrieveDistrictsResponse
+import com.fone.jobOpening.presentation.dto.LocationDto.RetrieveRegionsResponse
 import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningResponse
 import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningResponse
 import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningsResponse
 import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningMyRegistrationDto.RetrieveJobOpeningMyRegistrationResponse
 import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningScrapDto.RetrieveJobOpeningScrapResponse
 import com.fone.jobOpening.presentation.dto.RetrieveMySimilarJobOpeningDto.RetrieveMySimilarJobOpeningResponse
+import com.fone.jobOpening.presentation.dto.ScrapJobOpeningDto.ScrapJobOpeningResponse
 import com.fone.profile.presentation.dto.RegisterProfileDto.RegisterProfileResponse
 import com.fone.profile.presentation.dto.RetrieveProfileMyRegistrationDto.RetrieveProfileMyRegistrationResponse
 import com.fone.profile.presentation.dto.RetrieveProfileWantDto.RetrieveProfileWantResponse
@@ -56,7 +59,6 @@ import java.security.Principal
 class SwaggerConfig(
     private val typeResolver: TypeResolver,
 ) {
-
     @Bean
     fun api(): Docket {
         val commonResponse = setCommonResponse()
@@ -67,7 +69,6 @@ class SwaggerConfig(
                 typeResolver.resolve(RetrieveCompetitionsResponse::class.java),
                 typeResolver.resolve(RetrieveCompetitionResponse::class.java),
                 typeResolver.resolve(RetrieveCompetitionScrapResponse::class.java),
-
                 // jobOpening
                 typeResolver.resolve(RegisterJobOpeningResponse::class.java),
                 typeResolver.resolve(RetrieveJobOpeningsResponse::class.java),
@@ -75,20 +76,19 @@ class SwaggerConfig(
                 typeResolver.resolve(RetrieveJobOpeningMyRegistrationResponse::class.java),
                 typeResolver.resolve(RetrieveJobOpeningScrapResponse::class.java),
                 typeResolver.resolve(RetrieveMySimilarJobOpeningResponse::class.java),
-
+                typeResolver.resolve(ScrapJobOpeningResponse::class.java),
+                typeResolver.resolve(RetrieveDistrictsResponse::class.java),
+                typeResolver.resolve(RetrieveRegionsResponse::class.java),
                 // profile
                 typeResolver.resolve(RegisterProfileResponse::class.java),
                 typeResolver.resolve(RetrieveProfileMyRegistrationResponse::class.java),
                 typeResolver.resolve(RetrieveProfilesResponse::class.java),
                 typeResolver.resolve(RetrieveProfileResponse::class.java),
                 typeResolver.resolve(RetrieveProfileWantResponse::class.java),
-
                 // question
                 typeResolver.resolve(RegisterQuestionResponse::class.java),
-
                 // report
                 typeResolver.resolve(RegisterReportResponse::class.java),
-
                 // user
                 typeResolver.resolve(CheckNicknameDuplicateResponse::class.java),
                 typeResolver.resolve(ModifyUserResponse::class.java),
@@ -100,7 +100,6 @@ class SwaggerConfig(
                 typeResolver.resolve(EmailValidationResponse::class.java),
                 typeResolver.resolve(UserInfoSMSValidationResponse::class.java),
                 typeResolver.resolve(PasswordSMSValidationResponse::class.java),
-
                 // sms
                 typeResolver.resolve(SMSSendResponse::class.java)
             )
@@ -121,12 +120,13 @@ class SwaggerConfig(
             .securitySchemes(listOf<SecurityScheme>(apiKey()))
     }
 
-    private fun setCommonResponse() = listOf(
-        ResponseBuilder().code("200").description("정상 처리(성공)").build(),
-        ResponseBuilder().code("401").description("토큰 만료 또는 비정상 토큰 또는 권한 없음").build(),
-        ResponseBuilder().code("404").description("존재하지 않는 api 요청 ").build(),
-        ResponseBuilder().code("500").description("내부 서버 오류(문의 필요)").build()
-    )
+    private fun setCommonResponse() =
+        listOf(
+            ResponseBuilder().code("200").description("정상 처리(성공)").build(),
+            ResponseBuilder().code("401").description("토큰 만료 또는 비정상 토큰 또는 권한 없음").build(),
+            ResponseBuilder().code("404").description("존재하지 않는 api 요청 ").build(),
+            ResponseBuilder().code("500").description("내부 서버 오류(문의 필요)").build()
+        )
 
     private fun apiKey(): ApiKey {
         return ApiKey("JWT", "Authorization", "header")
@@ -144,10 +144,11 @@ class SwaggerConfig(
         return listOf(SecurityReference("JWT", authorizationScopes))
     }
 
-    private fun getConsumeContentTypes(): Set<String> = setOf(
-        "application/json;charset=UTF-8",
-        "application/x-www-form-urlencoded"
-    )
+    private fun getConsumeContentTypes(): Set<String> =
+        setOf(
+            "application/json;charset=UTF-8",
+            "application/x-www-form-urlencoded"
+        )
 
     private fun getProduceContentTypes(): Set<String> = setOf("application/json;charset=UTF-8")
 
