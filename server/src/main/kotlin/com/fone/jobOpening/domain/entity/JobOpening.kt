@@ -4,7 +4,7 @@ import com.fone.common.entity.BaseEntity
 import com.fone.common.entity.Career
 import com.fone.common.entity.Gender
 import com.fone.common.entity.Type
-import com.fone.jobOpening.infrastructure.toEntity
+import com.fone.jobOpening.infrastructure.toLocation
 import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningRequest
 import java.time.LocalDate
 import javax.persistence.CascadeType
@@ -65,7 +65,7 @@ data class JobOpening(
         recruitmentStartDate = request.recruitmentStartDate
         recruitmentEndDate = request.recruitmentEndDate
         representativeImageUrl = request.representativeImageUrl
-        location = request.location?.toEntity()
+        location = request.work.toLocation()
     }
 
     fun delete() {

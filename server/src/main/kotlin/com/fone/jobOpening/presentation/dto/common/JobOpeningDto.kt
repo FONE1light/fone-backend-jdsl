@@ -71,7 +71,6 @@ data class JobOpeningDto(
     val imageUrls: List<String>,
     @Schema(description = "공식 인증 여부", example = "false")
     val isVerified: Boolean,
-    val location: LocationDto?,
 ) {
     @get:Schema(description = "D-day", example = "D-1")
     val dDay: String
@@ -101,8 +100,8 @@ data class JobOpeningDto(
         domains = domains,
         viewCount = jobOpening.viewCount,
         scrapCount = jobOpening.scrapCount,
-        work = WorkDto(jobOpening.work),
-        isScrap = userJobOpeningScrapMap.get(jobOpening.id!!) != null,
+        work = WorkDto(jobOpening.work, jobOpening.location),
+        isScrap = userJobOpeningScrapMap[jobOpening.id!!] != null,
         nickname = nickname,
         profileUrl = profileUrl,
         createdAt = jobOpening.createdAt,
@@ -111,7 +110,6 @@ data class JobOpeningDto(
         recruitmentEndDate = jobOpening.recruitmentEndDate,
         representativeImageUrl = jobOpening.representativeImageUrl,
         imageUrls = imageUrls,
-        isVerified = isVerified,
-        location = jobOpening.location?.toDto()
+        isVerified = isVerified
     )
 }

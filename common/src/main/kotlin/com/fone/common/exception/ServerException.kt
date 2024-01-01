@@ -66,3 +66,7 @@ data class SMSValidationException(
 data class EmailBackendException(
     override val message: String = "이메일 전송 오류 발생",
 ) : ServerException(500, message)
+
+data class BadLocationException(
+    override val message: String = "Location 정보가 유효하지 않음.",
+) : ServerException(400, message)

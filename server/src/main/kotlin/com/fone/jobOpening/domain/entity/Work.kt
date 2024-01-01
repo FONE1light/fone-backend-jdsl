@@ -18,11 +18,8 @@ data class Work(
     @Column(length = 500) var details: String,
     @Column(length = 10) var manager: String,
     @Column var email: String,
-
     @Convert(converter = SeparatorConverter::class)
     var genres: List<String> = listOf(),
-    @Column var workingCity: String,
-    @Column var workingDistrict: String,
     @Column var workingStartDate: LocalDate?,
     @Column var workingEndDate: LocalDate?,
     @Convert(converter = SeparatorConverter::class)

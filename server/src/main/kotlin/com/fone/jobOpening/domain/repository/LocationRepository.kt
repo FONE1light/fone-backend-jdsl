@@ -8,7 +8,7 @@ interface LocationRepository {
     suspend fun findLocation(
         region: String,
         district: String,
-    ): Location
+    ): Location?
 
     suspend fun getAllRegions(): List<String>
 

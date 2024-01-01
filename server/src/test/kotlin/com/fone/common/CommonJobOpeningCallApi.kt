@@ -7,12 +7,11 @@ import com.fone.common.entity.Gender
 import com.fone.common.entity.Type
 import com.fone.common.response.CommonResponse
 import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto
-import com.fone.jobOpening.presentation.dto.common.LocationDto
 import com.fone.jobOpening.presentation.dto.common.WorkDto
 import org.springframework.test.web.reactive.server.WebTestClient
 
 object CommonJobOpeningCallApi {
-    private const val registerUrl = "/api/v1/job-openings"
+    private val registerUrl = "/api/v1/job-openings"
 
     fun register(
         client: WebTestClient,
@@ -30,12 +29,14 @@ object CommonJobOpeningCallApi {
                 Career.IRRELEVANT,
                 Type.ACTOR,
                 listOf(DomainType.ART),
-                WorkDto(),
+                WorkDto(
+                    workingCity = "서울특별시",
+                    workingDistrict = "도봉구"
+                ),
                 null,
                 null,
                 null,
-                listOf("https://www.naver.com"),
-                LocationDto("서울특별시", "강남구")
+                listOf("https://www.naver.com")
             )
 
         val jobOpening =
