@@ -70,3 +70,7 @@ data class EmailBackendException(
 data class BadLocationException(
     override val message: String = "Location 정보가 유효하지 않음.",
 ) : ServerException(400, message)
+
+data class RequestValidationException(
+    override val message: String,
+) : ServerException(400, message)
