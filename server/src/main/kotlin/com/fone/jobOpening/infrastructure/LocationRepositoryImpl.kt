@@ -9,6 +9,7 @@ import com.linecorp.kotlinjdsl.querydsl.expression.count
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.SpringDataHibernateMutinyReactiveQueryFactory
 import com.linecorp.kotlinjdsl.spring.reactive.listQuery
 import com.linecorp.kotlinjdsl.spring.reactive.singleQuery
+import com.linecorp.kotlinjdsl.spring.reactive.singleQueryOrNull
 import io.smallrye.mutiny.coroutines.asFlow
 import io.smallrye.mutiny.coroutines.awaitSuspending
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -48,9 +49,9 @@ class LocationRepositoryImpl(
     override suspend fun findLocation(
         region: String,
         district: String,
-    ): Location {
+    ): Location? {
         return queryFactory.withFactory { session, factory ->
-            factory.singleQuery {
+            factory.singleQueryOrNull<Location> {
                 select(Location::class.java)
                 from(Location::class.java)
                 whereAnd(
