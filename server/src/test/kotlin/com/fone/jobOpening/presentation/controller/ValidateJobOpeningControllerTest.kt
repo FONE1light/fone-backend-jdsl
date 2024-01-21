@@ -14,7 +14,7 @@ import org.springframework.test.web.reactive.server.WebTestClient
 import java.time.LocalDate
 
 @IntegrationTest
-class ValidateControllerTest(client: WebTestClient) : CustomDescribeSpec() {
+class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSpec() {
     init {
         val url = "/api/v1/job-openings/validate"
         val (accessToken, _) = CommonUserCallApi.getAccessToken(client)
