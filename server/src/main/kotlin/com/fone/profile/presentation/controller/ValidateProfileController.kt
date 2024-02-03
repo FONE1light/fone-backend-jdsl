@@ -1,6 +1,8 @@
 package com.fone.profile.presentation.controller
 
 import com.fone.common.response.CommonResponse
+import com.fone.jobOpening.application.ValidateJobOpeningFacade
+import com.fone.jobOpening.presentation.dto.ValidateJobOpeningDto
 import com.fone.profile.application.ValidateProfileFacade
 import com.fone.profile.presentation.dto.ValidateProfileDto
 import io.swagger.annotations.Api
@@ -18,7 +20,23 @@ import java.security.Principal
 @RequestMapping("/api/v1/profiles/validate")
 class ValidateProfileController(
     private val validateProfileFacade: ValidateProfileFacade,
+    private val validateJobOpeningFacade: ValidateJobOpeningFacade,
 ) {
+    @PostMapping("/contact")
+    @PreAuthorize("hasRole('USER')")
+    @ApiOperation(value = "프로필 검증 API - 페이지1")
+    @ApiResponse(
+        responseCode = "200",
+        description = "성공"
+    )
+    suspend fun contactPageValidation(
+        @RequestBody
+        request: ValidateJobOpeningDto.ContactPageValidation,
+    ): CommonResponse<Unit> {
+        validateJobOpeningFacade.validateContactPage(request)
+        return CommonResponse.success()
+    }
+
     @PostMapping("/basic")
     @PreAuthorize("hasRole('USER')")
     @ApiOperation(value = "프로필 검증 API - 페이지2")

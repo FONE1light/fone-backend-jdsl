@@ -1,5 +1,6 @@
 package com.fone.jobOpening.domain.service
 
+import com.fone.common.entity.ContactMethod
 import com.fone.common.exception.RequestValidationException
 import com.fone.jobOpening.domain.repository.LocationRepository
 import com.fone.jobOpening.presentation.dto.ValidateJobOpeningDto
@@ -10,6 +11,23 @@ class ValidateJobOpeningService(
     private val locationRepository: LocationRepository,
 ) {
     private val emailRegex = Regex("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
+
+    suspend fun validateContactPage(request: ValidateJobOpeningDto.ContactPageValidation) {
+        if (request.contactMethod == ContactMethod.EMAIL) {
+            if (emailRegex.matches(request.contact)) {
+                throw RequestValidationException("올바른 이메일 주소를 입력해 주세요.")
+            }
+        } else if (request.contactMethod == ContactMethod.KAKAO) {
+            if (!request.contact.startsWith("https://open.kakao.com")) {
+                throw RequestValidationException("올바른 링크 주소를 입력해 주세요.")
+            }
+        } else {
+            if (!request.contact.startsWith("https://docs.google.com/forms")) {
+                throw RequestValidationException("올바른 링크 주소를 입력해 주세요.")
+            }
+        }
+    }
+
 
     suspend fun validateTitlePage(request: ValidateJobOpeningDto.TitlePageValidation) {
         if (request.title.isNullOrBlank()) {

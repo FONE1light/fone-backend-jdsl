@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service
 class ValidateJobOpeningFacade(
     private val validateJobOpeningService: ValidateJobOpeningService,
 ) {
+    suspend fun validateContactPage(request: ValidateJobOpeningDto.ContactPageValidation) =
+        validateJobOpeningService.validateContactPage(request)
+
     suspend fun validateTitlePage(request: ValidateJobOpeningDto.TitlePageValidation) =
         validateJobOpeningService.validateTitlePage(request)
 

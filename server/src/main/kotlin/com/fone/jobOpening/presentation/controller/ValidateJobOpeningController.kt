@@ -18,6 +18,21 @@ import org.springframework.web.bind.annotation.RestController
 class ValidateJobOpeningController(
     private val validateJobOpeningFacade: ValidateJobOpeningFacade,
 ) {
+    @PostMapping("/contact")
+    @PreAuthorize("hasRole('USER')")
+    @ApiOperation(value = "구인구직 검증 API - 페이지1")
+    @ApiResponse(
+        responseCode = "200",
+        description = "성공"
+    )
+    suspend fun contactPageValidation(
+        @RequestBody
+        request: ValidateJobOpeningDto.ContactPageValidation,
+    ): CommonResponse<Unit> {
+        validateJobOpeningFacade.validateContactPage(request)
+        return CommonResponse.success()
+    }
+
     @PostMapping("/title")
     @PreAuthorize("hasRole('USER')")
     @ApiOperation(value = "구인구직 검증 API - 페이지2")
