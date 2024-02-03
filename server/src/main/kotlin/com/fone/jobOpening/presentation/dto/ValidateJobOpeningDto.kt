@@ -2,6 +2,7 @@ package com.fone.jobOpening.presentation.dto
 
 import com.fone.common.entity.Career
 import com.fone.common.entity.CategoryType
+import com.fone.common.entity.ContactMethod
 import com.fone.common.entity.Gender
 import com.fone.common.entity.Genre
 import com.fone.common.entity.Salary
@@ -11,6 +12,11 @@ import org.springframework.format.annotation.DateTimeFormat
 import java.time.LocalDate
 
 class ValidateJobOpeningDto {
+    data class ContactPageValidation(
+        @Schema(description = "연락방법", example = "kakao") val contactMethod: ContactMethod,
+        @Schema(description = "연락처", example = "https://docs.google.com/forms/...") val contact: String,
+    )
+
     data class TitlePageValidation(
         @Schema(description = "모집제목", example = "많은 이들의 시선보다 ..") val title: String?,
         @Schema(description = "작품의 성격", example = "[\"ACTOR\",\"ACTRESS\"]") val categories: List<CategoryType>?,
