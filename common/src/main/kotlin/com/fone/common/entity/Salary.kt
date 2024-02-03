@@ -6,6 +6,7 @@ enum class Salary(name: String) {
     DAILY("일급"),
     HOURLY("시급"),
     PER_SESSION("회차"),
+    LATER_ON("추후협의"),
     ;
 
     companion object {

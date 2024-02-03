@@ -8,6 +8,7 @@ enum class Weekday(name: String) {
     FRI("금"),
     SAT("토"),
     SUN("일"),
+    LATER_ON("추후협의"),
     ;
 
     companion object {
