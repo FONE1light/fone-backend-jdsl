@@ -20,7 +20,7 @@ class ValidateJobOpeningController(
 ) {
     @PostMapping("/title")
     @PreAuthorize("hasRole('USER')")
-    @ApiOperation(value = "구인구직 검증 API")
+    @ApiOperation(value = "구인구직 검증 API - 페이지2")
     @ApiResponse(
         responseCode = "200",
         description = "성공"
@@ -35,7 +35,7 @@ class ValidateJobOpeningController(
 
     @PostMapping("/role")
     @PreAuthorize("hasRole('USER')")
-    @ApiOperation(value = "구인구직 검증 API")
+    @ApiOperation(value = "구인구직 검증 API - 페이지3")
     @ApiResponse(
         responseCode = "200",
         description = "성공"
@@ -50,7 +50,7 @@ class ValidateJobOpeningController(
 
     @PostMapping("/project")
     @PreAuthorize("hasRole('USER')")
-    @ApiOperation(value = "구인구직 검증 API")
+    @ApiOperation(value = "구인구직 검증 API - 페이지4")
     @ApiResponse(
         responseCode = "200",
         description = "성공"
@@ -65,7 +65,7 @@ class ValidateJobOpeningController(
 
     @PostMapping("/project-details")
     @PreAuthorize("hasRole('USER')")
-    @ApiOperation(value = "구인구직 검증 API")
+    @ApiOperation(value = "구인구직 검증 API - 페이지5")
     @ApiResponse(
         responseCode = "200",
         description = "성공"
@@ -80,7 +80,7 @@ class ValidateJobOpeningController(
 
     @PostMapping("/summary")
     @PreAuthorize("hasRole('USER')")
-    @ApiOperation(value = "구인구직 검증 API")
+    @ApiOperation(value = "구인구직 검증 API - 페이지6")
     @ApiResponse(
         responseCode = "200",
         description = "성공"
@@ -95,7 +95,7 @@ class ValidateJobOpeningController(
 
     @PostMapping("/manager")
     @PreAuthorize("hasRole('USER')")
-    @ApiOperation(value = "구인구직 검증 API")
+    @ApiOperation(value = "구인구직 검증 API - 페이지7")
     @ApiResponse(
         responseCode = "200",
         description = "성공"
