@@ -21,7 +21,7 @@ class ValidateProfileController(
 ) {
     @PostMapping("/basic")
     @PreAuthorize("hasRole('USER')")
-    @ApiOperation(value = "프로필 검증 API")
+    @ApiOperation(value = "프로필 검증 API - 페이지2")
     @ApiResponse(
         responseCode = "200",
         description = "성공"
@@ -36,7 +36,7 @@ class ValidateProfileController(
 
     @PostMapping("/details")
     @PreAuthorize("hasRole('USER')")
-    @ApiOperation(value = "프로필 검증 API")
+    @ApiOperation(value = "프로필 검증 API - 페이지3")
     @ApiResponse(
         responseCode = "200",
         description = "성공"
@@ -52,7 +52,7 @@ class ValidateProfileController(
 
     @PostMapping("/description")
     @PreAuthorize("hasRole('USER')")
-    @ApiOperation(value = "프로필 검증 API")
+    @ApiOperation(value = "프로필 검증 API - 페이지4")
     @ApiResponse(
         responseCode = "200",
         description = "성공"
@@ -67,7 +67,7 @@ class ValidateProfileController(
 
     @PostMapping("/career")
     @PreAuthorize("hasRole('USER')")
-    @ApiOperation(value = "프로필 검증 API")
+    @ApiOperation(value = "프로필 검증 API - 페이지5")
     @ApiResponse(
         responseCode = "200",
         description = "성공"
@@ -82,7 +82,7 @@ class ValidateProfileController(
 
     @PostMapping("/interest")
     @PreAuthorize("hasRole('USER')")
-    @ApiOperation(value = "프로필 검증 API")
+    @ApiOperation(value = "프로필 검증 API - 페이지6")
     @ApiResponse(
         responseCode = "200",
         description = "성공"
