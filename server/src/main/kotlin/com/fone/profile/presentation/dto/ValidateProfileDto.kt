@@ -26,9 +26,9 @@ class ValidateProfileDto {
         val birthday: LocalDate,
         @Schema(description = "성별 (enum값에 성별무관 있음)", example = "WOMAN")
         val gender: Gender?,
-        @Schema(description = "키 (스태프에서는 null)", example = "188")
+        @Schema(description = "키 (스태프에서는 null, 유저 입력안할 시 -값으로 설정)", example = "188")
         val height: Int?,
-        @Schema(description = "몸무게 (스태프에서는 null)", example = "70")
+        @Schema(description = "몸무게 (스태프에서는 null, 유저 입력안할 시 -값으로 설정)", example = "70")
         val weight: Int?,
         @Schema(description = "이메일", example = "example@something.com")
         val email: String,

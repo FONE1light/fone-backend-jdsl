@@ -41,13 +41,13 @@ class ValidateJobOpeningDto {
     )
 
     data class RolePageValidation(
-        @Schema(description = "모집배역", example = "30대 중반 경찰")
+        @Schema(description = "모집배역 (스태프에서는 null)", example = "30대 중반 경찰")
         val casting: String?,
-        @Schema(description = "분야", example = "[\"SCENARIO\",\"DIRECTOR\"]")
+        @Schema(description = "분야 (배우에서는 null)", example = "[\"SCENARIO\",\"DIRECTOR\"]")
         val domains: List<DomainType>?,
-        @Schema(description = "모집인원", example = "1")
-        val numberOfRecruits: Int?,
-        @Schema(description = "성별", example = "MAN")
+        @Schema(description = "모집인원 (입력안할 시 -값으로 설정)", example = "1")
+        val numberOfRecruits: Int = -1,
+        @Schema(description = "성별 (enum값에 성별무관 있음)", example = "MAN")
         val gender: Gender,
         @Schema(description = "최대 나이 (최대,최소 둘다 null이면 연령무관)", example = "40")
         val ageMax: Int?,
@@ -101,8 +101,8 @@ class ValidateJobOpeningDto {
             description = "급여유형 (추후협의 값 enum에 있음)",
             example = "HOURLY"
         ) val salaryType: Salary,
-        @Schema(description = "급여", example = "100000")
-        val salary: Int?,
+        @Schema(description = "급여 (입력 안할시 -값으로 전달)", example = "100000")
+        val salary: Int,
     )
 
     data class SummaryPageValidation(

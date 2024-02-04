@@ -37,13 +37,13 @@ class ValidateProfileService(
         }
 
         if (request.height != null) {
-            if (request.height <= 0) {
+            if (request.height < 0) {
                 throw RequestValidationException("신장을 입력해 주세요.")
             }
         }
 
         if (request.weight != null) {
-            if (request.weight <= 0) {
+            if (request.weight < 0) {
                 throw RequestValidationException("체중을 입력해 주세요.")
             }
         }
