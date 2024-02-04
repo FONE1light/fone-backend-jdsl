@@ -30,7 +30,7 @@ class RegisterJobOpeningService(
         val user = userRepository.findByNicknameOrEmail(null, email) ?: throw NotFoundUserException()
         return with(request) {
             val jobOpening = toEntity(user.id!!)
-            imageUrls.forEach {
+            secondPage.imageUrls.forEach {
                 jobOpening.addJobOpeningImage(
                     JobOpeningImage(
                         it
@@ -41,14 +41,14 @@ class RegisterJobOpeningService(
             jobOpeningRepository.save(jobOpening)
 
             val jobOpeningDomains =
-                domains?.map {
+                thirdPage.domains?.map {
                     com.fone.jobOpening.domain.entity.JobOpeningDomain(
                         jobOpening.id!!,
                         it
                     )
                 }
             val jobOpeningCategories =
-                categories.map {
+                secondPage.categories.map {
                     com.fone.jobOpening.domain.entity.JobOpeningCategory(
                         jobOpening.id!!,
                         it
@@ -62,8 +62,8 @@ class RegisterJobOpeningService(
             RegisterJobOpeningResponse(
                 jobOpening,
                 scraps,
-                domains,
-                categories,
+                thirdPage.domains,
+                secondPage.categories,
                 jobOpeningUser?.nickname ?: "",
                 jobOpeningUser?.profileUrl ?: "",
                 jobOpeningUser?.job ?: Job.ACTOR,

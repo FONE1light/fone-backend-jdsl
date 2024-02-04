@@ -31,7 +31,7 @@ class ValidateProfileController(
     )
     suspend fun contactPageValidation(
         @RequestBody
-        request: ValidateJobOpeningDto.ContactPageValidation,
+        request: ValidateJobOpeningDto.FirstPage,
     ): CommonResponse<Unit> {
         validateJobOpeningFacade.validateContactPage(request)
         return CommonResponse.success()

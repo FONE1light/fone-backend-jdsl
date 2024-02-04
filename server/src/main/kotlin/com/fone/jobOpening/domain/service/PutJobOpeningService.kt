@@ -34,7 +34,7 @@ class PutJobOpeningService(
         }
 
         jobOpeningDomainRepository.deleteByJobOpeningId(jobOpening.id!!)
-        val jobOpeningDomains = request.domains?.map {
+        val jobOpeningDomains = request.thirdPage.domains?.map {
             com.fone.jobOpening.domain.entity.JobOpeningDomain(
                 jobOpening.id!!,
                 it
@@ -43,7 +43,7 @@ class PutJobOpeningService(
         jobOpeningDomainRepository.saveAll(jobOpeningDomains)
 
         jobOpeningCategoryRepository.deleteByJobOpeningId(jobOpening.id!!)
-        val jobOpeningCategories = request.categories.map {
+        val jobOpeningCategories = request.secondPage.categories.map {
             com.fone.jobOpening.domain.entity.JobOpeningCategory(
                 jobOpening.id!!,
                 it
@@ -61,8 +61,8 @@ class PutJobOpeningService(
         return RegisterJobOpeningResponse(
             jobOpening,
             userJobOpeningScraps,
-            request.domains,
-            request.categories,
+            request.thirdPage.domains,
+            request.secondPage.categories,
             jobOpeningUser?.nickname ?: "",
             jobOpeningUser?.profileUrl ?: "",
             jobOpeningUser?.job ?: Job.ACTOR,

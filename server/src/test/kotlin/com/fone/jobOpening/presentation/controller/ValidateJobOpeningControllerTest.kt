@@ -7,8 +7,8 @@ import com.fone.common.doPost
 import com.fone.common.entity.CategoryType
 import com.fone.common.entity.Salary
 import com.fone.common.entity.Weekday
-import com.fone.jobOpening.presentation.dto.ValidateJobOpeningDto.ProjectDetailsPageValidation
-import com.fone.jobOpening.presentation.dto.ValidateJobOpeningDto.TitlePageValidation
+import com.fone.jobOpening.presentation.dto.ValidateJobOpeningDto.FifthPage
+import com.fone.jobOpening.presentation.dto.ValidateJobOpeningDto.SecondPage
 import org.springframework.test.web.reactive.server.WebTestClient
 import java.time.LocalDate
 
@@ -20,24 +20,26 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
         describe("#JobOpening 검증 API") {
             context("title 페이지") {
                 it("성공한다") {
-                    val request = TitlePageValidation(
+                    val request = SecondPage(
                         "제목",
                         listOf(CategoryType.ETC),
                         null,
                         null,
-                        listOf("")
+                        listOf(""),
+                        ""
                     )
                     client.doPost("$url/title", request, accessToken)
                         .expectStatus().isOk.expectBody()
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("SUCCESS")
                 }
                 it("실패한다") {
-                    val request = TitlePageValidation(
+                    val request = SecondPage(
                         "",
                         listOf(CategoryType.ETC),
                         LocalDate.now(),
                         LocalDate.now(),
-                        listOf("")
+                        listOf(""),
+                        ""
                     )
                     client.doPost("$url/title", request, accessToken).expectStatus().isBadRequest.expectBody()
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("FAIL")
@@ -45,7 +47,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
             }
             context("ProjectDetails 페이지") {
                 it("성공한다") {
-                    val request = ProjectDetailsPageValidation(
+                    val request = FifthPage(
                         "서울특별시",
                         "강남구",
                         null,
@@ -61,7 +63,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("SUCCESS")
                 }
                 it("실패한다") {
-                    val request = ProjectDetailsPageValidation(
+                    val request = FifthPage(
                         "서울특별시",
                         "상상구",
                         null,

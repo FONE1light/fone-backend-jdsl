@@ -13,9 +13,6 @@ import com.linecorp.kotlinjdsl.querydsl.expression.col
 import com.linecorp.kotlinjdsl.querydsl.expression.column
 import com.linecorp.kotlinjdsl.querydsl.from.fetch
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.SpringDataHibernateMutinyReactiveQueryFactory
-import com.linecorp.kotlinjdsl.spring.data.reactive.query.listQuery
-import com.linecorp.kotlinjdsl.spring.data.reactive.query.pageQuery
-import com.linecorp.kotlinjdsl.spring.data.reactive.query.singleQueryOrNull
 import com.linecorp.kotlinjdsl.spring.reactive.listQuery
 import com.linecorp.kotlinjdsl.spring.reactive.pageQuery
 import com.linecorp.kotlinjdsl.spring.reactive.querydsl.SpringDataReactiveCriteriaQueryDsl
@@ -57,7 +54,7 @@ class JobOpeningRepositoryImpl(
                 factory.listQuery {
                     select(entity(JobOpening::class))
                     from(entity(JobOpening::class))
-                    fetch(JobOpening::images, joinType = JoinType.LEFT)
+                    fetch(JobOpening::imageUrls, joinType = JoinType.LEFT)
                     fetch(JobOpening::location, joinType = JoinType.LEFT)
                 }.associateBy { it?.id }
 
@@ -135,7 +132,7 @@ class JobOpeningRepositoryImpl(
                 factory.listQuery {
                     select(entity(JobOpening::class))
                     from(entity(JobOpening::class))
-                    fetch(JobOpening::images, joinType = JoinType.LEFT)
+                    fetch(JobOpening::imageUrls, joinType = JoinType.LEFT)
                     fetch(JobOpening::location, joinType = JoinType.LEFT)
                     where(and(col(JobOpening::id).`in`(jobOpeningIds.content)))
                     orderBy(orderSpec(pageable.sort))
@@ -154,7 +151,7 @@ class JobOpeningRepositoryImpl(
             factory.singleQueryOrNull {
                 select(entity(JobOpening::class))
                 from(entity(JobOpening::class))
-                fetch(JobOpening::images, joinType = JoinType.LEFT)
+                fetch(JobOpening::imageUrls, joinType = JoinType.LEFT)
                 fetch(JobOpening::location, joinType = JoinType.LEFT)
                 where(
                     jobOpeningIdEq(jobOpeningId)
@@ -171,7 +168,7 @@ class JobOpeningRepositoryImpl(
             factory.singleQueryOrNull {
                 select(entity(JobOpening::class))
                 from(entity(JobOpening::class))
-                fetch(JobOpening::images, joinType = JoinType.LEFT)
+                fetch(JobOpening::imageUrls, joinType = JoinType.LEFT)
                 fetch(JobOpening::location, joinType = JoinType.LEFT)
                 where(
                     and(
@@ -199,7 +196,7 @@ class JobOpeningRepositoryImpl(
                 factory.listQuery {
                     select(entity(JobOpening::class))
                     from(entity(JobOpening::class))
-                    fetch(JobOpening::images, joinType = JoinType.LEFT)
+                    fetch(JobOpening::imageUrls, joinType = JoinType.LEFT)
                     fetch(JobOpening::location, joinType = JoinType.LEFT)
                     where(and(col(JobOpening::id).`in`(ids.content)))
                 }.associateBy { it?.id }
@@ -232,7 +229,7 @@ class JobOpeningRepositoryImpl(
                 factory.listQuery {
                     select(entity(JobOpening::class))
                     from(entity(JobOpening::class))
-                    fetch(JobOpening::images, joinType = JoinType.LEFT)
+                    fetch(JobOpening::imageUrls, joinType = JoinType.LEFT)
                     fetch(JobOpening::location, joinType = JoinType.LEFT)
                     where(col(JobOpening::id).`in`(ids.content))
                 }.associateBy { it?.id }

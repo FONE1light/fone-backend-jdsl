@@ -27,7 +27,7 @@ class ValidateJobOpeningController(
     )
     suspend fun contactPageValidation(
         @RequestBody
-        request: ValidateJobOpeningDto.ContactPageValidation,
+        request: ValidateJobOpeningDto.FirstPage,
     ): CommonResponse<Unit> {
         validateJobOpeningFacade.validateContactPage(request)
         return CommonResponse.success()
@@ -42,7 +42,7 @@ class ValidateJobOpeningController(
     )
     suspend fun titlePageValidation(
         @RequestBody
-        request: ValidateJobOpeningDto.TitlePageValidation,
+        request: ValidateJobOpeningDto.SecondPage,
     ): CommonResponse<Unit> {
         validateJobOpeningFacade.validateTitlePage(request)
         return CommonResponse.success()
@@ -57,7 +57,7 @@ class ValidateJobOpeningController(
     )
     suspend fun rolePageValidation(
         @RequestBody
-        request: ValidateJobOpeningDto.RolePageValidation,
+        request: ValidateJobOpeningDto.ThirdPage,
     ): CommonResponse<Unit> {
         validateJobOpeningFacade.validateRolePage(request)
         return CommonResponse.success()
@@ -72,7 +72,7 @@ class ValidateJobOpeningController(
     )
     suspend fun projectPageValidation(
         @RequestBody
-        request: ValidateJobOpeningDto.ProjectPageValidation,
+        request: ValidateJobOpeningDto.FourthPage,
     ): CommonResponse<Unit> {
         validateJobOpeningFacade.validateProjectPage(request)
         return CommonResponse.success()
@@ -87,7 +87,7 @@ class ValidateJobOpeningController(
     )
     suspend fun projectDetailsPageValidation(
         @RequestBody
-        request: ValidateJobOpeningDto.ProjectDetailsPageValidation,
+        request: ValidateJobOpeningDto.FifthPage,
     ): CommonResponse<Unit> {
         validateJobOpeningFacade.validateProjectDetailsPage(request)
         return CommonResponse.success()
@@ -102,7 +102,7 @@ class ValidateJobOpeningController(
     )
     suspend fun projectSummaryPageValidation(
         @RequestBody
-        request: ValidateJobOpeningDto.SummaryPageValidation,
+        request: ValidateJobOpeningDto.SixthPage,
     ): CommonResponse<Unit> {
         validateJobOpeningFacade.validateSummaryPage(request)
         return CommonResponse.success()
@@ -117,7 +117,7 @@ class ValidateJobOpeningController(
     )
     suspend fun projectManagerPageValidation(
         @RequestBody
-        request: ValidateJobOpeningDto.ManagerInfoValidation,
+        request: ValidateJobOpeningDto.SeventhPage,
     ): CommonResponse<Unit> {
         validateJobOpeningFacade.validateManagerPage(request)
         return CommonResponse.success()
