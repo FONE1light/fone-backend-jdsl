@@ -54,7 +54,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                         null,
                         null,
                         Salary.HOURLY,
-                        null
+                        -2
                     )
                     client.doPost("$url/project-details", request, accessToken)
                         .expectStatus().isOk.expectBody()
@@ -70,7 +70,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                         null,
                         null,
                         Salary.HOURLY,
-                        null
+                        -2
                     )
                     client.doPost("$url/project-details", request, accessToken).expectStatus().isBadRequest.expectBody()
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("FAIL")

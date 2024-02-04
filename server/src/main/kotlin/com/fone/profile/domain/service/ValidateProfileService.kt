@@ -5,6 +5,7 @@ import com.fone.profile.presentation.dto.ValidateProfileDto
 import com.fone.user.domain.repository.UserRepository
 import org.hibernate.validator.internal.constraintvalidators.hv.URLValidator
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 
 @Service
 class ValidateProfileService(
@@ -32,6 +33,18 @@ class ValidateProfileService(
         email: String,
         request: ValidateProfileDto.DetailPageValidation,
     ) {
+        if (request.birthday != null) {
+            if (request.birthday.year < 1920) {
+                throw RequestValidationException("100세 이상의 나이는 입력할 수 없습니다.")
+            }
+        }
+
+        if (request.birthday != null) {
+            if (request.birthday.isAfter(LocalDate.now())) {
+                throw RequestValidationException("미래의 날짜를 입력할 수 없습니다.")
+            }
+        }
+
         if (request.gender == null) {
             throw RequestValidationException("성별을 선택해 주세요.")
         }
