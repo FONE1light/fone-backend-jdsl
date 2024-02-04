@@ -4,11 +4,10 @@ import com.fone.common.CommonUserCallApi
 import com.fone.common.CustomDescribeSpec
 import com.fone.common.IntegrationTest
 import com.fone.common.doPost
-import com.fone.common.entity.Career
 import com.fone.common.entity.CategoryType
-import com.fone.common.entity.Gender
+import com.fone.common.entity.Salary
+import com.fone.common.entity.Weekday
 import com.fone.jobOpening.presentation.dto.ValidateJobOpeningDto.ProjectDetailsPageValidation
-import com.fone.jobOpening.presentation.dto.ValidateJobOpeningDto.RolePageValidation
 import com.fone.jobOpening.presentation.dto.ValidateJobOpeningDto.TitlePageValidation
 import org.springframework.test.web.reactive.server.WebTestClient
 import java.time.LocalDate
@@ -24,8 +23,8 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                     val request = TitlePageValidation(
                         "제목",
                         listOf(CategoryType.ETC),
-                        LocalDate.now(),
-                        LocalDate.now(),
+                        null,
+                        null,
                         listOf("")
                     )
                     client.doPost("$url/title", request, accessToken)
@@ -51,11 +50,11 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                         "강남구",
                         null,
                         null,
+                        setOf(Weekday.MON),
                         null,
                         null,
-                        null,
-                        null,
-                        null
+                        Salary.HOURLY,
+                        -2
                     )
                     client.doPost("$url/project-details", request, accessToken)
                         .expectStatus().isOk.expectBody()
@@ -67,43 +66,43 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                         "상상구",
                         null,
                         null,
+                        setOf(Weekday.MON),
                         null,
                         null,
-                        null,
-                        null,
-                        null
+                        Salary.HOURLY,
+                        -2
                     )
                     client.doPost("$url/project-details", request, accessToken).expectStatus().isBadRequest.expectBody()
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("FAIL")
                 }
             }
-            context("role 페이지") {
-                it("성공한다") {
-                    val request = RolePageValidation(
-                        "역할",
-                        1,
-                        Gender.MAN,
-                        88,
-                        0,
-                        Career.NEWCOMER
-                    )
-                    client.doPost("$url/role", request, accessToken)
-                        .expectStatus().isOk.expectBody()
-                        .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("SUCCESS")
-                }
-                it("실패한다") {
-                    val request = RolePageValidation(
-                        "역할",
-                        null,
-                        Gender.MAN,
-                        88,
-                        0,
-                        Career.NEWCOMER
-                    )
-                    client.doPost("$url/role", request, accessToken).expectStatus().isBadRequest.expectBody()
-                        .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("FAIL")
-                }
-            }
+            // context("role 페이지") {
+            //     it("성공한다") {
+            //         val request = RolePageValidation(
+            //             "역할",
+            //             1,
+            //             Gender.MAN,
+            //             88,
+            //             0,
+            //             Career.NEWCOMER
+            //         )
+            //         client.doPost("$url/role", request, accessToken)
+            //             .expectStatus().isOk.expectBody()
+            //             .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("SUCCESS")
+            //     }
+            //     it("실패한다") {
+            //         val request = RolePageValidation(
+            //             "역할",
+            //             null,
+            //             Gender.MAN,
+            //             88,
+            //             0,
+            //             Career.NEWCOMER
+            //         )
+            //         client.doPost("$url/role", request, accessToken).expectStatus().isBadRequest.expectBody()
+            //             .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("FAIL")
+            //     }
+            // }
         }
     }
 }

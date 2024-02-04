@@ -34,7 +34,7 @@ class ValidateJobOpeningService(
             throw RequestValidationException("최소 2자 이상의 모집 제목을 입력해주세요.")
         }
 
-        if (request.title.length > 50) {
+        if (request.categories.isEmpty()) {
             throw RequestValidationException("최소 1개 이상 작품의 성격을 선택해주세요.")
         }
 
@@ -54,7 +54,7 @@ class ValidateJobOpeningService(
             }
         }
 
-        if (request.numberOfRecruits == null) {
+        if (request.numberOfRecruits < 0) {
             throw RequestValidationException("모집 인원을 입력해 주세요.")
         }
 
@@ -108,6 +108,22 @@ class ValidateJobOpeningService(
             ?: throw RequestValidationException("'시', '구'가 유효하지 않습니다.")
 
         validateDate(request.workingStartDate, request.workingEndDate)
+
+        if (request.workingStartTime != null && request.workingEndTime != null) {
+            return
+        }
+
+        if (request.workingStartTime == null && request.workingEndTime == null) {
+            return
+        }
+
+        if (request.workingStartTime == null) {
+            throw RequestValidationException("근무시간의 시작과 마감 값을 올바르게 입력해 주세요.")
+        }
+
+        if (request.workingEndTime == null) {
+            throw RequestValidationException("근무시간의 시작과 마감 값을 올바르게 입력해 주세요.")
+        }
     }
 
     suspend fun validateSummaryPage(request: ValidateJobOpeningDto.SummaryPageValidation) {

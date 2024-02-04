@@ -49,9 +49,9 @@ class ValidateProfileControllerTest(client: WebTestClient) : CustomDescribeSpec(
                             170,
                             300,
                             "mail@mail.com",
-                            listOf(ProfileSnsUrl("123", SNS.YOUTUBE)),
+                            null,
                             "고추장 잘 먹음",
-                            null
+                            listOf(ProfileSnsUrl("123", SNS.YOUTUBE))
                         )
                     client.doPost("$url/details", request, accessToken)
                         .expectStatus().isOk.expectBody()
@@ -65,9 +65,9 @@ class ValidateProfileControllerTest(client: WebTestClient) : CustomDescribeSpec(
                             null,
                             300,
                             "mail@mail.com",
-                            listOf(ProfileSnsUrl("123", SNS.YOUTUBE)),
+                            listOf(),
                             "고추장 잘 먹음",
-                            null
+                            listOf(ProfileSnsUrl("123", SNS.YOUTUBE))
                         )
                     client.doPost("$url/details", request, accessToken).expectStatus().isBadRequest.expectBody()
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("FAIL")
