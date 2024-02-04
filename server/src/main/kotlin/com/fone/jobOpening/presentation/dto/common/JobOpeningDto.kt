@@ -48,9 +48,9 @@ data class JobOpeningDto(
     @Schema(description = "스크랩 여부", example = "false")
     val isScrap: Boolean = false,
     @Schema(description = "닉네임", example = "김매니저")
-    val nickname: String,
+    val userNickname: String,
     @Schema(description = "프로필 이미지", example = "https://www.naver.com")
-    val profileUrl: String,
+    val userProfileUrl: String,
     @Schema(description = "작성일", example = "2021-10-10")
     val createdAt: LocalDateTime,
     @Schema(description = "유저 직업", example = "ACTOR")
@@ -124,8 +124,8 @@ data class JobOpeningDto(
         viewCount = jobOpening.viewCount,
         scrapCount = jobOpening.scrapCount,
         isScrap = userJobOpeningScrapMap[jobOpening.id!!] != null,
-        nickname = nickname,
-        profileUrl = profileUrl,
+        userNickname = nickname,
+        userProfileUrl = profileUrl,
         createdAt = jobOpening.createdAt,
         userJob = job,
         isVerified = isVerified

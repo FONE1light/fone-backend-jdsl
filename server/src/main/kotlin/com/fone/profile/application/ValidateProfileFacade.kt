@@ -9,18 +9,18 @@ class ValidateProfileFacade(
     private val validateProfileService: ValidateProfileService,
 ) {
 
-    suspend fun validateBasicPage(basicPageValidation: ValidateProfileDto.BasicPageValidation) =
-        validateProfileService.validateBasicPage(basicPageValidation)
+    suspend fun validateBasicPage(secondPage: ValidateProfileDto.SecondPage) =
+        validateProfileService.validateBasicPage(secondPage)
 
-    suspend fun validateDetailPage(email: String, detailPageValidation: ValidateProfileDto.DetailPageValidation) =
-        validateProfileService.validateDetailPage(email, detailPageValidation)
+    suspend fun validateDetailPage(email: String, thirdPage: ValidateProfileDto.ThirdPage) =
+        validateProfileService.validateDetailPage(email, thirdPage)
 
-    suspend fun validateDescriptionPage(descriptionPageValidation: ValidateProfileDto.DescriptionPageValidation) =
-        validateProfileService.validateDescriptionPage(descriptionPageValidation)
+    suspend fun validateDescriptionPage(fourthPage: ValidateProfileDto.FourthPage) =
+        validateProfileService.validateDescriptionPage(fourthPage)
 
-    suspend fun validateCareerPage(careerPageValidation: ValidateProfileDto.CareerPageValidation) =
-        validateProfileService.validateCareerPage(careerPageValidation)
+    suspend fun validateCareerPage(fifthPage: ValidateProfileDto.FifthPage) =
+        validateProfileService.validateCareerPage(fifthPage)
 
-    suspend fun validateInterestPage(interestPageValidation: ValidateProfileDto.InterestPageValidation) =
-        validateProfileService.validateInterestPage(interestPageValidation)
+    suspend fun validateInterestPage(sixthPage: ValidateProfileDto.SixthPage) =
+        validateProfileService.validateInterestPage(sixthPage)
 }

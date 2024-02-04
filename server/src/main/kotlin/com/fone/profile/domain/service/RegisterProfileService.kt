@@ -32,7 +32,7 @@ class RegisterProfileService(
         val user = userRepository.findByEmail(email) ?: throw NotFoundUserException()
         return with(request) {
             val profile = toEntity(user.id!!)
-            profileImages.forEach {
+            secondPage.profileImages.forEach {
                 profile.addProfileImage(
                     ProfileImage(
                         it
@@ -42,14 +42,14 @@ class RegisterProfileService(
 
             profileRepository.save(profile)
 
-            val profileDomains = domains?.map {
+            val profileDomains = thirdPage.domains?.map {
                 ProfileDomain(
                     profile.id!!,
                     it
                 )
             }
 
-            val profileCategories = categories.map {
+            val profileCategories = sixthPage.categories.map {
                 ProfileCategory(
                     profile.id!!,
                     it
@@ -66,8 +66,8 @@ class RegisterProfileService(
             RegisterProfileResponse(
                 profile,
                 userProfileWants,
-                domains,
-                categories,
+                thirdPage.domains,
+                sixthPage.categories,
                 profileUser?.nickname ?: "",
                 profileUser?.profileUrl ?: "",
                 profileUser?.job ?: Job.ACTOR

@@ -97,6 +97,10 @@ data class JobOpening(
         recruitmentStartDate = request.secondPage.recruitmentStartDate
         recruitmentEndDate = request.secondPage.recruitmentEndDate
         representativeImageUrl = request.secondPage.representativeImageUrl
+        imageUrls.clear()
+        request.secondPage.imageUrls.forEach {
+            addJobOpeningImage(JobOpeningImage(it))
+        }
 
         casting = request.thirdPage.casting
         numberOfRecruits = request.thirdPage.numberOfRecruits
@@ -132,6 +136,7 @@ data class JobOpening(
         recruitmentStartDate = null
         recruitmentEndDate = null
         representativeImageUrl = ""
+        imageUrls.clear()
         casting = ""
         numberOfRecruits = -1
         careers = listOf()

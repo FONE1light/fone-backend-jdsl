@@ -20,11 +20,20 @@ class WantProfileService(
 
         profileWantRepository.findByUserIdAndProfileId(userId, profileId)?.let {
             profileWantRepository.delete(it)
+
+            val profile = profileRepository.findByTypeAndId(null, profileId) ?: throw NotFoundProfileException()
+
+            profile.wantCount -= 1
+
+            profileRepository.save(profile)
             return
         }
 
-        profileRepository.findByTypeAndId(null, profileId) ?: throw NotFoundProfileException()
+        val profile = profileRepository.findByTypeAndId(null, profileId) ?: throw NotFoundProfileException()
+
+        profile.wantCount += 1
 
         profileWantRepository.save(ProfileWant(userId, profileId))
+        profileRepository.save(profile)
     }
 }

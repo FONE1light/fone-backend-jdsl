@@ -42,7 +42,7 @@ class PutProfileService(
         val userProfileWants = profileWantRepository.findByUserId(user.id!!)
 
         profileDomainRepository.deleteByProfileId(profile.id!!)
-        val profileDomains = request.domains?.map {
+        val profileDomains = request.thirdPage.domains?.map {
             ProfileDomain(
                 profile.id!!,
                 it
@@ -51,7 +51,7 @@ class PutProfileService(
         profileDomainRepository.saveAll(profileDomains)
 
         profileCategoryRepository.deleteByProfileId(profile.id!!)
-        val profileCategories = request.categories.map {
+        val profileCategories = request.sixthPage.categories.map {
             ProfileCategory(
                 profile.id!!,
                 it
@@ -64,8 +64,8 @@ class PutProfileService(
         return RegisterProfileResponse(
             profile,
             userProfileWants,
-            request.domains,
-            request.categories,
+            request.thirdPage.domains,
+            request.sixthPage.categories,
             profileUser?.nickname ?: "",
             profileUser?.profileUrl ?: "",
             profileUser?.job ?: Job.ACTOR

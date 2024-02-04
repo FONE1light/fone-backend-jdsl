@@ -21,12 +21,11 @@ class DeleteJobOpeningService(
     @Transactional
     suspend fun deleteJobOpening(email: String, jobOpeningId: Long) {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
-
         val jobOpening = jobOpeningRepository.findByTypeAndId(null, jobOpeningId) ?: throw NotFoundJobOpeningException()
+
         if (jobOpening.userId != userId) {
             throw InvalidJobOpeningUserIdException()
         }
-
         jobOpening.delete()
         jobOpeningRepository.save(jobOpening)
         jobOpeningDomainRepository.deleteByJobOpeningId(jobOpeningId)
