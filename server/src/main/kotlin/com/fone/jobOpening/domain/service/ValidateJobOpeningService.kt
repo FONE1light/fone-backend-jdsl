@@ -34,7 +34,7 @@ class ValidateJobOpeningService(
             throw RequestValidationException("최소 2자 이상의 모집 제목을 입력해주세요.")
         }
 
-        if (request.title.length > 50) {
+        if (request.categories.isEmpty()) {
             throw RequestValidationException("최소 1개 이상 작품의 성격을 선택해주세요.")
         }
 

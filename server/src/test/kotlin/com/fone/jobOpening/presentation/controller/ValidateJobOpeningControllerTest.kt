@@ -23,8 +23,8 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                     val request = TitlePageValidation(
                         "제목",
                         listOf(CategoryType.ETC),
-                        LocalDate.now(),
-                        LocalDate.now(),
+                        null,
+                        null,
                         listOf("")
                     )
                     client.doPost("$url/title", request, accessToken)
