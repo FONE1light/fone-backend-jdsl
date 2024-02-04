@@ -33,16 +33,12 @@ class ValidateProfileService(
         email: String,
         request: ValidateProfileDto.DetailPageValidation,
     ) {
-        if (request.birthday != null) {
-            if (request.birthday.year < 1920) {
-                throw RequestValidationException("100세 이상의 나이는 입력할 수 없습니다.")
-            }
+        if (LocalDate.now().year - request.birthday.year > 100) {
+            throw RequestValidationException("100세 이상의 나이는 입력할 수 없습니다.")
         }
 
-        if (request.birthday != null) {
-            if (request.birthday.isAfter(LocalDate.now())) {
-                throw RequestValidationException("미래의 날짜를 입력할 수 없습니다.")
-            }
+        if (request.birthday.isAfter(LocalDate.now())) {
+            throw RequestValidationException("미래의 날짜를 입력할 수 없습니다.")
         }
 
         if (request.gender == null) {
