@@ -49,7 +49,7 @@ class ValidateProfileControllerTest(client: WebTestClient) : CustomDescribeSpec(
                             170,
                             300,
                             "mail@mail.com",
-                            listOf(),
+                            null,
                             "고추장 잘 먹음",
                             listOf(ProfileSnsUrl("123", SNS.YOUTUBE)),
                         )
