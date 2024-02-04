@@ -46,7 +46,7 @@ class RetrieveJobOpeningDto {
                     jobOpeningUsers[it.userId]?.nickname ?: "",
                     jobOpeningUsers[it.userId]?.profileUrl ?: "",
                     jobOpeningUsers[it.userId]?.job ?: Job.ACTOR,
-                    it.images.map { image -> image.url }.toList(),
+                    it.imageUrls.map { image -> image.url }.toList(),
                     jobOpeningUsers[it.userId]?.isVerified ?: false
                 )
             }
@@ -75,7 +75,7 @@ class RetrieveJobOpeningDto {
                 nickname,
                 profileUrl,
                 job,
-                reqJobOpening.images.map { it.url }.toList(),
+                reqJobOpening.imageUrls.map { it.url }.toList(),
                 isVerified
             )
         )

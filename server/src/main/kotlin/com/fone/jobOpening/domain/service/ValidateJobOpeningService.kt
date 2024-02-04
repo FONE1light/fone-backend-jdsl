@@ -13,7 +13,7 @@ class ValidateJobOpeningService(
 ) {
     private val emailRegex = Regex("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
 
-    suspend fun validateContactPage(request: ValidateJobOpeningDto.ContactPageValidation) {
+    suspend fun validateContactPage(request: ValidateJobOpeningDto.FirstPage) {
         if (request.contactMethod == ContactMethod.EMAIL) {
             if (!emailRegex.matches(request.contact)) {
                 throw RequestValidationException("올바른 이메일 주소를 입력해 주세요.")
@@ -29,7 +29,7 @@ class ValidateJobOpeningService(
         }
     }
 
-    suspend fun validateTitlePage(request: ValidateJobOpeningDto.TitlePageValidation) {
+    suspend fun validateTitlePage(request: ValidateJobOpeningDto.SecondPage) {
         if (request.title.length < 2) {
             throw RequestValidationException("최소 2자 이상의 모집 제목을 입력해주세요.")
         }
@@ -41,7 +41,7 @@ class ValidateJobOpeningService(
         validateDate(request.recruitmentStartDate, request.recruitmentEndDate)
     }
 
-    suspend fun validateRolePage(request: ValidateJobOpeningDto.RolePageValidation) {
+    suspend fun validateRolePage(request: ValidateJobOpeningDto.ThirdPage) {
         if (request.casting != null) {
             if (request.casting.isBlank()) {
                 throw RequestValidationException("모집 배역을 입력해 주세요.")
@@ -88,7 +88,7 @@ class ValidateJobOpeningService(
         }
     }
 
-    suspend fun validateProjectPage(request: ValidateJobOpeningDto.ProjectPageValidation) {
+    suspend fun validateProjectPage(request: ValidateJobOpeningDto.FourthPage) {
         if (request.produce.isBlank()) {
             throw RequestValidationException("제작 주체를 입력해 주세요.")
         }
@@ -103,7 +103,7 @@ class ValidateJobOpeningService(
         }
     }
 
-    suspend fun validateProjectDetailsPage(request: ValidateJobOpeningDto.ProjectDetailsPageValidation) {
+    suspend fun validateProjectDetailsPage(request: ValidateJobOpeningDto.FifthPage) {
         locationRepository.findLocation(request.workingCity, request.workingDistrict)
             ?: throw RequestValidationException("'시', '구'가 유효하지 않습니다.")
 
@@ -126,13 +126,13 @@ class ValidateJobOpeningService(
         }
     }
 
-    suspend fun validateSummaryPage(request: ValidateJobOpeningDto.SummaryPageValidation) {
+    suspend fun validateSummaryPage(request: ValidateJobOpeningDto.SixthPage) {
         if (request.details.length < 8) {
             throw RequestValidationException("최소 8자 이상의 상세 요강을 입력해주세요.")
         }
     }
 
-    suspend fun validateManagerPage(request: ValidateJobOpeningDto.ManagerInfoValidation) {
+    suspend fun validateManagerPage(request: ValidateJobOpeningDto.SeventhPage) {
         if (request.manager.isBlank()) {
             throw RequestValidationException("담당자의 이름을 입력해 주세요.")
         }

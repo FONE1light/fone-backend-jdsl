@@ -3,7 +3,7 @@ package com.fone.jobOpening.infrastructure
 import com.fone.common.exception.BadLocationException
 import com.fone.jobOpening.domain.entity.Location
 import com.fone.jobOpening.domain.repository.LocationRepository
-import com.fone.jobOpening.presentation.dto.common.WorkDto
+import com.fone.jobOpening.presentation.dto.ValidateJobOpeningDto
 import com.linecorp.kotlinjdsl.querydsl.expression.col
 import com.linecorp.kotlinjdsl.querydsl.expression.count
 import com.linecorp.kotlinjdsl.spring.data.reactive.query.SpringDataHibernateMutinyReactiveQueryFactory
@@ -95,6 +95,6 @@ class LocationRepositoryImpl(
 
 private lateinit var repo: LocationRepository
 
-suspend fun WorkDto.toLocation(): Location {
+suspend fun ValidateJobOpeningDto.FifthPage.toLocation(): Location {
     return repo.findLocation(workingCity, workingDistrict) ?: throw BadLocationException()
 }

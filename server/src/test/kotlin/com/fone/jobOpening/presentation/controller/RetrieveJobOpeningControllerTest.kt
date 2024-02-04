@@ -63,8 +63,8 @@ class RetrieveJobOpeningControllerTest(client: WebTestClient, private val object
                                 objectMapper.readValue<CommonResponse<RetrieveJobOpeningResponse>>(
                                     it.responseBody!!
                                 )
-                            response.data!!.jobOpening.work.workingCity shouldBe "서울특별시"
-                            response.data!!.jobOpening.work.workingDistrict shouldBe "도봉구"
+                            response.data!!.jobOpening.fifthPage.workingCity shouldBe "서울특별시"
+                            response.data!!.jobOpening.fifthPage.workingDistrict shouldBe "도봉구"
                         }
                         .jsonPath("$.result")
                         .isEqualTo("SUCCESS")
