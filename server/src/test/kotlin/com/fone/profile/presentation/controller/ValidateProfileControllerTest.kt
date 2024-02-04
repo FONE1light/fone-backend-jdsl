@@ -20,10 +20,11 @@ class ValidateProfileControllerTest(client: WebTestClient) : CustomDescribeSpec(
             context("basic 페이지") {
                 it("성공한다") {
                     val request =
-                        ValidateProfileDto.BasicPageValidation(
+                        ValidateProfileDto.SecondPage(
                             "제목",
                             "후킹멘트",
-                            listOf("https://s3-ap-northeast-2.amazonaws.com/f-one-image/prod/user-profile/image.jpg")
+                            listOf("https://s3-ap-northeast-2.amazonaws.com/f-one-image/prod/user-profile/image.jpg"),
+                            "https://s3-ap-northeast-2.amazonaws.com/f-one-image/prod/user-profile/image.jpg"
                         )
                     client.doPost("$url/basic", request, accessToken)
                         .expectStatus().isOk.expectBody()
@@ -31,10 +32,11 @@ class ValidateProfileControllerTest(client: WebTestClient) : CustomDescribeSpec(
                 }
                 it("실패한다") {
                     val request =
-                        ValidateProfileDto.BasicPageValidation(
+                        ValidateProfileDto.SecondPage(
                             "제목",
                             "후킹멘트",
-                            listOf("")
+                            listOf(""),
+                            ""
                         )
                     client.doPost("$url/basic", request, accessToken).expectStatus().isBadRequest.expectBody()
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("FAIL")
@@ -43,7 +45,7 @@ class ValidateProfileControllerTest(client: WebTestClient) : CustomDescribeSpec(
             context("details 페이지") {
                 it("성공한다") {
                     val request =
-                        ValidateProfileDto.DetailPageValidation(
+                        ValidateProfileDto.ThirdPage(
                             LocalDate.now(),
                             Gender.MAN,
                             170,
@@ -59,7 +61,7 @@ class ValidateProfileControllerTest(client: WebTestClient) : CustomDescribeSpec(
                 }
                 it("실패한다") {
                     val request =
-                        ValidateProfileDto.DetailPageValidation(
+                        ValidateProfileDto.ThirdPage(
                             LocalDate.now(),
                             Gender.MAN,
                             null,

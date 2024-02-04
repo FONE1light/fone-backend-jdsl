@@ -67,7 +67,10 @@ object CommonJobOpeningCallApi {
         )
 
     val registerJobOpeningStaffRequest = registerJobOpeningActorRequest.copy(
-        type = Type.STAFF
+        type = Type.STAFF,
+        thirdPage = registerJobOpeningActorRequest.thirdPage.copy(
+            domains = listOf(DomainType.PAINTING)
+        )
     )
     private val registerUrl = "/api/v1/job-openings"
 

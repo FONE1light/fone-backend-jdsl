@@ -46,9 +46,9 @@ class ValidateProfileController(
     )
     suspend fun basicPageValidate(
         @RequestBody
-        basicPageValidation: ValidateProfileDto.BasicPageValidation,
+        secondPage: ValidateProfileDto.SecondPage,
     ): CommonResponse<Unit> {
-        validateProfileFacade.validateBasicPage(basicPageValidation)
+        validateProfileFacade.validateBasicPage(secondPage)
         return CommonResponse.success()
     }
 
@@ -62,9 +62,9 @@ class ValidateProfileController(
     suspend fun detailPageValidate(
         principal: Principal,
         @RequestBody
-        detailPageValidation: ValidateProfileDto.DetailPageValidation,
+        thirdPage: ValidateProfileDto.ThirdPage,
     ): CommonResponse<Unit> {
-        validateProfileFacade.validateDetailPage(principal.name, detailPageValidation)
+        validateProfileFacade.validateDetailPage(principal.name, thirdPage)
         return CommonResponse.success()
     }
 
@@ -77,9 +77,9 @@ class ValidateProfileController(
     )
     suspend fun descriptionValidate(
         @RequestBody
-        descriptionPageValidation: ValidateProfileDto.DescriptionPageValidation,
+        fourthPage: ValidateProfileDto.FourthPage,
     ): CommonResponse<Unit> {
-        validateProfileFacade.validateDescriptionPage(descriptionPageValidation)
+        validateProfileFacade.validateDescriptionPage(fourthPage)
         return CommonResponse.success()
     }
 
@@ -92,9 +92,9 @@ class ValidateProfileController(
     )
     suspend fun careerValidate(
         @RequestBody
-        careerPageValidation: ValidateProfileDto.CareerPageValidation,
+        fifthPage: ValidateProfileDto.FifthPage,
     ): CommonResponse<Unit> {
-        validateProfileFacade.validateCareerPage(careerPageValidation)
+        validateProfileFacade.validateCareerPage(fifthPage)
         return CommonResponse.success()
     }
 
@@ -107,9 +107,9 @@ class ValidateProfileController(
     )
     suspend fun interestValidate(
         @RequestBody
-        interestPageValidation: ValidateProfileDto.InterestPageValidation,
+        sixthPage: ValidateProfileDto.SixthPage,
     ): CommonResponse<Unit> {
-        validateProfileFacade.validateInterestPage(interestPageValidation)
+        validateProfileFacade.validateInterestPage(sixthPage)
         return CommonResponse.success()
     }
 }

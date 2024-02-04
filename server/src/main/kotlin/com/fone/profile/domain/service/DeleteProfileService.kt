@@ -8,6 +8,7 @@ import com.fone.profile.domain.repository.ProfileCategoryRepository
 import com.fone.profile.domain.repository.ProfileDomainRepository
 import com.fone.profile.domain.repository.ProfileRepository
 import org.springframework.stereotype.Service
+import javax.transaction.Transactional
 
 @Service
 class DeleteProfileService(
@@ -17,6 +18,7 @@ class DeleteProfileService(
     private val userRepository: UserCommonRepository,
 ) {
 
+    @Transactional
     suspend fun deleteProfile(email: String, profileId: Long) {
         val userId = userRepository.findByEmail(email) ?: throw NotFoundUserException()
         val profile = profileRepository.findByTypeAndId(null, profileId) ?: throw NotFoundProfileException()

@@ -14,7 +14,7 @@ class ValidateProfileService(
     private val urlValidator = URLValidator()
     private val emailRegex = Regex("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
 
-    fun validateBasicPage(request: ValidateProfileDto.BasicPageValidation) {
+    fun validateBasicPage(request: ValidateProfileDto.SecondPage) {
         if (request.name.isBlank()) {
             throw RequestValidationException("본인의 이름을 입력해 주세요.")
         }
@@ -31,7 +31,7 @@ class ValidateProfileService(
 
     suspend fun validateDetailPage(
         email: String,
-        request: ValidateProfileDto.DetailPageValidation,
+        request: ValidateProfileDto.ThirdPage,
     ) {
         if (LocalDate.now().year - request.birthday.year > 100) {
             throw RequestValidationException("100세 이상의 나이는 입력할 수 없습니다.")
@@ -68,18 +68,18 @@ class ValidateProfileService(
         }
     }
 
-    fun validateDescriptionPage(descriptionPageValidation: ValidateProfileDto.DescriptionPageValidation) {
-        if (descriptionPageValidation.details.length < 8) {
+    fun validateDescriptionPage(fourthPage: ValidateProfileDto.FourthPage) {
+        if (fourthPage.details.length < 8) {
             throw RequestValidationException("최소 8자 이상의 상세 요강을 입력해주세요.")
         }
     }
 
-    fun validateCareerPage(careerPageValidation: ValidateProfileDto.CareerPageValidation) {
+    fun validateCareerPage(fifthPage: ValidateProfileDto.FifthPage) {
         // 검증 할 것 없음
         return
     }
 
-    fun validateInterestPage(interestPageValidation: ValidateProfileDto.InterestPageValidation) {
+    fun validateInterestPage(sixthPage: ValidateProfileDto.SixthPage) {
         // 검증 할 것 없음
         return
     }

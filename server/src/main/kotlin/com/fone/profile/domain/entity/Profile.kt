@@ -2,6 +2,7 @@ package com.fone.profile.domain.entity
 
 import com.fone.common.entity.BaseEntity
 import com.fone.common.entity.Career
+import com.fone.common.entity.ContactMethod
 import com.fone.common.entity.Gender
 import com.fone.common.entity.Type
 import com.fone.profile.presentation.dto.RegisterProfileDto.RegisterProfileRequest
@@ -26,34 +27,48 @@ data class Profile(
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
+
+    // page1
+    @Enumerated(EnumType.STRING) var contactMethod: ContactMethod,
+    @Column(length = 300) var contact: String,
+
+    // page2
     @Column(length = 10) var name: String,
     @Column var hookingComment: String,
-    @Column var birthday: LocalDate?,
-    @Enumerated(EnumType.STRING) var gender: Gender,
-    @Column var height: Int,
-    @Column var weight: Int,
+    @OneToMany(
+        mappedBy = "profile",
+        cascade = [CascadeType.PERSIST, CascadeType.MERGE],
+        orphanRemoval = true
+    ) var profileImages: MutableList<ProfileImage> = mutableListOf(),
+    @Column var representativeImageUrl: String,
+
+    // page3
+    @Column var birthday: LocalDate,
+    @Enumerated(EnumType.STRING) var gender: Gender?,
+    @Column var height: Int?,
+    @Column var weight: Int?,
     @Column var email: String,
-    @Column(length = 300) var sns: String,
+    @Column(length = 50) var specialty: String,
     @OneToMany(
         cascade = [CascadeType.PERSIST, CascadeType.MERGE],
         orphanRemoval = true
     )
     @JoinColumn(name = "profile_id")
     var snsUrls: Set<ProfileSns>,
-    @Column(length = 50) var specialty: String,
+
+    // page4
     @Column(length = 500) var details: String,
+
+    // page5
     @Enumerated(EnumType.STRING) var career: Career,
     @Column(length = 500) var careerDetail: String,
+
+    // etc
     @Enumerated(EnumType.STRING) var type: Type,
     @Column var userId: Long,
-    @Column var viewCount: Long,
+    @Column var viewCount: Long = 0,
+    @Column var wantCount: Long = 0,
     @Column var isDeleted: Boolean = false,
-    @Column var representativeImageUrl: String,
-    @OneToMany(
-        mappedBy = "profile",
-        cascade = [CascadeType.PERSIST, CascadeType.MERGE],
-        orphanRemoval = true
-    ) var profileImages: MutableList<ProfileImage> = mutableListOf(),
 ) : BaseEntity() {
 
     fun view() {
@@ -65,43 +80,54 @@ data class Profile(
     }
 
     fun put(request: RegisterProfileRequest) {
-        name = request.name
-        hookingComment = request.hookingComment
-        birthday = request.birthday
-        gender = request.gender
-        height = request.height
-        weight = request.weight
-        email = request.email
-        sns = request.sns ?: ""
-        snsUrls = request.snsUrls.map(ProfileSnsUrl::toEntity).toSet()
-        specialty = request.specialty
-        details = request.details
-        career = request.career
-        careerDetail = request.careerDetail ?: ""
-        type = request.type
-        representativeImageUrl = request.representativeImageUrl
-        this.profileImages = mutableListOf()
-        request.profileImages.forEach {
-            this.addProfileImage(ProfileImage(it))
+        // page1
+        contactMethod = request.firstPage.contactMethod
+        contact = request.firstPage.contact
+
+        // page2
+        name = request.secondPage.name
+        hookingComment = request.secondPage.hookingComment
+        representativeImageUrl = request.secondPage.representativeImageUrl
+        profileImages = mutableListOf()
+        request.secondPage.profileImages.forEach {
+            addProfileImage(ProfileImage(it))
         }
+
+        // page3
+        birthday = request.thirdPage.birthday
+        gender = request.thirdPage.gender
+        height = request.thirdPage.height
+        weight = request.thirdPage.weight
+        email = request.thirdPage.email
+        specialty = request.thirdPage.specialty
+        snsUrls = request.thirdPage.snsUrls.map(ProfileSnsUrl::toEntity).toSet()
+
+        // page4
+        details = request.fourthPage.details
+
+        // page5
+        career = request.fifthPage.career
+        careerDetail = request.fifthPage.careerDetail
+
+        // page6
+        type = request.type
     }
 
     fun delete() {
+        contact = ""
+        name = ""
         hookingComment = ""
-        birthday = null
-        gender = Gender.IRRELEVANT
-        height = 0
-        weight = 0
+        representativeImageUrl = ""
+        profileImages = mutableListOf()
+        gender = null
+        height = null
+        weight = null
         email = ""
-        sns = ""
-        snsUrls = emptySet()
         specialty = ""
+        snsUrls = setOf()
         details = ""
-        career = Career.IRRELEVANT
         careerDetail = ""
-        type = Type.ACTOR
         isDeleted = true
-        this.profileImages = mutableListOf()
     }
 
     /* 연관관계 메서드 */
