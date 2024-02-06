@@ -40,7 +40,7 @@ data class JobOpening(
     @Column var recruitmentEndDate: LocalDate?,
     @OneToMany(mappedBy = "jobOpening", cascade = [CascadeType.PERSIST, CascadeType.MERGE], orphanRemoval = true)
     var imageUrls: MutableList<JobOpeningImage> = mutableListOf(),
-    @Column(length = 300) var representativeImageUrl: String,
+    @Column(length = 300) var representativeImageUrl: String?,
 
     // page3
     @Column(length = 50) var casting: String?,

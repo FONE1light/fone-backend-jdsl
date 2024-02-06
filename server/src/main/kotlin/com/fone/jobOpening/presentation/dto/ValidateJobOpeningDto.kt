@@ -37,7 +37,7 @@ class ValidateJobOpeningDto {
             value = "작품의 성격",
             example = "[\"WEB_DRAMA\",\"FEATURE_FILM\"]"
         )
-        val categories: List<CategoryType>,
+        val categories: List<CategoryType> = emptyList(),
 
         @Schema(
             description = "모집 기간 시작일 (시작일, 종료일 둘다 null이면 상시모집)",
@@ -60,14 +60,14 @@ class ValidateJobOpeningDto {
             example = "[\"https://www.naver.com\",\"https://www.naver.com\"]"
         )
         @ApiModelProperty(value = "이미지", example = "[\"https://www.naver.com\",\"https://www.naver.com\"]")
-        val imageUrls: List<String>,
+        val imageUrls: List<String> = emptyList(),
 
         @Schema(
             description = "대표이미지",
             example = "https://www.naver.com"
         )
-        @ApiModelProperty(value = "대표이미지", example = "https://www.naver.com")
-        val representativeImageUrl: String,
+        @ApiModelProperty(value = "대표이미지 (이미지 첨부 안할시 null로 전달)", example = "https://www.naver.com")
+        val representativeImageUrl: String? = null,
     )
 
     data class ThirdPage(
@@ -97,7 +97,7 @@ class ValidateJobOpeningDto {
 
         @Schema(description = "경력", example = "[\"NEWCOMER\"]")
         @ApiModelProperty(value = "경력", example = "[\"NEWCOMER\"]")
-        val careers: List<Career>,
+        val careers: List<Career> = emptyList(),
     )
 
     data class FourthPage(
@@ -115,7 +115,7 @@ class ValidateJobOpeningDto {
 
         @Schema(description = "장르", example = "[\"ACTION\",\"DRAMA\"]")
         @ApiModelProperty(value = "장르", example = "[\"ACTION\",\"DRAMA\"]")
-        val genres: Set<Genre>,
+        val genres: Set<Genre> = emptySet(),
 
         @Schema(description = "로그라인 (null 이면 비공개)", example = "자폐 스펙트럼 장애를 가진 변호사의 이야기")
         @ApiModelProperty(value = "로그라인 (null 이면 비공개)", example = "자폐 스펙트럼 장애를 가진 변호사의 이야기")
@@ -149,7 +149,7 @@ class ValidateJobOpeningDto {
 
         @Schema(description = "근무요일 (추후협의 값 enum에 있음)", example = "[\"MON\",\"TUE\"]")
         @ApiModelProperty(value = "근무요일 (추후협의 값 enum에 있음)", example = "[\"MON\",\"TUE\"]")
-        val selectedDays: Set<Weekday>,
+        val selectedDays: Set<Weekday> = emptySet(),
 
         @Schema(
             description = "근무시간 시작 (시작, 종료 둘다 null이면 미정)",
