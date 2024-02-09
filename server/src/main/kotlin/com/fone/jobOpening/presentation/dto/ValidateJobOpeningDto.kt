@@ -124,11 +124,20 @@ class ValidateJobOpeningDto {
 
     data class FifthPage(
         @Schema(description = "촬영위치(지역)", example = "서울특별시")
-        @ApiModelProperty(value = "촬영위치(지역)", example = "서울특별시")
+        @ApiModelProperty(
+            value = "촬영위치(지역) (workingCity, workingDistrict '전체'로 요청하면 미정)",
+            example = "서울특별시"
+        )
         val workingCity: String,
 
-        @Schema(description = "촬영위치(시군구)", example = "도봉구")
-        @ApiModelProperty(value = "촬영위치(시군구)", example = "도봉구")
+        @Schema(
+            description = "촬영위치(시군구)",
+            example = "도봉구"
+        )
+        @ApiModelProperty(
+            value = "촬영위치(시군구) (workingDistrict를 특정시에 대해서 '전체'로 요청할 수 있음)",
+            example = "도봉구"
+        )
         val workingDistrict: String,
 
         @Schema(
