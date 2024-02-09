@@ -87,12 +87,12 @@ class ValidateJobOpeningDto {
         @ApiModelProperty(value = "성별 (enum값에 성별무관 있음)", example = "MAN")
         val gender: Gender,
 
-        @Schema(description = "최대 나이 (최대,최소 둘다 null이면 연령무관)", example = "40")
-        @ApiModelProperty(value = "최대 나이 (최대,최소 둘다 null이면 연령무관)", example = "40")
+        @Schema(description = "최대 나이 (최대,최소 둘다 null이면 연령무관, '시작'이면 null로 전달)", example = "40")
+        @ApiModelProperty(value = "최대 나이 (최대,최소 둘다 null이면 연령무관, '시작'이면 null로 전달)", example = "40")
         val ageMax: Int?,
 
-        @Schema(description = "최소 나이 (최대,최소 둘다 null이면 연령무관)", example = "20")
-        @ApiModelProperty(value = "최소 나이 (최대,최소 둘다 null이면 연령무관)", example = "20")
+        @Schema(description = "최소 나이 (최대,최소 둘다 null이면 연령무관, '끝'이면 null로 전달)", example = "20")
+        @ApiModelProperty(value = "최소 나이 (최대,최소 둘다 null이면 연령무관, '끝'이면 null로 전달)", example = "20")
         val ageMin: Int?,
 
         @Schema(description = "경력", example = "[\"NEWCOMER\"]")
@@ -123,7 +123,7 @@ class ValidateJobOpeningDto {
     )
 
     data class FifthPage(
-        @Schema(description = "촬영위치(지역)", example = "서울특별시")
+        @Schema(description = "촬영위치(지역) (workingCity, workingDistrict '전체'로 요청하면 미정)", example = "서울특별시")
         @ApiModelProperty(
             value = "촬영위치(지역) (workingCity, workingDistrict '전체'로 요청하면 미정)",
             example = "서울특별시"
@@ -131,7 +131,7 @@ class ValidateJobOpeningDto {
         val workingCity: String,
 
         @Schema(
-            description = "촬영위치(시군구)",
+            description = "촬영위치(시군구) (workingDistrict를 특정시에 대해서 '전체'로 요청할 수 있음)",
             example = "도봉구"
         )
         @ApiModelProperty(

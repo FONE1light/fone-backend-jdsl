@@ -62,29 +62,19 @@ class ValidateJobOpeningService(
             throw RequestValidationException("경력을 1개 이상 선택해 주세요.")
         }
 
-        if (request.ageMin == null && request.ageMax == null) {
-            // 연령무관이여서 아래 검증 로직 필요 없음
+        if (request.ageMin != null && request.ageMax != null) {
+            if (request.ageMin > request.ageMax) {
+                throw RequestValidationException("최소 나이가 최대 나이보다 큽니다.")
+            }
+
+            if (request.ageMin < 0 || request.ageMax < 0) {
+                throw RequestValidationException("나이는 0세 이상으로 입력해 주세요.")
+            }
+
+            if (request.ageMin > 200 || request.ageMax > 200) {
+                throw RequestValidationException("나이는 200세 이하로 입력해 주세요.")
+            }
             return
-        }
-
-        if (request.ageMin == null) {
-            throw RequestValidationException("최소 나이를 입력해 주세요.")
-        }
-
-        if (request.ageMax == null) {
-            throw RequestValidationException("최대 나이를 입력해 주세요.")
-        }
-
-        if (request.ageMin > request.ageMax) {
-            throw RequestValidationException("최소 나이가 최대 나이보다 큽니다.")
-        }
-
-        if (request.ageMin < 0 || request.ageMax < 0) {
-            throw RequestValidationException("나이는 0세 이상으로 입력해 주세요.")
-        }
-
-        if (request.ageMin > 200 || request.ageMax > 200) {
-            throw RequestValidationException("나이는 200세 이하로 입력해 주세요.")
         }
     }
 
