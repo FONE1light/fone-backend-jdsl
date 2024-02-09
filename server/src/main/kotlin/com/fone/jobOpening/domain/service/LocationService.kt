@@ -12,11 +12,19 @@ class LocationService(
 ) {
     @Transactional(readOnly = true)
     suspend fun retrieveRegions(): RetrieveRegionsResponse {
-        return RetrieveRegionsResponse(locationRepository.getAllRegions())
+        val result = locationRepository.getAllRegions()
+        return RetrieveRegionsResponse(
+            result = result,
+            regions = result
+        )
     }
 
     @Transactional(readOnly = true)
     suspend fun retrieveDistricts(region: String): RetrieveDistrictsResponse {
-        return RetrieveDistrictsResponse(locationRepository.getDistricts(region))
+        val result = locationRepository.getDistricts(region)
+        return RetrieveDistrictsResponse(
+            result = result,
+            district = result
+        )
     }
 }
