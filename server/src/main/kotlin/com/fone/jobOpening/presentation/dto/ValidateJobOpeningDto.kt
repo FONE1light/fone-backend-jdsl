@@ -87,12 +87,12 @@ class ValidateJobOpeningDto {
         @ApiModelProperty(value = "성별 (enum값에 성별무관 있음)", example = "MAN")
         val gender: Gender,
 
-        @Schema(description = "최대 나이 (최대,최소 둘다 null이면 연령무관, '시작'이면 1값 입력)", example = "40")
-        @ApiModelProperty(value = "최대 나이 (최대,최소 둘다 null이면 연령무관, '시작'이면 1값 입력)", example = "40")
+        @Schema(description = "최대 나이 (최대,최소 둘다 null이면 연령무관, '시작'이면 null로 전달)", example = "40")
+        @ApiModelProperty(value = "최대 나이 (최대,최소 둘다 null이면 연령무관, '시작'이면 null로 전달)", example = "40")
         val ageMax: Int?,
 
-        @Schema(description = "최소 나이 (최대,최소 둘다 null이면 연령무관, '끝'이면 200값 입력)", example = "20")
-        @ApiModelProperty(value = "최소 나이 (최대,최소 둘다 null이면 연령무관, '끝'이면 200값 입력)", example = "20")
+        @Schema(description = "최소 나이 (최대,최소 둘다 null이면 연령무관, '끝'이면 null로 전달)", example = "20")
+        @ApiModelProperty(value = "최소 나이 (최대,최소 둘다 null이면 연령무관, '끝'이면 null로 전달)", example = "20")
         val ageMin: Int?,
 
         @Schema(description = "경력", example = "[\"NEWCOMER\"]")
