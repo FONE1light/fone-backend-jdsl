@@ -14,7 +14,6 @@ class LocationService(
     suspend fun retrieveRegions(): RetrieveRegionsResponse {
         val result = locationRepository.getAllRegions()
         return RetrieveRegionsResponse(
-            result = result,
             regions = result
         )
     }
@@ -23,8 +22,7 @@ class LocationService(
     suspend fun retrieveDistricts(region: String): RetrieveDistrictsResponse {
         val result = locationRepository.getDistricts(region)
         return RetrieveDistrictsResponse(
-            result = result,
-            district = result
+            districts = result
         )
     }
 }
