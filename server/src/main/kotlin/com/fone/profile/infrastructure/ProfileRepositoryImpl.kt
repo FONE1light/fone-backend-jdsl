@@ -34,50 +34,52 @@ class ProfileRepositoryImpl(
     private val sessionFactory: Mutiny.SessionFactory,
     private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
 ) : ProfileRepository {
-
     override suspend fun findAllByFilters(
         pageable: Pageable,
         request: RetrieveProfilesRequest,
     ): Page<Profile> {
-        val domainProfileIds = if (request.domains.isEmpty()) {
-            emptyList()
-        } else {
-            queryFactory.listQuery {
-                select(col(ProfileDomain::profileId))
-                from(entity(ProfileDomain::class))
-                where(col(ProfileDomain::type).`in`(request.domains))
+        val domainProfileIds =
+            if (request.domains.isEmpty()) {
+                emptyList()
+            } else {
+                queryFactory.listQuery {
+                    select(col(ProfileDomain::profileId))
+                    from(entity(ProfileDomain::class))
+                    where(col(ProfileDomain::type).`in`(request.domains))
+                }
             }
-        }
 
-        val categoryProfileIds = if (request.categories.isEmpty()) {
-            emptyList()
-        } else {
-            queryFactory.listQuery {
-                select(col(ProfileCategory::profileId))
-                from(entity(ProfileCategory::class))
-                where(col(ProfileCategory::type).`in`(request.categories))
+        val categoryProfileIds =
+            if (request.categories.isEmpty()) {
+                emptyList()
+            } else {
+                queryFactory.listQuery {
+                    select(col(ProfileCategory::profileId))
+                    from(entity(ProfileCategory::class))
+                    where(col(ProfileCategory::type).`in`(request.categories))
+                }
             }
-        }
 
-        val ids = queryFactory.pageQuery(pageable) {
-            select(column(Profile::id))
-            from(entity(Profile::class))
-            where(
-                and(
-                    col(Profile::type).equal(request.type),
-                    col(Profile::gender).`in`(request.genders),
-                    col(Profile::birthday).lessThanOrEqualTo(
-                        DateTimeFormat.calculdateLocalDate(request.ageMin)
-                    ),
-                    col(Profile::birthday).greaterThanOrEqualTo(
-                        DateTimeFormat.calculdateLocalDate(request.ageMax)
-                    ),
-                    if (request.domains.isNotEmpty()) col(Profile::id).`in`(domainProfileIds) else null,
-                    if (request.categories.isNotEmpty()) col(Profile::id).`in`(categoryProfileIds) else null,
-                    col(Profile::isDeleted).equal(false)
+        val ids =
+            queryFactory.pageQuery(pageable) {
+                select(column(Profile::id))
+                from(entity(Profile::class))
+                where(
+                    and(
+                        col(Profile::type).equal(request.type),
+                        col(Profile::gender).`in`(request.genders),
+                        col(Profile::birthday).lessThanOrEqualTo(
+                            DateTimeFormat.calculdateLocalDate(request.ageMin)
+                        ),
+                        col(Profile::birthday).greaterThanOrEqualTo(
+                            DateTimeFormat.calculdateLocalDate(request.ageMax)
+                        ),
+                        if (request.domains.isNotEmpty()) col(Profile::id).`in`(domainProfileIds) else null,
+                        if (request.categories.isNotEmpty()) col(Profile::id).`in`(categoryProfileIds) else null,
+                        col(Profile::isDeleted).equal(false)
+                    )
                 )
-            )
-        }
+            }
 
         if (ids.content.isEmpty()) {
             return PageImpl(
@@ -87,19 +89,21 @@ class ProfileRepositoryImpl(
             )
         }
 
-        val profiles = queryFactory.listQuery {
-            select(entity(Profile::class))
-            from(entity(Profile::class))
-            where(and(col(Profile::id).`in`(ids.content)))
-            orderBy(orderSpec(pageable.sort))
-        }
-
-        val uniqueProfiles = profiles.groupBy { it?.id }
-            .map { it.value.first() }
-            .onEach {
-                it!!.snsUrls = emptySet()
-                it.profileImages = mutableListOf()
+        val profiles =
+            queryFactory.listQuery {
+                select(entity(Profile::class))
+                from(entity(Profile::class))
+                where(and(col(Profile::id).`in`(ids.content)))
+                orderBy(orderSpec(pageable.sort))
             }
+
+        val uniqueProfiles =
+            profiles.groupBy { it?.id }
+                .map { it.value.first() }
+                .onEach {
+                    it!!.snsUrls = emptySet()
+                    it.profileImages = mutableListOf()
+                }
 
         return PageImpl(
             uniqueProfiles,
@@ -118,7 +122,10 @@ class ProfileRepositoryImpl(
         }
     }
 
-    override suspend fun findByTypeAndId(type: Type?, profileId: Long?): Profile? {
+    override suspend fun findByTypeAndId(
+        type: Type?,
+        profileId: Long?,
+    ): Profile? {
         return queryFactory.singleQueryOrNull {
             select(entity(Profile::class))
             from(entity(Profile::class))
@@ -132,23 +139,26 @@ class ProfileRepositoryImpl(
         pageable: Pageable,
         userId: Long,
     ): Page<Profile> {
-        val ids = queryFactory.pageQuery(pageable) {
-            select(column(Profile::id))
-            from(entity(Profile::class))
-            where(col(Profile::userId).equal(userId))
-        }
-
-        val profiles = queryFactory.listQuery {
-            select(entity(Profile::class))
-            from(entity(Profile::class))
-            fetch(Profile::profileImages, joinType = JoinType.LEFT)
-            fetch(Profile::snsUrls, joinType = JoinType.LEFT)
-            where(
-                and(
-                    col(Profile::id).`in`(ids.content)
+        val ids =
+            queryFactory.pageQuery(pageable) {
+                select(column(Profile::id))
+                from(entity(Profile::class))
+                where(
+                    and(
+                        col(Profile::userId).equal(userId),
+                        col(Profile::isDeleted).equal(false)
+                    )
                 )
-            )
-        }.associateBy { it?.id }
+            }
+
+        val profiles =
+            queryFactory.listQuery {
+                select(entity(Profile::class))
+                from(entity(Profile::class))
+                fetch(Profile::profileImages, joinType = JoinType.LEFT)
+                fetch(Profile::snsUrls, joinType = JoinType.LEFT)
+                where(col(Profile::id).`in`(ids.content))
+            }.associateBy { it?.id }
 
         return ids.map { profiles[it] }
     }
@@ -159,25 +169,28 @@ class ProfileRepositoryImpl(
         type: Type?,
     ): Page<Profile> {
         return queryFactory.withFactory { factory ->
-            val ids = factory.pageQuery(pageable) {
-                select(column(ProfileWant::profileId))
-                from(entity(ProfileWant::class))
-                join(entity(Profile::class), col(Profile::id).equal(col(ProfileWant::profileId)))
-                where(
-                    and(
-                        col(ProfileWant::userId).equal(userId),
-                        if (type != null) col(Profile::type).equal(type) else null
+            val ids =
+                factory.pageQuery(pageable) {
+                    select(column(ProfileWant::profileId))
+                    from(entity(ProfileWant::class))
+                    join(entity(Profile::class), col(Profile::id).equal(col(ProfileWant::profileId)))
+                    where(
+                        and(
+                            col(ProfileWant::userId).equal(userId),
+                            col(Profile::isDeleted).equal(false),
+                            if (type != null) col(Profile::type).equal(type) else null
+                        )
                     )
-                )
-            }
+                }
 
-            val profiles = factory.listQuery {
-                select(entity(Profile::class))
-                from(entity(Profile::class))
-                fetch(Profile::profileImages, joinType = JoinType.LEFT)
-                fetch(Profile::snsUrls, joinType = JoinType.LEFT)
-                where(col(Profile::id).`in`(ids.content))
-            }.associateBy { it!!.id }
+            val profiles =
+                factory.listQuery {
+                    select(entity(Profile::class))
+                    from(entity(Profile::class))
+                    fetch(Profile::profileImages, joinType = JoinType.LEFT)
+                    fetch(Profile::snsUrls, joinType = JoinType.LEFT)
+                    where(col(Profile::id).`in`(ids.content))
+                }.associateBy { it!!.id }
 
             ids.map { profiles[it] }
         }
@@ -195,38 +208,34 @@ class ProfileRepositoryImpl(
         }
     }
 
-    private fun SpringDataReactiveCriteriaQueryDsl<Profile?>.idEq(
-        profileId: Long?,
-    ): EqualValueSpec<Long?>? {
+    private fun SpringDataReactiveCriteriaQueryDsl<Profile?>.idEq(profileId: Long?): EqualValueSpec<Long?>? {
         profileId ?: return null
 
         return col(Profile::id).equal(profileId)
     }
 
-    private fun SpringDataReactiveCriteriaQueryDsl<Profile?>.typeEq(
-        type: Type?,
-    ): EqualValueSpec<Type>? {
+    private fun SpringDataReactiveCriteriaQueryDsl<Profile?>.typeEq(type: Type?): EqualValueSpec<Type>? {
         type ?: return null
 
         return col(Profile::type).equal(type)
     }
 
-    private fun SpringDataReactiveCriteriaQueryDsl<Profile?>.orderSpec(
-        sort: Sort,
-    ): List<OrderSpec> {
-        val res = sort.map {
-            val columnSpec = when (it.property) {
-                "viewCount" -> col(Profile::viewCount)
-                "createdAt" -> col(Profile::createdAt)
-                else -> col(Profile::viewCount)
-            }
+    private fun SpringDataReactiveCriteriaQueryDsl<Profile?>.orderSpec(sort: Sort): List<OrderSpec> {
+        val res =
+            sort.map {
+                val columnSpec =
+                    when (it.property) {
+                        "viewCount" -> col(Profile::viewCount)
+                        "createdAt" -> col(Profile::createdAt)
+                        else -> col(Profile::viewCount)
+                    }
 
-            if (it.isAscending) {
-                columnSpec.asc()
-            } else {
-                columnSpec.desc()
-            }
-        }.toList()
+                if (it.isAscending) {
+                    columnSpec.asc()
+                } else {
+                    columnSpec.desc()
+                }
+            }.toList()
 
         return res
     }
