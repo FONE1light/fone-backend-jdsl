@@ -12,55 +12,63 @@ import com.fone.jobOpening.domain.entity.JobOpeningScrap
 import com.fone.jobOpening.presentation.dto.ValidateJobOpeningDto
 import com.fone.user.domain.enum.Job
 import io.swagger.v3.oas.annotations.media.Schema
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 data class JobOpeningDto(
-    @Schema(description = "job opening index", example = "1")
-    val id: Long,
+    @Schema(description = "job opening index", example = "1") val id: Long,
 
-    @Schema(description = "1번째 페이지")
-    val firstPage: ValidateJobOpeningDto.FirstPage,
+    @Schema(description = "1번째 페이지") val firstPage: ValidateJobOpeningDto.FirstPage,
 
-    @Schema(description = "2번째 페이지")
-    val secondPage: ValidateJobOpeningDto.SecondPage,
+    @Schema(description = "2번째 페이지") val secondPage: ValidateJobOpeningDto.SecondPage,
 
-    @Schema(description = "3번째 페이지")
-    val thirdPage: ValidateJobOpeningDto.ThirdPage,
+    @Schema(description = "3번째 페이지") val thirdPage: ValidateJobOpeningDto.ThirdPage,
 
-    @Schema(description = "4번째 페이지")
-    val fourthPage: ValidateJobOpeningDto.FourthPage,
+    @Schema(description = "4번째 페이지") val fourthPage: ValidateJobOpeningDto.FourthPage,
 
-    @Schema(description = "5번째 페이지")
-    val fifthPage: ValidateJobOpeningDto.FifthPage,
+    @Schema(description = "5번째 페이지") val fifthPage: ValidateJobOpeningDto.FifthPage,
 
-    @Schema(description = "6번째 페이지")
-    val sixthPage: ValidateJobOpeningDto.SixthPage,
+    @Schema(description = "6번째 페이지") val sixthPage: ValidateJobOpeningDto.SixthPage,
 
-    @Schema(description = "7번째 페이지")
-    val seventhPage: ValidateJobOpeningDto.SeventhPage,
+    @Schema(description = "7번째 페이지") val seventhPage: ValidateJobOpeningDto.SeventhPage,
 
-    @Schema(description = "모집유형", example = "ACTOR")
-    val type: Type,
-    @Schema(description = "조회수", example = "1")
-    val viewCount: Long,
-    @Schema(description = "스크랩수", example = "1")
-    val scrapCount: Long,
-    @Schema(description = "스크랩 여부", example = "false")
-    val isScrap: Boolean = false,
-    @Schema(description = "닉네임", example = "김매니저")
-    val userNickname: String,
-    @Schema(description = "프로필 이미지", example = "https://www.naver.com")
-    val userProfileUrl: String,
-    @Schema(description = "작성일", example = "2021-10-10")
-    val createdAt: LocalDateTime,
-    @Schema(description = "유저 직업", example = "ACTOR")
-    val userJob: Job,
-    @Schema(description = "공식 인증 여부", example = "false")
-    val isVerified: Boolean,
+    @Schema(description = "모집유형", example = "ACTOR") val type: Type,
+    @Schema(description = "조회수", example = "1") val viewCount: Long,
+    @Schema(description = "스크랩수", example = "1") val scrapCount: Long,
+    @Schema(description = "스크랩 여부", example = "false") val isScrap: Boolean = false,
+    @Schema(description = "닉네임", example = "김매니저") val userNickname: String,
+    @Schema(description = "프로필 이미지", example = "https://www.naver.com") val userProfileUrl: String,
+    @Schema(description = "작성일", example = "2021-10-10") val createdAt: LocalDateTime,
+    @Schema(description = "유저 직업", example = "ACTOR") val userJob: Job,
+    @Schema(description = "공식 인증 여부", example = "false") val isVerified: Boolean,
 ) {
     @get:Schema(description = "D-day", example = "D-1")
     val dDay: String
         get() = DateTimeFormat.calculateDays(secondPage.recruitmentEndDate)
+
+    @get:Schema(description = "근무기간", example = "2023.1.16(월) ~ 2023.6.30(금)")
+    val workingDate: String
+        get() = if (fifthPage.workingStartDate == null || fifthPage.workingEndDate == null) {
+            "상시모집"
+        } else {
+            fifthPage.workingStartDate.format(
+                DateTimeFormatter.ofPattern(
+                    "yyyy.M.d(E)",
+                    Locale.KOREAN
+                )
+            ) + " ~ " + fifthPage.workingEndDate.format(DateTimeFormatter.ofPattern("yyyy.M.d(E)", Locale.KOREAN))
+        }
+
+    @get:Schema(description = "연락하기 활성화 여부", example = "true")
+    val isContactable: Boolean
+        get() = if (secondPage.recruitmentStartDate == null || secondPage.recruitmentEndDate == null) {
+            true
+        } else {
+            !secondPage.recruitmentStartDate.isBefore(LocalDate.now()) &&
+                !secondPage.recruitmentEndDate.isAfter(LocalDate.now())
+        }
 
     constructor(
         jobOpening: JobOpening,
