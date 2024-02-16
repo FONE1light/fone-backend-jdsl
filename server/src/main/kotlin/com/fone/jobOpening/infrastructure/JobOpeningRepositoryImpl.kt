@@ -40,7 +40,7 @@ class JobOpeningRepositoryImpl(
         return queryFactory.withFactory { factory ->
             val ids =
                 factory.pageQuery(pageable) {
-                    select(column(JobOpening::id))
+                    select(distinct = true, column(JobOpening::id))
                     from(entity(JobOpening::class))
                     where(
                         and(
@@ -52,7 +52,7 @@ class JobOpeningRepositoryImpl(
 
             val jobOpenings =
                 factory.listQuery {
-                    select(entity(JobOpening::class))
+                    select(distinct = true, entity(JobOpening::class))
                     from(entity(JobOpening::class))
                     fetch(JobOpening::imageUrls, joinType = JoinType.LEFT)
                     fetch(JobOpening::location, joinType = JoinType.LEFT)
@@ -130,7 +130,7 @@ class JobOpeningRepositoryImpl(
 
             val jobOpenings =
                 factory.listQuery {
-                    select(entity(JobOpening::class))
+                    select(distinct = true, entity(JobOpening::class))
                     from(entity(JobOpening::class))
                     fetch(JobOpening::imageUrls, joinType = JoinType.LEFT)
                     fetch(JobOpening::location, joinType = JoinType.LEFT)
@@ -194,7 +194,7 @@ class JobOpeningRepositoryImpl(
                 }
             val jobOpenings =
                 factory.listQuery {
-                    select(entity(JobOpening::class))
+                    select(distinct = true, entity(JobOpening::class))
                     from(entity(JobOpening::class))
                     fetch(JobOpening::imageUrls, joinType = JoinType.LEFT)
                     fetch(JobOpening::location, joinType = JoinType.LEFT)
@@ -213,7 +213,7 @@ class JobOpeningRepositoryImpl(
         return queryFactory.withFactory { factory ->
             val ids =
                 factory.pageQuery(pageable) {
-                    select(column(JobOpeningScrap::jobOpeningId))
+                    select(distinct = true, column(JobOpeningScrap::jobOpeningId))
                     from(entity(JobOpeningScrap::class))
                     join(entity(JobOpening::class), col(JobOpening::id).equal(col(JobOpeningScrap::jobOpeningId)))
                     where(
@@ -227,7 +227,7 @@ class JobOpeningRepositoryImpl(
 
             val jobOpenings =
                 factory.listQuery {
-                    select(entity(JobOpening::class))
+                    select(distinct = true, entity(JobOpening::class))
                     from(entity(JobOpening::class))
                     fetch(JobOpening::imageUrls, joinType = JoinType.LEFT)
                     fetch(JobOpening::location, joinType = JoinType.LEFT)
