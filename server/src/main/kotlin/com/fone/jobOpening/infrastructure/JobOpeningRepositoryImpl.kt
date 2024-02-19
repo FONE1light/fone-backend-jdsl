@@ -40,7 +40,7 @@ class JobOpeningRepositoryImpl(
         return queryFactory.withFactory { factory ->
             val ids =
                 factory.pageQuery(pageable) {
-                    select(distinct = true, column(JobOpening::id))
+                    select(column(JobOpening::id))
                     from(entity(JobOpening::class))
                     where(
                         and(
@@ -52,7 +52,7 @@ class JobOpeningRepositoryImpl(
 
             val jobOpenings =
                 factory.listQuery {
-                    select(distinct = true, entity(JobOpening::class))
+                    select(entity(JobOpening::class))
                     from(entity(JobOpening::class))
                     fetch(JobOpening::imageUrls, joinType = JoinType.LEFT)
                     fetch(JobOpening::location, joinType = JoinType.LEFT)
