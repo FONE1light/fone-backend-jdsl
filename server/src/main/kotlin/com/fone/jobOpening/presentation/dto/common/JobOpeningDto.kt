@@ -48,27 +48,22 @@ data class JobOpeningDto(
     val dDay: String
         get() = DateTimeFormat.calculateDays(secondPage.recruitmentEndDate)
 
-    @get:Schema(description = "근무기간", example = "2023.1.16(월) ~ 2023.6.30(금)")
+    @get:Schema(description = "근무기간", example = "2023.01.16(월) ~ 2023.06.30(금)")
     val workingDate: String
         get() = if (fifthPage.workingStartDate == null || fifthPage.workingEndDate == null) {
             "상시모집"
         } else {
             fifthPage.workingStartDate.format(
                 DateTimeFormatter.ofPattern(
-                    "yyyy.M.d(E)",
+                    "yyyy. MM. dd(E)",
                     Locale.KOREAN
                 )
-            ) + " ~ " + fifthPage.workingEndDate.format(DateTimeFormatter.ofPattern("yyyy.M.d(E)", Locale.KOREAN))
+            ) + " ~ " + fifthPage.workingEndDate.format(DateTimeFormatter.ofPattern("yyyy. MM. dd(E)", Locale.KOREAN))
         }
 
     @get:Schema(description = "연락하기 활성화 여부", example = "true")
     val isContactable: Boolean
-        get() = if (secondPage.recruitmentStartDate == null || secondPage.recruitmentEndDate == null) {
-            true
-        } else {
-            !secondPage.recruitmentStartDate.isBefore(LocalDate.now()) &&
-                !secondPage.recruitmentEndDate.isAfter(LocalDate.now())
-        }
+        get() = isContactable(secondPage.recruitmentStartDate, secondPage.recruitmentEndDate)
 
     constructor(
         jobOpening: JobOpening,
@@ -138,4 +133,15 @@ data class JobOpeningDto(
         userJob = job,
         isVerified = isVerified
     )
+}
+
+fun isContactable(startDate: LocalDate?, endDate: LocalDate?): Boolean {
+    return if (startDate == null || endDate == null) {
+        true
+    } else {
+        !(
+            startDate.isAfter(LocalDate.now()) ||
+                endDate.isBefore(LocalDate.now())
+            )
+    }
 }
