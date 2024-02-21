@@ -268,7 +268,7 @@ class JobOpeningRepositoryImpl(
     }
 
     private fun SpringDataReactiveCriteriaQueryDsl<JobOpening?>.orderSpec(sort: Sort): List<OrderSpec> {
-        val deadlineIsNull =
+        val recruitmentEndDateIsNull =
             case(
                 `when`(column(JobOpening::recruitmentEndDate).isNull()).then(
                     literal(1)
@@ -276,7 +276,7 @@ class JobOpeningRepositoryImpl(
                 `else` = literal(0)
             ).asc()
 
-        val deadlineAfterToday =
+        val recruitmentEndDateAfterToday =
             case(
                 `when`(column(JobOpening::recruitmentEndDate).greaterThan(LocalDate.now())).then(
                     literal(1)
@@ -284,7 +284,7 @@ class JobOpeningRepositoryImpl(
                 `else` = literal(0)
             ).desc()
 
-        val deadlineDesc = column(JobOpening::recruitmentEndDate).asc()
+        val recruitmentEndDateDesc = column(JobOpening::recruitmentEndDate).asc()
 
         val res =
             sort.map {
@@ -303,8 +303,8 @@ class JobOpeningRepositoryImpl(
                 }
             }.toList()
 
-        return if (sort.map { it.property }.contains("deadline")) {
-            listOf(deadlineIsNull, deadlineAfterToday, deadlineDesc)
+        return if (sort.map { it.property }.contains("recruitmentEndDate")) {
+            listOf(recruitmentEndDateIsNull, recruitmentEndDateAfterToday, recruitmentEndDateDesc)
         } else {
             res
         }
