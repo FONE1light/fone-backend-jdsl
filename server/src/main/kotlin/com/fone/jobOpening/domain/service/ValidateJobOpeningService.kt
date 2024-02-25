@@ -152,7 +152,7 @@ class ValidateJobOpeningService(
             throw RequestValidationException("마감일을 시작일보다 앞날로 입력해 주세요.")
         }
 
-        if (!recruitmentStartDate.isAfter(LocalDate.now())) {
+        if (recruitmentStartDate.isBefore(LocalDate.now())) {
             throw RequestValidationException("시작일은 과거의 날짜로 설정될 수 없어요.")
         }
     }
