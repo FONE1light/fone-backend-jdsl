@@ -12,9 +12,6 @@ class HomeControllerTest(client: WebTestClient) : CustomDescribeSpec() {
     private val retrieveUrl = "/api/v1/homes"
 
     init {
-        beforeSpec {
-        }
-
         val (accessToken, _) = CommonUserCallApi.getAccessToken(client)
 
         describe("#retrieveHome") {
