@@ -1,4 +1,4 @@
-@file:Suppress("ktlint")
+@file:Suppress("ktlint", "MatchingDeclarationName")
 
 package com.fone.competition.presentation.dto
 
