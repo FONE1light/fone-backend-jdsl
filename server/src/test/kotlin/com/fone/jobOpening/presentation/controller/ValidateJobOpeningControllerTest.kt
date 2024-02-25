@@ -28,7 +28,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                 it("EMAIL 케이스 성공한다") {
                     val request = ValidateJobOpeningDto.FirstPage(
                         contactMethod = ContactMethod.EMAIL,
-                        contact = "test@test.com",
+                        contact = "test@test.com"
                     )
                     client.doPost("$url/contact", request, accessToken)
                         .expectStatus().isOk.expectBody()
@@ -38,7 +38,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                 it("KAKAO 케이스 성공한다") {
                     val request = ValidateJobOpeningDto.FirstPage(
                         contactMethod = ContactMethod.KAKAO,
-                        contact = "https://open.kakao.com/test",
+                        contact = "https://open.kakao.com/test"
                     )
                     client.doPost("$url/contact", request, accessToken)
                         .expectStatus().isOk.expectBody()
@@ -48,7 +48,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                 it("FORM 케이스 성공한다") {
                     val request = ValidateJobOpeningDto.FirstPage(
                         contactMethod = ContactMethod.GOOGLE_FORM,
-                        contact = "https://docs.google.com/forms/test",
+                        contact = "https://docs.google.com/forms/test"
                     )
                     client.doPost("$url/contact", request, accessToken)
                         .expectStatus().isOk.expectBody()
@@ -58,7 +58,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                 it("이메일 케이스 실패한다") {
                     val request = ValidateJobOpeningDto.FirstPage(
                         contactMethod = ContactMethod.EMAIL,
-                        contact = "test",
+                        contact = "test"
                     )
                     client.doPost("$url/contact", request, accessToken).expectStatus().isBadRequest.expectBody()
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("FAIL")
@@ -67,7 +67,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                 it("카카오 케이스 실패한다") {
                     val request = ValidateJobOpeningDto.FirstPage(
                         contactMethod = ContactMethod.KAKAO,
-                        contact = "https://open.kakao.co",
+                        contact = "https://open.kakao.co"
                     )
                     client.doPost("$url/contact", request, accessToken).expectStatus().isBadRequest.expectBody()
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("FAIL")
@@ -76,7 +76,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                 it("구글폼 케이스 실패한다") {
                     val request = ValidateJobOpeningDto.FirstPage(
                         contactMethod = ContactMethod.GOOGLE_FORM,
-                        contact = "https://docs.google.com/form",
+                        contact = "https://docs.google.com/form"
                     )
                     client.doPost("$url/contact", request, accessToken).expectStatus().isBadRequest.expectBody()
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("FAIL")
@@ -154,7 +154,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                         careers = listOf(Career.NEWCOMER),
                         ageMin = 0,
                         ageMax = 100,
-                        gender = Gender.MAN,
+                        gender = Gender.MAN
                     )
                     client.doPost("$url/role", request, accessToken)
                         .expectStatus().isOk.expectBody()
@@ -168,7 +168,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                         careers = listOf(Career.NEWCOMER),
                         ageMin = 0,
                         ageMax = 100,
-                        gender = Gender.MAN,
+                        gender = Gender.MAN
                     )
                     client.doPost("$url/role", request, accessToken).expectStatus().isBadRequest.expectBody()
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("FAIL")
@@ -181,7 +181,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                         careers = listOf(Career.NEWCOMER),
                         ageMin = 0,
                         ageMax = 100,
-                        gender = Gender.MAN,
+                        gender = Gender.MAN
                     )
                     client.doPost("$url/role", request, accessToken).expectStatus().isBadRequest.expectBody()
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("FAIL")
@@ -194,7 +194,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                         careers = listOf(Career.NEWCOMER),
                         ageMin = 0,
                         ageMax = 100,
-                        gender = Gender.MAN,
+                        gender = Gender.MAN
                     )
                     client.doPost("$url/role", request, accessToken).expectStatus().isBadRequest.expectBody()
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("FAIL")
@@ -207,7 +207,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                         careers = listOf(),
                         ageMin = 0,
                         ageMax = 100,
-                        gender = Gender.MAN,
+                        gender = Gender.MAN
                     )
                     client.doPost("$url/role", request, accessToken).expectStatus().isBadRequest.expectBody()
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("FAIL")
@@ -220,7 +220,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                         careers = listOf(Career.NEWCOMER),
                         ageMin = 100,
                         ageMax = 0,
-                        gender = Gender.MAN,
+                        gender = Gender.MAN
                     )
                     client.doPost("$url/role", request, accessToken).expectStatus().isBadRequest.expectBody()
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("FAIL")
@@ -233,7 +233,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                         careers = listOf(Career.NEWCOMER),
                         ageMin = -1,
                         ageMax = -1,
-                        gender = Gender.MAN,
+                        gender = Gender.MAN
                     )
                     client.doPost("$url/role", request, accessToken).expectStatus().isBadRequest.expectBody()
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("FAIL")
@@ -246,7 +246,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                         careers = listOf(Career.NEWCOMER),
                         ageMin = 300,
                         ageMax = 300,
-                        gender = Gender.MAN,
+                        gender = Gender.MAN
                     )
                     client.doPost("$url/role", request, accessToken).expectStatus().isBadRequest.expectBody()
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("FAIL")
@@ -409,7 +409,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                 it("성공한다") {
                     val request = ValidateJobOpeningDto.SeventhPage(
                         "이하은",
-                        "test@test.com",
+                        "test@test.com"
                     )
                     client.doPost("$url/manager", request, accessToken)
                         .expectStatus().isOk.expectBody()
@@ -418,7 +418,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                 it("담당자 케이스 실패한다") {
                     val request = ValidateJobOpeningDto.SeventhPage(
                         "",
-                        "test@test.com",
+                        "test@test.com"
                     )
                     client.doPost("$url/manager", request, accessToken).expectStatus().isBadRequest.expectBody()
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("FAIL")
@@ -426,7 +426,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                 it("이메일 케이스 실패한다") {
                     val request = ValidateJobOpeningDto.SeventhPage(
                         "이하은",
-                        "test",
+                        "test"
                     )
                     client.doPost("$url/manager", request, accessToken).expectStatus().isBadRequest.expectBody()
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("FAIL")
