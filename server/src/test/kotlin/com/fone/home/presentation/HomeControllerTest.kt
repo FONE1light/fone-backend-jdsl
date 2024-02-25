@@ -13,7 +13,6 @@ class HomeControllerTest(client: WebTestClient) : CustomDescribeSpec() {
 
     init {
         beforeSpec {
-
         }
 
         val (accessToken, _) = CommonUserCallApi.getAccessToken(client)
