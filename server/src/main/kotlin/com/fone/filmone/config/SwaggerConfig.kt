@@ -5,8 +5,6 @@ import com.fone.competition.presentation.dto.RegisterCompetitionDto.RegisterComp
 import com.fone.competition.presentation.dto.RetrieveCompetitionDto.RetrieveCompetitionResponse
 import com.fone.competition.presentation.dto.RetrieveCompetitionDto.RetrieveCompetitionsResponse
 import com.fone.competition.presentation.dto.RetrieveCompetitionScrapDto.RetrieveCompetitionScrapResponse
-import com.fone.jobOpening.presentation.dto.LocationDto.RetrieveDistrictsResponse
-import com.fone.jobOpening.presentation.dto.LocationDto.RetrieveRegionsResponse
 import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningResponse
 import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningResponse
 import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningsResponse
@@ -14,6 +12,8 @@ import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningMyRegistrationDto.
 import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningScrapDto.RetrieveJobOpeningScrapResponse
 import com.fone.jobOpening.presentation.dto.RetrieveMySimilarJobOpeningDto.RetrieveMySimilarJobOpeningResponse
 import com.fone.jobOpening.presentation.dto.ScrapJobOpeningDto.ScrapJobOpeningResponse
+import com.fone.jobOpening.presentation.dto.common.LocationDto.RetrieveDistrictsResponse
+import com.fone.jobOpening.presentation.dto.common.LocationDto.RetrieveRegionsResponse
 import com.fone.profile.presentation.dto.RegisterProfileDto.RegisterProfileResponse
 import com.fone.profile.presentation.dto.RetrieveProfileMyRegistrationDto.RetrieveProfileMyRegistrationResponse
 import com.fone.profile.presentation.dto.RetrieveProfileWantDto.RetrieveProfileWantResponse

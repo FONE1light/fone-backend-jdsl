@@ -1,4 +1,4 @@
-package com.fone.jobOpening.presentation.dto
+package com.fone.jobOpening.presentation.dto.common
 
 import io.swagger.v3.oas.annotations.media.Schema
 
