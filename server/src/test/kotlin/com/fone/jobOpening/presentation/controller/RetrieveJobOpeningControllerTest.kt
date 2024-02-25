@@ -9,6 +9,8 @@ import com.fone.common.CustomDescribeSpec
 import com.fone.common.IntegrationTest
 import com.fone.common.PageDeserializer
 import com.fone.common.doGet
+import com.fone.common.entity.CategoryType
+import com.fone.common.entity.DomainType
 import com.fone.common.response.CommonResponse
 import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningResponse
 import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningsResponse
@@ -91,6 +93,70 @@ class RetrieveJobOpeningControllerTest(client: WebTestClient, private val object
                             viewCounts shouldBe viewCounts!!.sortedDescending()
                             objectMapper
                         }
+                }
+            }
+        }
+        describe("#retrieve jobOpenings with filters") {
+            context("조건에 맞는 구인구직 리스트를 조회하면") {
+                it("성공한다") {
+                    val filterParams = mapOf(
+                        "type" to "ACTOR",
+                        "ageMin" to "20",
+                        "ageMax" to "30"
+                    )
+                    client.doGet(retrieveUrl, accessToken, filterParams)
+                        .expectStatus().isOk.expectBody().consumeWith { println(it) }
+                        .jsonPath("$.result").isEqualTo("SUCCESS")
+                }
+            }
+        }
+        describe("#retrieve jobOpenings sorted by viewCount") {
+            context("조회수(viewCount)로 정렬된 구인구직 리스트를 조회하면") {
+                it("성공한다") {
+                    client.doGet(retrieveUrl, accessToken, mapOf("type" to "ACTOR", "sort" to "viewCount,desc"))
+                        .expectStatus().isOk.expectBody().consumeWith { println(it) }
+                        .jsonPath("$.result").isEqualTo("SUCCESS")
+                }
+            }
+        }
+        describe("#retrieve jobOpenings sorted by createdAt") {
+            context("생성일(createdAt)로 정렬된 구인구직 리스트를 조회하면") {
+                it("성공한다") {
+                    client.doGet(retrieveUrl, accessToken, mapOf("type" to "ACTOR", "sort" to "createdAt,asc"))
+                        .expectStatus().isOk.expectBody().consumeWith { println(it) }
+                        .jsonPath("$.result").isEqualTo("SUCCESS")
+                }
+            }
+        }
+        describe("#retrieve jobOpenings sorted by scrapCount") {
+            context("스크랩수(scrapCount)로 정렬된 구인구직 리스트를 조회하면") {
+                it("성공한다") {
+                    client.doGet(retrieveUrl, accessToken, mapOf("type" to "ACTOR", "sort" to "scrapCount,desc"))
+                        .expectStatus().isOk.expectBody().consumeWith { println(it) }
+                        .jsonPath("$.result").isEqualTo("SUCCESS")
+                }
+            }
+        }
+        describe("#retrieve jobOpenings sorted by recruitmentEndDate") {
+            context("모집 종료일(recruitmentEndDate)로 정렬된 구인구직 리스트를 조회하면") {
+                it("성공한다") {
+                    client.doGet(retrieveUrl, accessToken, mapOf("type" to "ACTOR", "sort" to "recruitmentEndDate,asc"))
+                        .expectStatus().isOk.expectBody().consumeWith { println(it) }
+                        .jsonPath("$.result").isEqualTo("SUCCESS")
+                }
+            }
+        }
+        describe("#retrieve jobOpenings with domains and categories") {
+            context("특정 분야(domains)와 카테고리(categories)로 필터링된 구인구직 리스트를 조회하면") {
+                it("성공한다") {
+                    val params = mapOf(
+                        "type" to "ACTOR",
+                        "domains" to listOf(DomainType.SCENARIO).joinToString(","),
+                        "categories" to listOf(CategoryType.WEB_DRAMA).joinToString(",")
+                    )
+                    client.doGet(retrieveUrl, accessToken, params)
+                        .expectStatus().isOk.expectBody().consumeWith { println(it) }
+                        .jsonPath("$.result").isEqualTo("SUCCESS")
                 }
             }
         }
