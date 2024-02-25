@@ -3,7 +3,7 @@ package com.fone.profile.presentation.controller
 import com.fone.common.entity.Type
 import com.fone.common.response.CommonResponse
 import com.fone.profile.application.RetrieveProfileWantFacade
-import com.fone.profile.presentation.dto.RetrieveProfileWantDto.RetrieveProfileWantResponse
+import com.fone.profile.presentation.dto.RetrieveProfileWantResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.media.Content

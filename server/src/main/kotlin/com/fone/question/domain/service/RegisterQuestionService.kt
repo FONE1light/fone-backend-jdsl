@@ -3,7 +3,7 @@ package com.fone.question.domain.service
 import com.fone.common.exception.InvalidTokenException
 import com.fone.question.domain.entity.Question
 import com.fone.question.domain.repository.QuestionRepository
-import com.fone.question.presentation.dto.RegisterQuestionDto.RegisterQuestionRequest
+import com.fone.question.presentation.dto.RegisterQuestionRequest
 import com.fone.user.domain.repository.UserRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

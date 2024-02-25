@@ -2,8 +2,8 @@ package com.fone.jobOpening.presentation.controller
 
 import com.fone.common.response.CommonResponse
 import com.fone.jobOpening.application.LocationFacade
-import com.fone.jobOpening.presentation.dto.common.LocationDto.RetrieveDistrictsResponse
-import com.fone.jobOpening.presentation.dto.common.LocationDto.RetrieveRegionsResponse
+import com.fone.jobOpening.presentation.dto.common.RetrieveDistrictsResponse
+import com.fone.jobOpening.presentation.dto.common.RetrieveRegionsResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.media.Content

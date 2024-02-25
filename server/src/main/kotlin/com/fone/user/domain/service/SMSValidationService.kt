@@ -7,10 +7,10 @@ import com.fone.user.domain.entity.User
 import com.fone.user.domain.enum.LoginType
 import com.fone.user.domain.repository.UserRepository
 import com.fone.user.domain.repository.generateRandomCode
-import com.fone.user.presentation.dto.SMSUserDto.PasswordSMSValidationResponse
-import com.fone.user.presentation.dto.SMSUserDto.SMSRequest
-import com.fone.user.presentation.dto.SMSUserDto.SMSValidationRequest
-import com.fone.user.presentation.dto.SMSUserDto.UserInfoSMSValidationResponse
+import com.fone.user.presentation.dto.PasswordSMSValidationResponse
+import com.fone.user.presentation.dto.SMSRequest
+import com.fone.user.presentation.dto.SMSValidationRequest
+import com.fone.user.presentation.dto.UserInfoSMSValidationResponse
 import org.springframework.stereotype.Service
 import java.util.UUID
 import java.util.concurrent.TimeUnit

@@ -10,63 +10,61 @@ import com.fone.jobOpening.presentation.dto.common.JobOpeningDto
 import com.fone.user.domain.enum.Job
 import io.swagger.v3.oas.annotations.media.Schema
 
-class RegisterJobOpeningDto {
-    data class RegisterJobOpeningRequest(
-        @Schema(description = "1번째 페이지")
-        val firstPage: ValidateJobOpeningDto.FirstPage,
+data class RegisterJobOpeningRequest(
+    @Schema(description = "1번째 페이지")
+    val firstPage: FirstPage,
 
-        @Schema(description = "2번째 페이지")
-        val secondPage: ValidateJobOpeningDto.SecondPage,
+    @Schema(description = "2번째 페이지")
+    val secondPage: SecondPage,
 
-        @Schema(description = "3번째 페이지")
-        val thirdPage: ValidateJobOpeningDto.ThirdPage,
+    @Schema(description = "3번째 페이지")
+    val thirdPage: ThirdPage,
 
-        @Schema(description = "4번째 페이지")
-        val fourthPage: ValidateJobOpeningDto.FourthPage,
+    @Schema(description = "4번째 페이지")
+    val fourthPage: FourthPage,
 
-        @Schema(description = "5번째 페이지")
-        val fifthPage: ValidateJobOpeningDto.FifthPage,
+    @Schema(description = "5번째 페이지")
+    val fifthPage: FifthPage,
 
-        @Schema(description = "6번째 페이지")
-        val sixthPage: ValidateJobOpeningDto.SixthPage,
+    @Schema(description = "6번째 페이지")
+    val sixthPage: SixthPage,
 
-        @Schema(description = "7번째 페이지")
-        val seventhPage: ValidateJobOpeningDto.SeventhPage,
+    @Schema(description = "7번째 페이지")
+    val seventhPage: SeventhPage,
 
-        @Schema(description = "모집유형", example = "ACTOR")
-        val type: Type,
-    )
+    @Schema(description = "모집유형", example = "ACTOR")
+    val type: Type,
+)
 
-    data class RegisterJobOpeningResponse(
-        val jobOpening: JobOpeningDto,
-    ) {
-        constructor(
-            jobOpening: JobOpening,
-            userJobOpeningScrapMap: Map<Long, JobOpeningScrap?>,
-            domains: List<DomainType>?,
-            categories: List<CategoryType>,
-            nickname: String,
-            profileUrl: String,
-            job: Job,
-            isVerified: Boolean,
-        ) : this(
-            jobOpening =
-            JobOpeningDto(
-                jobOpening,
-                userJobOpeningScrapMap,
-                domains,
-                categories,
-                nickname,
-                profileUrl,
-                job,
-                jobOpening.imageUrls.map { it.url }.toList(),
-                isVerified
-            )
+data class RegisterJobOpeningResponse(
+    val jobOpening: JobOpeningDto,
+) {
+    constructor(
+        jobOpening: JobOpening,
+        userJobOpeningScrapMap: Map<Long, JobOpeningScrap?>,
+        domains: List<DomainType>?,
+        categories: List<CategoryType>,
+        nickname: String,
+        profileUrl: String,
+        job: Job,
+        isVerified: Boolean,
+    ) : this(
+        jobOpening =
+        JobOpeningDto(
+            jobOpening,
+            userJobOpeningScrapMap,
+            domains,
+            categories,
+            nickname,
+            profileUrl,
+            job,
+            jobOpening.imageUrls.map { it.url }.toList(),
+            isVerified
         )
-    }
+    )
 }
 
-suspend fun RegisterJobOpeningDto.RegisterJobOpeningRequest.toEntity(userId: Long): JobOpening {
+suspend fun RegisterJobOpeningRequest.toEntity(userId: Long): JobOpening {
     return JobOpening(
         contactMethod = firstPage.contactMethod,
         contact = firstPage.contact,

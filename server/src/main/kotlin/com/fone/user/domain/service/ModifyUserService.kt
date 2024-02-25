@@ -2,9 +2,9 @@ package com.fone.user.domain.service
 
 import com.fone.common.exception.NotFoundUserException
 import com.fone.user.domain.repository.UserRepository
-import com.fone.user.presentation.dto.ModifyUserDto.AdminModifyUserRequest
-import com.fone.user.presentation.dto.ModifyUserDto.ModifyUserRequest
-import com.fone.user.presentation.dto.ModifyUserDto.ModifyUserResponse
+import com.fone.user.presentation.dto.AdminModifyUserRequest
+import com.fone.user.presentation.dto.ModifyUserRequest
+import com.fone.user.presentation.dto.ModifyUserResponse
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

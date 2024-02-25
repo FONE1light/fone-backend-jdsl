@@ -6,7 +6,8 @@ import com.fone.common.IntegrationTest
 import com.fone.common.doPost
 import com.fone.common.entity.Gender
 import com.fone.profile.domain.enum.SNS
-import com.fone.profile.presentation.dto.ValidateProfileDto
+import com.fone.profile.presentation.dto.SecondPage
+import com.fone.profile.presentation.dto.ThirdPage
 import com.fone.profile.presentation.dto.common.ProfileSnsUrl
 import org.springframework.test.web.reactive.server.WebTestClient
 import java.time.LocalDate
@@ -20,7 +21,7 @@ class ValidateProfileControllerTest(client: WebTestClient) : CustomDescribeSpec(
             context("basic 페이지") {
                 it("성공한다") {
                     val request =
-                        ValidateProfileDto.SecondPage(
+                        SecondPage(
                             "제목",
                             "후킹멘트",
                             listOf("https://s3-ap-northeast-2.amazonaws.com/f-one-image/prod/user-profile/image.jpg"),
@@ -32,7 +33,7 @@ class ValidateProfileControllerTest(client: WebTestClient) : CustomDescribeSpec(
                 }
                 it("실패한다") {
                     val request =
-                        ValidateProfileDto.SecondPage(
+                        SecondPage(
                             "제목",
                             "후킹멘트",
                             listOf(""),
@@ -45,7 +46,7 @@ class ValidateProfileControllerTest(client: WebTestClient) : CustomDescribeSpec(
             context("details 페이지") {
                 it("성공한다") {
                     val request =
-                        ValidateProfileDto.ThirdPage(
+                        ThirdPage(
                             LocalDate.now(),
                             Gender.MAN,
                             170,
@@ -61,7 +62,7 @@ class ValidateProfileControllerTest(client: WebTestClient) : CustomDescribeSpec(
                 }
                 it("실패한다") {
                     val request =
-                        ValidateProfileDto.ThirdPage(
+                        ThirdPage(
                             LocalDate.now(),
                             Gender.MAN,
                             null,

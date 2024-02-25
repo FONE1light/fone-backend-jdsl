@@ -1,7 +1,7 @@
 package com.fone.competition.application
 
 import com.fone.competition.domain.service.RegisterCompetitionService
-import com.fone.competition.presentation.dto.RegisterCompetitionDto.RegisterCompetitionRequest
+import com.fone.competition.presentation.dto.RegisterCompetitionRequest
 import org.springframework.stereotype.Service
 
 @Service

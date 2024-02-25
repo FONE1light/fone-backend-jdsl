@@ -5,8 +5,8 @@ import com.fone.common.exception.NotFoundUserException
 import com.fone.common.repository.UserCommonRepository
 import com.fone.competition.domain.repository.CompetitionRepository
 import com.fone.competition.domain.repository.CompetitionScrapRepository
-import com.fone.competition.presentation.dto.RetrieveCompetitionDto.RetrieveCompetitionResponse
-import com.fone.competition.presentation.dto.RetrieveCompetitionDto.RetrieveCompetitionsResponse
+import com.fone.competition.presentation.dto.RetrieveCompetitionResponse
+import com.fone.competition.presentation.dto.RetrieveCompetitionsResponse
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional

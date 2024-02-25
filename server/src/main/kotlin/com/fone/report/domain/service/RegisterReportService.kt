@@ -8,7 +8,7 @@ import com.fone.profile.domain.repository.ProfileRepository
 import com.fone.report.domain.entity.Report
 import com.fone.report.domain.enum.Type
 import com.fone.report.domain.repository.ReportRepository
-import com.fone.report.presentation.dto.RegisterReportDto.RegisterReportRequest
+import com.fone.report.presentation.dto.RegisterReportRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

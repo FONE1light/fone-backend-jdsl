@@ -6,7 +6,7 @@ import com.fone.common.exception.NotFoundUserException
 import com.fone.common.redis.RedisRepository
 import com.fone.user.domain.entity.User
 import com.fone.user.domain.repository.UserRepository
-import com.fone.user.presentation.dto.PasswordUpdateDto.PasswordUpdateRequest
+import com.fone.user.presentation.dto.PasswordUpdateRequest
 import org.springframework.stereotype.Service
 import java.rmi.ServerException
 import javax.transaction.Transactional

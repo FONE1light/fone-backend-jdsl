@@ -11,7 +11,7 @@ import com.fone.common.response.CommonResponse
 import com.fone.profile.domain.entity.ProfileSns
 import com.fone.profile.domain.enum.SNS
 import com.fone.profile.domain.repository.ProfileRepository
-import com.fone.profile.presentation.dto.RegisterProfileDto
+import com.fone.profile.presentation.dto.RegisterProfileResponse
 import com.fone.profile.presentation.dto.common.ProfileSnsUrl
 import com.fone.profile.presentation.dto.common.toDto
 import io.kotest.common.runBlocking
@@ -47,7 +47,7 @@ class PutProfileControllerTest(
                         .expectBody()
                         .consumeWith {
                             val response =
-                                objectMapper.readValue<CommonResponse<RegisterProfileDto.RegisterProfileResponse>>(
+                                objectMapper.readValue<CommonResponse<RegisterProfileResponse>>(
                                     it.responseBody!!
                                 )
                             response.data!!.profile.thirdPage.snsUrls.toSet() shouldBe snsUrls.toSet()

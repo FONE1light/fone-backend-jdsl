@@ -2,8 +2,8 @@ package com.fone.report.application
 
 import com.fone.report.domain.service.DiscordReportService
 import com.fone.report.domain.service.RegisterReportService
-import com.fone.report.presentation.dto.RegisterReportDto.RegisterReportRequest
-import com.fone.report.presentation.dto.RegisterReportDto.RegisterReportResponse
+import com.fone.report.presentation.dto.RegisterReportRequest
+import com.fone.report.presentation.dto.RegisterReportResponse
 import org.springframework.stereotype.Service
 
 @Service

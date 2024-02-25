@@ -2,8 +2,8 @@ package com.fone.user.domain.service
 
 import com.fone.common.exception.DuplicateUserNicknameException
 import com.fone.user.domain.repository.UserRepository
-import com.fone.user.presentation.dto.CheckNicknameDuplicateDto.CheckNicknameDuplicateRequest
-import com.fone.user.presentation.dto.CheckNicknameDuplicateDto.CheckNicknameDuplicateResponse
+import com.fone.user.presentation.dto.CheckNicknameDuplicateRequest
+import com.fone.user.presentation.dto.CheckNicknameDuplicateResponse
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

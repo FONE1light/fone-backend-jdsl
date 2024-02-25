@@ -3,7 +3,7 @@ package com.fone.user.presentation.controller
 import com.fone.common.jwt.Token
 import com.fone.common.response.CommonResponse
 import com.fone.user.application.ReissueTokenFacade
-import com.fone.user.presentation.dto.ReissueTokenDto
+import com.fone.user.presentation.dto.ReissueTokenRequest
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.media.Content
@@ -31,7 +31,7 @@ class ReissueTokenController(
     )
     suspend fun reissueToken(
         @RequestBody @Valid
-        request: ReissueTokenDto.ReissueTokenRequest,
+        request: ReissueTokenRequest,
     ): CommonResponse<Token> {
         val response = reissueTokenFacade.reissueToken(request)
 

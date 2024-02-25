@@ -12,8 +12,8 @@ import com.fone.user.application.EmailValidationFacadeNoOp
 import com.fone.user.domain.entity.User
 import com.fone.user.domain.enum.LoginType
 import com.fone.user.domain.repository.UserRepository
-import com.fone.user.presentation.dto.SignUpUserDto.EmailSignUpUserRequest
-import com.fone.user.presentation.dto.SignUpUserDto.SocialSignUpUserRequest
+import com.fone.user.presentation.dto.EmailSignUpUserRequest
+import com.fone.user.presentation.dto.SocialSignUpUserRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.server.ServerWebInputException

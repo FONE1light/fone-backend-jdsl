@@ -2,9 +2,9 @@ package com.fone.user.presentation.controller
 
 import com.fone.common.response.CommonResponse
 import com.fone.user.application.SignInUserFacade
-import com.fone.user.presentation.dto.SignInUserDto.EmailSignInUserRequest
-import com.fone.user.presentation.dto.SignInUserDto.SignInUserResponse
-import com.fone.user.presentation.dto.SignInUserDto.SocialSignInUserRequest
+import com.fone.user.presentation.dto.EmailSignInUserRequest
+import com.fone.user.presentation.dto.SignInUserResponse
+import com.fone.user.presentation.dto.SocialSignInUserRequest
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.media.Content

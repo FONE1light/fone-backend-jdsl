@@ -9,8 +9,8 @@ import com.fone.common.doGet
 import com.fone.common.doPost
 import com.fone.common.jwt.Token
 import com.fone.common.response.CommonResponse
-import com.fone.user.presentation.dto.ReissueTokenDto
-import com.fone.user.presentation.dto.SignInUserDto
+import com.fone.user.presentation.dto.ReissueTokenRequest
+import com.fone.user.presentation.dto.SignInUserResponse
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import org.springframework.core.ParameterizedTypeReference
@@ -20,7 +20,7 @@ import org.springframework.test.web.reactive.server.WebTestClient
 class ReissueUserControllerTest(client: WebTestClient, objectMapper: ObjectMapper) : CustomDescribeSpec() {
 
     private val reissueUrl = "/api/v1/users/reissue"
-    private val token = objectMapper.convertValue<SignInUserDto.SignInUserResponse>(
+    private val token = objectMapper.convertValue<SignInUserResponse>(
         CommonUserCallApi.getToken(
             client,
             "test-nick",
@@ -38,7 +38,7 @@ class ReissueUserControllerTest(client: WebTestClient, objectMapper: ObjectMappe
                     client
                         .doPost(
                             reissueUrl,
-                            ReissueTokenDto.ReissueTokenRequest(token.accessToken, token.refreshToken)
+                            ReissueTokenRequest(token.accessToken, token.refreshToken)
                         )
                         .expectStatus()
                         .isOk

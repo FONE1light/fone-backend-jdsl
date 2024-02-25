@@ -2,8 +2,8 @@ package com.fone.question.application
 
 import com.fone.question.domain.service.DiscordQuestionService
 import com.fone.question.domain.service.RegisterQuestionService
-import com.fone.question.presentation.dto.RegisterQuestionDto.RegisterQuestionRequest
-import com.fone.question.presentation.dto.RegisterQuestionDto.RegisterQuestionResponse
+import com.fone.question.presentation.dto.RegisterQuestionRequest
+import com.fone.question.presentation.dto.RegisterQuestionResponse
 import org.springframework.stereotype.Service
 
 @Service

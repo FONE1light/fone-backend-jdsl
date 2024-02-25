@@ -2,8 +2,8 @@ package com.fone.profile.presentation.controller
 
 import com.fone.common.response.CommonResponse
 import com.fone.profile.application.PutProfileFacade
-import com.fone.profile.presentation.dto.RegisterProfileDto.RegisterProfileRequest
-import com.fone.profile.presentation.dto.RegisterProfileDto.RegisterProfileResponse
+import com.fone.profile.presentation.dto.RegisterProfileRequest
+import com.fone.profile.presentation.dto.RegisterProfileResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.media.Content

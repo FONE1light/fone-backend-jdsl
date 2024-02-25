@@ -11,7 +11,7 @@ import com.fone.common.PageDeserializer
 import com.fone.common.doDelete
 import com.fone.common.doGet
 import com.fone.common.response.CommonResponse
-import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningMyRegistrationDto.RetrieveJobOpeningMyRegistrationResponse
+import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningMyRegistrationResponse
 import com.fone.jobOpening.presentation.dto.common.JobOpeningDto
 import io.kotest.matchers.shouldBe
 import org.springframework.data.domain.Page

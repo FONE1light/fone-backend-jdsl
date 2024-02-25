@@ -1,7 +1,7 @@
 package com.fone.common
 
 import com.fone.common.response.CommonResponse
-import com.fone.competition.presentation.dto.RegisterCompetitionDto
+import com.fone.competition.presentation.dto.RegisterCompetitionRequest
 import org.springframework.test.web.reactive.server.WebTestClient
 import java.time.LocalDate
 
@@ -9,7 +9,7 @@ object CommonCompetitionCallApi {
     private const val registerUrl = "/api/v1/competitions"
 
     fun register(client: WebTestClient, accessToken: String): Long {
-        val registerCompetitionRequest = RegisterCompetitionDto.RegisterCompetitionRequest(
+        val registerCompetitionRequest = RegisterCompetitionRequest(
             title = "테스트 제목",
             imageUrl = "test url",
             exhibitStartDate = LocalDate.now(),

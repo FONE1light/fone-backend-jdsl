@@ -5,7 +5,7 @@ import com.fone.common.CustomDescribeSpec
 import com.fone.common.IntegrationTest
 import com.fone.common.doPost
 import com.fone.user.domain.enum.LoginType
-import com.fone.user.presentation.dto.SignInUserDto.SocialSignInUserRequest
+import com.fone.user.presentation.dto.SocialSignInUserRequest
 import org.springframework.test.web.reactive.server.WebTestClient
 
 @IntegrationTest

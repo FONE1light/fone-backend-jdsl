@@ -12,8 +12,10 @@ import com.fone.common.response.CommonResponse
 import com.fone.user.domain.enum.Job
 import com.fone.user.domain.enum.LoginType
 import com.fone.user.domain.repository.UserRepository
-import com.fone.user.presentation.dto.ModifyUserDto
-import com.fone.user.presentation.dto.SignInUserDto
+import com.fone.user.presentation.dto.AdminModifyUserRequest
+import com.fone.user.presentation.dto.ModifyUserRequest
+import com.fone.user.presentation.dto.ModifyUserResponse
+import com.fone.user.presentation.dto.SocialSignInUserRequest
 import io.kotest.matchers.shouldBe
 import org.springframework.test.web.reactive.server.WebTestClient
 
@@ -30,14 +32,14 @@ class ModifyUserControllerTest(
     init {
         val (accessToken, email) = CommonUserCallApi.getAccessToken(client)
         val successModifyUserRequest =
-            ModifyUserDto.ModifyUserRequest(
+            ModifyUserRequest(
                 Job.ACTOR,
                 listOf(CategoryType.ETC),
                 "test1515151",
                 ""
             )
         val adminModifyUserRequest =
-            ModifyUserDto.AdminModifyUserRequest(
+            AdminModifyUserRequest(
                 job = Job.STAFF,
                 roles = listOf(Role.ROLE_USER),
                 isVerified = true
@@ -69,7 +71,7 @@ class ModifyUserControllerTest(
                         .expectBody()
                         .consumeWith {
                             val response = objectMapper
-                                .readValue<CommonResponse<ModifyUserDto.ModifyUserResponse>>(it.responseBody!!)
+                                .readValue<CommonResponse<ModifyUserResponse>>(it.responseBody!!)
                             response.data!!.user.isVerified shouldBe true
                         }
                         .jsonPath("$.result")
@@ -94,7 +96,7 @@ class ModifyUserControllerTest(
         return (
             CommonUserCallApi.signIn(
                 client,
-                SignInUserDto.SocialSignInUserRequest(LoginType.APPLE, "token:$email")
+                SocialSignInUserRequest(LoginType.APPLE, "token:$email")
             )["token"] as Map<*, *>
             )["accessToken"] as String
     }

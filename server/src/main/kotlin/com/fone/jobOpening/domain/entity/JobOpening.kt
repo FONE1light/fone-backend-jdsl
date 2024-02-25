@@ -7,7 +7,7 @@ import com.fone.common.entity.Gender
 import com.fone.common.entity.Salary
 import com.fone.common.entity.Type
 import com.fone.jobOpening.infrastructure.toLocation
-import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningRequest
+import com.fone.jobOpening.presentation.dto.RegisterJobOpeningRequest
 import java.time.LocalDate
 import javax.persistence.CascadeType
 import javax.persistence.Column

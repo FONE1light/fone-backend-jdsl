@@ -2,7 +2,7 @@ package com.fone.competition.presentation.controller
 
 import com.fone.common.response.CommonResponse
 import com.fone.competition.application.RetrieveCompetitionScrapFacade
-import com.fone.competition.presentation.dto.RetrieveCompetitionScrapDto.RetrieveCompetitionScrapResponse
+import com.fone.competition.presentation.dto.RetrieveCompetitionScrapResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.media.Content

@@ -2,8 +2,8 @@ package com.fone.user.presentation.controller
 
 import com.fone.common.response.CommonResponse
 import com.fone.user.application.PasswordValidationFacade
-import com.fone.user.presentation.dto.PasswordValidationDto.PasswordValidationRequest
-import com.fone.user.presentation.dto.PasswordValidationDto.PasswordValidationResponse
+import com.fone.user.presentation.dto.PasswordValidationRequest
+import com.fone.user.presentation.dto.PasswordValidationResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.media.Content

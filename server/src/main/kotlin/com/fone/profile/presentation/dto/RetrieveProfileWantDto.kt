@@ -15,50 +15,47 @@ import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 
-class RetrieveProfileWantDto {
+data class RetrieveProfileWantResponse(
+    val profiles: RestPage<ProfileDto>,
+) {
 
-    data class RetrieveProfileWantResponse(
-        val profiles: RestPage<ProfileDto>,
-    ) {
-
-        constructor(
-            profiles: List<Profile>,
-            userProfileWantMap: Map<Long, ProfileWant?>,
-            profileDomains: Map<Long, List<DomainType>>,
-            profileCategories: Map<Long, List<CategoryType>>,
-            profileUsers: Map<Long?, User>,
-            pageable: Pageable,
-        ) : this(
-            profiles = RestPage(
-                profiles.map {
-                    ProfileDto(
-                        it,
-                        userProfileWantMap,
-                        it.profileImages,
-                        profileDomains[it.id!!] ?: listOf(),
-                        profileCategories[it.id!!] ?: listOf(),
-                        profileUsers[it.userId]?.nickname ?: "",
-                        profileUsers[it.userId]?.profileUrl ?: "",
-                        profileUsers[it.userId]?.job ?: Job.ACTOR
-                    )
-                }.toList(),
-                pageable.pageNumber,
-                pageable.pageSize,
-                profiles.size.toLong()
-            )
+    constructor(
+        profiles: List<Profile>,
+        userProfileWantMap: Map<Long, ProfileWant?>,
+        profileDomains: Map<Long, List<DomainType>>,
+        profileCategories: Map<Long, List<CategoryType>>,
+        profileUsers: Map<Long?, User>,
+        pageable: Pageable,
+    ) : this(
+        profiles = RestPage(
+            profiles.map {
+                ProfileDto(
+                    it,
+                    userProfileWantMap,
+                    it.profileImages,
+                    profileDomains[it.id!!] ?: listOf(),
+                    profileCategories[it.id!!] ?: listOf(),
+                    profileUsers[it.userId]?.nickname ?: "",
+                    profileUsers[it.userId]?.profileUrl ?: "",
+                    profileUsers[it.userId]?.job ?: Job.ACTOR
+                )
+            }.toList(),
+            pageable.pageNumber,
+            pageable.pageSize,
+            profiles.size.toLong()
         )
-    }
+    )
+}
 
-    @JsonIgnoreProperties(ignoreUnknown = true, value = ["pageable"])
-    class RestPage<T> : PageImpl<T> {
-        @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-        constructor(
-            @JsonProperty("content") content: List<T>?,
-            @JsonProperty("number") page: Int,
-            @JsonProperty("size") size: Int,
-            @JsonProperty("totalElements") total: Long,
-        ) : super(content!!, PageRequest.of(page, size), total)
+@JsonIgnoreProperties(ignoreUnknown = true, value = ["pageable"])
+class RestPage<T> : PageImpl<T> {
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+    constructor(
+        @JsonProperty("content") content: List<T>?,
+        @JsonProperty("number") page: Int,
+        @JsonProperty("size") size: Int,
+        @JsonProperty("totalElements") total: Long,
+    ) : super(content!!, PageRequest.of(page, size), total)
 
-        constructor(page: Page<T>) : super(page.content, page.pageable, page.totalElements)
-    }
+    constructor(page: Page<T>) : super(page.content, page.pageable, page.totalElements)
 }

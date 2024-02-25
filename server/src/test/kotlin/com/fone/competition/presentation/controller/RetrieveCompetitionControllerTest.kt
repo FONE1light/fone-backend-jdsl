@@ -10,7 +10,7 @@ import com.fone.common.IntegrationTest
 import com.fone.common.PageDeserializer
 import com.fone.common.doGet
 import com.fone.common.response.CommonResponse
-import com.fone.competition.presentation.dto.RetrieveCompetitionDto
+import com.fone.competition.presentation.dto.RetrieveCompetitionsResponse
 import com.fone.competition.presentation.dto.common.CompetitionDto
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -68,7 +68,7 @@ class RetrieveCompetitionControllerTest(client: WebTestClient, private val objec
                         .expectStatus().isOk.expectBody()
                         .consumeWith {
                             println(it)
-                            val response: CommonResponse<RetrieveCompetitionDto.RetrieveCompetitionsResponse> =
+                            val response: CommonResponse<RetrieveCompetitionsResponse> =
                                 pageObjectMapper.readValue(String(it.responseBody!!))
                             val viewDates = response.data?.competitions?.toList()?.map { dto -> dto.showStartDate!! }
                             viewDates shouldNotBe null

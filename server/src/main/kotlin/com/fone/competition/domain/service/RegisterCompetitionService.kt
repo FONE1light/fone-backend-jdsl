@@ -3,8 +3,8 @@ package com.fone.competition.domain.service
 import com.fone.common.exception.NotFoundUserException
 import com.fone.common.repository.UserCommonRepository
 import com.fone.competition.domain.repository.CompetitionRepository
-import com.fone.competition.presentation.dto.RegisterCompetitionDto.RegisterCompetitionRequest
-import com.fone.competition.presentation.dto.RegisterCompetitionDto.RegisterCompetitionResponse
+import com.fone.competition.presentation.dto.RegisterCompetitionRequest
+import com.fone.competition.presentation.dto.RegisterCompetitionResponse
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

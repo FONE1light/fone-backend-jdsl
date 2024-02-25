@@ -2,7 +2,13 @@ package com.fone.jobOpening.presentation.controller
 
 import com.fone.common.response.CommonResponse
 import com.fone.jobOpening.application.ValidateJobOpeningFacade
-import com.fone.jobOpening.presentation.dto.ValidateJobOpeningDto
+import com.fone.jobOpening.presentation.dto.FifthPage
+import com.fone.jobOpening.presentation.dto.FirstPage
+import com.fone.jobOpening.presentation.dto.FourthPage
+import com.fone.jobOpening.presentation.dto.SecondPage
+import com.fone.jobOpening.presentation.dto.SeventhPage
+import com.fone.jobOpening.presentation.dto.SixthPage
+import com.fone.jobOpening.presentation.dto.ThirdPage
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -27,7 +33,7 @@ class ValidateJobOpeningController(
     )
     suspend fun contactPageValidation(
         @RequestBody
-        request: ValidateJobOpeningDto.FirstPage,
+        request: FirstPage,
     ): CommonResponse<Unit> {
         validateJobOpeningFacade.validateContactPage(request)
         return CommonResponse.success()
@@ -42,7 +48,7 @@ class ValidateJobOpeningController(
     )
     suspend fun titlePageValidation(
         @RequestBody
-        request: ValidateJobOpeningDto.SecondPage,
+        request: SecondPage,
     ): CommonResponse<Unit> {
         validateJobOpeningFacade.validateTitlePage(request)
         return CommonResponse.success()
@@ -57,7 +63,7 @@ class ValidateJobOpeningController(
     )
     suspend fun rolePageValidation(
         @RequestBody
-        request: ValidateJobOpeningDto.ThirdPage,
+        request: ThirdPage,
     ): CommonResponse<Unit> {
         validateJobOpeningFacade.validateRolePage(request)
         return CommonResponse.success()
@@ -72,7 +78,7 @@ class ValidateJobOpeningController(
     )
     suspend fun projectPageValidation(
         @RequestBody
-        request: ValidateJobOpeningDto.FourthPage,
+        request: FourthPage,
     ): CommonResponse<Unit> {
         validateJobOpeningFacade.validateProjectPage(request)
         return CommonResponse.success()
@@ -87,7 +93,7 @@ class ValidateJobOpeningController(
     )
     suspend fun projectDetailsPageValidation(
         @RequestBody
-        request: ValidateJobOpeningDto.FifthPage,
+        request: FifthPage,
     ): CommonResponse<Unit> {
         validateJobOpeningFacade.validateProjectDetailsPage(request)
         return CommonResponse.success()
@@ -102,7 +108,7 @@ class ValidateJobOpeningController(
     )
     suspend fun projectSummaryPageValidation(
         @RequestBody
-        request: ValidateJobOpeningDto.SixthPage,
+        request: SixthPage,
     ): CommonResponse<Unit> {
         validateJobOpeningFacade.validateSummaryPage(request)
         return CommonResponse.success()
@@ -117,7 +123,7 @@ class ValidateJobOpeningController(
     )
     suspend fun projectManagerPageValidation(
         @RequestBody
-        request: ValidateJobOpeningDto.SeventhPage,
+        request: SeventhPage,
     ): CommonResponse<Unit> {
         validateJobOpeningFacade.validateManagerPage(request)
         return CommonResponse.success()

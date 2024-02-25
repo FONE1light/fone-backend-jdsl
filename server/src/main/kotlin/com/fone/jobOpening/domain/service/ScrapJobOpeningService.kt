@@ -5,8 +5,8 @@ import com.fone.common.exception.NotFoundUserException
 import com.fone.common.repository.UserCommonRepository
 import com.fone.jobOpening.domain.repository.JobOpeningRepository
 import com.fone.jobOpening.domain.repository.JobOpeningScrapRepository
-import com.fone.jobOpening.presentation.dto.ScrapJobOpeningDto.ScrapJobOpeningResponse
-import com.fone.jobOpening.presentation.dto.ScrapJobOpeningDto.ScrapJobResult
+import com.fone.jobOpening.presentation.dto.ScrapJobOpeningResponse
+import com.fone.jobOpening.presentation.dto.ScrapJobResult
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

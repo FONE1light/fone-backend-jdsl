@@ -6,7 +6,7 @@ import com.fone.jobOpening.domain.entity.JobOpeningCategory
 import com.fone.jobOpening.domain.entity.JobOpeningDomain
 import com.fone.jobOpening.domain.entity.JobOpeningScrap
 import com.fone.jobOpening.domain.repository.JobOpeningRepository
-import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningsRequest
+import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningsRequest
 import com.linecorp.kotlinjdsl.query.spec.OrderSpec
 import com.linecorp.kotlinjdsl.query.spec.predicate.EqualValueSpec
 import com.linecorp.kotlinjdsl.querydsl.expression.col

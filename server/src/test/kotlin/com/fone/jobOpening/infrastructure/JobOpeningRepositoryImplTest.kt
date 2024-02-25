@@ -7,7 +7,7 @@ import com.fone.common.CustomDescribeSpec
 import com.fone.common.IntegrationTest
 import com.fone.common.entity.Type
 import com.fone.jobOpening.domain.repository.JobOpeningRepository
-import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto
+import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningsRequest
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import org.springframework.test.web.reactive.server.WebTestClient
@@ -26,7 +26,7 @@ class JobOpeningRepositoryImplTest(
                 it("성공한다") {
                     val jobOpenings = jobOpeningRepository.findByFilters(
                         org.springframework.data.domain.Pageable.unpaged(),
-                        RetrieveJobOpeningDto.RetrieveJobOpeningsRequest(type = Type.ACTOR)
+                        RetrieveJobOpeningsRequest(type = Type.ACTOR)
                     )
 
                     jobOpenings.size shouldBe 0

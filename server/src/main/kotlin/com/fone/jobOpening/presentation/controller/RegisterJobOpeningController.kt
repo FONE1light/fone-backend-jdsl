@@ -2,8 +2,8 @@ package com.fone.jobOpening.presentation.controller
 
 import com.fone.common.response.CommonResponse
 import com.fone.jobOpening.application.RegisterJobOpeningFacade
-import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningRequest
-import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningResponse
+import com.fone.jobOpening.presentation.dto.RegisterJobOpeningRequest
+import com.fone.jobOpening.presentation.dto.RegisterJobOpeningResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.media.Content

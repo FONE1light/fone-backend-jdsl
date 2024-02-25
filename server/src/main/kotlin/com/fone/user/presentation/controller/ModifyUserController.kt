@@ -2,9 +2,9 @@ package com.fone.user.presentation.controller
 
 import com.fone.common.response.CommonResponse
 import com.fone.user.application.ModifyUserFacade
-import com.fone.user.presentation.dto.ModifyUserDto.AdminModifyUserRequest
-import com.fone.user.presentation.dto.ModifyUserDto.ModifyUserRequest
-import com.fone.user.presentation.dto.ModifyUserDto.ModifyUserResponse
+import com.fone.user.presentation.dto.AdminModifyUserRequest
+import com.fone.user.presentation.dto.ModifyUserRequest
+import com.fone.user.presentation.dto.ModifyUserResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.media.Content

@@ -1,9 +1,8 @@
+@file:Suppress("ktlint")
+
 package com.fone.user.presentation.dto
 
-class ReissueTokenDto {
-
-    data class ReissueTokenRequest(
-        val accessToken: String,
-        val refreshToken: String,
-    )
-}
+data class ReissueTokenRequest(
+    val accessToken: String,
+    val refreshToken: String,
+)

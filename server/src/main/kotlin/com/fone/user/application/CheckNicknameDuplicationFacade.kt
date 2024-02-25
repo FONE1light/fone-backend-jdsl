@@ -1,7 +1,7 @@
 package com.fone.user.application
 
 import com.fone.user.domain.service.CheckNicknameDuplicateService
-import com.fone.user.presentation.dto.CheckNicknameDuplicateDto.CheckNicknameDuplicateRequest
+import com.fone.user.presentation.dto.CheckNicknameDuplicateRequest
 import org.springframework.stereotype.Service
 
 @Service

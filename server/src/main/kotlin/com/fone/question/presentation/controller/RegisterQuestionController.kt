@@ -2,8 +2,8 @@ package com.fone.question.presentation.controller
 
 import com.fone.common.response.CommonResponse
 import com.fone.question.application.RegisterQuestionFacade
-import com.fone.question.presentation.dto.RegisterQuestionDto.RegisterQuestionRequest
-import com.fone.question.presentation.dto.RegisterQuestionDto.RegisterQuestionResponse
+import com.fone.question.presentation.dto.RegisterQuestionRequest
+import com.fone.question.presentation.dto.RegisterQuestionResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.media.Content
