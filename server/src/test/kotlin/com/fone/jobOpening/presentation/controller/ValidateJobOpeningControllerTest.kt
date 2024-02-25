@@ -364,7 +364,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                         LocalDate.now(),
                         null,
                         setOf(Weekday.MON),
-                        "09:00",
+                        null,
                         null,
                         Salary.HOURLY,
                         -2
@@ -380,7 +380,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                         LocalDate.now(),
                         setOf(Weekday.MON),
                         null,
-                        "09:00",
+                        null,
                         Salary.HOURLY,
                         -2
                     )

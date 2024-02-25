@@ -38,7 +38,7 @@ class ValidateJobOpeningService(
             throw RequestValidationException("최소 1개 이상 작품의 성격을 선택해주세요.")
         }
 
-        validateDate(request.recruitmentStartDate, request.recruitmentEndDate)
+        validateDate(request.recruitmentStartDate, request.recruitmentEndDate, "모집기간")
     }
 
     suspend fun validateRolePage(request: ValidateJobOpeningDto.ThirdPage) {
@@ -97,7 +97,7 @@ class ValidateJobOpeningService(
         locationRepository.findLocation(request.workingCity, request.workingDistrict)
             ?: throw RequestValidationException("'시', '구'가 유효하지 않습니다.")
 
-        validateDate(request.workingStartDate, request.workingEndDate)
+        validateDate(request.workingStartDate, request.workingEndDate, "근무시간")
 
         if (request.workingStartTime != null && request.workingEndTime != null) {
             return
@@ -105,14 +105,6 @@ class ValidateJobOpeningService(
 
         if (request.workingStartTime == null && request.workingEndTime == null) {
             return
-        }
-
-        if (request.workingStartTime == null) {
-            throw RequestValidationException("근무시간의 시작과 마감 값을 올바르게 입력해 주세요.")
-        }
-
-        if (request.workingEndTime == null) {
-            throw RequestValidationException("근무시간의 시작과 마감 값을 올바르게 입력해 주세요.")
         }
     }
 
@@ -134,6 +126,7 @@ class ValidateJobOpeningService(
     private fun validateDate(
         recruitmentStartDate: LocalDate?,
         recruitmentEndDate: LocalDate?,
+        displayName: String,
     ) {
         if (recruitmentStartDate == null && recruitmentEndDate == null) {
             // 상시모집이여서 아래 검증 로직 필요 없음
@@ -141,11 +134,11 @@ class ValidateJobOpeningService(
         }
 
         if (recruitmentStartDate == null) {
-            throw RequestValidationException("모집기간의 시작과 끝 값을 모두 입력해 주세요.")
+            throw RequestValidationException(displayName + "의 시작과 끝 값을 모두 입력해 주세요.")
         }
 
         if (recruitmentEndDate == null) {
-            throw RequestValidationException("모집기간의 시작과 끝 값을 모두 입력해 주세요.")
+            throw RequestValidationException(displayName + "의 시작과 끝 값을 모두 입력해 주세요.")
         }
 
         if (recruitmentStartDate.isAfter(recruitmentEndDate)) {
