@@ -16,7 +16,6 @@ import com.linecorp.kotlinjdsl.spring.data.reactive.query.SpringDataHibernateMut
 import com.linecorp.kotlinjdsl.spring.reactive.listQuery
 import com.linecorp.kotlinjdsl.spring.reactive.pageQuery
 import com.linecorp.kotlinjdsl.spring.reactive.querydsl.SpringDataReactiveCriteriaQueryDsl
-import com.linecorp.kotlinjdsl.spring.reactive.querydsl.SpringDataReactivePageableQueryDsl
 import com.linecorp.kotlinjdsl.spring.reactive.singleQueryOrNull
 import io.smallrye.mutiny.coroutines.awaitSuspending
 import org.hibernate.reactive.mutiny.Mutiny
@@ -259,11 +258,6 @@ class JobOpeningRepositoryImpl(
     private fun SpringDataReactiveCriteriaQueryDsl<JobOpening?>.typeEqOrNull(type: Type?): EqualValueSpec<Type>? {
         type ?: return null
 
-        return col(JobOpening::type).equal(type)
-    }
-
-    private fun SpringDataReactivePageableQueryDsl<JobOpening>.typeEq(type: Type?): EqualValueSpec<Type>? {
-        type ?: return null
         return col(JobOpening::type).equal(type)
     }
 
