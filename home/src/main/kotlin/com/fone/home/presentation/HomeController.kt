@@ -25,6 +25,7 @@ class HomeController {
         @RequestHeader(value = "Authorization", required = false) token: String,
     ): CommonResponse<HomeDto> {
         val client: HttpClient = HttpClient.create().responseTimeout(Duration.ofSeconds(1))
+
         val webClient: WebClient = WebClient.builder().clientConnector(ReactorClientHttpConnector(client))
             .baseUrl("http://localhost:$serverPort").build()
 
