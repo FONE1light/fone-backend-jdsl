@@ -6,7 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 import org.testcontainers.junit.jupiter.Testcontainers
 
-@SpringBootTest(classes = [ServerApplication::class])
+@SpringBootTest(classes = [ServerApplication::class], webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @Testcontainers
 @AutoConfigureWebTestClient
 @ContextConfiguration(initializers = [IntegrationTestContextInitializer::class])

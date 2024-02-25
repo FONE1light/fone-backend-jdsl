@@ -26,7 +26,7 @@ class JobOpeningRepositoryImplTest(
                 it("성공한다") {
                     val jobOpenings = jobOpeningRepository.findByFilters(
                         org.springframework.data.domain.Pageable.unpaged(),
-                        RetrieveJobOpeningsRequest(type = Type.ACTOR)
+                        RetrieveJobOpeningsRequest(type = Type.STAFF)
                     )
 
                     jobOpenings.size shouldBe 0
