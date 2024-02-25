@@ -7,27 +7,31 @@ import com.fone.common.entity.DomainType
 import com.fone.common.entity.Gender
 import com.fone.common.entity.Type
 import com.fone.common.response.CommonResponse
-import com.fone.jobOpening.presentation.dto.ValidateJobOpeningDto
+import com.fone.jobOpening.presentation.dto.FirstPage
 import com.fone.profile.domain.enum.SNS
-import com.fone.profile.presentation.dto.RegisterProfileDto.RegisterProfileRequest
-import com.fone.profile.presentation.dto.ValidateProfileDto
+import com.fone.profile.presentation.dto.FifthPage
+import com.fone.profile.presentation.dto.FourthPage
+import com.fone.profile.presentation.dto.RegisterProfileRequest
+import com.fone.profile.presentation.dto.SecondPage
+import com.fone.profile.presentation.dto.SixthPage
+import com.fone.profile.presentation.dto.ThirdPage
 import com.fone.profile.presentation.dto.common.ProfileSnsUrl
 import org.springframework.test.web.reactive.server.WebTestClient
 import java.time.LocalDate
 
 object CommonProfileCallApi {
     val registerProfileActorRequest = RegisterProfileRequest(
-        firstPage = ValidateJobOpeningDto.FirstPage(
+        firstPage = FirstPage(
             contactMethod = ContactMethod.EMAIL,
             contact = "https://docs.google.com/forms/..."
         ),
-        secondPage = ValidateProfileDto.SecondPage(
+        secondPage = SecondPage(
             name = "테스트 이름",
             hookingComment = "테스트 후킹 멘트",
             profileImages = listOf("test profile url"),
             representativeImageUrl = "test profile url"
         ),
-        thirdPage = ValidateProfileDto.ThirdPage(
+        thirdPage = ThirdPage(
             birthday = LocalDate.ofYearDay(2020, 1),
             gender = Gender.MAN,
             height = 180,
@@ -40,14 +44,14 @@ object CommonProfileCallApi {
                 ProfileSnsUrl("https://www.youtube.com/test", SNS.YOUTUBE)
             )
         ),
-        fourthPage = ValidateProfileDto.FourthPage(
+        fourthPage = FourthPage(
             details = "test"
         ),
-        fifthPage = ValidateProfileDto.FifthPage(
+        fifthPage = FifthPage(
             career = Career.IRRELEVANT,
             careerDetail = "test"
         ),
-        sixthPage = ValidateProfileDto.SixthPage(
+        sixthPage = SixthPage(
             categories = listOf(CategoryType.ETC)
         ),
         type = Type.ACTOR

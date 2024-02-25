@@ -4,7 +4,7 @@ import com.fone.common.CommonUserCallApi
 import com.fone.common.CustomDescribeSpec
 import com.fone.common.IntegrationTest
 import com.fone.common.doPost
-import com.fone.competition.presentation.dto.RegisterCompetitionDto.RegisterCompetitionRequest
+import com.fone.competition.presentation.dto.RegisterCompetitionRequest
 import org.springframework.test.web.reactive.server.WebTestClient
 import java.time.LocalDate
 

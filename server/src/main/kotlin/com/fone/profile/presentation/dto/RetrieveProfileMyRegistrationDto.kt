@@ -1,3 +1,5 @@
+@file:Suppress("ktlint", "MatchingDeclarationName")
+
 package com.fone.profile.presentation.dto
 
 import com.fone.common.entity.CategoryType
@@ -9,31 +11,28 @@ import com.fone.user.domain.entity.User
 import com.fone.user.domain.enum.Job
 import org.springframework.data.domain.Page
 
-class RetrieveProfileMyRegistrationDto {
+data class RetrieveProfileMyRegistrationResponse(
+    val profiles: Page<ProfileDto>,
+) {
 
-    data class RetrieveProfileMyRegistrationResponse(
-        val profiles: Page<ProfileDto>,
-    ) {
-
-        constructor(
-            profiles: Page<Profile>,
-            userProfileWantMap: Map<Long, ProfileWant?>,
-            profileDomains: Map<Long, List<DomainType>>,
-            profileCategories: Map<Long, List<CategoryType>>,
-            profileUsers: Map<Long?, User>,
-        ) : this(
-            profiles = profiles.map {
-                ProfileDto(
-                    it,
-                    userProfileWantMap,
-                    it.profileImages,
-                    profileDomains[it.id!!] ?: listOf(),
-                    profileCategories[it.id!!] ?: listOf(),
-                    profileUsers[it.userId]?.nickname ?: "",
-                    profileUsers[it.userId]?.profileUrl ?: "",
-                    profileUsers[it.userId]?.job ?: Job.ACTOR
-                )
-            }
-        )
-    }
+    constructor(
+        profiles: Page<Profile>,
+        userProfileWantMap: Map<Long, ProfileWant?>,
+        profileDomains: Map<Long, List<DomainType>>,
+        profileCategories: Map<Long, List<CategoryType>>,
+        profileUsers: Map<Long?, User>,
+    ) : this(
+        profiles = profiles.map {
+            ProfileDto(
+                it,
+                userProfileWantMap,
+                it.profileImages,
+                profileDomains[it.id!!] ?: listOf(),
+                profileCategories[it.id!!] ?: listOf(),
+                profileUsers[it.userId]?.nickname ?: "",
+                profileUsers[it.userId]?.profileUrl ?: "",
+                profileUsers[it.userId]?.job ?: Job.ACTOR
+            )
+        }
+    )
 }

@@ -3,9 +3,9 @@ package com.fone.profile.presentation.controller
 import com.fone.common.entity.Type
 import com.fone.common.response.CommonResponse
 import com.fone.profile.application.RetrieveProfilesFacade
-import com.fone.profile.presentation.dto.RetrieveProfilesDto.RetrieveProfileResponse
-import com.fone.profile.presentation.dto.RetrieveProfilesDto.RetrieveProfilesRequest
-import com.fone.profile.presentation.dto.RetrieveProfilesDto.RetrieveProfilesResponse
+import com.fone.profile.presentation.dto.RetrieveProfileResponse
+import com.fone.profile.presentation.dto.RetrieveProfilesRequest
+import com.fone.profile.presentation.dto.RetrieveProfilesResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.media.Content

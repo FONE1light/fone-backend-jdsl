@@ -2,8 +2,8 @@ package com.fone.competition.presentation.controller
 
 import com.fone.common.response.CommonResponse
 import com.fone.competition.application.RegisterCompetitionFacade
-import com.fone.competition.presentation.dto.RegisterCompetitionDto.RegisterCompetitionRequest
-import com.fone.competition.presentation.dto.RegisterCompetitionDto.RegisterCompetitionResponse
+import com.fone.competition.presentation.dto.RegisterCompetitionRequest
+import com.fone.competition.presentation.dto.RegisterCompetitionResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.media.Content

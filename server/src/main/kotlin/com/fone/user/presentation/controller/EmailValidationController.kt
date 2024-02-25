@@ -2,7 +2,11 @@ package com.fone.user.presentation.controller
 
 import com.fone.common.response.CommonResponse
 import com.fone.user.application.EmailValidationFacade
-import com.fone.user.presentation.dto.EmailValidationDto
+import com.fone.user.presentation.dto.EmailDuplicationRequest
+import com.fone.user.presentation.dto.EmailDuplicationResponse
+import com.fone.user.presentation.dto.EmailSendRequest
+import com.fone.user.presentation.dto.EmailValidationRequest
+import com.fone.user.presentation.dto.EmailValidationResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.media.Content
@@ -26,7 +30,7 @@ class EmailValidationController(private val emailValidationFacade: EmailValidati
     )
     suspend fun sendEmail(
         @Valid @RequestBody
-        request: EmailValidationDto.EmailSendRequest,
+        request: EmailSendRequest,
     ): CommonResponse<Unit> {
         emailValidationFacade.sendValidationMessage(request)
         return CommonResponse.success()
@@ -37,12 +41,12 @@ class EmailValidationController(private val emailValidationFacade: EmailValidati
     @ApiResponse(
         responseCode = "200",
         description = "성공",
-        content = [Content(schema = Schema(implementation = EmailValidationDto.EmailValidationResponse::class))]
+        content = [Content(schema = Schema(implementation = EmailValidationResponse::class))]
     )
     suspend fun validateEmail(
         @Valid @RequestBody
-        request: EmailValidationDto.EmailValidationRequest,
-    ): CommonResponse<EmailValidationDto.EmailValidationResponse> {
+        request: EmailValidationRequest,
+    ): CommonResponse<EmailValidationResponse> {
         val response = emailValidationFacade.validateCode(request)
         return CommonResponse.success(response)
     }
@@ -52,12 +56,12 @@ class EmailValidationController(private val emailValidationFacade: EmailValidati
     @ApiResponse(
         responseCode = "200",
         description = "성공",
-        content = [Content(schema = Schema(implementation = EmailValidationDto.EmailDuplicationResponse::class))]
+        content = [Content(schema = Schema(implementation = EmailDuplicationResponse::class))]
     )
     suspend fun isDuplicateEmail(
         @Valid @RequestBody
-        request: EmailValidationDto.EmailDuplicationRequest,
-    ): CommonResponse<EmailValidationDto.EmailDuplicationResponse> {
+        request: EmailDuplicationRequest,
+    ): CommonResponse<EmailDuplicationResponse> {
         val response = emailValidationFacade.duplicateCheck(request)
         return CommonResponse.success(response)
     }

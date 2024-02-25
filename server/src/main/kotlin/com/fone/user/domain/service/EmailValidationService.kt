@@ -8,7 +8,11 @@ import com.fone.user.domain.repository.EmailRepository
 import com.fone.user.domain.repository.UserRepository
 import com.fone.user.domain.repository.generateRandomCode
 import com.fone.user.infrastructure.EmailRepositoryImpl
-import com.fone.user.presentation.dto.EmailValidationDto
+import com.fone.user.presentation.dto.EmailDuplicationRequest
+import com.fone.user.presentation.dto.EmailDuplicationResponse
+import com.fone.user.presentation.dto.EmailSendRequest
+import com.fone.user.presentation.dto.EmailValidationRequest
+import com.fone.user.presentation.dto.EmailValidationResponse
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import software.amazon.awssdk.services.ses.model.SendEmailRequest
@@ -26,7 +30,7 @@ class EmailValidationService(
         EmailRepositoryImpl::class.java.classLoader.getResource("email-template.html")!!.readText()
 
     suspend fun sendValidationCode(
-        request: EmailValidationDto.EmailSendRequest,
+        request: EmailSendRequest,
     ) {
         runCatching {
             val code = generateRandomCode()
@@ -55,8 +59,8 @@ class EmailValidationService(
     }
 
     suspend fun validateCode(
-        request: EmailValidationDto.EmailValidationRequest,
-    ): EmailValidationDto.EmailValidationResponse {
+        request: EmailValidationRequest,
+    ): EmailValidationResponse {
         val email = request.email
         val code = redisRepository.getValue("user:$email:emailCode")
         if (code != request.code) {
@@ -65,15 +69,15 @@ class EmailValidationService(
         redisRepository.delValue("user:$email:emailCode")
         val token = (UUID.randomUUID().toString() + UUID.randomUUID().toString()).replace("-", "")
         redisRepository.setValue("user:$email:emailSignUpToken", token, 2, TimeUnit.HOURS)
-        return EmailValidationDto.EmailValidationResponse(token)
+        return EmailValidationResponse(token)
     }
 
     suspend fun checkDuplicate(
-        request: EmailValidationDto.EmailDuplicationRequest,
-    ): EmailValidationDto.EmailDuplicationResponse {
+        request: EmailDuplicationRequest,
+    ): EmailDuplicationResponse {
         if (userRepository.findByEmail(request.email) != null) {
             throw DuplicateUserException()
         }
-        return EmailValidationDto.EmailDuplicationResponse(request.email)
+        return EmailDuplicationResponse(request.email)
     }
 }

@@ -8,7 +8,7 @@ import com.fone.common.CustomDescribeSpec
 import com.fone.common.IntegrationTest
 import com.fone.common.doPut
 import com.fone.common.response.CommonResponse
-import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningResponse
+import com.fone.jobOpening.presentation.dto.RegisterJobOpeningResponse
 import io.kotest.matchers.shouldBe
 import org.springframework.test.web.reactive.server.WebTestClient
 

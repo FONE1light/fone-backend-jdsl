@@ -10,7 +10,7 @@ import com.fone.common.IntegrationTest
 import com.fone.common.PageDeserializer
 import com.fone.common.doGet
 import com.fone.common.response.CommonResponse
-import com.fone.profile.presentation.dto.RetrieveProfilesDto
+import com.fone.profile.presentation.dto.RetrieveProfilesResponse
 import com.fone.profile.presentation.dto.common.ProfileDto
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
@@ -80,7 +80,7 @@ class RetrieveProfilesControllerTest(client: WebTestClient, private val objectMa
                         .expectStatus().isOk
                         .expectBody()
                         .consumeWith {
-                            val response: CommonResponse<RetrieveProfilesDto.RetrieveProfilesResponse> =
+                            val response: CommonResponse<RetrieveProfilesResponse> =
                                 pageObjectMapper.readValue(String(it.responseBody!!))
                             println(response)
                             val createDates = response.data?.profiles?.toList()?.map { dto -> dto.createdAt }
@@ -95,7 +95,7 @@ class RetrieveProfilesControllerTest(client: WebTestClient, private val objectMa
                         .expectStatus().isOk
                         .expectBody()
                         .consumeWith {
-                            val response: CommonResponse<RetrieveProfilesDto.RetrieveProfilesResponse> =
+                            val response: CommonResponse<RetrieveProfilesResponse> =
                                 pageObjectMapper.readValue(String(it.responseBody!!))
                             println(response)
                             val createDates = response.data?.profiles?.toList()?.map { dto -> dto.createdAt }
@@ -110,7 +110,7 @@ class RetrieveProfilesControllerTest(client: WebTestClient, private val objectMa
                         .expectStatus().isOk
                         .expectBody()
                         .consumeWith {
-                            val response: CommonResponse<RetrieveProfilesDto.RetrieveProfilesResponse> =
+                            val response: CommonResponse<RetrieveProfilesResponse> =
                                 pageObjectMapper.readValue(String(it.responseBody!!))
                             println(response)
                             val viewCounts = response.data?.profiles?.toList()?.map { dto -> dto.viewCount }

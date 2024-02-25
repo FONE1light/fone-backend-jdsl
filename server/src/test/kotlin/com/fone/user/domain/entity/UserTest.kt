@@ -6,7 +6,8 @@ import com.fone.common.entity.Gender
 import com.fone.common.jwt.Role
 import com.fone.user.domain.enum.Job
 import com.fone.user.domain.enum.LoginType
-import com.fone.user.presentation.dto.ModifyUserDto
+import com.fone.user.presentation.dto.AdminModifyUserRequest
+import com.fone.user.presentation.dto.ModifyUserRequest
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
@@ -218,7 +219,7 @@ class UserTest : DescribeSpec({
                 nickname = "OriginalNickname",
                 profileUrl = "originalUrl.com"
             )
-            val request = ModifyUserDto.ModifyUserRequest(
+            val request = ModifyUserRequest(
                 nickname = "NewNickname",
                 job = Job.STAFF,
                 interests = listOf(CategoryType.ETC),
@@ -241,7 +242,7 @@ class UserTest : DescribeSpec({
                 nickname = "OriginalNickname",
                 roles = listOf(Role.ROLE_USER.toString())
             )
-            val request = ModifyUserDto.AdminModifyUserRequest(
+            val request = AdminModifyUserRequest(
                 job = Job.STAFF,
                 interests = listOf(CategoryType.FEATURE_FILM),
                 profileUrl = "adminUrl.com",

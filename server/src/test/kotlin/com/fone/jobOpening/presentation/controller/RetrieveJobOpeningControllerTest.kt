@@ -12,8 +12,8 @@ import com.fone.common.doGet
 import com.fone.common.entity.CategoryType
 import com.fone.common.entity.DomainType
 import com.fone.common.response.CommonResponse
-import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningResponse
-import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningsResponse
+import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningResponse
+import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningsResponse
 import com.fone.jobOpening.presentation.dto.common.JobOpeningDto
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe

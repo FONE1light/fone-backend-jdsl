@@ -2,10 +2,10 @@ package com.fone.user.presentation.controller
 
 import com.fone.common.response.CommonResponse
 import com.fone.user.application.SMSUserFacade
-import com.fone.user.presentation.dto.SMSUserDto
-import com.fone.user.presentation.dto.SMSUserDto.PasswordSMSValidationResponse
-import com.fone.user.presentation.dto.SMSUserDto.SMSRequest
-import com.fone.user.presentation.dto.SMSUserDto.SMSValidationRequest
+import com.fone.user.presentation.dto.PasswordSMSValidationResponse
+import com.fone.user.presentation.dto.SMSRequest
+import com.fone.user.presentation.dto.SMSValidationRequest
+import com.fone.user.presentation.dto.UserInfoSMSValidationResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.media.Content
@@ -40,12 +40,12 @@ class SMSUserController(private val smsUserFacade: SMSUserFacade) {
     @ApiResponse(
         responseCode = "200",
         description = "성공",
-        content = [Content(schema = Schema(implementation = SMSUserDto.UserInfoSMSValidationResponse::class))]
+        content = [Content(schema = Schema(implementation = UserInfoSMSValidationResponse::class))]
     )
     suspend fun userInfoValidateSMS(
         @Valid @RequestBody
         request: SMSValidationRequest,
-    ): CommonResponse<SMSUserDto.UserInfoSMSValidationResponse> {
+    ): CommonResponse<UserInfoSMSValidationResponse> {
         val response = smsUserFacade.validateUserInfo(request)
         return CommonResponse.success(response)
     }

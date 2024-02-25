@@ -5,8 +5,8 @@ import com.fone.common.entity.Gender
 import com.fone.common.response.CommonResponse
 import com.fone.user.domain.enum.Job
 import com.fone.user.domain.enum.LoginType
-import com.fone.user.presentation.dto.SignInUserDto
-import com.fone.user.presentation.dto.SignUpUserDto
+import com.fone.user.presentation.dto.SocialSignInUserRequest
+import com.fone.user.presentation.dto.SocialSignUpUserRequest
 import org.springframework.test.web.reactive.server.WebTestClient
 import java.time.LocalDate
 import java.util.UUID
@@ -26,7 +26,7 @@ object CommonUserCallApi {
 
     fun getToken(client: WebTestClient, nickname: String, email: String): Map<*, *> {
         val signUpUserRequest =
-            SignUpUserDto.SocialSignUpUserRequest(
+            SocialSignUpUserRequest(
                 Job.ACTOR,
                 listOf(CategoryType.ETC),
                 nickname,
@@ -44,7 +44,7 @@ object CommonUserCallApi {
             )
 
         val signInUserSuccessRequest =
-            SignInUserDto.SocialSignInUserRequest(
+            SocialSignInUserRequest(
                 LoginType.APPLE,
                 "token:$email"
             )
@@ -61,7 +61,7 @@ object CommonUserCallApi {
         return signIn(client, signInUserSuccessRequest)
     }
 
-    fun signIn(client: WebTestClient, signInRequest: SignInUserDto.SocialSignInUserRequest): Map<*, *> {
+    fun signIn(client: WebTestClient, signInRequest: SocialSignInUserRequest): Map<*, *> {
         return client
             .doPost(signInBaseUrl, signInRequest)
             .expectStatus()
@@ -76,7 +76,7 @@ object CommonUserCallApi {
         val email = "$nickname@test.com"
 
         val signUpUserRequest =
-            SignUpUserDto.SocialSignUpUserRequest(
+            SocialSignUpUserRequest(
                 Job.ACTOR,
                 listOf(CategoryType.ETC),
                 nickname,

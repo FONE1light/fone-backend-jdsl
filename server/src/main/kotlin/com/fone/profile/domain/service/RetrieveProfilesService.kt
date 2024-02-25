@@ -7,9 +7,9 @@ import com.fone.profile.domain.repository.ProfileCategoryRepository
 import com.fone.profile.domain.repository.ProfileDomainRepository
 import com.fone.profile.domain.repository.ProfileRepository
 import com.fone.profile.domain.repository.ProfileWantRepository
-import com.fone.profile.presentation.dto.RetrieveProfilesDto.RetrieveProfileResponse
-import com.fone.profile.presentation.dto.RetrieveProfilesDto.RetrieveProfilesRequest
-import com.fone.profile.presentation.dto.RetrieveProfilesDto.RetrieveProfilesResponse
+import com.fone.profile.presentation.dto.RetrieveProfileResponse
+import com.fone.profile.presentation.dto.RetrieveProfilesRequest
+import com.fone.profile.presentation.dto.RetrieveProfilesResponse
 import com.fone.user.domain.enum.Job
 import com.fone.user.domain.repository.UserRepository
 import org.springframework.data.domain.Pageable

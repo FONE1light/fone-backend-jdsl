@@ -2,7 +2,7 @@ package com.fone.user.domain.service
 
 import com.fone.common.exception.NotFoundUserException
 import com.fone.user.domain.repository.UserRepository
-import com.fone.user.presentation.dto.RetrieveMyPageUserDto.RetrieveMyPageUserResponse
+import com.fone.user.presentation.dto.RetrieveMyPageUserResponse
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

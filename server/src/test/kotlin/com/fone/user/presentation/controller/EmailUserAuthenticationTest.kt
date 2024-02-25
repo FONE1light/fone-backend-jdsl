@@ -10,11 +10,11 @@ import com.fone.common.entity.CategoryType
 import com.fone.common.entity.Gender
 import com.fone.common.response.CommonResponse
 import com.fone.user.domain.enum.Job
-import com.fone.user.presentation.dto.PasswordValidationDto
-import com.fone.user.presentation.dto.PasswordValidationDto.PasswordValidationRequest
-import com.fone.user.presentation.dto.PasswordValidationDto.PasswordValidationResponse
-import com.fone.user.presentation.dto.SignInUserDto
-import com.fone.user.presentation.dto.SignUpUserDto
+import com.fone.user.presentation.dto.EmailSignInUserRequest
+import com.fone.user.presentation.dto.EmailSignUpUserRequest
+import com.fone.user.presentation.dto.PasswordValidationRequest
+import com.fone.user.presentation.dto.PasswordValidationResponse
+import com.fone.user.presentation.dto.ResponseType
 import io.kotest.matchers.shouldBe
 import org.springframework.test.web.reactive.server.WebTestClient
 import java.time.LocalDate
@@ -30,7 +30,7 @@ class EmailUserAuthenticationTest(
 
     init {
         val weakPasswordSignUpRequest =
-            SignUpUserDto.EmailSignUpUserRequest(
+            EmailSignUpUserRequest(
                 Job.ACTOR,
                 listOf(CategoryType.ETC),
                 "name_test_password",
@@ -47,7 +47,7 @@ class EmailUserAuthenticationTest(
                 "password1",
                 ""
             )
-        val signInRequest = SignInUserDto.EmailSignInUserRequest(
+        val signInRequest = EmailSignInUserRequest(
             "test_password@test.com",
             "Somepassword1!"
         )
@@ -112,7 +112,7 @@ class EmailUserAuthenticationTest(
                     .consumeWith {
                         val response =
                             objectMapper.readValue<CommonResponse<PasswordValidationResponse>>(it.responseBody!!)
-                        response.data!!.response shouldBe PasswordValidationDto.ResponseType.INVALID
+                        response.data!!.response shouldBe ResponseType.INVALID
                     }
                     .jsonPath("$.result")
                     .isEqualTo("SUCCESS")
@@ -129,7 +129,7 @@ class EmailUserAuthenticationTest(
                     .consumeWith {
                         val response =
                             objectMapper.readValue<CommonResponse<PasswordValidationResponse>>(it.responseBody!!)
-                        response.data!!.response shouldBe PasswordValidationDto.ResponseType.VALID
+                        response.data!!.response shouldBe ResponseType.VALID
                     }
                     .jsonPath("$.result")
                     .isEqualTo("SUCCESS")
@@ -139,7 +139,7 @@ class EmailUserAuthenticationTest(
 }
 
 val signUpUserRequest =
-    SignUpUserDto.EmailSignUpUserRequest(
+    EmailSignUpUserRequest(
         Job.ACTOR,
         listOf(CategoryType.ETC),
         "name_test_password",

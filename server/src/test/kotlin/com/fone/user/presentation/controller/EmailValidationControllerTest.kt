@@ -4,7 +4,9 @@ import com.fone.common.CommonUserCallApi
 import com.fone.common.CustomDescribeSpec
 import com.fone.common.IntegrationTest
 import com.fone.common.doPost
-import com.fone.user.presentation.dto.EmailValidationDto
+import com.fone.user.presentation.dto.EmailDuplicationRequest
+import com.fone.user.presentation.dto.EmailSendRequest
+import com.fone.user.presentation.dto.EmailValidationRequest
 import org.springframework.test.web.reactive.server.WebTestClient
 
 @IntegrationTest
@@ -13,8 +15,8 @@ class EmailValidationControllerTest(client: WebTestClient) : CustomDescribeSpec(
     private val baseUrl = "/api/v1/users/email"
 
     init {
-        val sendRequest = EmailValidationDto.EmailSendRequest("abc@abc.com")
-        val validationRequest = EmailValidationDto.EmailValidationRequest("abc@abc.com", "")
+        val sendRequest = EmailSendRequest("abc@abc.com")
+        val validationRequest = EmailValidationRequest("abc@abc.com", "")
 
         describe("#Email Validation") {
             context("이메일 전송 요청 보내면") {
@@ -45,9 +47,9 @@ class EmailValidationControllerTest(client: WebTestClient) : CustomDescribeSpec(
         }
 
         describe("#Email Duplication Check") {
-            val successfulRequest = EmailValidationDto.EmailDuplicationRequest("new_email@emails.com")
+            val successfulRequest = EmailDuplicationRequest("new_email@emails.com")
             val (_, email) = CommonUserCallApi.getAccessToken(client)
-            val existingRequest = EmailValidationDto.EmailDuplicationRequest(email)
+            val existingRequest = EmailDuplicationRequest(email)
             context("존재하지 않는 email 요청하면") {
                 it("성공한다") {
                     client

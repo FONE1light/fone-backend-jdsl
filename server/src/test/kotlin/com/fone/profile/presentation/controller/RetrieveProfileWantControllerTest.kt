@@ -7,7 +7,7 @@ import com.fone.common.IntegrationTest
 import com.fone.common.doGet
 import com.fone.common.doPost
 import com.fone.common.response.CommonResponse
-import com.fone.profile.presentation.dto.RetrieveProfileWantDto
+import com.fone.profile.presentation.dto.RetrieveProfileWantResponse
 import io.kotest.matchers.shouldBe
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.reactive.server.expectBody
@@ -63,7 +63,7 @@ class RetrieveProfileWantControllerTest(client: WebTestClient) : CustomDescribeS
                         .doGet(retrieveWantsUrl, accessToken, mapOf("type" to "ACTOR"))
                         .expectStatus()
                         .isOk
-                        .expectBody<CommonResponse<RetrieveProfileWantDto.RetrieveProfileWantResponse>>()
+                        .expectBody<CommonResponse<RetrieveProfileWantResponse>>()
                         .returnResult()
                         .responseBody
                     response!!.data!!.profiles.totalElements shouldBe 1
@@ -73,7 +73,7 @@ class RetrieveProfileWantControllerTest(client: WebTestClient) : CustomDescribeS
                         .doGet(retrieveWantsUrl, accessToken, mapOf("type" to "STAFF"))
                         .expectStatus()
                         .isOk
-                        .expectBody<CommonResponse<RetrieveProfileWantDto.RetrieveProfileWantResponse>>()
+                        .expectBody<CommonResponse<RetrieveProfileWantResponse>>()
                         .returnResult()
                         .responseBody
                     response!!.data!!.profiles.totalElements shouldBe 0

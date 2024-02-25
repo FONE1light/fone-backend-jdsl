@@ -6,7 +6,7 @@ import com.fone.profile.domain.repository.ProfileCategoryRepository
 import com.fone.profile.domain.repository.ProfileDomainRepository
 import com.fone.profile.domain.repository.ProfileRepository
 import com.fone.profile.domain.repository.ProfileWantRepository
-import com.fone.profile.presentation.dto.RetrieveProfileWantDto.RetrieveProfileWantResponse
+import com.fone.profile.presentation.dto.RetrieveProfileWantResponse
 import com.fone.user.domain.repository.UserRepository
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service

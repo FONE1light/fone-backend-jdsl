@@ -2,8 +2,8 @@ package com.fone.report.presentation.controller
 
 import com.fone.common.response.CommonResponse
 import com.fone.report.application.RegisterReportFacade
-import com.fone.report.presentation.dto.RegisterReportDto.RegisterReportRequest
-import com.fone.report.presentation.dto.RegisterReportDto.RegisterReportResponse
+import com.fone.report.presentation.dto.RegisterReportRequest
+import com.fone.report.presentation.dto.RegisterReportResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.media.Content

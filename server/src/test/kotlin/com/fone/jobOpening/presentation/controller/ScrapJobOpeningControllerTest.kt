@@ -8,7 +8,8 @@ import com.fone.common.CustomDescribeSpec
 import com.fone.common.IntegrationTest
 import com.fone.common.doPost
 import com.fone.common.response.CommonResponse
-import com.fone.jobOpening.presentation.dto.ScrapJobOpeningDto
+import com.fone.jobOpening.presentation.dto.ScrapJobOpeningResponse
+import com.fone.jobOpening.presentation.dto.ScrapJobResult
 import io.kotest.matchers.shouldBe
 import org.springframework.test.web.reactive.server.WebTestClient
 
@@ -32,10 +33,10 @@ class ScrapJobOpeningControllerTest(client: WebTestClient, private val objectMap
                         .consumeWith {
                             println(it)
                             val response =
-                                objectMapper.readValue<CommonResponse<ScrapJobOpeningDto.ScrapJobOpeningResponse>>(
+                                objectMapper.readValue<CommonResponse<ScrapJobOpeningResponse>>(
                                     it.responseBody!!
                                 )
-                            response.data!!.result shouldBe ScrapJobOpeningDto.ScrapJobResult.SCRAPPED
+                            response.data!!.result shouldBe ScrapJobResult.SCRAPPED
                         }
                         .jsonPath("$.result")
                         .isEqualTo("SUCCESS")
@@ -50,10 +51,10 @@ class ScrapJobOpeningControllerTest(client: WebTestClient, private val objectMap
                         .consumeWith {
                             println(it)
                             val response =
-                                objectMapper.readValue<CommonResponse<ScrapJobOpeningDto.ScrapJobOpeningResponse>>(
+                                objectMapper.readValue<CommonResponse<ScrapJobOpeningResponse>>(
                                     it.responseBody!!
                                 )
-                            response.data!!.result shouldBe ScrapJobOpeningDto.ScrapJobResult.DISCARDED
+                            response.data!!.result shouldBe ScrapJobResult.DISCARDED
                         }
                         .jsonPath("$.result")
                         .isEqualTo("SUCCESS")

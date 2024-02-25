@@ -2,8 +2,8 @@ package com.fone.user.presentation.controller
 
 import com.fone.common.response.CommonResponse
 import com.fone.user.application.CheckNicknameDuplicationFacade
-import com.fone.user.presentation.dto.CheckNicknameDuplicateDto.CheckNicknameDuplicateRequest
-import com.fone.user.presentation.dto.CheckNicknameDuplicateDto.CheckNicknameDuplicateResponse
+import com.fone.user.presentation.dto.CheckNicknameDuplicateRequest
+import com.fone.user.presentation.dto.CheckNicknameDuplicateResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.media.Content

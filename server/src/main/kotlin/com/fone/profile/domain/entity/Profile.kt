@@ -5,7 +5,7 @@ import com.fone.common.entity.Career
 import com.fone.common.entity.ContactMethod
 import com.fone.common.entity.Gender
 import com.fone.common.entity.Type
-import com.fone.profile.presentation.dto.RegisterProfileDto.RegisterProfileRequest
+import com.fone.profile.presentation.dto.RegisterProfileRequest
 import com.fone.profile.presentation.dto.common.ProfileSnsUrl
 import java.time.LocalDate
 import javax.persistence.CascadeType

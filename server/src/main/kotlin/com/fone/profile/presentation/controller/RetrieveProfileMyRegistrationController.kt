@@ -2,7 +2,7 @@ package com.fone.profile.presentation.controller
 
 import com.fone.common.response.CommonResponse
 import com.fone.profile.application.RetrieveProfileMyRegistrationFacade
-import com.fone.profile.presentation.dto.RetrieveProfileMyRegistrationDto.RetrieveProfileMyRegistrationResponse
+import com.fone.profile.presentation.dto.RetrieveProfileMyRegistrationResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.media.Content

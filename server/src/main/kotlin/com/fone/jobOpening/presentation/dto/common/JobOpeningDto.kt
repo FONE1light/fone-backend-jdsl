@@ -9,7 +9,13 @@ import com.fone.common.entity.Weekday
 import com.fone.common.utils.DateTimeFormat
 import com.fone.jobOpening.domain.entity.JobOpening
 import com.fone.jobOpening.domain.entity.JobOpeningScrap
-import com.fone.jobOpening.presentation.dto.ValidateJobOpeningDto
+import com.fone.jobOpening.presentation.dto.FifthPage
+import com.fone.jobOpening.presentation.dto.FirstPage
+import com.fone.jobOpening.presentation.dto.FourthPage
+import com.fone.jobOpening.presentation.dto.SecondPage
+import com.fone.jobOpening.presentation.dto.SeventhPage
+import com.fone.jobOpening.presentation.dto.SixthPage
+import com.fone.jobOpening.presentation.dto.ThirdPage
 import com.fone.user.domain.enum.Job
 import io.swagger.v3.oas.annotations.media.Schema
 import java.time.LocalDate
@@ -20,19 +26,19 @@ import java.util.Locale
 data class JobOpeningDto(
     @Schema(description = "job opening index", example = "1") val id: Long,
 
-    @Schema(description = "1번째 페이지") val firstPage: ValidateJobOpeningDto.FirstPage,
+    @Schema(description = "1번째 페이지") val firstPage: FirstPage,
 
-    @Schema(description = "2번째 페이지") val secondPage: ValidateJobOpeningDto.SecondPage,
+    @Schema(description = "2번째 페이지") val secondPage: SecondPage,
 
-    @Schema(description = "3번째 페이지") val thirdPage: ValidateJobOpeningDto.ThirdPage,
+    @Schema(description = "3번째 페이지") val thirdPage: ThirdPage,
 
-    @Schema(description = "4번째 페이지") val fourthPage: ValidateJobOpeningDto.FourthPage,
+    @Schema(description = "4번째 페이지") val fourthPage: FourthPage,
 
-    @Schema(description = "5번째 페이지") val fifthPage: ValidateJobOpeningDto.FifthPage,
+    @Schema(description = "5번째 페이지") val fifthPage: FifthPage,
 
-    @Schema(description = "6번째 페이지") val sixthPage: ValidateJobOpeningDto.SixthPage,
+    @Schema(description = "6번째 페이지") val sixthPage: SixthPage,
 
-    @Schema(description = "7번째 페이지") val seventhPage: ValidateJobOpeningDto.SeventhPage,
+    @Schema(description = "7번째 페이지") val seventhPage: SeventhPage,
 
     @Schema(description = "모집유형", example = "ACTOR") val type: Type,
     @Schema(description = "조회수", example = "1") val viewCount: Long,
@@ -77,11 +83,11 @@ data class JobOpeningDto(
         isVerified: Boolean,
     ) : this(
         id = jobOpening.id ?: 0L,
-        firstPage = ValidateJobOpeningDto.FirstPage(
+        firstPage = FirstPage(
             contactMethod = jobOpening.contactMethod,
             contact = jobOpening.contact
         ),
-        secondPage = ValidateJobOpeningDto.SecondPage(
+        secondPage = SecondPage(
             title = jobOpening.title,
             categories = categories,
             recruitmentStartDate = jobOpening.recruitmentStartDate,
@@ -89,7 +95,7 @@ data class JobOpeningDto(
             imageUrls = imageUrls,
             representativeImageUrl = jobOpening.representativeImageUrl
         ),
-        thirdPage = ValidateJobOpeningDto.ThirdPage(
+        thirdPage = ThirdPage(
             casting = jobOpening.casting,
             domains = domains,
             numberOfRecruits = jobOpening.numberOfRecruits,
@@ -98,14 +104,14 @@ data class JobOpeningDto(
             ageMin = jobOpening.ageMin,
             careers = jobOpening.careers.map { Career.valueOf(it) }
         ),
-        fourthPage = ValidateJobOpeningDto.FourthPage(
+        fourthPage = FourthPage(
             produce = jobOpening.produce,
             workTitle = jobOpening.workTitle,
             director = jobOpening.director,
             genres = jobOpening.genres.map { Genre.valueOf(it) }.toSet(),
             logline = jobOpening.logline
         ),
-        fifthPage = ValidateJobOpeningDto.FifthPage(
+        fifthPage = FifthPage(
             workingCity = jobOpening.location.region,
             workingDistrict = jobOpening.location.district,
             workingStartDate = jobOpening.workingStartDate,
@@ -116,10 +122,10 @@ data class JobOpeningDto(
             salaryType = jobOpening.salaryType,
             salary = jobOpening.salary
         ),
-        sixthPage = ValidateJobOpeningDto.SixthPage(
+        sixthPage = SixthPage(
             details = jobOpening.details
         ),
-        seventhPage = ValidateJobOpeningDto.SeventhPage(
+        seventhPage = SeventhPage(
             manager = jobOpening.manager,
             email = jobOpening.email
         ),

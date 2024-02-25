@@ -12,9 +12,9 @@ import com.fone.user.domain.entity.OauthPrincipal
 import com.fone.user.domain.entity.User
 import com.fone.user.domain.enum.LoginType
 import com.fone.user.domain.repository.UserRepository
-import com.fone.user.presentation.dto.SignInUserDto.EmailSignInUserRequest
-import com.fone.user.presentation.dto.SignInUserDto.SignInUserResponse
-import com.fone.user.presentation.dto.SignInUserDto.SocialSignInUserRequest
+import com.fone.user.presentation.dto.EmailSignInUserRequest
+import com.fone.user.presentation.dto.SignInUserResponse
+import com.fone.user.presentation.dto.SocialSignInUserRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.server.ServerWebInputException

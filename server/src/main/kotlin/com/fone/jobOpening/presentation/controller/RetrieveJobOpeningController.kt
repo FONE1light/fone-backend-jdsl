@@ -3,9 +3,9 @@ package com.fone.jobOpening.presentation.controller
 import com.fone.common.entity.Type
 import com.fone.common.response.CommonResponse
 import com.fone.jobOpening.application.RetrieveJobOpeningFacade
-import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningResponse
-import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningsRequest
-import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningsResponse
+import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningResponse
+import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningsRequest
+import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningsResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.media.Content

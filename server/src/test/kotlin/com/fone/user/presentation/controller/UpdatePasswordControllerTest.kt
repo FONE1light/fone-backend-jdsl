@@ -8,9 +8,11 @@ import com.fone.common.doPatch
 import com.fone.common.doPost
 import com.fone.common.response.CommonResponse
 import com.fone.user.domain.repository.generateRandomCode
-import com.fone.user.presentation.dto.PasswordUpdateDto
-import com.fone.user.presentation.dto.SMSUserDto
-import com.fone.user.presentation.dto.SignInUserDto
+import com.fone.user.presentation.dto.EmailSignInUserRequest
+import com.fone.user.presentation.dto.PasswordSMSValidationResponse
+import com.fone.user.presentation.dto.PasswordUpdateRequest
+import com.fone.user.presentation.dto.SMSRequest
+import com.fone.user.presentation.dto.SMSValidationRequest
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldContain
 import io.mockk.every
@@ -30,7 +32,7 @@ class UpdatePasswordControllerTest(client: WebTestClient, private val objectMapp
             every { generateRandomCode() } returns "123456"
             var token = ""
             context("SMS 인증") {
-                val invalidTokenRequest = PasswordUpdateDto.PasswordUpdateRequest(
+                val invalidTokenRequest = PasswordUpdateRequest(
                     signUpUserRequest.phoneNumber,
                     "newPassword1!",
                     "foo"
@@ -47,7 +49,7 @@ class UpdatePasswordControllerTest(client: WebTestClient, private val objectMapp
                 }
                 it("SMS 인증 요청 보내고 인증 코드 입력 가능하다") {
                     client
-                        .doPost("$baseUrl/sms/send", SMSUserDto.SMSRequest(signUpUserRequest.phoneNumber))
+                        .doPost("$baseUrl/sms/send", SMSRequest(signUpUserRequest.phoneNumber))
                         .expectStatus()
                         .isOk
                         .expectBody()
@@ -57,13 +59,13 @@ class UpdatePasswordControllerTest(client: WebTestClient, private val objectMapp
                     client
                         .doPost(
                             "$baseUrl/sms/find-password",
-                            SMSUserDto.SMSValidationRequest(signUpUserRequest.phoneNumber, "123456")
+                            SMSValidationRequest(signUpUserRequest.phoneNumber, "123456")
                         )
                         .expectStatus()
                         .isOk
                         .expectBody()
                         .consumeWith {
-                            val response: CommonResponse<SMSUserDto.PasswordSMSValidationResponse> =
+                            val response: CommonResponse<PasswordSMSValidationResponse> =
                                 objectMapper.readValue(it.responseBody!!)
                             response.result shouldBe CommonResponse.Result.SUCCESS
                             token = response.data!!.token!!
@@ -80,7 +82,7 @@ class UpdatePasswordControllerTest(client: WebTestClient, private val objectMapp
                     client
                         .doPatch(
                             "$baseUrl/password",
-                            PasswordUpdateDto.PasswordUpdateRequest(
+                            PasswordUpdateRequest(
                                 signUpUserRequest.phoneNumber,
                                 "newPassword1!",
                                 token
@@ -97,7 +99,7 @@ class UpdatePasswordControllerTest(client: WebTestClient, private val objectMapp
                     client
                         .doPost(
                             "$baseUrl/email/sign-in",
-                            SignInUserDto.EmailSignInUserRequest(signUpUserRequest.email, "newPassword1!")
+                            EmailSignInUserRequest(signUpUserRequest.email, "newPassword1!")
                         )
                         .expectStatus()
                         .isOk

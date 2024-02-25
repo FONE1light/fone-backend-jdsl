@@ -10,18 +10,24 @@ import com.fone.common.entity.Salary
 import com.fone.common.entity.Type
 import com.fone.common.entity.Weekday
 import com.fone.common.response.CommonResponse
-import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto
-import com.fone.jobOpening.presentation.dto.ValidateJobOpeningDto
+import com.fone.jobOpening.presentation.dto.FifthPage
+import com.fone.jobOpening.presentation.dto.FirstPage
+import com.fone.jobOpening.presentation.dto.FourthPage
+import com.fone.jobOpening.presentation.dto.RegisterJobOpeningRequest
+import com.fone.jobOpening.presentation.dto.SecondPage
+import com.fone.jobOpening.presentation.dto.SeventhPage
+import com.fone.jobOpening.presentation.dto.SixthPage
+import com.fone.jobOpening.presentation.dto.ThirdPage
 import org.springframework.test.web.reactive.server.WebTestClient
 
 object CommonJobOpeningCallApi {
     val registerJobOpeningActorRequest =
-        RegisterJobOpeningDto.RegisterJobOpeningRequest(
-            firstPage = ValidateJobOpeningDto.FirstPage(
+        RegisterJobOpeningRequest(
+            firstPage = FirstPage(
                 contactMethod = ContactMethod.EMAIL,
                 contact = "https://docs.google.com/forms/..."
             ),
-            secondPage = ValidateJobOpeningDto.SecondPage(
+            secondPage = SecondPage(
                 title = "title",
                 categories = listOf(CategoryType.WEB_DRAMA),
                 recruitmentStartDate = null,
@@ -29,7 +35,7 @@ object CommonJobOpeningCallApi {
                 imageUrls = listOf("https://www.naver.com"),
                 representativeImageUrl = "https://www.naver.com"
             ),
-            thirdPage = ValidateJobOpeningDto.ThirdPage(
+            thirdPage = ThirdPage(
                 casting = "casting",
                 domains = listOf(DomainType.SCENARIO),
                 numberOfRecruits = 1,
@@ -38,14 +44,14 @@ object CommonJobOpeningCallApi {
                 ageMin = 20,
                 careers = listOf(Career.IRRELEVANT)
             ),
-            fourthPage = ValidateJobOpeningDto.FourthPage(
+            fourthPage = FourthPage(
                 produce = "produce",
                 workTitle = "workTitle",
                 director = "director",
                 genres = setOf(Genre.ACTION),
                 logline = "logline"
             ),
-            fifthPage = ValidateJobOpeningDto.FifthPage(
+            fifthPage = FifthPage(
                 workingCity = "서울특별시",
                 workingDistrict = "도봉구",
                 workingStartDate = null,
@@ -56,10 +62,10 @@ object CommonJobOpeningCallApi {
                 salaryType = Salary.HOURLY,
                 salary = 100000
             ),
-            sixthPage = ValidateJobOpeningDto.SixthPage(
+            sixthPage = SixthPage(
                 details = "details"
             ),
-            seventhPage = ValidateJobOpeningDto.SeventhPage(
+            seventhPage = SeventhPage(
                 manager = "manager",
                 email = "email"
             ),

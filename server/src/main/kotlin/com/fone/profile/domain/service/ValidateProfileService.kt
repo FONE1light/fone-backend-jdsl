@@ -1,7 +1,11 @@
 package com.fone.profile.domain.service
 
 import com.fone.common.exception.RequestValidationException
-import com.fone.profile.presentation.dto.ValidateProfileDto
+import com.fone.profile.presentation.dto.FifthPage
+import com.fone.profile.presentation.dto.FourthPage
+import com.fone.profile.presentation.dto.SecondPage
+import com.fone.profile.presentation.dto.SixthPage
+import com.fone.profile.presentation.dto.ThirdPage
 import com.fone.user.domain.repository.UserRepository
 import org.hibernate.validator.internal.constraintvalidators.hv.URLValidator
 import org.springframework.stereotype.Service
@@ -14,7 +18,7 @@ class ValidateProfileService(
     private val urlValidator = URLValidator()
     private val emailRegex = Regex("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
 
-    fun validateBasicPage(request: ValidateProfileDto.SecondPage) {
+    fun validateBasicPage(request: SecondPage) {
         if (request.name.isBlank()) {
             throw RequestValidationException("본인의 이름을 입력해 주세요.")
         }
@@ -31,7 +35,7 @@ class ValidateProfileService(
 
     suspend fun validateDetailPage(
         email: String,
-        request: ValidateProfileDto.ThirdPage,
+        request: ThirdPage,
     ) {
         if (LocalDate.now().year - request.birthday.year > 100) {
             throw RequestValidationException("100세 이상의 나이는 입력할 수 없습니다.")
@@ -68,18 +72,18 @@ class ValidateProfileService(
         }
     }
 
-    fun validateDescriptionPage(fourthPage: ValidateProfileDto.FourthPage) {
+    fun validateDescriptionPage(fourthPage: FourthPage) {
         if (fourthPage.details.length < 8) {
             throw RequestValidationException("최소 8자 이상의 상세 요강을 입력해주세요.")
         }
     }
 
-    fun validateCareerPage(fifthPage: ValidateProfileDto.FifthPage) {
+    fun validateCareerPage(fifthPage: FifthPage) {
         // 검증 할 것 없음
         return
     }
 
-    fun validateInterestPage(sixthPage: ValidateProfileDto.SixthPage) {
+    fun validateInterestPage(sixthPage: SixthPage) {
         // 검증 할 것 없음
         return
     }

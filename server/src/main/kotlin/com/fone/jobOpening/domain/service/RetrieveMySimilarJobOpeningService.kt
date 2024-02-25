@@ -6,7 +6,7 @@ import com.fone.jobOpening.domain.repository.JobOpeningCategoryRepository
 import com.fone.jobOpening.domain.repository.JobOpeningDomainRepository
 import com.fone.jobOpening.domain.repository.JobOpeningRepository
 import com.fone.jobOpening.domain.repository.JobOpeningScrapRepository
-import com.fone.jobOpening.presentation.dto.RetrieveMySimilarJobOpeningDto.RetrieveMySimilarJobOpeningResponse
+import com.fone.jobOpening.presentation.dto.RetrieveMySimilarJobOpeningResponse
 import com.fone.user.domain.enum.Job
 import com.fone.user.domain.repository.UserRepository
 import org.springframework.data.domain.Pageable

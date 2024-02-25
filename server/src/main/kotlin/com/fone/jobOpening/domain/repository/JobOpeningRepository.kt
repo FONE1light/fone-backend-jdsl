@@ -2,7 +2,7 @@ package com.fone.jobOpening.domain.repository
 
 import com.fone.common.entity.Type
 import com.fone.jobOpening.domain.entity.JobOpening
-import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningDto.RetrieveJobOpeningsRequest
+import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningsRequest
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 

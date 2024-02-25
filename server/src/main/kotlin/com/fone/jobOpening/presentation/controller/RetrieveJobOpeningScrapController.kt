@@ -3,7 +3,7 @@ package com.fone.jobOpening.presentation.controller
 import com.fone.common.entity.Type
 import com.fone.common.response.CommonResponse
 import com.fone.jobOpening.application.RetrieveJobOpeningScrapFacade
-import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningScrapDto.RetrieveJobOpeningScrapResponse
+import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningScrapResponse
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.media.Content

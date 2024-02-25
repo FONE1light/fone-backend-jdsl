@@ -8,7 +8,7 @@ class LocationDtoTest : DescribeSpec({
         context("RetrieveRegionsResponse") {
             it("should correctly store regions") {
                 val regions = listOf("서울특별시", "부산광역시")
-                val response = LocationDto.RetrieveRegionsResponse(regions)
+                val response = RetrieveRegionsResponse(regions)
 
                 response.regions shouldBe regions
             }
@@ -17,7 +17,7 @@ class LocationDtoTest : DescribeSpec({
         context("RetrieveDistrictsResponse") {
             it("should correctly store districts") {
                 val districts = listOf("강남구", "서초구")
-                val response = LocationDto.RetrieveDistrictsResponse(districts)
+                val response = RetrieveDistrictsResponse(districts)
 
                 response.districts shouldBe districts
             }

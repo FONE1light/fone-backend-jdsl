@@ -7,7 +7,7 @@ import com.fone.common.entity.CategoryType
 import com.fone.common.entity.Gender
 import com.fone.user.domain.enum.Job
 import com.fone.user.domain.enum.LoginType
-import com.fone.user.presentation.dto.SignUpUserDto
+import com.fone.user.presentation.dto.SocialSignUpUserRequest
 import org.springframework.test.web.reactive.server.WebTestClient
 import java.time.LocalDate
 
@@ -18,7 +18,7 @@ class SignUpUserControllerTest(client: WebTestClient) : CustomDescribeSpec() {
 
     init {
         val signUpUserRequest =
-            SignUpUserDto.SocialSignUpUserRequest(
+            SocialSignUpUserRequest(
                 Job.ACTOR,
                 listOf(CategoryType.ETC),
                 "testName5",

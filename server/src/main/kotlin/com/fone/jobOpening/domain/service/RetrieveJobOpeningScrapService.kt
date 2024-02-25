@@ -6,7 +6,7 @@ import com.fone.jobOpening.domain.repository.JobOpeningCategoryRepository
 import com.fone.jobOpening.domain.repository.JobOpeningDomainRepository
 import com.fone.jobOpening.domain.repository.JobOpeningRepository
 import com.fone.jobOpening.domain.repository.JobOpeningScrapRepository
-import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningScrapDto.RetrieveJobOpeningScrapResponse
+import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningScrapResponse
 import com.fone.user.domain.repository.UserRepository
 import kotlinx.coroutines.coroutineScope
 import org.springframework.data.domain.Pageable

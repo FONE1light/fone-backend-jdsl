@@ -2,9 +2,9 @@ package com.fone.user.application
 
 import com.fone.user.domain.service.OauthValidationService
 import com.fone.user.domain.service.SignInUserService
-import com.fone.user.presentation.dto.SignInUserDto.EmailSignInUserRequest
-import com.fone.user.presentation.dto.SignInUserDto.SignInUserResponse
-import com.fone.user.presentation.dto.SignInUserDto.SocialSignInUserRequest
+import com.fone.user.presentation.dto.EmailSignInUserRequest
+import com.fone.user.presentation.dto.SignInUserResponse
+import com.fone.user.presentation.dto.SocialSignInUserRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

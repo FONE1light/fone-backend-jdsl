@@ -12,9 +12,13 @@ import com.fone.common.entity.Gender
 import com.fone.common.entity.Genre
 import com.fone.common.entity.Salary
 import com.fone.common.entity.Weekday
-import com.fone.jobOpening.presentation.dto.ValidateJobOpeningDto
-import com.fone.jobOpening.presentation.dto.ValidateJobOpeningDto.FifthPage
-import com.fone.jobOpening.presentation.dto.ValidateJobOpeningDto.SecondPage
+import com.fone.jobOpening.presentation.dto.FifthPage
+import com.fone.jobOpening.presentation.dto.FirstPage
+import com.fone.jobOpening.presentation.dto.FourthPage
+import com.fone.jobOpening.presentation.dto.SecondPage
+import com.fone.jobOpening.presentation.dto.SeventhPage
+import com.fone.jobOpening.presentation.dto.SixthPage
+import com.fone.jobOpening.presentation.dto.ThirdPage
 import org.springframework.test.web.reactive.server.WebTestClient
 import java.time.LocalDate
 
@@ -26,7 +30,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
         describe("#JobOpening 검증 API") {
             context("contact 페이지") {
                 it("EMAIL 케이스 성공한다") {
-                    val request = ValidateJobOpeningDto.FirstPage(
+                    val request = FirstPage(
                         contactMethod = ContactMethod.EMAIL,
                         contact = "test@test.com"
                     )
@@ -36,7 +40,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                 }
 
                 it("KAKAO 케이스 성공한다") {
-                    val request = ValidateJobOpeningDto.FirstPage(
+                    val request = FirstPage(
                         contactMethod = ContactMethod.KAKAO,
                         contact = "https://open.kakao.com/test"
                     )
@@ -46,7 +50,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                 }
 
                 it("FORM 케이스 성공한다") {
-                    val request = ValidateJobOpeningDto.FirstPage(
+                    val request = FirstPage(
                         contactMethod = ContactMethod.GOOGLE_FORM,
                         contact = "https://docs.google.com/forms/test"
                     )
@@ -56,7 +60,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                 }
 
                 it("이메일 케이스 실패한다") {
-                    val request = ValidateJobOpeningDto.FirstPage(
+                    val request = FirstPage(
                         contactMethod = ContactMethod.EMAIL,
                         contact = "test"
                     )
@@ -65,7 +69,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                 }
 
                 it("카카오 케이스 실패한다") {
-                    val request = ValidateJobOpeningDto.FirstPage(
+                    val request = FirstPage(
                         contactMethod = ContactMethod.KAKAO,
                         contact = "https://open.kakao.co"
                     )
@@ -74,7 +78,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                 }
 
                 it("구글폼 케이스 실패한다") {
-                    val request = ValidateJobOpeningDto.FirstPage(
+                    val request = FirstPage(
                         contactMethod = ContactMethod.GOOGLE_FORM,
                         contact = "https://docs.google.com/form"
                     )
@@ -147,7 +151,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
             }
             context("role 페이지") {
                 it("성공한다") {
-                    val request = ValidateJobOpeningDto.ThirdPage(
+                    val request = ThirdPage(
                         casting = "모집배역",
                         domains = listOf(DomainType.ETC),
                         numberOfRecruits = 1,
@@ -161,7 +165,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("SUCCESS")
                 }
                 it("모집배역 케이스 실패한다") {
-                    val request = ValidateJobOpeningDto.ThirdPage(
+                    val request = ThirdPage(
                         casting = "",
                         domains = listOf(DomainType.ETC),
                         numberOfRecruits = 1,
@@ -174,7 +178,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("FAIL")
                 }
                 it("모집분야 케이스 실패한다") {
-                    val request = ValidateJobOpeningDto.ThirdPage(
+                    val request = ThirdPage(
                         casting = "모집배역",
                         domains = listOf(),
                         numberOfRecruits = 1,
@@ -187,7 +191,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("FAIL")
                 }
                 it("모집인원 케이스 실패한다") {
-                    val request = ValidateJobOpeningDto.ThirdPage(
+                    val request = ThirdPage(
                         casting = "모집배역",
                         domains = listOf(DomainType.ETC),
                         numberOfRecruits = -1,
@@ -200,7 +204,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("FAIL")
                 }
                 it("경력 케이스 실패한다") {
-                    val request = ValidateJobOpeningDto.ThirdPage(
+                    val request = ThirdPage(
                         casting = "모집배역",
                         domains = listOf(DomainType.ETC),
                         numberOfRecruits = 1,
@@ -213,7 +217,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("FAIL")
                 }
                 it("나이 케이스 실패한다1") {
-                    val request = ValidateJobOpeningDto.ThirdPage(
+                    val request = ThirdPage(
                         casting = "모집배역",
                         domains = listOf(DomainType.ETC),
                         numberOfRecruits = 1,
@@ -226,7 +230,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("FAIL")
                 }
                 it("나이 케이스 실패한다2") {
-                    val request = ValidateJobOpeningDto.ThirdPage(
+                    val request = ThirdPage(
                         casting = "모집배역",
                         domains = listOf(DomainType.ETC),
                         numberOfRecruits = 1,
@@ -239,7 +243,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("FAIL")
                 }
                 it("나이 케이스 실패한다3") {
-                    val request = ValidateJobOpeningDto.ThirdPage(
+                    val request = ThirdPage(
                         casting = "모집배역",
                         domains = listOf(DomainType.ETC),
                         numberOfRecruits = 1,
@@ -254,7 +258,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
             }
             context("project 페이지") {
                 it("성공한다") {
-                    val request = ValidateJobOpeningDto.FourthPage(
+                    val request = FourthPage(
                         produce = "제작",
                         workTitle = "작품 제목",
                         director = "이하은",
@@ -266,7 +270,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("SUCCESS")
                 }
                 it("제작 케이스 실패한다") {
-                    val request = ValidateJobOpeningDto.FourthPage(
+                    val request = FourthPage(
                         produce = "",
                         workTitle = "작품 제목",
                         director = "이하은",
@@ -277,7 +281,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("FAIL")
                 }
                 it("작품 제목 케이스 실패한다") {
-                    val request = ValidateJobOpeningDto.FourthPage(
+                    val request = FourthPage(
                         produce = "제작",
                         workTitle = "",
                         director = "이하은",
@@ -288,7 +292,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("FAIL")
                 }
                 it("연출자 케이스 실패한다") {
-                    val request = ValidateJobOpeningDto.FourthPage(
+                    val request = FourthPage(
                         produce = "제작",
                         workTitle = "작품 제목",
                         director = "",
@@ -299,7 +303,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("FAIL")
                 }
                 it("장르 케이스 실패한다") {
-                    val request = ValidateJobOpeningDto.FourthPage(
+                    val request = FourthPage(
                         produce = "제작",
                         workTitle = "작품 제목",
                         director = "이하은",
@@ -390,7 +394,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
             }
             context("Summary 페이지") {
                 it("성공한다") {
-                    val request = ValidateJobOpeningDto.SixthPage(
+                    val request = SixthPage(
                         "상세 요강입니다."
                     )
                     client.doPost("$url/summary", request, accessToken)
@@ -398,7 +402,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("SUCCESS")
                 }
                 it("상세 요강 케이스 실패한다") {
-                    val request = ValidateJobOpeningDto.SixthPage(
+                    val request = SixthPage(
                         "상세"
                     )
                     client.doPost("$url/summary", request, accessToken).expectStatus().isBadRequest.expectBody()
@@ -407,7 +411,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
             }
             context("Manager 페이지") {
                 it("성공한다") {
-                    val request = ValidateJobOpeningDto.SeventhPage(
+                    val request = SeventhPage(
                         "이하은",
                         "test@test.com"
                     )
@@ -416,7 +420,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("SUCCESS")
                 }
                 it("담당자 케이스 실패한다") {
-                    val request = ValidateJobOpeningDto.SeventhPage(
+                    val request = SeventhPage(
                         "",
                         "test@test.com"
                     )
@@ -424,7 +428,7 @@ class ValidateJobOpeningControllerTest(client: WebTestClient) : CustomDescribeSp
                         .consumeWith { println(it) }.jsonPath("$.result").isEqualTo("FAIL")
                 }
                 it("이메일 케이스 실패한다") {
-                    val request = ValidateJobOpeningDto.SeventhPage(
+                    val request = SeventhPage(
                         "이하은",
                         "test"
                     )

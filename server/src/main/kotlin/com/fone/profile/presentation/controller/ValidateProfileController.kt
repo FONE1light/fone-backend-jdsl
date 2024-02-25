@@ -2,9 +2,13 @@ package com.fone.profile.presentation.controller
 
 import com.fone.common.response.CommonResponse
 import com.fone.jobOpening.application.ValidateJobOpeningFacade
-import com.fone.jobOpening.presentation.dto.ValidateJobOpeningDto
+import com.fone.jobOpening.presentation.dto.FirstPage
 import com.fone.profile.application.ValidateProfileFacade
-import com.fone.profile.presentation.dto.ValidateProfileDto
+import com.fone.profile.presentation.dto.FifthPage
+import com.fone.profile.presentation.dto.FourthPage
+import com.fone.profile.presentation.dto.SecondPage
+import com.fone.profile.presentation.dto.SixthPage
+import com.fone.profile.presentation.dto.ThirdPage
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -31,7 +35,7 @@ class ValidateProfileController(
     )
     suspend fun contactPageValidation(
         @RequestBody
-        request: ValidateJobOpeningDto.FirstPage,
+        request: FirstPage,
     ): CommonResponse<Unit> {
         validateJobOpeningFacade.validateContactPage(request)
         return CommonResponse.success()
@@ -46,7 +50,7 @@ class ValidateProfileController(
     )
     suspend fun basicPageValidate(
         @RequestBody
-        secondPage: ValidateProfileDto.SecondPage,
+        secondPage: SecondPage,
     ): CommonResponse<Unit> {
         validateProfileFacade.validateBasicPage(secondPage)
         return CommonResponse.success()
@@ -62,7 +66,7 @@ class ValidateProfileController(
     suspend fun detailPageValidate(
         principal: Principal,
         @RequestBody
-        thirdPage: ValidateProfileDto.ThirdPage,
+        thirdPage: ThirdPage,
     ): CommonResponse<Unit> {
         validateProfileFacade.validateDetailPage(principal.name, thirdPage)
         return CommonResponse.success()
@@ -77,7 +81,7 @@ class ValidateProfileController(
     )
     suspend fun descriptionValidate(
         @RequestBody
-        fourthPage: ValidateProfileDto.FourthPage,
+        fourthPage: FourthPage,
     ): CommonResponse<Unit> {
         validateProfileFacade.validateDescriptionPage(fourthPage)
         return CommonResponse.success()
@@ -92,7 +96,7 @@ class ValidateProfileController(
     )
     suspend fun careerValidate(
         @RequestBody
-        fifthPage: ValidateProfileDto.FifthPage,
+        fifthPage: FifthPage,
     ): CommonResponse<Unit> {
         validateProfileFacade.validateCareerPage(fifthPage)
         return CommonResponse.success()
@@ -107,7 +111,7 @@ class ValidateProfileController(
     )
     suspend fun interestValidate(
         @RequestBody
-        sixthPage: ValidateProfileDto.SixthPage,
+        sixthPage: SixthPage,
     ): CommonResponse<Unit> {
         validateProfileFacade.validateInterestPage(sixthPage)
         return CommonResponse.success()

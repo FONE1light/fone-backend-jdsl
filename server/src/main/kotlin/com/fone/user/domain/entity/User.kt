@@ -8,8 +8,8 @@ import com.fone.common.jwt.Role
 import com.fone.common.password.PasswordService
 import com.fone.user.domain.enum.Job
 import com.fone.user.domain.enum.LoginType
-import com.fone.user.presentation.dto.ModifyUserDto.AdminModifyUserRequest
-import com.fone.user.presentation.dto.ModifyUserDto.ModifyUserRequest
+import com.fone.user.presentation.dto.AdminModifyUserRequest
+import com.fone.user.presentation.dto.ModifyUserRequest
 import org.hibernate.annotations.ColumnDefault
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority

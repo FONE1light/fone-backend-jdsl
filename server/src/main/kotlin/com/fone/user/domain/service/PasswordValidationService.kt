@@ -2,9 +2,9 @@ package com.fone.user.domain.service
 
 import com.fone.user.domain.enum.LoginType
 import com.fone.user.domain.repository.UserRepository
-import com.fone.user.presentation.dto.PasswordValidationDto.PasswordValidationRequest
-import com.fone.user.presentation.dto.PasswordValidationDto.PasswordValidationResponse
-import com.fone.user.presentation.dto.PasswordValidationDto.ResponseType
+import com.fone.user.presentation.dto.PasswordValidationRequest
+import com.fone.user.presentation.dto.PasswordValidationResponse
+import com.fone.user.presentation.dto.ResponseType
 import org.springframework.stereotype.Service
 
 @Service

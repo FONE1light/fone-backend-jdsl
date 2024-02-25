@@ -1,9 +1,9 @@
 package com.fone.user.application
 
 import com.fone.user.domain.service.SignUpUserService
-import com.fone.user.presentation.dto.SignUpUserDto.EmailSignUpUserRequest
-import com.fone.user.presentation.dto.SignUpUserDto.SignUpUserResponse
-import com.fone.user.presentation.dto.SignUpUserDto.SocialSignUpUserRequest
+import com.fone.user.presentation.dto.EmailSignUpUserRequest
+import com.fone.user.presentation.dto.SignUpUserResponse
+import com.fone.user.presentation.dto.SocialSignUpUserRequest
 import org.springframework.stereotype.Service
 
 @Service

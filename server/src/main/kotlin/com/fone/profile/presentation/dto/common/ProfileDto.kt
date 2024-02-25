@@ -4,12 +4,16 @@ import com.fone.common.entity.CategoryType
 import com.fone.common.entity.DomainType
 import com.fone.common.entity.Type
 import com.fone.common.utils.DateTimeFormat
-import com.fone.jobOpening.presentation.dto.ValidateJobOpeningDto
+import com.fone.jobOpening.presentation.dto.FirstPage
 import com.fone.profile.domain.entity.Profile
 import com.fone.profile.domain.entity.ProfileImage
 import com.fone.profile.domain.entity.ProfileSns
 import com.fone.profile.domain.entity.ProfileWant
-import com.fone.profile.presentation.dto.ValidateProfileDto
+import com.fone.profile.presentation.dto.FifthPage
+import com.fone.profile.presentation.dto.FourthPage
+import com.fone.profile.presentation.dto.SecondPage
+import com.fone.profile.presentation.dto.SixthPage
+import com.fone.profile.presentation.dto.ThirdPage
 import com.fone.user.domain.enum.Job
 import io.swagger.v3.oas.annotations.media.Schema
 import java.time.LocalDateTime
@@ -19,22 +23,22 @@ data class ProfileDto(
     val id: Long,
 
     @Schema(description = "1번째 페이지")
-    val firstPage: ValidateJobOpeningDto.FirstPage,
+    val firstPage: FirstPage,
 
     @Schema(description = "2번째 페이지")
-    val secondPage: ValidateProfileDto.SecondPage,
+    val secondPage: SecondPage,
 
     @Schema(description = "3번째 페이지")
-    val thirdPage: ValidateProfileDto.ThirdPage,
+    val thirdPage: ThirdPage,
 
     @Schema(description = "4번째 페이지")
-    val fourthPage: ValidateProfileDto.FourthPage,
+    val fourthPage: FourthPage,
 
     @Schema(description = "5번째 페이지")
-    val fifthPage: ValidateProfileDto.FifthPage,
+    val fifthPage: FifthPage,
 
     @Schema(description = "6번째 페이지")
-    val sixthPage: ValidateProfileDto.SixthPage,
+    val sixthPage: SixthPage,
 
     @Schema(description = "타입")
     val type: Type,
@@ -70,17 +74,17 @@ data class ProfileDto(
         job: Job,
     ) : this(
         id = profile.id ?: 0L,
-        firstPage = ValidateJobOpeningDto.FirstPage(
+        firstPage = FirstPage(
             contactMethod = profile.contactMethod,
             contact = profile.contact
         ),
-        secondPage = ValidateProfileDto.SecondPage(
+        secondPage = SecondPage(
             name = profile.name,
             hookingComment = profile.hookingComment,
             profileImages = profileImages.map { it.url },
             representativeImageUrl = profile.representativeImageUrl
         ),
-        thirdPage = ValidateProfileDto.ThirdPage(
+        thirdPage = ThirdPage(
             birthday = profile.birthday,
             gender = profile.gender,
             height = profile.height,
@@ -90,14 +94,14 @@ data class ProfileDto(
             specialty = profile.specialty,
             snsUrls = profile.snsUrls.map(ProfileSns::toDto)
         ),
-        fourthPage = ValidateProfileDto.FourthPage(
+        fourthPage = FourthPage(
             details = profile.details
         ),
-        fifthPage = ValidateProfileDto.FifthPage(
+        fifthPage = FifthPage(
             career = profile.career,
             careerDetail = profile.careerDetail
         ),
-        sixthPage = ValidateProfileDto.SixthPage(
+        sixthPage = SixthPage(
             categories = categories
         ),
         type = profile.type,

@@ -6,8 +6,8 @@ import com.fone.jobOpening.domain.repository.JobOpeningCategoryRepository
 import com.fone.jobOpening.domain.repository.JobOpeningDomainRepository
 import com.fone.jobOpening.domain.repository.JobOpeningRepository
 import com.fone.jobOpening.domain.repository.JobOpeningScrapRepository
-import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningRequest
-import com.fone.jobOpening.presentation.dto.RegisterJobOpeningDto.RegisterJobOpeningResponse
+import com.fone.jobOpening.presentation.dto.RegisterJobOpeningRequest
+import com.fone.jobOpening.presentation.dto.RegisterJobOpeningResponse
 import com.fone.jobOpening.presentation.dto.toEntity
 import com.fone.user.domain.enum.Job
 import com.fone.user.domain.repository.UserRepository

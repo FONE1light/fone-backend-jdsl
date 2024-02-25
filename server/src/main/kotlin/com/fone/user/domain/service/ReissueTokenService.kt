@@ -4,7 +4,7 @@ import com.fone.common.exception.InvalidTokenException
 import com.fone.common.jwt.JWTUtils
 import com.fone.common.jwt.Token
 import com.fone.common.redis.RedisRepository
-import com.fone.user.presentation.dto.ReissueTokenDto
+import com.fone.user.presentation.dto.ReissueTokenRequest
 import io.jsonwebtoken.ExpiredJwtException
 import org.springframework.stereotype.Service
 
@@ -14,7 +14,7 @@ class ReissueTokenService(
     private val redisRepository: RedisRepository,
 ) {
 
-    suspend fun reissueToken(request: ReissueTokenDto.ReissueTokenRequest): Token {
+    suspend fun reissueToken(request: ReissueTokenRequest): Token {
         validateRefreshToken(request.refreshToken)
         return jwtUtils.reissueAccessToken(request.refreshToken)
     }

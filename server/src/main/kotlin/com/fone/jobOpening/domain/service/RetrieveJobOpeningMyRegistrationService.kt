@@ -5,7 +5,7 @@ import com.fone.jobOpening.domain.repository.JobOpeningCategoryRepository
 import com.fone.jobOpening.domain.repository.JobOpeningDomainRepository
 import com.fone.jobOpening.domain.repository.JobOpeningRepository
 import com.fone.jobOpening.domain.repository.JobOpeningScrapRepository
-import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningMyRegistrationDto.RetrieveJobOpeningMyRegistrationResponse
+import com.fone.jobOpening.presentation.dto.RetrieveJobOpeningMyRegistrationResponse
 import com.fone.user.domain.repository.UserRepository
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service

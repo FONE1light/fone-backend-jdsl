@@ -8,7 +8,9 @@ import com.fone.common.doPost
 import com.fone.common.response.CommonResponse
 import com.fone.user.domain.enum.LoginType
 import com.fone.user.domain.repository.generateRandomCode
-import com.fone.user.presentation.dto.SMSUserDto
+import com.fone.user.presentation.dto.SMSRequest
+import com.fone.user.presentation.dto.SMSValidationRequest
+import com.fone.user.presentation.dto.UserInfoSMSValidationResponse
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockkStatic
@@ -28,7 +30,7 @@ class UserInfoControllerTest(client: WebTestClient, private val objectMapper: Ob
                 every { generateRandomCode() } returns "123456"
                 it("성공하면 유저 로그인 정보 조회 가능하다") {
                     client
-                        .doPost("$baseUrl/send", SMSUserDto.SMSRequest(signUpUserRequest.phoneNumber))
+                        .doPost("$baseUrl/send", SMSRequest(signUpUserRequest.phoneNumber))
                         .expectStatus()
                         .isOk
                         .expectBody()
@@ -38,13 +40,13 @@ class UserInfoControllerTest(client: WebTestClient, private val objectMapper: Ob
                     client
                         .doPost(
                             "$baseUrl/find-id",
-                            SMSUserDto.SMSValidationRequest(signUpUserRequest.phoneNumber, "123456")
+                            SMSValidationRequest(signUpUserRequest.phoneNumber, "123456")
                         )
                         .expectStatus()
                         .isOk
                         .expectBody()
                         .consumeWith {
-                            val response: CommonResponse<SMSUserDto.UserInfoSMSValidationResponse> =
+                            val response: CommonResponse<UserInfoSMSValidationResponse> =
                                 objectMapper.readValue(it.responseBody!!)
                             response.data!!.loginType shouldBe LoginType.PASSWORD
                         }

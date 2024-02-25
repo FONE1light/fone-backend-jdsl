@@ -9,7 +9,7 @@ import com.fone.common.IntegrationTest
 import com.fone.common.doPost
 import com.fone.common.response.CommonResponse
 import com.fone.profile.domain.enum.SNS
-import com.fone.profile.presentation.dto.RegisterProfileDto
+import com.fone.profile.presentation.dto.RegisterProfileResponse
 import com.fone.profile.presentation.dto.common.ProfileSnsUrl
 import io.kotest.matchers.shouldBe
 import org.springframework.test.web.reactive.server.WebTestClient
@@ -37,7 +37,7 @@ class RegisterProfileControllerTest(objectMapper: ObjectMapper, client: WebTestC
                         .expectStatus().isOk.expectBody()
                         .consumeWith {
                             val response =
-                                objectMapper.readValue<CommonResponse<RegisterProfileDto.RegisterProfileResponse>>(
+                                objectMapper.readValue<CommonResponse<RegisterProfileResponse>>(
                                     it.responseBody!!
                                 )
                             response.data!!.profile.thirdPage.snsUrls.toSet() shouldBe snsUrls.toSet()
