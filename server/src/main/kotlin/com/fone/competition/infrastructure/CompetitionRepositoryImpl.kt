@@ -32,6 +32,11 @@ class CompetitionRepositoryImpl(
             val ids = factory.pageQuery(pageable) {
                 select(column(Competition::id))
                 from(entity(Competition::class))
+                where(
+                    col(Competition::showStartDate).lessThanOrEqualTo(
+                        LocalDate.now()
+                    )
+                )
             }
 
             val competitions = factory.listQuery {
@@ -49,6 +54,7 @@ class CompetitionRepositoryImpl(
                     orderSpec(pageable.sort)
                 )
             }.iterator()
+
             ids.map { competitions.next() }
         }
     }
