@@ -16,7 +16,7 @@ object CommonCompetitionCallApi {
             exhibitEndDate = LocalDate.now(),
             screeningStartDate = LocalDate.now(),
             screeningEndDate = LocalDate.now(),
-            showStartDate = LocalDate.now(),
+            showStartDate = LocalDate.now().plusDays(1),
             agency = "test agency",
             details = "test details",
             linkUrl = "test link url"
