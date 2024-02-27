@@ -18,6 +18,7 @@ class CorsFilter {
         corsConfig.addAllowedMethod(HttpMethod.POST)
         corsConfig.addAllowedMethod(HttpMethod.OPTIONS)
         corsConfig.addAllowedHeader("Content-Type")
+        corsConfig.addAllowedHeader("Authorization")
 
         val source = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", corsConfig)
