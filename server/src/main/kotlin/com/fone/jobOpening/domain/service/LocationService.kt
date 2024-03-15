@@ -20,9 +20,9 @@ class LocationService(
 
     @Transactional(readOnly = true)
     suspend fun retrieveDistricts(region: String): RetrieveDistrictsResponse {
-        val result = locationRepository.getDistricts(region)
+        val result = locationRepository.getDistricts(region).filter { it != "전체" }
         return RetrieveDistrictsResponse(
-            districts = result
+            districts = listOf("전체") + result
         )
     }
 }
