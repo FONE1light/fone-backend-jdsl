@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service
 
 @Service
 class EmailValidationFacadeImpl(private val emailValidationService: EmailValidationService) : EmailValidationFacade {
-
     override suspend fun sendValidationMessage(emailSendRequest: EmailSendRequest) =
         emailValidationService.sendValidationCode(emailSendRequest)
 
