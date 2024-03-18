@@ -8,7 +8,7 @@ import com.fone.common.jwt.Role
 import com.fone.common.jwt.Token
 import com.fone.common.redis.RedisRepository
 import com.fone.user.application.EmailValidationFacade
-import com.fone.user.application.EmailValidationFacadeNoOp
+import com.fone.user.application.EmailValidationFacadeImpl
 import com.fone.user.domain.entity.User
 import com.fone.user.domain.enum.LoginType
 import com.fone.user.domain.repository.UserRepository
@@ -89,7 +89,7 @@ class SignUpUserService(
     }
 
     suspend fun emailLoginValidate(request: EmailSignUpUserRequest) {
-        if (emailValidationFacade is EmailValidationFacadeNoOp) return
+        if (emailValidationFacade !is EmailValidationFacadeImpl) return
         with(request) {
             if (token != redisRepository.getValue("user:$email:emailSignUpToken")) {
                 throw InvalidTokenException()
