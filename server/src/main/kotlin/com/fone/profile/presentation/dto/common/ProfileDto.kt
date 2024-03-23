@@ -66,7 +66,7 @@ data class ProfileDto(
     constructor(
         profile: Profile,
         userProfileWantMap: Map<Long, ProfileWant?>,
-        profileImages: List<ProfileImage>,
+        profileImages: Set<ProfileImage>,
         domains: List<DomainType>?,
         categories: List<CategoryType>,
         userNickname: String,

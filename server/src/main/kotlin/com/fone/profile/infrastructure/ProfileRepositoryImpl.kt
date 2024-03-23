@@ -102,7 +102,7 @@ class ProfileRepositoryImpl(
                 .map { it.value.first() }
                 .onEach {
                     it!!.snsUrls = emptySet()
-                    it.profileImages = mutableListOf()
+                    it.profileImages = mutableSetOf()
                 }
 
         return PageImpl(
@@ -127,7 +127,7 @@ class ProfileRepositoryImpl(
         profileId: Long?,
     ): Profile? {
         return queryFactory.singleQueryOrNull {
-            select(entity(Profile::class))
+            select(distinct = true, entity(Profile::class))
             from(entity(Profile::class))
             fetch(Profile::profileImages, joinType = JoinType.LEFT)
             fetch(Profile::snsUrls, joinType = JoinType.LEFT)

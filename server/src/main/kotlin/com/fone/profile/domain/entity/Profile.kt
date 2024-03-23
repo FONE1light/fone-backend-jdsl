@@ -39,7 +39,7 @@ data class Profile(
         mappedBy = "profile",
         cascade = [CascadeType.PERSIST, CascadeType.MERGE],
         orphanRemoval = true
-    ) var profileImages: MutableList<ProfileImage> = mutableListOf(),
+    ) var profileImages: MutableSet<ProfileImage> = mutableSetOf(),
     @Column var representativeImageUrl: String,
 
     // page3
@@ -88,7 +88,7 @@ data class Profile(
         name = request.secondPage.name
         hookingComment = request.secondPage.hookingComment
         representativeImageUrl = request.secondPage.representativeImageUrl
-        profileImages = mutableListOf()
+        profileImages = mutableSetOf()
         request.secondPage.profileImages.forEach {
             addProfileImage(ProfileImage(it))
         }
@@ -118,7 +118,7 @@ data class Profile(
         name = ""
         hookingComment = ""
         representativeImageUrl = ""
-        profileImages = mutableListOf()
+        profileImages = mutableSetOf()
         gender = null
         height = null
         weight = null
