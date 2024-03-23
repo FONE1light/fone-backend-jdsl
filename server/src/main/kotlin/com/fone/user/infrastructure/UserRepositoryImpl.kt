@@ -17,10 +17,7 @@ import org.springframework.stereotype.Repository
 class UserRepositoryImpl(
     private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
 ) : UserRepository {
-
-    override suspend fun findById(
-        userId: Long,
-    ): User? {
+    override suspend fun findById(userId: Long): User? {
         return queryFactory.singleQueryOrNull {
             select(entity(User::class))
             from(entity(User::class))
@@ -40,9 +37,7 @@ class UserRepositoryImpl(
         }
     }
 
-    override suspend fun findByEmail(
-        email: String,
-    ): User? {
+    override suspend fun findByEmail(email: String): User? {
         return queryFactory.singleQueryOrNull {
             select(entity(User::class))
             from(entity(User::class))
@@ -68,21 +63,18 @@ class UserRepositoryImpl(
         }
     }
 
-    override suspend fun findByIdentifier(
-        identifier: String,
-    ): User? {
+    override suspend fun findByIdentifier(identifier: String): User? {
         return queryFactory.singleQueryOrNull {
             select(entity(User::class))
             from(entity(User::class))
-            where(
-                col(User::identifier).equal(identifier)
+            whereAnd(
+                col(User::identifier).equal(identifier),
+                col(User::enabled).equal(true)
             )
         }
     }
 
-    override suspend fun findByPhone(
-        phone: String,
-    ): User? {
+    override suspend fun findByPhone(phone: String): User? {
         return queryFactory.singleQueryOrNull {
             select(entity(User::class))
             from(entity(User::class))
@@ -122,9 +114,7 @@ class UserRepositoryImpl(
         }
     }
 
-    private fun SpringDataReactiveCriteriaQueryDsl<User?>.idEq(
-        userId: Long,
-    ): EqualValueSpec<Long?> {
+    private fun SpringDataReactiveCriteriaQueryDsl<User?>.idEq(userId: Long): EqualValueSpec<Long?> {
         return col(User::id).equal(userId)
     }
 
@@ -136,16 +126,12 @@ class UserRepositoryImpl(
         return col(User::loginType).equal(loginType)
     }
 
-    private fun SpringDataReactiveCriteriaQueryDsl<User?>.emailEq(
-        email: String?,
-    ): EqualValueSpec<String>? {
+    private fun SpringDataReactiveCriteriaQueryDsl<User?>.emailEq(email: String?): EqualValueSpec<String>? {
         email ?: return null
         return col(User::email).equal(email)
     }
 
-    private fun SpringDataReactiveCriteriaQueryDsl<User?>.nicknameEq(
-        nickname: String?,
-    ): EqualValueSpec<String>? {
+    private fun SpringDataReactiveCriteriaQueryDsl<User?>.nicknameEq(nickname: String?): EqualValueSpec<String>? {
         nickname ?: return null
 
         return col(User::nickname).equal(nickname)

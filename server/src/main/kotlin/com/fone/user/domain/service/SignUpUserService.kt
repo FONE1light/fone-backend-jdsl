@@ -3,6 +3,7 @@ package com.fone.user.domain.service
 import com.fone.common.exception.DuplicatePhoneNumberException
 import com.fone.common.exception.DuplicateUserException
 import com.fone.common.exception.InvalidTokenException
+import com.fone.common.exception.RequestValidationException
 import com.fone.common.jwt.JWTUtils
 import com.fone.common.jwt.Role
 import com.fone.common.jwt.Token
@@ -30,6 +31,12 @@ class SignUpUserService(
     @Transactional
     suspend fun signUpUser(request: SocialSignUpUserRequest): User {
         with(request) {
+            if (request.loginType == LoginType.APPLE) {
+                identifier ?: throw RequestValidationException("apple 인증에는 identifier는 필수 값입니다.")
+                userRepository.findByIdentifier(identifier)?.let {
+                    throw DuplicateUserException()
+                }
+            }
             userRepository.findByNicknameOrEmail(nickname, email)?.let {
                 throw DuplicateUserException()
             }
