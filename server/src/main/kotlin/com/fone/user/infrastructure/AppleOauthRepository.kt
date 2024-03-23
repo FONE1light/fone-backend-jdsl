@@ -25,27 +25,32 @@ import java.util.concurrent.TimeUnit
 class AppleOauthRepository : OauthRepository {
     override val type = LoginType.APPLE
     private val publicKeyUrl = URL("https://appleid.apple.com/auth/keys")
-    private val jwkProvider = JwkProviderBuilder(publicKeyUrl) // public key는 수시로 변동 가능성 있다고 명시되어 있음
-        .cached(20, 2, TimeUnit.HOURS)
-        .build()
-    private val algorithm = Algorithm.RSA256(
-        object : RSAKeyProvider {
-            override fun getPublicKeyById(keyId: String?): RSAPublicKey { // public key 검증만 진행하기 때문에 해당 값만 제공
-                return jwkProvider.get(keyId).publicKey as RSAPublicKey
-            }
+    private val jwkProvider =
+        JwkProviderBuilder(publicKeyUrl) // public key는 수시로 변동 가능성 있다고 명시되어 있음
+            .cached(20, 2, TimeUnit.HOURS)
+            .build()
+    private val algorithm =
+        Algorithm.RSA256(
+            object : RSAKeyProvider {
+                override fun getPublicKeyById(keyId: String?): RSAPublicKey { // public key 검증만 진행하기 때문에 해당 값만 제공
+                    return jwkProvider.get(keyId).publicKey as RSAPublicKey
+                }
 
-            override fun getPrivateKey(): RSAPrivateKey? {
-                return null
-            }
+                override fun getPrivateKey(): RSAPrivateKey? {
+                    return null
+                }
 
-            override fun getPrivateKeyId(): String? {
-                return null
+                override fun getPrivateKeyId(): String? {
+                    return null
+                }
             }
-        }
-    )
+        )
 
     @NotInUse
-    override suspend fun fetchAccessToken(code: String, state: String?): String {
+    override suspend fun fetchAccessToken(
+        code: String,
+        state: String?,
+    ): String {
         throw NotImplementedError("해당 인증 플로우 사용 안함")
     }
 
@@ -55,11 +60,16 @@ class AppleOauthRepository : OauthRepository {
             throw InvalidTokenException()
         }
         verify(decoded) // 검증 진행. 실패 시 Exception
-        if (!decoded.getClaim("email_verified").asString().toBoolean()) {
+        val emailVerifiedClaim = decoded.getClaim("email_verified")
+        if (emailVerifiedClaim.isNull || emailVerifiedClaim.isMissing || !emailVerifiedClaim.toString().toBoolean()) {
             throw InvalidOauthStatusException("Apple에 이메일 인증되지 않은 유저")
         }
-        val email = decoded.getClaim("email").asString()
-            ?: throw InvalidOauthStatusException("Apple에 이메일이 없는 유저")
+        val email =
+            decoded.getClaim("email").run {
+                if (isNull || isMissing) throw InvalidOauthStatusException("Apple에 이메일이 없는 유저")
+                toString()
+            }
+
         return OauthPrincipal(type, email, decoded.subject)
     }
 
