@@ -195,7 +195,7 @@ class ProfileRepositoryImpl(
             PageImpl(
                 ids.content.reversed().mapNotNull { profiles[it] },
                 pageable,
-                ids.totalElements,
+                ids.totalElements
             )
         }
     }

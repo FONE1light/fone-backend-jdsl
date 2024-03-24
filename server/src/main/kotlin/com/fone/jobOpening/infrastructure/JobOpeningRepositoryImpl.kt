@@ -236,7 +236,7 @@ class JobOpeningRepositoryImpl(
             PageImpl(
                 ids.content.reversed().mapNotNull { jobOpenings[it] },
                 pageable,
-                ids.totalElements,
+                ids.totalElements
             )
         }
     }
