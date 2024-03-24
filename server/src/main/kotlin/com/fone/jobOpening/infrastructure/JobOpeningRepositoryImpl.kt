@@ -233,7 +233,11 @@ class JobOpeningRepositoryImpl(
                     where(col(JobOpening::id).`in`(ids.content))
                 }.associateBy { it?.id }
 
-            ids.map { jobOpenings[it] }
+            PageImpl(
+                ids.content.reversed().mapNotNull { jobOpenings[it] },
+                pageable,
+                ids.totalElements
+            )
         }
     }
 
