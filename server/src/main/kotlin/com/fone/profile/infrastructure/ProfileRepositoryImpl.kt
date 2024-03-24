@@ -192,7 +192,11 @@ class ProfileRepositoryImpl(
                     where(col(Profile::id).`in`(ids.content))
                 }.associateBy { it!!.id }
 
-            ids.map { profiles[it] }
+            PageImpl(
+                ids.content.reversed().mapNotNull { profiles[it] },
+                pageable,
+                ids.totalElements,
+            )
         }
     }
 
