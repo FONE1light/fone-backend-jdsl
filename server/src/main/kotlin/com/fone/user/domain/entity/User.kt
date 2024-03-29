@@ -39,7 +39,7 @@ data class User(
     @Column var name: String = "",
     @Column var nickname: String = "",
     @Column var birthday: LocalDate? = null,
-    @Enumerated(EnumType.STRING) val gender: Gender = Gender.MAN,
+    @Enumerated(EnumType.STRING) val gender: Gender? = null,
     @Column(length = 300) var profileUrl: String = "",
     @Column(unique = true) var phoneNumber: String? = "",
     @Column var email: String = "",
