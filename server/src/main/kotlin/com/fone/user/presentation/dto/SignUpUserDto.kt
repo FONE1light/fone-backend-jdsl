@@ -24,8 +24,8 @@ data class SocialSignUpUserRequest(
     @field:NotNull(message = "직업은 필수 값 입니다.") val job: Job,
     @field:Size(min = 1, message = "관심사는 1개 이상 선택 되어야 합니다") val interests: List<CategoryType>,
     @field:NotEmpty(message = "닉네임은 필수 값 입니다.") val nickname: String,
-    @DateTimeFormat(pattern = "yyyy-MM-dd") val birthday: LocalDate,
-    @field:NotNull(message = "성별은 필수 값 입니다.") val gender: Gender,
+    @DateTimeFormat(pattern = "yyyy-MM-dd") val birthday: LocalDate?,
+    val gender: Gender?,
     val profileUrl: String?,
     @field:Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}\$")
     @ApiModelProperty(
@@ -50,10 +50,11 @@ data class SocialSignUpUserRequest(
 ) {
     fun toEntity(): User {
         loginTypeAssertion()
-        val identifier = when (loginType) {
-            LoginType.APPLE -> identifier
-            else -> email
-        } ?: throw ServerWebInputException("애플의 경우 identifier가 명시되어 있어야함")
+        val identifier =
+            when (loginType) {
+                LoginType.APPLE -> identifier
+                else -> email
+            } ?: throw ServerWebInputException("애플의 경우 identifier가 명시되어 있어야함")
         return User(
             job = job,
             interests = interests.map { it.toString() },
@@ -85,8 +86,8 @@ data class EmailSignUpUserRequest(
     @field:Size(min = 1, message = "관심사는 1개 이상 선택 되어야 합니다") val interests: List<CategoryType>,
     @field:NotEmpty(message = "이름은 필수 값 입니다.") val name: String,
     @field:NotEmpty(message = "닉네임은 필수 값 입니다.") val nickname: String,
-    @DateTimeFormat(pattern = "yyyy-MM-dd") val birthday: LocalDate,
-    @field:NotNull(message = "성별은 필수 값 입니다.") val gender: Gender,
+    @DateTimeFormat(pattern = "yyyy-MM-dd") val birthday: LocalDate?,
+    val gender: Gender?,
     val profileUrl: String?,
     @field:Pattern(regexp = "^\\d{2,3}-\\d{3,4}-\\d{4}\$")
     @ApiModelProperty(
@@ -140,7 +141,6 @@ data class SignUpUserResponse(
     val user: UserDto,
     val token: Token,
 ) {
-
     constructor(
         user: User,
         token: Token,

@@ -13,7 +13,7 @@ data class UserDto(
     val interests: List<CategoryType>,
     val nickname: String,
     val birthday: LocalDate?,
-    val gender: Gender,
+    val gender: Gender?,
     val profileUrl: String,
     val phoneNumber: String,
     val email: String,
@@ -25,7 +25,6 @@ data class UserDto(
     val enabled: Boolean,
     val isVerified: Boolean,
 ) {
-
     constructor(
         user: User,
     ) : this(
