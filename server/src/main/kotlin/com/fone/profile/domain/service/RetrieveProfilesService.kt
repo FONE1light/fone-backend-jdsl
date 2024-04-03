@@ -72,7 +72,7 @@ class RetrieveProfilesService(
 
         val profileCategories = profileCategoryRepository.findByProfileId(id)
 
-        val profileUser = userRepository.findById(user.id!!)
+        val profileUser = userRepository.findById(profile.userId)
 
         return RetrieveProfileResponse(
             profile,
