@@ -1,5 +1,6 @@
 package com.fone.user.infrastructure
 
+import com.fone.common.config.jpa.inValues
 import com.fone.user.domain.entity.User
 import com.fone.user.domain.enum.LoginType
 import com.fone.user.domain.repository.UserRepository
@@ -32,7 +33,7 @@ class UserRepositoryImpl(
             select(entity(User::class))
             from(entity(User::class))
             where(
-                col(User::id).`in`(userIds)
+                col(User::id).inValues(userIds)
             )
         }
     }

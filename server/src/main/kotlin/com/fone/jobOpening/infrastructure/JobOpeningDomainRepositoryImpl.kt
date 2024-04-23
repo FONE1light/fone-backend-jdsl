@@ -1,5 +1,6 @@
 package com.fone.jobOpening.infrastructure
 
+import com.fone.common.config.jpa.inValues
 import com.fone.common.entity.DomainType
 import com.fone.jobOpening.domain.entity.JobOpeningDomain
 import com.fone.jobOpening.domain.repository.JobOpeningDomainRepository
@@ -16,7 +17,6 @@ class JobOpeningDomainRepositoryImpl(
     private val sessionFactory: Mutiny.SessionFactory,
     private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
 ) : JobOpeningDomainRepository {
-
     override suspend fun saveAll(jobOpeningDomain: List<JobOpeningDomain>?): List<JobOpeningDomain>? {
         return jobOpeningDomain?.also {
             sessionFactory.withSession { session ->
@@ -31,13 +31,11 @@ class JobOpeningDomainRepositoryImpl(
         }
     }
 
-    override suspend fun findByJobOpeningIds(
-        jobOpeningIds: List<Long>,
-    ): Map<Long, List<DomainType>> {
+    override suspend fun findByJobOpeningIds(jobOpeningIds: List<Long>): Map<Long, List<DomainType>> {
         return queryFactory.listQuery {
             select(entity(JobOpeningDomain::class))
             from(entity(JobOpeningDomain::class))
-            where(col(JobOpeningDomain::jobOpeningId).`in`(jobOpeningIds))
+            where(col(JobOpeningDomain::jobOpeningId).inValues(jobOpeningIds))
         }.groupBy({ it!!.jobOpeningId }, { it!!.type })
     }
 

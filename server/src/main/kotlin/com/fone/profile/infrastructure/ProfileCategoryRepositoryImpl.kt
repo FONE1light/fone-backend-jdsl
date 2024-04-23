@@ -1,5 +1,6 @@
 package com.fone.profile.infrastructure
 
+import com.fone.common.config.jpa.inValues
 import com.fone.common.entity.CategoryType
 import com.fone.profile.domain.entity.ProfileCategory
 import com.fone.profile.domain.repository.ProfileCategoryRepository
@@ -16,7 +17,6 @@ class ProfileCategoryRepositoryImpl(
     private val sessionFactory: Mutiny.SessionFactory,
     private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
 ) : ProfileCategoryRepository {
-
     override suspend fun saveAll(profileCategory: List<ProfileCategory>): List<ProfileCategory> {
         return profileCategory.also {
             sessionFactory.withSession { session ->
@@ -35,7 +35,7 @@ class ProfileCategoryRepositoryImpl(
         return queryFactory.listQuery {
             select(entity(ProfileCategory::class))
             from(entity(ProfileCategory::class))
-            where(col(ProfileCategory::profileId).`in`(profileIds))
+            where(col(ProfileCategory::profileId).inValues(profileIds))
         }.groupBy({ it!!.profileId }, { it!!.type })
     }
 
