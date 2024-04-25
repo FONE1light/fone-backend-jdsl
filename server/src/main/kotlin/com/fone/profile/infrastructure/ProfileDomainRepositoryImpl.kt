@@ -1,5 +1,6 @@
 package com.fone.profile.infrastructure
 
+import com.fone.common.config.jpa.inValues
 import com.fone.common.entity.DomainType
 import com.fone.profile.domain.entity.ProfileDomain
 import com.fone.profile.domain.repository.ProfileDomainRepository
@@ -16,7 +17,6 @@ class ProfileDomainRepositoryImpl(
     private val sessionFactory: Mutiny.SessionFactory,
     private val queryFactory: SpringDataHibernateMutinyReactiveQueryFactory,
 ) : ProfileDomainRepository {
-
     override suspend fun saveAll(profileDomain: List<ProfileDomain>?): List<ProfileDomain>? {
         return profileDomain?.also {
             sessionFactory.withSession { session ->
@@ -27,6 +27,7 @@ class ProfileDomainRepositoryImpl(
 
     override suspend fun deleteByProfileId(profileId: Long): Int {
         return queryFactory.deleteQuery<ProfileDomain> {
+            literal(1).equal(1)
             where(col(ProfileDomain::profileId).equal(profileId))
         }
     }
@@ -35,7 +36,7 @@ class ProfileDomainRepositoryImpl(
         return queryFactory.listQuery {
             select(entity(ProfileDomain::class))
             from(entity(ProfileDomain::class))
-            where(col(ProfileDomain::profileId).`in`(profileIds))
+            where(col(ProfileDomain::profileId).inValues(profileIds))
         }.groupBy({ it!!.profileId }, { it!!.type })
     }
 

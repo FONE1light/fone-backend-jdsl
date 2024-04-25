@@ -1,5 +1,6 @@
 package com.fone.profile.infrastructure
 
+import com.fone.common.config.jpa.inValues
 import com.fone.common.entity.Type
 import com.fone.common.utils.DateTimeFormat
 import com.fone.profile.domain.entity.Profile
@@ -45,7 +46,7 @@ class ProfileRepositoryImpl(
                 queryFactory.listQuery {
                     select(col(ProfileDomain::profileId))
                     from(entity(ProfileDomain::class))
-                    where(col(ProfileDomain::type).`in`(request.domains))
+                    where(col(ProfileDomain::type).inValues(request.domains))
                 }
             }
 
@@ -56,7 +57,7 @@ class ProfileRepositoryImpl(
                 queryFactory.listQuery {
                     select(col(ProfileCategory::profileId))
                     from(entity(ProfileCategory::class))
-                    where(col(ProfileCategory::type).`in`(request.categories))
+                    where(col(ProfileCategory::type).inValues(request.categories))
                 }
             }
 
@@ -64,20 +65,18 @@ class ProfileRepositoryImpl(
             queryFactory.pageQuery(pageable) {
                 select(column(Profile::id))
                 from(entity(Profile::class))
-                where(
-                    and(
-                        col(Profile::type).equal(request.type),
-                        col(Profile::gender).`in`(request.genders),
-                        col(Profile::birthday).lessThanOrEqualTo(
-                            DateTimeFormat.calculdateLocalDate(request.ageMin)
-                        ),
-                        col(Profile::birthday).greaterThanOrEqualTo(
-                            DateTimeFormat.calculdateLocalDate(request.ageMax)
-                        ),
-                        if (request.domains.isNotEmpty()) col(Profile::id).`in`(domainProfileIds) else null,
-                        if (request.categories.isNotEmpty()) col(Profile::id).`in`(categoryProfileIds) else null,
-                        col(Profile::isDeleted).equal(false)
-                    )
+                whereAnd(
+                    col(Profile::type).equal(request.type),
+                    if (request.genders.isNotEmpty()) col(Profile::gender).inValues(request.genders) else null,
+                    col(Profile::birthday).lessThanOrEqualTo(
+                        DateTimeFormat.calculdateLocalDate(request.ageMin)
+                    ),
+                    col(Profile::birthday).greaterThanOrEqualTo(
+                        DateTimeFormat.calculdateLocalDate(request.ageMax)
+                    ),
+                    if (request.domains.isNotEmpty()) col(Profile::id).inValues(domainProfileIds) else null,
+                    if (request.categories.isNotEmpty()) col(Profile::id).inValues(categoryProfileIds) else null,
+                    col(Profile::isDeleted).equal(false)
                 )
             }
 
@@ -95,7 +94,7 @@ class ProfileRepositoryImpl(
                 from(entity(Profile::class))
                 fetch(Profile::profileImages, joinType = JoinType.LEFT)
                 fetch(Profile::snsUrls, joinType = JoinType.LEFT)
-                where(and(col(Profile::id).`in`(ids.content)))
+                where(and(col(Profile::id).inValues(ids.content)))
                 orderBy(orderSpec(pageable.sort))
             }
 
@@ -151,7 +150,7 @@ class ProfileRepositoryImpl(
                 from(entity(Profile::class))
                 fetch(Profile::profileImages, joinType = JoinType.LEFT)
                 fetch(Profile::snsUrls, joinType = JoinType.LEFT)
-                where(col(Profile::id).`in`(ids.content))
+                where(col(Profile::id).inValues(ids.content))
             }.associateBy { it?.id }
 
         return ids.map { profiles[it] }
@@ -183,7 +182,7 @@ class ProfileRepositoryImpl(
                     from(entity(Profile::class))
                     fetch(Profile::profileImages, joinType = JoinType.LEFT)
                     fetch(Profile::snsUrls, joinType = JoinType.LEFT)
-                    where(col(Profile::id).`in`(ids.content))
+                    where(col(Profile::id).inValues(ids.content))
                 }.associateBy { it!!.id }
 
             PageImpl(

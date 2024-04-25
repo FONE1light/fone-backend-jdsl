@@ -20,12 +20,18 @@ import org.springframework.test.web.reactive.server.WebTestClient
 @IntegrationTest
 class RetrieveProfilesControllerTest(client: WebTestClient, private val objectMapper: ObjectMapper) :
     CustomDescribeSpec() {
-
     private val retrieveUrl = "/api/v1/profiles"
 
     init {
         val (accessToken, _) = CommonUserCallApi.getAccessToken(client)
         val profileId = CommonProfileCallApi.register(client, accessToken)
+        val pageObjectMapper = objectMapper.copy()
+        pageObjectMapper.registerModule(
+            SimpleModule().addDeserializer(
+                Page::class.java,
+                PageDeserializer(objectMapper, ProfileDto::class.java)
+            )
+        )
 
         describe("#retrieve profiles") {
             context("프로필 리스트를 조회하면") {
@@ -34,7 +40,35 @@ class RetrieveProfilesControllerTest(client: WebTestClient, private val objectMa
                         .doGet(retrieveUrl, accessToken, mapOf("type" to "ACTOR"))
                         .expectStatus().isOk
                         .expectBody()
-                        .consumeWith { println(it) }
+                        .consumeWith {
+                            val response: CommonResponse<RetrieveProfilesResponse> =
+                                pageObjectMapper.readValue(it.responseBody!!)
+                            response.data!!.profiles.content.size shouldBe 5
+                        }
+                        .jsonPath("$.result")
+                        .isEqualTo("SUCCESS")
+                }
+                it("도메인에 필터링 되어야함") {
+                    client
+                        .doGet(retrieveUrl, accessToken, mapOf("type" to "STAFF", "domains" to "PAINTING"))
+                        .expectStatus().isOk
+                        .expectBody()
+                        .consumeWith {
+                            val response: CommonResponse<RetrieveProfilesResponse> =
+                                pageObjectMapper.readValue(it.responseBody!!)
+                            response.data!!.profiles.content.size shouldBe 1
+                        }
+                        .jsonPath("$.result")
+                        .isEqualTo("SUCCESS")
+                    client
+                        .doGet(retrieveUrl, accessToken, mapOf("type" to "STAFF", "domains" to "PLANNING"))
+                        .expectStatus().isOk
+                        .expectBody()
+                        .consumeWith {
+                            val response: CommonResponse<RetrieveProfilesResponse> =
+                                pageObjectMapper.readValue(it.responseBody!!)
+                            response.data!!.profiles.isEmpty shouldBe true
+                        }
                         .jsonPath("$.result")
                         .isEqualTo("SUCCESS")
                 }
@@ -67,13 +101,6 @@ class RetrieveProfilesControllerTest(client: WebTestClient, private val objectMa
             }
 
             context("프로파일 정렬 조회") {
-                val pageObjectMapper = objectMapper.copy()
-                pageObjectMapper.registerModule(
-                    SimpleModule().addDeserializer(
-                        Page::class.java,
-                        PageDeserializer(objectMapper, ProfileDto::class.java)
-                    )
-                )
                 it("생성시간 ASC") {
                     client
                         .doGet(retrieveUrl, accessToken, mapOf("type" to "ACTOR", "sort" to "createdAt"))

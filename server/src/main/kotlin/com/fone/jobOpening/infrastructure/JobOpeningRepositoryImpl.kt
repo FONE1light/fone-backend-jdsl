@@ -1,5 +1,6 @@
 package com.fone.jobOpening.infrastructure
 
+import com.fone.common.config.jpa.inValues
 import com.fone.common.entity.Type
 import com.fone.jobOpening.domain.entity.JobOpening
 import com.fone.jobOpening.domain.entity.JobOpeningCategory
@@ -75,7 +76,7 @@ class JobOpeningRepositoryImpl(
                         from(entity(JobOpeningDomain::class))
                         where(
                             and(
-                                col(JobOpeningDomain::type).`in`(request.domains)
+                                col(JobOpeningDomain::type).inValues(request.domains)
                             )
                         )
                     }
@@ -90,7 +91,7 @@ class JobOpeningRepositoryImpl(
                         from(entity(JobOpeningCategory::class))
                         where(
                             and(
-                                col(JobOpeningCategory::type).`in`(request.categories)
+                                col(JobOpeningCategory::type).inValues(request.categories)
                             )
                         )
                     }
@@ -103,14 +104,20 @@ class JobOpeningRepositoryImpl(
                     where(
                         and(
                             col(JobOpening::type).equal(request.type),
-                            col(JobOpening::gender).`in`(request.genders),
+                            col(JobOpening::gender).inValues(request.genders),
                             col(JobOpening::ageMax).greaterThanOrEqualTo(request.ageMin),
                             col(JobOpening::ageMin).lessThanOrEqualTo(request.ageMax),
-                            if (request.domains.isNotEmpty()) col(JobOpening::id).`in`(domainJobOpeningIds) else null,
+                            if (request.domains.isNotEmpty()) {
+                                col(
+                                    JobOpening::id
+                                ).inValues(domainJobOpeningIds)
+                            } else {
+                                null
+                            },
                             if (request.categories.isNotEmpty()) {
                                 col(
                                     JobOpening::id
-                                ).`in`(categoryJobOpeningIds)
+                                ).inValues(categoryJobOpeningIds)
                             } else {
                                 null
                             },
@@ -133,7 +140,7 @@ class JobOpeningRepositoryImpl(
                     from(entity(JobOpening::class))
                     fetch(JobOpening::imageUrls, joinType = JoinType.LEFT)
                     fetch(JobOpening::location, joinType = JoinType.LEFT)
-                    where(and(col(JobOpening::id).`in`(jobOpeningIds.content)))
+                    where(and(col(JobOpening::id).inValues(jobOpeningIds.content)))
                     orderBy(orderSpec(pageable.sort))
                 }
 
@@ -197,7 +204,7 @@ class JobOpeningRepositoryImpl(
                     from(entity(JobOpening::class))
                     fetch(JobOpening::imageUrls, joinType = JoinType.LEFT)
                     fetch(JobOpening::location, joinType = JoinType.LEFT)
-                    where(and(col(JobOpening::id).`in`(ids.content)))
+                    where(and(col(JobOpening::id).inValues(ids.content)))
                 }.associateBy { it?.id }
 
             ids.map { jobOpenings[it] }
@@ -230,7 +237,7 @@ class JobOpeningRepositoryImpl(
                     from(entity(JobOpening::class))
                     fetch(JobOpening::imageUrls, joinType = JoinType.LEFT)
                     fetch(JobOpening::location, joinType = JoinType.LEFT)
-                    where(col(JobOpening::id).`in`(ids.content))
+                    where(col(JobOpening::id).inValues(ids.content))
                 }.associateBy { it?.id }
 
             PageImpl(
