@@ -103,8 +103,14 @@ class JobOpeningRepositoryImpl(
                     from(entity(JobOpening::class))
                     where(
                         and(
-                            if (request.genders.isNotEmpty()) col(JobOpening::type).equal(request.type) else null,
-                            col(JobOpening::gender).inValues(request.genders),
+                            col(JobOpening::type).equal(request.type),
+                            if (request.genders.isNotEmpty()) {
+                                col(
+                                    JobOpening::gender
+                                ).inValues(request.genders)
+                            } else {
+                                null
+                            },
                             col(JobOpening::ageMax).greaterThanOrEqualTo(request.ageMin),
                             col(JobOpening::ageMin).lessThanOrEqualTo(request.ageMax),
                             if (request.domains.isNotEmpty()) {
