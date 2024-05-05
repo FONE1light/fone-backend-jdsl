@@ -7,7 +7,6 @@ import org.springframework.web.reactive.function.server.ServerRequest
 
 @Component
 class GlobalErrorAttributes : DefaultErrorAttributes() {
-
     override fun getErrorAttributes(
         request: ServerRequest?,
         options: ErrorAttributeOptions?,
@@ -15,12 +14,11 @@ class GlobalErrorAttributes : DefaultErrorAttributes() {
         val map: MutableMap<String, Any?> = mutableMapOf()
         val throwable: Throwable = getError(request)
         return if (throwable is GlobalException) {
-            val ex: GlobalException = getError(request) as GlobalException
             map.apply {
                 this["result"] = "FAIL"
                 this["data"] = null
-                this["message"] = ex.reason
-                this["errorCode"] = ex.status.reasonPhrase
+                this["message"] = throwable.reason
+                this["errorCode"] = throwable.status.reasonPhrase
             }
         } else {
             map.apply {
