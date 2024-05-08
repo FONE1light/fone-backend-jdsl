@@ -27,7 +27,6 @@ class ProfileDomainRepositoryImpl(
 
     override suspend fun deleteByProfileId(profileId: Long): Int {
         return queryFactory.deleteQuery<ProfileDomain> {
-            literal(1).equal(1)
             where(col(ProfileDomain::profileId).equal(profileId))
         }
     }

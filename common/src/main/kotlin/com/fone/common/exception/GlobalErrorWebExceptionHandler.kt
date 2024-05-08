@@ -30,9 +30,7 @@ class GlobalErrorWebExceptionHandler(
         super.setMessageReaders(serverCodecConfigurer.readers)
     }
 
-    override fun getRoutingFunction(
-        errorAttributes: ErrorAttributes,
-    ): RouterFunction<ServerResponse> {
+    override fun getRoutingFunction(errorAttributes: ErrorAttributes): RouterFunction<ServerResponse> {
         return RouterFunctions.route(RequestPredicates.all()) { request: ServerRequest ->
             renderErrorResponse(request)
         }

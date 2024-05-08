@@ -21,15 +21,18 @@ data class ProfileImage(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
 
+    @Column(name = "profile_id", insertable = false, updatable = false)
+    var profileId: Long? = null
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "profile_id")
     var profile: Profile? = null
+        set(value) {
+            field = value
+            profileId = value?.id
+        }
 
     override fun toString(): String {
         return "ProfileImage(id=$id)"
-    }
-
-    fun addProfile(profile: Profile) {
-        this.profile = profile
     }
 }

@@ -6,7 +6,9 @@ import com.fone.profile.domain.entity.ProfileDomain
 import com.fone.profile.domain.entity.ProfileImage
 import com.fone.profile.domain.repository.ProfileCategoryRepository
 import com.fone.profile.domain.repository.ProfileDomainRepository
+import com.fone.profile.domain.repository.ProfileImageRepository
 import com.fone.profile.domain.repository.ProfileRepository
+import com.fone.profile.domain.repository.ProfileSnsRepository
 import com.fone.profile.domain.repository.ProfileWantRepository
 import com.fone.profile.presentation.dto.RegisterProfileRequest
 import com.fone.profile.presentation.dto.RegisterProfileResponse
@@ -21,9 +23,10 @@ class RegisterProfileService(
     private val profileWantRepository: ProfileWantRepository,
     private val profileDomainRepository: ProfileDomainRepository,
     private val profileCategoryRepository: ProfileCategoryRepository,
+    private val profileImageRepository: ProfileImageRepository,
+    private val profileSnsRepository: ProfileSnsRepository,
     private val userRepository: UserRepository,
 ) {
-
     @Transactional
     suspend fun registerProfile(
         request: RegisterProfileRequest,
@@ -41,20 +44,24 @@ class RegisterProfileService(
             }
 
             profileRepository.save(profile)
+            profileSnsRepository.saveAll(profile.snsUrls)
+            profileImageRepository.saveAll(profile.profileImages)
 
-            val profileDomains = thirdPage.domains?.map {
-                ProfileDomain(
-                    profile.id!!,
-                    it
-                )
-            }
+            val profileDomains =
+                thirdPage.domains?.map {
+                    ProfileDomain(
+                        profile.id!!,
+                        it
+                    )
+                }
 
-            val profileCategories = sixthPage.categories.map {
-                ProfileCategory(
-                    profile.id!!,
-                    it
-                )
-            }
+            val profileCategories =
+                sixthPage.categories.map {
+                    ProfileCategory(
+                        profile.id!!,
+                        it
+                    )
+                }
 
             profileDomainRepository.saveAll(profileDomains)
             profileCategoryRepository.saveAll(profileCategories)

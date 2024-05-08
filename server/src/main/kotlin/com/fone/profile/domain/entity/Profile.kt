@@ -8,7 +8,6 @@ import com.fone.common.entity.Type
 import com.fone.profile.presentation.dto.RegisterProfileRequest
 import com.fone.profile.presentation.dto.common.ProfileSnsUrl
 import java.time.LocalDate
-import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.EnumType
@@ -17,8 +16,8 @@ import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.JoinColumn
-import javax.persistence.OneToMany
 import javax.persistence.Table
+import javax.persistence.Transient
 
 @Entity
 @Table(name = "profiles")
@@ -27,21 +26,15 @@ data class Profile(
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
-
     // page1
     @Enumerated(EnumType.STRING) var contactMethod: ContactMethod,
     @Column(length = 300) var contact: String,
-
     // page2
     @Column(length = 10) var name: String,
     @Column var hookingComment: String,
-    @OneToMany(
-        mappedBy = "profile",
-        cascade = [CascadeType.PERSIST, CascadeType.MERGE],
-        orphanRemoval = true
-    ) var profileImages: MutableList<ProfileImage> = mutableListOf(),
+    @Transient
+    var profileImages: MutableList<ProfileImage> = mutableListOf(),
     @Column var representativeImageUrl: String,
-
     // page3
     @Column var birthday: LocalDate,
     @Enumerated(EnumType.STRING) var gender: Gender?,
@@ -49,20 +42,14 @@ data class Profile(
     @Column var weight: Int?,
     @Column var email: String,
     @Column(length = 50) var specialty: String,
-    @OneToMany(
-        cascade = [CascadeType.PERSIST, CascadeType.MERGE],
-        orphanRemoval = true
-    )
+    @Transient
     @JoinColumn(name = "profile_id")
     var snsUrls: Set<ProfileSns>,
-
     // page4
     @Column(length = 500) var details: String,
-
     // page5
     @Enumerated(EnumType.STRING) var career: Career,
     @Column(length = 500) var careerDetail: String,
-
     // etc
     @Enumerated(EnumType.STRING) var type: Type,
     @Column var userId: Long,
@@ -70,7 +57,6 @@ data class Profile(
     @Column var wantCount: Long = 0,
     @Column var isDeleted: Boolean = false,
 ) : BaseEntity() {
-
     fun view() {
         this.viewCount += 1
     }
@@ -100,7 +86,7 @@ data class Profile(
         weight = request.thirdPage.weight
         email = request.thirdPage.email
         specialty = request.thirdPage.specialty
-        snsUrls = request.thirdPage.snsUrls.map(ProfileSnsUrl::toEntity).toSet()
+        snsUrls = request.thirdPage.snsUrls.map(ProfileSnsUrl::toEntity).setProfile(this).toSet()
 
         // page4
         details = request.fourthPage.details
@@ -130,9 +116,9 @@ data class Profile(
         isDeleted = true
     }
 
-    /* 연관관계 메서드 */
+    // 연관관계 메서드
     fun addProfileImage(profileImage: ProfileImage) {
         this.profileImages.add(profileImage)
-        profileImage.addProfile(this)
+        profileImage.profile = this
     }
 }
